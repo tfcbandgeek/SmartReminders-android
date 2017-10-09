@@ -177,7 +177,8 @@ public class Week {
                 return saturday;
         }
 
-        return null;
+        // Todo: Return Specialized Day Class
+        return new Day(Calendar.getInstance());
     }
 
     public Calendar getStart() {

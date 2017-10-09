@@ -36,6 +36,7 @@ public class Day {
     }
 
     public List<Task> getTasks() {
+        if (tasks == null) return new ArrayList<>();
         return tasks;
     }
 }

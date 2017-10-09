@@ -5,10 +5,10 @@ android {
     buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 26
-        versionCode 32
-        versionName "10.0.0 Beta 1"
+        versionCode 34
+        versionName "10.0.0 Beta 2"
     }
     buildTypes {
         release {

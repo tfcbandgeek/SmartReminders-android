@@ -5,6 +5,7 @@ import java.io.File;
 
 // Android OS
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 
 // Program
@@ -14,7 +15,8 @@ import jgappsandgames.smartreminderssave.settings.Settings;
 /**
  * FileUtility
  * Created by joshua on 8/24/17.
- * Last Edited on 9/02/17. (72)
+ * Last Edited on 10/9/17 (75). <SDK 16-26>
+ * Edited on 9/02/17. (72)
  *
  * Last Updated API Level: 5
  */
@@ -43,7 +45,7 @@ public class FileUtility {
     public static File getApplicationDataDirectory() {
         // Create File Object
         File file;
-        if (Settings.use_external_file) file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), ".smartreminders");
+        if (Settings.use_external_file && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), ".smartreminders");
         else return data;
 
         // Create Directory

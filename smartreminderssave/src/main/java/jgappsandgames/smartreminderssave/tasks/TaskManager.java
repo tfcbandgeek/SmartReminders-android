@@ -69,10 +69,10 @@ public class TaskManager {
         JSONArray a = data.optJSONArray(ARCHIVED);
         JSONArray d = data.optJSONArray(DELETED);
 
-        if (h != null && h.length() != 0) for (int i = 0; i < h.length(); i++) home.add(h.optString(i));
-        if (t != null && t.length() != 0) for (int i = 0; i < t.length(); i++) tasks.add(t.optString(i));
-        if (a != null && a.length() != 0) for (int i = 0; i < a.length(); i++) archived.add(a.optString(i));
-        if (d != null && d.length() != 0) for (int i = 0; i < d.length(); i++) deleted.add(d.optString(i));
+        if (h != null && h.length() != 0) for (int i = 0; i < h.length(); i++) if (!home.contains(h.optString(i))) home.add(h.optString(i));
+        if (t != null && t.length() != 0) for (int i = 0; i < t.length(); i++) if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i));
+        if (a != null && a.length() != 0) for (int i = 0; i < a.length(); i++) if (!archived.contains(a.optString(i))) archived.add(a.optString(i));
+        if (d != null && d.length() != 0) for (int i = 0; i < d.length(); i++) if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i));
     }
 
     public static void save() {
@@ -89,7 +89,7 @@ public class TaskManager {
             for (String task : home) h.put(task);
             for (String task : tasks) t.put(task);
             for (String task : archived) a.put(task);
-            for (String task : deleted) d.put(deleted);
+            for (String task : deleted) d.put(task);
 
             data.put(HOME, h);
             data.put(TASKS, t);
@@ -126,6 +126,7 @@ public class TaskManager {
         archived.add(task.getFilename());
         TaskManager.save();
     }
+
     public static boolean deleteTask(Task task) {
         if (archived.contains(task.getFilename()))  {
             task.markDeleted();

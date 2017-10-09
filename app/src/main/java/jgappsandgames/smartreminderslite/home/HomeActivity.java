@@ -16,6 +16,8 @@ import android.widget.Toast;
 // Program
 import jgappsandgames.smartreminderslite.R;
 
+import jgappsandgames.smartreminderslite.date.DayActivity;
+import jgappsandgames.smartreminderslite.date.WeekActivity;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.priority.PriorityActivity;
 import jgappsandgames.smartreminderslite.status.StatusActivity;
@@ -114,6 +116,14 @@ public class HomeActivity
 
             case R.id.priority:
                 startActivity(new Intent(this, PriorityActivity.class));
+                return true;
+
+            case R.id.day:
+                startActivity(new Intent(this, DayActivity.class));
+                return true;
+
+            case R.id.week:
+                startActivity(new Intent(this, WeekActivity.class));
                 return true;
 
             case R.id.settings:

@@ -13,6 +13,14 @@
         android:id="@+id/priority" />
 
     <item
+        android:title="Day"
+        android:id="@+id/day"/>
+
+    <item
+        android:title="Week"
+        android:id="@+id/week"/>
+
+    <item
         android:title="Settings"
         android:id="@+id/settings" />
 

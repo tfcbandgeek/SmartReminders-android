@@ -36,5 +36,8 @@
         <!--Sort-->
         <activity android:name=".tags.TagActivity"/>
         <activity android:name=".status.StatusActivity"/>
+        <activity android:name=".priority.PriorityActivity"/>
+        <activity android:name=".date.DayActivity"/>
+        <activity android:name=".date.WeekActivity"/>
     </application>
 </manifest>

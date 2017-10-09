@@ -1,6 +1,8 @@
 package jgappsandgames.smartreminderssave.json;
 
 // Java
+import android.os.Build;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,7 +17,8 @@ import org.json.JSONObject;
 /**
  * JSONLoader
  * Created by joshua on 10/4/17.
- * Last Edited on 10/8/17 (52).
+ * Last Edited on 10/9/17 (58). <Support SDK16-26>
+ * Edited on 10/8/17 (52).
  * Edited on 10/4/17 (49).
  */
 public class JSONLoader {
@@ -28,7 +31,10 @@ public class JSONLoader {
                 final String t = reader.readLine();
 
                 if (t == null) break;
-                else builder.append(t).append(System.lineSeparator());
+                else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) builder.append(t).append(System.lineSeparator());
+                    else builder.append(t).append(System.getProperty("line.separator"));
+                }
             }
 
             return new JSONObject(builder.toString());
