@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/tags"
+        android:id="@+id/tags"/>
+
+    <item
+        android:title="@string/status"
+        android:id="@+id/status"/>
+
+    <item
+        android:title="Priority"
+        android:id="@+id/priority" />
+
+    <item
+        android:title="Settings"
+        android:id="@+id/settings" />
+
+    <item
+        android:title="About"
+        android:id="@+id/about" />
+
+    <item
+        android:title="@string/save"
+        android:id="@+id/save"/>
+
+    <item
+        android:title="@string/close"
+        android:id="@+id/close"/>
+</menu>

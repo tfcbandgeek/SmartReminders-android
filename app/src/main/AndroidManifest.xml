@@ -1,0 +1,40 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jgappsandgames.smartreminderslite">
+
+    <!--Storage Permissions-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!--Vibrate Permission-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault">
+
+        <!--Home-->
+        <activity android:name=".home.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".home.FirstRun"/>
+
+        <!--Tasks-->
+        <activity android:name=".tasks.checkpoint.CheckpointActivity"/>
+        <activity android:name=".tasks.TaskActivity"/>
+        <activity android:name=".tasks.TaskManagementActivity"/>
+        <activity android:name=".tasks.tags.TagEditorActivity"/>
+
+        <!--Sort-->
+        <activity android:name=".tags.TagActivity"/>
+        <activity android:name=".status.StatusActivity"/>
+    </application>
+</manifest>
