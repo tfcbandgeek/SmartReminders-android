@@ -14,8 +14,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Last Edited 10/8/17 (41).
  */
 public class Day {
-    private Calendar day;
-    private List<Task> tasks;
+    private final Calendar day;
+    private final List<Task> tasks;
 
     public Day(Calendar day) {
         this.day = day;

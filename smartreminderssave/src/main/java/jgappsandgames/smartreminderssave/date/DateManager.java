@@ -21,7 +21,7 @@ public class DateManager {
 
     // Management Methods
     public static void create() {
-        if (TaskManager.tasks == null) throw new RuntimeException("TaskManager needs to be loaded before the DateManager can do anywork");
+        if (TaskManager.tasks == null) throw new RuntimeException("TaskManager needs to be loaded before the DateManager can do any work");
 
         List<Task> tasks = new ArrayList<>();
         for (String t : TaskManager.tasks) {
@@ -91,8 +91,8 @@ public class DateManager {
 
     // Classes
     private static class KeyValue {
-        public int key;
-        public Week week;
+        public final int key;
+        public final Week week;
 
         public KeyValue(int key, Week week) {
             this.key = key;

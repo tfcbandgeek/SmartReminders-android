@@ -7,26 +7,6 @@ package jgappsandgames.smartreminderssave.utility;
  * Holds Information about the various apis that may of been used
  */
 public class API {
-    // Version Test A
-    // Initial Build
-    public static final int VERSION_TEST_A = 0;
-    public static final String VERSION_TEST_A_INFO = "Initial Build.";
-	
-	// Version Test B
-	// Addition of TagManager, No Other Work
-	public static final int VERSION_TEST_B = 1;
-	public static final String VERSION_TEST_B_INFO = "Addition of the TagManager. No other Changes.";
-
-    // Version Test C
-    // Date handling Information added to Tasks
-    public static final int VERSION_TEST_C = 2;
-    public static final String VERSION_TEST_C_INFO = "Date Management data added to the Task Object.";
-
-    // Version Test D
-    // Addition of the Settings File
-    public static final int VERSION_TEST_D = 3;
-    public static final String VERSION_TEST_D_INFO = "Addition of the Save File.  No Other Changes";
-
     // Version Test E
     // Code Adjusting and Fixing.  Addition of More Shortcuts and loaded booleans
     public static final int VERSION_TEST_E = 4;
@@ -58,12 +38,4 @@ public class API {
     // Release (10/3/17)
     public static final int RELEASE = 10;
     public static final String RELEASE_INFO = "List<> for JSONArray access Points";
-
-    // Release (11/1/17) Planned
-    public static final int RELEASE_A = 11;
-    public static final String RELEASE_A_INFO = "Meta tag for tasks, Task Loaded hidden file, (Priority and Staus)Managers, Sort Managers Save, TaskChangeListeners";
-
-    // Release (1/1/18) Planned
-    public static final int RELEASE_B = 12;
-    public static final String RELEASE_B_INFO = "Default Values, Repeating Tasks";
 }
