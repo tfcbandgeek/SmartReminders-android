@@ -61,7 +61,7 @@ public class API {
 
     // Release (11/1/17) Planned
     public static final int RELEASE_A = 11;
-    public static final String RELEASE_A_INFO = "Meta tag for tasks, Task Loaded hidden file, (Priority and Staus)Managers, Sort Managers Save, TaskChangeListeners";
+    public static final String RELEASE_A_INFO = "Meta tag for tasks, Task Loaded hidden file, (Priority and Staus)Managers, TaskChangeListeners";
 
     // Release (1/1/18) Planned
     public static final int RELEASE_B = 12;
