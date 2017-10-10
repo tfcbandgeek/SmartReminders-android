@@ -233,7 +233,12 @@ public class Task {
         return date_create;
     }
 
+    @Deprecated
     public Calendar getDate_due() {
+        return date_due;
+    }
+
+    public Calendar getDateDue() {
         return date_due;
     }
 
@@ -245,7 +250,12 @@ public class Task {
         return date_archived;
     }
 
+    @Deprecated
     public Calendar getDate_deleted() {
+        return date_deleted;
+    }
+
+    public Calendar getDateDeleted() {
         return date_deleted;
     }
 
