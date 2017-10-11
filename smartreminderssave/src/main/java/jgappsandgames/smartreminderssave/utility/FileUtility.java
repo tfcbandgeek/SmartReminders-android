@@ -56,12 +56,12 @@ public class FileUtility {
 
     }
 
-    // Get the Internal App Directory (Usefull for App Settings
+    // Get the Internal App Directory (Useful for App Settings
     public static File getInternalFileDirectory() {
 		return data;
 	}
 
-	// Get The Enternal Cache Directory
+	// Get The Internal Cache Directory
 	public static File getApplicationCacheDirectory() {
 		// Create File Object
 		File file = new File(cache, ".smartreminders");
