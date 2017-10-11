@@ -108,7 +108,7 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
 
     @Override
     public boolean onLongClick(View view) {
-        TaskManager.archiveTask(task);
+        TaskManager.deleteTask(task);
 
         Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
         if (v.hasVibrator()) v.vibrate(100);

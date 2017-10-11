@@ -1,21 +1,11 @@
 package jgappsandgames.smartreminderslite.tasks;
 
-// Java
-import java.util.ArrayList;
-
-// JSON
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-// Android OS
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-
-// Views
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,20 +13,21 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// App
-import jgappsandgames.smartreminderslite.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointAdapter;
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
-
-// Save
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -45,14 +36,16 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (350).
- * Edited On 10/5/17 (334).
+ * Last Edited On 10/5/17 ().
  *
  * Main Task View
  */
 public class TaskActivity
         extends Activity
-        implements TextWatcher, View.OnClickListener, View.OnLongClickListener, TaskFolderHolder.OnTaskChangedListener, SeekBar.OnSeekBarChangeListener {
+        implements TextWatcher, View.OnClickListener, View.OnLongClickListener, TaskFolderHolder.OnTaskChangedListener {
+    // Constants
+    private static final String ID = "TaskActivity";
+
     // Data
     private Task task;
 
@@ -61,7 +54,6 @@ public class TaskActivity
     private EditText note;
     private TextView tags;
     private Button status;
-    private SeekBar priority;
     private ListView list;
     private Button fab;
 
@@ -93,7 +85,6 @@ public class TaskActivity
 
         if (task.getType() == Task.TYPE_TASK) {
             status = findViewById(R.id.status);
-            priority = findViewById(R.id.priority);
         }
 
         // Set Text
@@ -102,9 +93,6 @@ public class TaskActivity
 
         if (task.getType() == Task.TYPE_TASK) {
             setStatus();
-            priority.setMax(100);
-            priority.setProgress(task.getPriority());
-            priority.setOnSeekBarChangeListener(this);
         }
 
         // Set TextWatcher
@@ -307,17 +295,6 @@ public class TaskActivity
         return false;
     }
 
-    // Priority Seekbar Listeners
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {}
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {}
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        task.setPriority(seekBar.getProgress());
-    }
-
     // Class Methods
     private void setStatus() {
         if (task.getType() == Task.TYPE_TASK) {
@@ -338,8 +315,15 @@ public class TaskActivity
 
     private void setTags() {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < task.getTags().size(); i++) builder.append(task.getTags().get(i)).append(", ");
-        if (builder.length() >= 2) builder.setLength(builder.length() - 2);
+
+        for (int i = 0; i < task.getTags().size(); i++) {
+            builder.append(task.getTags().get(i)).append(", ");
+        }
+
+        if (builder.length() >= 2) {
+            builder.setLength(builder.length() - 2);
+        }
+
         tags.setText(builder.toString());
     }
 

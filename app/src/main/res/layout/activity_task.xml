@@ -65,10 +65,12 @@
     </LinearLayout>
 
     <!--Priority Bar-->
-    <SeekBar
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/priority"/>
+        android:orientation="horizontal">
+
+    </LinearLayout>
 
     <!--List View-->
     <RelativeLayout
@@ -83,9 +85,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="8sp"
+            android:layout_marginEnd="8sp"
             android:layout_marginBottom="8sp"
             android:foreground="@android:drawable/ic_menu_add"
             android:id="@+id/fab"/>

@@ -1,40 +1,33 @@
 package jgappsandgames.smartreminderslite.tasks.tags;
 
-// JSON
-import org.json.JSONArray;
-import org.json.JSONException;
-
-// Android OS
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-
-// Views
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-// App
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
-
-// Save
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * Tag Editor Activity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (139).
- * Edited On 10/5/17 (139).
+ * Last Edited On 10/5/17 (139).
  */
-public class TagEditorActivity
-        extends Activity
-        implements TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
+public class TagEditorActivity extends Activity implements TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
+    // Constants
+    private static final String ID = "TagEditorActivity";
+
     // Data
     private Task task;
 
@@ -62,7 +55,7 @@ public class TagEditorActivity
         selected = findViewById(R.id.selected);
         unselected = findViewById(R.id.unselected);
 
-        // Set Adapters
+        // Set Adapters (TODO: Move To A Single Adapter Design)
         selected.setAdapter(new TagSelectedAdapter(this, task));
         unselected.setAdapter(new TagUnselectedAdapter(this, task));
 
@@ -120,8 +113,15 @@ public class TagEditorActivity
     // TagSwitcher
     @Override
     public void moveTag(String tag, boolean selected) {
-        if (selected) task.addTag(tag);
-        else task.removeTag(tag);
+        // Selected
+        if (selected) {
+            task.addTag(tag);
+        }
+
+        // Unselected
+        else {
+            task.removeTag(tag);
+        }
 
         // Set Adapters
         this.selected.setAdapter(new TagSelectedAdapter(this, task));

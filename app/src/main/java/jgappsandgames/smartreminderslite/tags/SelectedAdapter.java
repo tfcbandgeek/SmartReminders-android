@@ -1,29 +1,25 @@
 package jgappsandgames.smartreminderslite.tags;
 
-// Java
-import java.util.List;
-
-// Views
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-// App
+import java.util.ArrayList;
+
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 
 /**
  * SelectedAdapter
  * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (64).
  */
 public class SelectedAdapter extends BaseAdapter {
     private TagActivity activity;
-    private List<String> tags;
+    private ArrayList<String> tags;
 
     // Initializer
-    public SelectedAdapter(TagActivity activity, List<String> selected) {
+    public SelectedAdapter(TagActivity activity, ArrayList<String> selected) {
         super();
 
         this.activity = activity;

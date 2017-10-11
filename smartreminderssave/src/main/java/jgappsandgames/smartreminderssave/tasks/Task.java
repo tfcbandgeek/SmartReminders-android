@@ -25,6 +25,9 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
  * Current API: 11
  */
 public class Task {
+    // Filepath Constant
+    private static final String FILENAME = "filename";
+
     // Save Constants
     private static final String PARENT = "parent";
     private static final String VERSION = "version";
@@ -88,7 +91,7 @@ public class Task {
     private boolean complete_late;
 
     // Calendar
-    private final JSONCalendar j_cal = new JSONCalendar();
+    private JSONCalendar j_cal = new JSONCalendar();
 
     // Initializers
     public Task(String parent, int type) {
@@ -292,7 +295,7 @@ public class Task {
         return complete_on_time;
     }
 
-    public boolean late() {
+    public boolean loate() {
         return complete_late;
     }
 
@@ -304,8 +307,7 @@ public class Task {
     }
     
     public Task setDateDue(Calendar calendar) {
-        if (calendar == null) date_due = null;
-        else date_due = (Calendar) calendar.clone();
+        date_due = (Calendar) calendar.clone();
         date_updated = Calendar.getInstance();
         return this;
     }

@@ -7,6 +7,26 @@ package jgappsandgames.smartreminderssave.utility;
  * Holds Information about the various apis that may of been used
  */
 public class API {
+    // Version Test A
+    // Initial Build
+    public static final int VERSION_TEST_A = 0;
+    public static final String VERSION_TEST_A_INFO = "Initial Build.";
+	
+	// Version Test B
+	// Addition of TagManager, No Other Work
+	public static final int VERSION_TEST_B = 1;
+	public static final String VERSION_TEST_B_INFO = "Addition of the TagManager. No other Changes.";
+
+    // Version Test C
+    // Date handling Information added to Tasks
+    public static final int VERSION_TEST_C = 2;
+    public static final String VERSION_TEST_C_INFO = "Date Management data added to the Task Object.";
+
+    // Version Test D
+    // Addition of the Settings File
+    public static final int VERSION_TEST_D = 3;
+    public static final String VERSION_TEST_D_INFO = "Addition of the Save File.  No Other Changes";
+
     // Version Test E
     // Code Adjusting and Fixing.  Addition of More Shortcuts and loaded booleans
     public static final int VERSION_TEST_E = 4;

@@ -10,9 +10,11 @@ import jgappsandgames.smartreminderslite.R;
 /**
  * TagHolder
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (60).
  */
 public class TagHolder implements View.OnClickListener {
+    // Constants
+    private static final String ID = "TagHolder";
+
     // Data
     private TagSwitcher switcher;
 

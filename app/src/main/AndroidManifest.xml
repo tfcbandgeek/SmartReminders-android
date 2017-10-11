@@ -26,8 +26,6 @@
         </activity>
 
         <activity android:name=".home.FirstRun"/>
-        <activity android:name=".home.AboutActivity"/>
-        <activity android:name=".home.SettingsActivity"/>
 
         <!--Tasks-->
         <activity android:name=".tasks.checkpoint.CheckpointActivity"/>

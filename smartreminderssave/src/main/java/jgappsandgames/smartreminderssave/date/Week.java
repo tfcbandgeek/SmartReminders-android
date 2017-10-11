@@ -15,13 +15,13 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class Week {
     // Data
-    private final Day sunday;
-    private final Day monday;
-    private final Day tuesday;
-    private final Day wednesday;
-    private final Day thursday;
-    private final Day friday;
-    private final Day saturday;
+    private Day sunday;
+    private Day monday;
+    private Day tuesday;
+    private Day wednesday;
+    private Day thursday;
+    private Day friday;
+    private Day saturday;
 
     public Week(Calendar start) {
         sunday = new Day((Calendar) start.clone());

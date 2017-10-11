@@ -27,11 +27,11 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * CheckpointActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (133).
  */
-public class CheckpointActivity
-        extends Activity
-        implements TextWatcher, View.OnClickListener, View.OnLongClickListener {
+public class CheckpointActivity extends Activity implements TextWatcher, View.OnClickListener, View.OnLongClickListener {
+    // Constants
+    private static final String ID = "CheckpointActivity";
+
     // Data
     private int position;
     private boolean status;
@@ -109,8 +109,11 @@ public class CheckpointActivity
 
     // Class Methods
     private void setStatus() {
-        if (status) status_button.setText(R.string.completed);
-        else status_button.setText(R.string.incomplete);
+        if (status) {
+            status_button.setText(R.string.completed);
+        } else {
+            status_button.setText(R.string.incomplete);
+        }
     }
 
     private void setReturnIntent() {

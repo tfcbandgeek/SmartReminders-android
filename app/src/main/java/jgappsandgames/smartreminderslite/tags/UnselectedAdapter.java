@@ -1,40 +1,34 @@
 package jgappsandgames.smartreminderslite.tags;
 
-// Java
-import java.util.ArrayList;
-import java.util.List;
-
-// Views
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-// App
+import java.util.ArrayList;
+
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
-
-// Program
 import jgappsandgames.smartreminderssave.tags.TagManager;
 
 /**
  * UnselectedAdapter
  * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (71).
- * Edited on 10/5/17 (65).
+ * Last Edited on 10/5/17 (65).
  */
 public class UnselectedAdapter extends BaseAdapter {
     private TagActivity activity;
-    private List<String> tags;
+    private ArrayList<String> tags;
 
-    public UnselectedAdapter(TagActivity activity, List<String> selected) {
+    public UnselectedAdapter(TagActivity activity, ArrayList<String> selected) {
         super();
 
         this.activity = activity;
 
         tags = new ArrayList<>();
-        for (int i = 0; i < TagManager.tags.size(); i++)
+        for (int i = 0; i < TagManager.tags.size(); i++) {
             if (!selected.contains(TagManager.tags.get(i))) tags.add(TagManager.tags.get(i));
+        }
     }
 
     // List Methods
