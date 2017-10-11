@@ -1,30 +1,37 @@
 package jgappsandgames.smartreminderslite.tags;
 
+// Java
+import java.util.ArrayList;
+import java.util.List;
+
+// Android OS
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
+// App
 import jgappsandgames.smartreminderslite.R;
+
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 /**
  * TagActivity
  * Created by joshua on 9/2/17.
- * Last Edited on 10/5/17 ().
+ * Last Edited on 10/11/17 (106).
+ * Edited on 10/5/17 (100).
  */
-public class TagActivity extends Activity implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
-    // Contants
-    private static final String ID = "TagActivity";
-
+public class TagActivity
+        extends Activity
+        implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
     // Data
-    private ArrayList<String> selected_tags;
-    private ArrayList<Task> tasks;
+    private List<String> selected_tags;
+    private List<Task> tasks;
 
     // Views
     private TextView tasks_text;
@@ -65,9 +72,7 @@ public class TagActivity extends Activity implements TagHolder.TagSwitcher, Task
         super.onResume();
 
         tasks = new ArrayList<>();
-        for (int i = 0; i < TaskManager.tasks.size(); i++) {
-            tasks.add(new Task(TaskManager.tasks.get(i)));
-        }
+        for (int i = 0; i < TaskManager.tasks.size(); i++) tasks.add(new Task(TaskManager.tasks.get(i)));
 
         // Set Adapters
         task_adapter = new TaskAdapter(this, selected_tags, tasks);

@@ -13,7 +13,6 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.CheckpointHolder;
 import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
-import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * CheckpointAdapter

@@ -1,19 +1,27 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
+import java.util.Calendar;
+
+// Android OS
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+// Views
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.Calendar;
-
+// App
 import jgappsandgames.smartreminderslite.R;
+
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
+
+// Save
 import jgappsandgames.smartreminderssave.date.DateManager;
 import jgappsandgames.smartreminderssave.settings.Settings;
 import jgappsandgames.smartreminderssave.tags.TagManager;
@@ -23,7 +31,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * WeekActivity
  * Created by joshua on 10/9/17.
- * Last Edited on 10/9/17 (140).
+ * Last Edited on 10/11/17 (149).
+ * Edited on 10/9/17 (140).
  */
 public class WeekActivity
         extends Activity

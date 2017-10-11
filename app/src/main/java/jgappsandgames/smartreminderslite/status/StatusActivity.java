@@ -1,31 +1,38 @@
 package jgappsandgames.smartreminderslite.status;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+// Android OS
 import android.app.Activity;
 import android.os.Bundle;
+
+// Android View
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
+// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 /**
  * Status Activity
  * Created by joshua on 9/4/17.
- * Last Edited On 10/5/17 (112).
+ * Last Edited on 10/11/17 (114).
+ * Edited On 10/5/17 (112).
  */
-public class StatusActivity extends Activity implements TaskFolderHolder.OnTaskChangedListener {
-    // Constant
-    private static final String ID = "StatusActivity";
-
+public class StatusActivity
+        extends Activity
+        implements TaskFolderHolder.OnTaskChangedListener {
     // Data
-    private ArrayList<Task> overdue_array;
-    private ArrayList<Task> incomplete_array;
-    private ArrayList<Task> done_array;
+    private List<Task> overdue_array;
+    private List<Task> incomplete_array;
+    private List<Task> done_array;
 
     // Views
     private TextView overdue_text;
@@ -69,15 +76,10 @@ public class StatusActivity extends Activity implements TaskFolderHolder.OnTaskC
         for (int i = 0; i < TaskManager.tasks.size(); i++) {
             Task temp = new Task(TaskManager.tasks.get(i));
             if (temp.getType() == Task.TYPE_TASK) {
-                if (temp.getStatus() == Task.STATUS_DONE) {
-                    done_array.add(temp);
-                } else if (temp.getDate_due() == null) {
-                    incomplete_array.add(temp);
-                } else if (temp.getDate_due().before(Calendar.getInstance())) {
-                    overdue_array.add(temp);
-                } else {
-                    incomplete_array.add(temp);
-                }
+                if (temp.getStatus() == Task.STATUS_DONE) done_array.add(temp);
+                else if (temp.getDate_due() == null) incomplete_array.add(temp);
+                else if (temp.getDate_due().before(Calendar.getInstance())) overdue_array.add(temp);
+                else incomplete_array.add(temp);
             }
         }
 

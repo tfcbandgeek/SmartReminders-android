@@ -1,26 +1,33 @@
 package jgappsandgames.smartreminderslite.tags;
 
+// Java
+import java.util.ArrayList;
+import java.util.List;
+
+// Views
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
-
+// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * TaskAdapter
  * Created by joshua on 9/2/17.
- * Last Edited on 10/5/17 (97).
+ * Last Edited on 10/11/17 (104).
+ * Edited on 10/5/17 (97).
  */
 public class TaskAdapter extends BaseAdapter {
     private TagActivity activity;
-    private ArrayList<Task> tasks;
+    private List<Task> tasks;
 
-    public TaskAdapter(TagActivity activity, ArrayList<String> selected, ArrayList<Task> n_tasks) {
+    public TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
         super();
 
         this.activity = activity;
@@ -57,7 +64,7 @@ public class TaskAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 1000;
+        return 3;
     }
 
     @Override
@@ -77,7 +84,7 @@ public class TaskAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convert_view, ViewGroup parent) {
-        TaskFolderHolder holder = null;
+        TaskFolderHolder holder;
         if (convert_view == null) {
             if (getItem(position).getType() == Task.TYPE_FLDR) convert_view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false);
             else convert_view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false);

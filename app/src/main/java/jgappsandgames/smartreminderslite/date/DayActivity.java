@@ -1,18 +1,26 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
+import java.util.Calendar;
+
+// Android OS
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+// Views
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.Calendar;
-
+// Program
 import jgappsandgames.smartreminderslite.R;
+
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.home.FirstRun;
+
+// Save
 import jgappsandgames.smartreminderssave.settings.Settings;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
@@ -21,7 +29,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * DayActivity
  * Created by joshua on 10/9/17.
- * Last Edited on 10/9/17 (126).
+ * Last Edited on 10/11/17 (135).
+ * Edited on 10/9/17 (126).
  */
 public class DayActivity extends Activity
         implements View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {

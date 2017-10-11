@@ -1,28 +1,34 @@
 package jgappsandgames.smartreminderslite.status;
 
+// Java
+import java.util.List;
+
+// Views
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
-
+// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * StatusAdapter
  * Created by joshua on 9/4/17.
- * Last Edited On 10/5/17 (77).
+ * Last Edited on 10/11/17 (84).
+ * Edited On 10/5/17 (77).
  */
 public class StatusAdapter extends BaseAdapter {
     // Data
     private StatusActivity activity;
-    private ArrayList<Task> tasks;
+    private List<Task> tasks;
 
     // Initializer
-    public StatusAdapter(StatusActivity activity, ArrayList<Task> tasks) {
+    public StatusAdapter(StatusActivity activity, List<Task> tasks) {
         super();
 
         this.activity = activity;
@@ -37,7 +43,7 @@ public class StatusAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 1000;
+        return 3;
     }
 
     // Item Methods
@@ -58,7 +64,7 @@ public class StatusAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convert_view, ViewGroup parent) {
-        TaskFolderHolder holder = null;
+        TaskFolderHolder holder;
         if (convert_view == null) {
             if (getItem(position).getType() == Task.TYPE_FLDR) convert_view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false);
             else convert_view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false);

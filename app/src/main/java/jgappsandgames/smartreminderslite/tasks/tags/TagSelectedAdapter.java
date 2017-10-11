@@ -4,9 +4,6 @@ package jgappsandgames.smartreminderslite.tasks.tags;
 import java.util.ArrayList;
 import java.util.List;
 
-// JSON
-import org.json.JSONException;
-
 // Views
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +14,15 @@ import android.widget.BaseAdapter;
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TagHolder;
-import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * TagSelectedActivity
  * Created by joshua on 8/31/17.
- * Last Edited On 10/5/17 (89).
+ * Last Edited on 10/11/17 (82).
+ * Edited On 10/5/17 (89).
  */
 public class TagSelectedAdapter extends BaseAdapter {
-    // Constants
-    private static final String ID = "TagSelectedAdapter";
-
     // Data
     private TagEditorActivity activity;
     public List<String> tags;
@@ -50,9 +44,8 @@ public class TagSelectedAdapter extends BaseAdapter {
 
         // Set Tags
         tags = new ArrayList<>(task.getTags().size());
-        for (String tag : task.getTags()) {
+        for (String tag : task.getTags())
             if (tag.toLowerCase().contains(search.toLowerCase())) tags.add(tag);
-        }
     }
 
     // List Methods
