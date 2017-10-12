@@ -130,15 +130,28 @@ public class Task {
     }
 
     public Task(String filename) {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename));
+        this.filename = filename;
+        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+    }
 
+    // Management Methods
+    public void save() {
+        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), toJSON());
+    }
+
+    public void delete() {
+        File file = new File(FileUtility.getApplicationDataDirectory(), filename);
+        file.delete();
+    }
+
+    // JSON Management Methods
+    public void loadJSON(JSONObject data) {
         if (data == null) {
             title = "Null Task Load Error";
             note = "Error occurs when there is no Task to load";
             return;
         }
 
-        this.filename = filename;
         version = data.optInt(VERSION, API.RELEASE);
         parent = data.optString(PARENT, "home");
         type = data.optInt(TYPE, TYPE_NONE);
@@ -198,8 +211,7 @@ public class Task {
         if (p != null && p.length() != 0) for (int i = 0; i < p.length(); i++) checkpoints.add(new Checkpoint(p.optJSONObject(i)));
     }
 
-    // Management Methods
-    public void save() {
+    public JSONObject toJSON() {
         JSONObject data = new JSONObject();
 
         try {
@@ -246,18 +258,17 @@ public class Task {
             data.put(TAGS, t);
             data.put(CHILDREN, c);
             data.put(CHECKPOINTS, p);
-
-            JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), data);
         } catch (JSONException j) {
             j.printStackTrace();
         } catch (NullPointerException n) {
             throw new RuntimeException("Fix Me");
         }
+
+        return data;
     }
 
-    public void delete() {
-        File file = new File(FileUtility.getApplicationDataDirectory(), filename);
-        file.delete();
+    public void updateTask(JSONObject data) {
+        if (j_cal.loadCalendar(data.optJSONObject(CAL_UPDATE)).after(date_updated)) loadJSON(data);
     }
 
     // Getters
