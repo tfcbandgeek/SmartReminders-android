@@ -20,7 +20,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * Task
  * Created by joshua on 8/24/17.
- * Last Edited On 10/5/17 (521)
+ * Last Edited On 10/12/17 (520).
+ * Edited On 10/5/17 (521)
  *
  * Current API: 10
  */
@@ -103,10 +104,10 @@ public class Task {
     public Task(String parent, int type) {
         Calendar calendar = Calendar.getInstance();
 
-        filename = parent.substring(0, parent.length() - 4) + "_" + String.valueOf(calendar.getTimeInMillis()) + ".srj";
+        filename = String.valueOf(calendar.getTimeInMillis()) + ".srj";
 
         this.parent = parent;
-        version = API.VERSION_D;
+        version = API.RELEASE;
         this.type = type;
         task_id = Calendar.getInstance().getTimeInMillis();
 
