@@ -309,6 +309,15 @@ public class Task {
         return tags;
     }
 
+    public String getTagString() {
+        if (tags == null || tags.size() == 0) return "No Tags Selected";
+
+        StringBuilder builder = new StringBuilder();
+        for (String tag : tags) builder.append(tag).append(", ");
+        if (builder.length() >= 2) builder.setLength(builder.length() - 2);
+        return builder.toString();
+    }
+
     public List<String> getChildren() {
         return children;
     }
