@@ -36,7 +36,6 @@ public class JSONLoader {
                     else builder.append(t).append(System.getProperty("line.separator"));
                 }
             }
-
             return new JSONObject(builder.toString());
         } catch (IOException | NullPointerException | JSONException e) {
             e.printStackTrace();

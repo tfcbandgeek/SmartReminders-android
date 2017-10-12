@@ -47,11 +47,18 @@ public class FileUtility {
     public static File getApplicationDataDirectory() {
         // Create File Object
         if (Settings.use_external_file) {
-            if (external != null) return external;
+            if (external != null) {
+                return external;
+            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
                 external = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path);
             else external = data;
+
+            // Create Directory
+            if (!external.exists() || !external.isDirectory()) external.mkdirs();
+
+            return external;
         }
 
         // Create Directory
