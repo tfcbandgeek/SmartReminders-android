@@ -7,8 +7,11 @@ import java.util.List;
 // Android OS
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
@@ -17,13 +20,15 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 
 // Save
+import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 /**
  * TagActivity
  * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (106).
+ * Last Edited on 10/12/17 (134).
+ * Edited on 10/11/17 (106).
  * Edited on 10/5/17 (100).
  */
 public class TagActivity
@@ -97,6 +102,29 @@ public class TagActivity
         tasks_list.setAdapter(task_adapter);
         selected_list.setAdapter(selected_adapter);
         unselected_list.setAdapter(unselected_adapter);
+    }
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                TaskManager.save();
+                TagManager.save();
+                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.close:
+                finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

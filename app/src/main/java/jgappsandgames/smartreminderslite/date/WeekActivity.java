@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 // Views
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
@@ -31,7 +34,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * WeekActivity
  * Created by joshua on 10/9/17.
- * Last Edited on 10/11/17 (149).
+ * Last Last Edited on 10/12/17 (175).
+ * Edited on 10/11/17 (149).
  * Edited on 10/9/17 (140).
  */
 public class WeekActivity
@@ -96,6 +100,28 @@ public class WeekActivity
         super.onPause();
 
         save();
+    }
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                TaskManager.save();
+                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.close:
+                finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // Click Listeners
