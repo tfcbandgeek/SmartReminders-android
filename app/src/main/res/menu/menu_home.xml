@@ -21,6 +21,10 @@
         android:id="@+id/week"/>
 
     <item
+        android:title="Month"
+        android:id="@+id/month"/>
+
+    <item
         android:title="Settings"
         android:id="@+id/settings" />
 

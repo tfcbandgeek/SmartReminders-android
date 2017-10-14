@@ -17,6 +17,7 @@ import android.widget.Toast;
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.date.DayActivity;
+import jgappsandgames.smartreminderslite.date.MonthActivity;
 import jgappsandgames.smartreminderslite.date.WeekActivity;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.priority.PriorityActivity;
@@ -26,6 +27,7 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderssave.date.Month;
 import jgappsandgames.smartreminderssave.settings.Settings;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -124,6 +126,10 @@ public class HomeActivity
 
             case R.id.week:
                 startActivity(new Intent(this, WeekActivity.class));
+                return true;
+
+            case R.id.month:
+                startActivity(new Intent(this, MonthActivity.class));
                 return true;
 
             case R.id.settings:
