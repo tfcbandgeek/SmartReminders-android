@@ -14,13 +14,13 @@ import jgappsandgames.smartreminderslite.R;
  */
 public class TagHolder implements View.OnClickListener {
     // Data
-    private TagSwitcher switcher;
+    private final TagSwitcher switcher;
 
     private boolean tag_selected;
     private String tag_text;
 
     // Views
-    private TextView text_view;
+    private final TextView text_view;
 
     // Initializer
     public TagHolder(String tag, boolean selected, TagSwitcher switcher, View view) {
@@ -41,7 +41,7 @@ public class TagHolder implements View.OnClickListener {
 
     // Interfaces
     public interface TagSwitcher {
-        public void moveTag(String tag, boolean selected);
+        void moveTag(String tag, boolean selected);
     }
 
     // Management Methods

@@ -20,8 +20,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class DayAdapter extends BaseAdapter {
     // Data
-    private List<Task> tasks;
-    private DayActivity activity;
+    private final List<Task> tasks;
+    private final DayActivity activity;
 
     // Initializer
     public DayAdapter(DayActivity activity, Calendar date_active) {

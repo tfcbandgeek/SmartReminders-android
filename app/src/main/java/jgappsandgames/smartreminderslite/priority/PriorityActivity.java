@@ -226,30 +226,30 @@ public class PriorityActivity
             case 1:
                 setTitle("Ignore");
                 down.setText("");
-                up.setText("Low");
+                up.setText(R.string.low);
                 return;
 
             case 2:
                 setTitle("Low Priority (Default)");
-                down.setText("Ignore");
-                up.setText("Normal");
+                down.setText(R.string.ignore);
+                up.setText(R.string.normal);
                 return;
 
             case 3:
                 setTitle("Normal Priority");
-                down.setText("Low");
-                up.setText("High");
+                down.setText(R.string.low);
+                up.setText(R.string.high);
                 return;
 
             case 4:
                 setTitle("High Priority");
-                down.setText("Normal");
-                up.setText("Stared");
+                down.setText(R.string.normal);
+                up.setText(R.string.stared);
                 return;
 
             case 5:
                 setTitle("Stared Tasks");
-                down.setText("High");
+                down.setText(R.string.high);
                 up.setText("");
                 break;
         }

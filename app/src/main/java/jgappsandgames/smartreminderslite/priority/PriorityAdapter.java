@@ -17,8 +17,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class PriorityAdapter extends BaseAdapter {
     // Data
-    private PriorityActivity activity;
-    private List<Task> tasks;
+    private final PriorityActivity activity;
+    private final List<Task> tasks;
 
     // Initializers
     public PriorityAdapter(PriorityActivity activity, List<Task> tasks) {

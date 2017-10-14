@@ -1,8 +1,6 @@
 package jgappsandgames.smartreminderssave.tasks;
 
 // Java
-import android.widget.ListView;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * TaskManager
  * Created by joshua on 8/24/17.
- * Last
+ * Last 10/14/17 (201).
  * Edited on 10/21/17 (141).
  * Edited on 9/21/17. (140)
  *

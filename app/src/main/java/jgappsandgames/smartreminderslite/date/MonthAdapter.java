@@ -18,8 +18,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class MonthAdapter extends BaseAdapter {
     // Data
-    private MonthActivity activity;
-    private List<Task> tasks;
+    private final MonthActivity activity;
+    private final List<Task> tasks;
 
     public MonthAdapter(MonthActivity activity, List<Task> tasks) {
         this.activity = activity;

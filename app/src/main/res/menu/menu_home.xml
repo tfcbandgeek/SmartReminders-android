@@ -9,27 +9,27 @@
         android:id="@+id/status"/>
 
     <item
-        android:title="Priority"
+        android:title="@string/priority"
         android:id="@+id/priority" />
 
     <item
-        android:title="Day"
+        android:title="@string/day"
         android:id="@+id/day"/>
 
     <item
-        android:title="Week"
+        android:title="@string/week"
         android:id="@+id/week"/>
 
     <item
-        android:title="Month"
+        android:title="@string/month"
         android:id="@+id/month"/>
 
     <item
-        android:title="Settings"
+        android:title="@string/settings"
         android:id="@+id/settings" />
 
     <item
-        android:title="About"
+        android:title="@string/about"
         android:id="@+id/about" />
 
     <item

@@ -21,7 +21,7 @@ import jgappsandgames.smartreminderssave.settings.Settings;
  */
 public class FileUtility {
     // File Paths
-    private static String path = ".smartreminders";
+    private static final String path = ".smartreminders";
 
 	private static File data;
     private static File external;

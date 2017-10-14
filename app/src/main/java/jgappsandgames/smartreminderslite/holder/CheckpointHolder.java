@@ -24,17 +24,18 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 /**
  * CheckpointHolder
  * Created by joshua on 9/1/17.
- * Last Edited On 10/11/17 (94).
+ * Last Edited on 10/14/17 (99).
+ * Edited On 10/11/17 (94).
  */
 public class CheckpointHolder implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Data
-    private Checkpoint checkpoint;
-    private TaskActivity activity;
-    private String task;
+    private final Checkpoint checkpoint;
+    private final TaskActivity activity;
+    private final String task;
 
     // Views
-    private CheckBox status;
-    private TextView text;
+    private final CheckBox status;
+    private final TextView text;
 
     // Initializer
     public CheckpointHolder(TaskActivity activity, String task, Checkpoint checkpoint, View view) {
@@ -80,7 +81,11 @@ public class CheckpointHolder implements View.OnClickListener, View.OnLongClickL
         activity.deleteCheckpoint(checkpoint);
 
         Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
-        if (v.hasVibrator()) v.vibrate(100);
+        try {
+            if (v.hasVibrator()) v.vibrate(100);
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
 
         return true;
     }

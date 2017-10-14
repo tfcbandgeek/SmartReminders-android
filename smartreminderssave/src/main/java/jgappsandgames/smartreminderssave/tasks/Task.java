@@ -74,7 +74,7 @@ public class Task {
     public static final int STATUS_DONE = 10;
 
     // Data
-    private String filename;
+    private final String filename;
     private String parent;
     private int version;
     private int type;

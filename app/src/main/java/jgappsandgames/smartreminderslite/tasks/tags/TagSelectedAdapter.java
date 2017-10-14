@@ -24,8 +24,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class TagSelectedAdapter extends BaseAdapter {
     // Data
-    private TagEditorActivity activity;
-    public List<String> tags;
+    private final TagEditorActivity activity;
+    public final List<String> tags;
 
     // Initializers
     public TagSelectedAdapter(TagEditorActivity activity, Task task) {

@@ -27,7 +27,6 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.date.Month;
 import jgappsandgames.smartreminderssave.settings.Settings;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -37,7 +36,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * HomeActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/05/17 (190).
+ * Last Edited on 10/14/17 (205).
+ * Edited on 10/05/17 (190).
  *
  * Main Entry Point For The Application
  */

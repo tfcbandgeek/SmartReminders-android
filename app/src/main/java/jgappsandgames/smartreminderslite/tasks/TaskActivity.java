@@ -315,8 +315,8 @@ public class TaskActivity
     // Class Methods
     private void setStatus() {
         if (task.getType() == Task.TYPE_TASK) {
-            if (task.getStatus() == Task.STATUS_DONE) status.setText("Completed.");
-            else status.setText("In Progress.");
+            if (task.getStatus() == Task.STATUS_DONE) status.setText(R.string.complete);
+            else status.setText(R.string.incomplete);
         }
     }
 

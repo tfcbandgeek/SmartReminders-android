@@ -74,10 +74,10 @@ public class FirstRun extends Activity implements OnClickListener {
         if (view.equals(app_directory)) {
             if (Settings.use_external_file) {
                 Settings.use_external_file = false;
-                app_directory.setText("Saving to App Directory");
+                app_directory.setText(R.string.save_app);
             } else {
                 Settings.use_external_file = true;
-                app_directory.setText("Saving to External File");
+                app_directory.setText(R.string.save_external);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     int permision = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -115,7 +115,7 @@ public class FirstRun extends Activity implements OnClickListener {
                 if (grantResults.length > 0) {
                     if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         Settings.use_external_file = false;
-                        app_directory.setText("Saving to App Directory");
+                        app_directory.setText(R.string.save_app);
                     }
                 }
         }

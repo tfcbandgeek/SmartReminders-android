@@ -13,13 +13,13 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class Month {
     // Data
-    private int days_in_month;
-    private int month_starts_on;
+    private final int days_in_month;
+    private final int month_starts_on;
 
-    private Calendar start;
-    private Calendar end;
+    private final Calendar start;
+    private final Calendar end;
 
-    private List<Day> days;
+    private final List<Day> days;
 
     public Month(Calendar start) {
         this.start = (Calendar) start.clone();

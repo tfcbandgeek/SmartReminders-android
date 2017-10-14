@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Down"
+        android:text="@string/down"
         android:id="@+id/down"/>
 
     <Button
@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Up"
+        android:text="@string/up"
         android:id="@+id/up"/>
 </RelativeLayout>
