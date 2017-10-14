@@ -1,8 +1,6 @@
 package jgappsandgames.smartreminderssave.json;
 
 // Java
-import android.os.Build;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,12 +12,14 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// Android
+import android.os.Build;
+
 /**
  * JSONLoader
  * Created by joshua on 10/4/17.
- * Last Edited on 10/9/17 (58). <Support SDK16-26>
- * Edited on 10/8/17 (52).
- * Edited on 10/4/17 (49).
+ * Last Edited on 10/12/17 (58).
+ * Edited on 10/9/17 (58). <Support SDK16-26>
  */
 public class JSONLoader {
     public static JSONObject loadJSON(File file) {
@@ -36,7 +36,6 @@ public class JSONLoader {
                     else builder.append(t).append(System.getProperty("line.separator"));
                 }
             }
-
             return new JSONObject(builder.toString());
         } catch (IOException | NullPointerException | JSONException e) {
             e.printStackTrace();
@@ -44,14 +43,14 @@ public class JSONLoader {
         }
     }
 
-    public static void saveJSONObject(File file, JSONObject jo) {
+    public static void saveJSONObject(File file, JSONObject data) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-            writer.write(jo.toString(4));
+            writer.write(data.toString());
             writer.flush();
             writer.close();
-        } catch (IOException | NullPointerException | JSONException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
     }

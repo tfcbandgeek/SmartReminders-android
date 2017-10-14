@@ -41,5 +41,6 @@
         <activity android:name=".priority.PriorityActivity"/>
         <activity android:name=".date.DayActivity"/>
         <activity android:name=".date.WeekActivity"/>
+        <activity android:name=".date.MonthActivity"/>
     </application>
 </manifest>

@@ -1,5 +1,6 @@
 package jgappsandgames.smartreminderslite.status;
 
+// Java
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -9,8 +10,11 @@ import android.app.Activity;
 import android.os.Bundle;
 
 // Android View
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
@@ -23,7 +27,8 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * Status Activity
  * Created by joshua on 9/4/17.
- * Last Edited on 10/11/17 (114).
+ * Last Edited on 10/12/17 (141).
+ * Edited on 10/11/17 (114).
  * Edited On 10/5/17 (112).
  */
 public class StatusActivity
@@ -105,6 +110,28 @@ public class StatusActivity
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
+    }
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                TaskManager.save();
+                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.close:
+                finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

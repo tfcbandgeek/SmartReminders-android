@@ -18,7 +18,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * TagManager
  * Created by joshua on 8/26/17.
- * Last Edited on 10/5/17 (116)
+ * Last Edited on 10/12/17 (85).
+ * Edited on 10/5/17 (116)
  *
  * Currently on API: 10
  **/
@@ -40,20 +41,27 @@ public class TagManager {
 	}
 
 	public static void load() {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME));
+        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+    }
 
+    public static void save() {
+        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON());
+    }
+
+    // JSON Management Methods
+    public static void loadJSON(JSONObject data) {
         if (data == null) {
             create();
             return;
         }
 
-        version = data.optInt(VERSION, 10);
+        version = data.optInt(VERSION, API.RELEASE);
         JSONArray t = data.optJSONArray(TAGS);
         tags = new ArrayList<>(t.length());
         for (int i = 0; i < t.length(); i++) tags.add(t.optString(i));
     }
 
-    public static void save() {
+    public static JSONObject toJSON() {
         JSONObject data = new JSONObject();
         JSONArray t = new JSONArray();
 
@@ -66,6 +74,12 @@ public class TagManager {
             j.printStackTrace();
         }
 
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), data);
+        return data;
+    }
+
+    public static void addMissingTags(JSONObject data) {
+        JSONArray t = data.optJSONArray(TAGS);
+        tags = new ArrayList<>(t.length());
+        for (int i = 0; i < t.length(); i++) if (!tags.contains(t.optString(i))) tags.add(t.optString(i));
     }
 }

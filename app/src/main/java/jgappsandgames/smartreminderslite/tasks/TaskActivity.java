@@ -200,12 +200,6 @@ public class TaskActivity
                 Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.management:
-                Intent intent = new Intent(this, TaskManagementActivity.class);
-                intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename());
-                startActivityForResult(intent, ActivityUtility.REQUEST_Management);
-                return true;
-
             case R.id.close:
                 finish();
                 return true;
@@ -321,8 +315,8 @@ public class TaskActivity
     // Class Methods
     private void setStatus() {
         if (task.getType() == Task.TYPE_TASK) {
-            if (task.getStatus() == Task.STATUS_DONE) status.setText("Completed.");
-            else status.setText("In Progress.");
+            if (task.getStatus() == Task.STATUS_DONE) status.setText(R.string.complete);
+            else status.setText(R.string.incomplete);
         }
     }
 

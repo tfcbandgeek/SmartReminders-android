@@ -9,10 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 // Views
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 // Program
 import jgappsandgames.smartreminderslite.R;
@@ -29,7 +32,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * DayActivity
  * Created by joshua on 10/9/17.
- * Last Edited on 10/11/17 (135).
+ * Last Edited on 10/12/17 (161).
+ * Edited on 10/11/17 (135).
  * Edited on 10/9/17 (126).
  */
 public class DayActivity extends Activity
@@ -86,6 +90,28 @@ public class DayActivity extends Activity
 
         adapter = new DayAdapter(this, day_active);
         tasks.setAdapter(adapter);
+    }
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                TaskManager.save();
+                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.close:
+                finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // Click Listeners

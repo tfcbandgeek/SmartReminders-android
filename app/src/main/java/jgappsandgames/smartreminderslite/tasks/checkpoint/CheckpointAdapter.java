@@ -20,9 +20,9 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint;
  */
 public class CheckpointAdapter extends BaseAdapter {
     // Data
-    private TaskActivity activity;
-    private String task;
-    private List<Checkpoint> checkpoints;
+    private final TaskActivity activity;
+    private final String task;
+    private final List<Checkpoint> checkpoints;
 
     // Initializer
     public CheckpointAdapter(TaskActivity activity, String task, List<Checkpoint> checkpoints) {

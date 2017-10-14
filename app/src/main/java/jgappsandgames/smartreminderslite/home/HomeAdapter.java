@@ -23,7 +23,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  */
 public class HomeAdapter extends BaseAdapter {
     // Data
-    private HomeActivity activity;
+    private final HomeActivity activity;
 
     // Initializer
     public HomeAdapter(HomeActivity activity) {

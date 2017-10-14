@@ -19,8 +19,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class WeekAdapter extends BaseAdapter {
     // Data
-    private List<Task> tasks;
-    private WeekActivity activity;
+    private final List<Task> tasks;
+    private final WeekActivity activity;
 
     // Initializer
     public WeekAdapter(WeekActivity activity, int date_active) {

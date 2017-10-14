@@ -1,62 +1,37 @@
-package jgappsandgames.smartreminderslite.tags;
+package jgappsandgames.smartreminderslite.date;
 
-// Java
-import java.util.ArrayList;
-import java.util.List;
-
-// Views
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-// App
+import java.util.List;
+
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
-
-// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
- * TaskAdapter
- * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (104).
- * Edited on 10/5/17 (97).
+ * MonthAdapter
+ * Created by joshua on 10/14/17.
+ * Last Edited on 10/14/17 (78).
  */
-public class TaskAdapter extends BaseAdapter {
-    private final TagActivity activity;
+public class MonthAdapter extends BaseAdapter {
+    // Data
+    private final MonthActivity activity;
     private final List<Task> tasks;
 
-    public TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
-        super();
-
+    public MonthAdapter(MonthActivity activity, List<Task> tasks) {
         this.activity = activity;
-
-        tasks = new ArrayList<>();
-        for (Task task : n_tasks) {
-            boolean task_clear = true;
-
-            for (String t : selected) {
-                boolean tag_clear = false;
-
-                for (int i = 0; i < task.getTags().size(); i++) {
-                    if (task.getTags().get(i).equals(t)) {
-                        tag_clear = true;
-                        break;
-                    }
-                }
-
-                if (!tag_clear) {
-                    task_clear = false;
-                    break;
-                }
-            }
-
-            if (task_clear) tasks.add(task);
-        }
+        this.tasks = tasks;
     }
 
     // List Methods
+    @Override
+    public boolean hasStableIds() {
+        return true;
+    }
+
     @Override
     public int getCount() {
         return tasks.size();
@@ -67,6 +42,7 @@ public class TaskAdapter extends BaseAdapter {
         return 3;
     }
 
+    // Item Methods
     @Override
     public Task getItem(int position) {
         return tasks.get(position);
@@ -74,7 +50,7 @@ public class TaskAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return getItem(position).getID();
     }
 
     @Override
@@ -93,12 +69,10 @@ public class TaskAdapter extends BaseAdapter {
             convert_view.setTag(holder);
         } else {
             holder = (TaskFolderHolder) convert_view.getTag();
-
             holder.task = getItem(position);
         }
 
         holder.setViews();
-
         return convert_view;
     }
 }

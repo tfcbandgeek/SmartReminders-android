@@ -50,8 +50,8 @@ public class SettingsActivity extends Activity implements OnClickListener{
         // Set Text
         your_name.setText(Settings.user_name);
         device_name.setText(Settings.device_name);
-        if (Settings.use_external_file) app_directory.setText("Saving to External File");
-        else app_directory.setText("Saving to App Directory");
+        if (Settings.use_external_file) app_directory.setText(R.string.save_external);
+        else app_directory.setText(R.string.save_app);
 
         // Set Listeners
         app_directory.setOnClickListener(this);
@@ -74,10 +74,10 @@ public class SettingsActivity extends Activity implements OnClickListener{
         if (view.equals(app_directory)) {
             if (Settings.use_external_file) {
                 Settings.use_external_file = false;
-                app_directory.setText("Saving to App Directory");
+                app_directory.setText(R.string.save_app);
             } else {
                 Settings.use_external_file = true;
-                app_directory.setText("Saving to External File");
+                app_directory.setText(R.string.save_external);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     int permision = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -102,7 +102,7 @@ public class SettingsActivity extends Activity implements OnClickListener{
                 if (grantResults.length > 0) {
                     if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                         Settings.use_external_file = false;
-                        app_directory.setText("Saving to App Directory");
+                        app_directory.setText(R.string.save_app);
                     }
                 }
         }

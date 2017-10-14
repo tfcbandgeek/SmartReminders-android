@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Smart Reminders Lite"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textSize="32sp"
         android:textStyle="bold" />
@@ -23,7 +23,7 @@
         android:id="@+id/version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Version"
+        android:text="@string/version"
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8sp"
-        android:text="Build"
+        android:text="@string/build"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="italic" />
@@ -41,7 +41,7 @@
         android:id="@+id/api"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="API"
+        android:text="@string/api"
         android:textAlignment="center"
         android:textSize="16sp" />
 

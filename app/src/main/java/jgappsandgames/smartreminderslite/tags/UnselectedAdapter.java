@@ -24,8 +24,8 @@ import jgappsandgames.smartreminderssave.tags.TagManager;
  * Edited on 10/5/17 (65).
  */
 public class UnselectedAdapter extends BaseAdapter {
-    private TagActivity activity;
-    private List<String> tags;
+    private final TagActivity activity;
+    private final List<String> tags;
 
     public UnselectedAdapter(TagActivity activity, List<String> selected) {
         super();

@@ -185,6 +185,10 @@ public class Week {
         return sunday.getDay();
     }
 
+    public Calendar getEnd() {
+        return saturday.getDay();
+    }
+
     public List<Task> getAllTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
 
@@ -197,9 +201,5 @@ public class Week {
         tasks.addAll(saturday.getTasks());
 
         return tasks;
-    }
-
-    public Calendar getEnd() {
-        return saturday.getDay();
     }
 }

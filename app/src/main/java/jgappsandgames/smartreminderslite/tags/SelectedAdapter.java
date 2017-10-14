@@ -19,8 +19,8 @@ import jgappsandgames.smartreminderslite.holder.TagHolder;
  * Last Edited on 10/11/17 (64).
  */
 public class SelectedAdapter extends BaseAdapter {
-    private TagActivity activity;
-    private List<String> tags;
+    private final TagActivity activity;
+    private final List<String> tags;
 
     // Initializer
     public SelectedAdapter(TagActivity activity, List<String> selected) {

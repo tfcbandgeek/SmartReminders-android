@@ -20,7 +20,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * Task
  * Created by joshua on 8/24/17.
- * Last Edited On 10/5/17 (521)
+ * Last Edited On 10/12/17 (520).
+ * Edited On 10/5/17 (521)
  *
  * Current API: 10
  */
@@ -73,7 +74,7 @@ public class Task {
     public static final int STATUS_DONE = 10;
 
     // Data
-    private String filename;
+    private final String filename;
     private String parent;
     private int version;
     private int type;
@@ -103,10 +104,10 @@ public class Task {
     public Task(String parent, int type) {
         Calendar calendar = Calendar.getInstance();
 
-        filename = parent.substring(0, parent.length() - 4) + "_" + String.valueOf(calendar.getTimeInMillis()) + ".srj";
+        filename = String.valueOf(calendar.getTimeInMillis()) + ".srj";
 
         this.parent = parent;
-        version = API.VERSION_D;
+        version = API.RELEASE;
         this.type = type;
         task_id = Calendar.getInstance().getTimeInMillis();
 
@@ -129,15 +130,28 @@ public class Task {
     }
 
     public Task(String filename) {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename));
+        this.filename = filename;
+        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+    }
 
+    // Management Methods
+    public void save() {
+        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), toJSON());
+    }
+
+    public void delete() {
+        File file = new File(FileUtility.getApplicationDataDirectory(), filename);
+        file.delete();
+    }
+
+    // JSON Management Methods
+    public void loadJSON(JSONObject data) {
         if (data == null) {
             title = "Null Task Load Error";
             note = "Error occurs when there is no Task to load";
             return;
         }
 
-        this.filename = filename;
         version = data.optInt(VERSION, API.RELEASE);
         parent = data.optString(PARENT, "home");
         type = data.optInt(TYPE, TYPE_NONE);
@@ -197,8 +211,7 @@ public class Task {
         if (p != null && p.length() != 0) for (int i = 0; i < p.length(); i++) checkpoints.add(new Checkpoint(p.optJSONObject(i)));
     }
 
-    // Management Methods
-    public void save() {
+    public JSONObject toJSON() {
         JSONObject data = new JSONObject();
 
         try {
@@ -245,18 +258,17 @@ public class Task {
             data.put(TAGS, t);
             data.put(CHILDREN, c);
             data.put(CHECKPOINTS, p);
-
-            JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), data);
         } catch (JSONException j) {
             j.printStackTrace();
         } catch (NullPointerException n) {
             throw new RuntimeException("Fix Me");
         }
+
+        return data;
     }
 
-    public void delete() {
-        File file = new File(FileUtility.getApplicationDataDirectory(), filename);
-        file.delete();
+    public void updateTask(JSONObject data) {
+        if (j_cal.loadCalendar(data.optJSONObject(CAL_UPDATE)).after(date_updated)) loadJSON(data);
     }
 
     // Getters
@@ -306,6 +318,15 @@ public class Task {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    public String getTagString() {
+        if (tags == null || tags.size() == 0) return "No Tags Selected";
+
+        StringBuilder builder = new StringBuilder();
+        for (String tag : tags) builder.append(tag).append(", ");
+        if (builder.length() >= 2) builder.setLength(builder.length() - 2);
+        return builder.toString();
     }
 
     public List<String> getChildren() {

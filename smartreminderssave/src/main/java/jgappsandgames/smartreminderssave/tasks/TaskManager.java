@@ -18,7 +18,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * TaskManager
  * Created by joshua on 8/24/17.
- * Last Edited on 10/21/17 (141).
+ * Last 10/14/17 (201).
+ * Edited on 10/21/17 (141).
  * Edited on 9/21/17. (140)
  *
  * Currently on API: 10
@@ -50,8 +51,21 @@ public class TaskManager {
     }
 
     public static void load() {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME));
+        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        if (deleted.size() >= 50) deleted.remove(0);
+    }
 
+    public static void save() {
+        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON());
+    }
+
+    public static void clearTasks() {
+        for (String task : archived) deleteTask(new Task(task));
+        archived = new ArrayList<>();
+    }
+
+    // JSONManagement Methods
+    public static void loadJSON(JSONObject data) {
         if (data == null) {
             create();
             return;
@@ -69,13 +83,17 @@ public class TaskManager {
         JSONArray a = data.optJSONArray(ARCHIVED);
         JSONArray d = data.optJSONArray(DELETED);
 
-        if (h != null && h.length() != 0) for (int i = 0; i < h.length(); i++) if (!home.contains(h.optString(i))) home.add(h.optString(i));
-        if (t != null && t.length() != 0) for (int i = 0; i < t.length(); i++) if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i));
-        if (a != null && a.length() != 0) for (int i = 0; i < a.length(); i++) if (!archived.contains(a.optString(i))) archived.add(a.optString(i));
-        if (d != null && d.length() != 0) for (int i = 0; i < d.length(); i++) if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i));
+        if (h != null && h.length() != 0) for (int i = 0; i < h.length(); i++)
+            if (!home.contains(h.optString(i))) home.add(h.optString(i));
+        if (t != null && t.length() != 0) for (int i = 0; i < t.length(); i++)
+            if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i));
+        if (a != null && a.length() != 0) for (int i = 0; i < a.length(); i++)
+            if (!archived.contains(a.optString(i))) archived.add(a.optString(i));
+        if (d != null && d.length() != 0) for (int i = 0; i < d.length(); i++)
+            if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i));
     }
 
-    public static void save() {
+    public static JSONObject saveJSON() {
         JSONObject data = new JSONObject();
 
         try {
@@ -99,12 +117,54 @@ public class TaskManager {
             j.printStackTrace();
         }
 
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), data);
+        return data;
     }
 
-    public static void clearTasks() {
-        for (String task : deleted) new Task(task).delete();
-        deleted = new ArrayList<>();
+    public static void updateTasks(JSONObject data) {
+        List<String> ha = new ArrayList<>();
+        List<String> ta = new ArrayList<>();
+        List<String> aa = new ArrayList<>();
+        List<String> da = new ArrayList<>();
+
+        JSONArray h = data.optJSONArray(HOME);
+        JSONArray t = data.optJSONArray(TASKS);
+        JSONArray a = data.optJSONArray(ARCHIVED);
+        JSONArray d = data.optJSONArray(DELETED);
+
+        if (h != null && h.length() != 0) for (int i = 0; i < h.length(); i++)
+            if (!ha.contains(h.optString(i))) ha.add(h.optString(i));
+        if (t != null && t.length() != 0) for (int i = 0; i < t.length(); i++)
+            if (!ta.contains(t.optString(i))) ta.add(t.optString(i));
+        if (a != null && a.length() != 0) for (int i = 0; i < a.length(); i++)
+            if (!aa.contains(a.optString(i))) aa.add(a.optString(i));
+        if (d != null && d.length() != 0) for (int i = 0; i < d.length(); i++)
+            if (!da.contains(d.optString(i))) da.add(d.optString(i));
+
+        for (String task : ha) {
+            if (home.contains(task)) continue;
+            if (archived.contains(task) || deleted.contains(task)) continue;
+            home.add(task);
+            if (!tasks.contains(task)) tasks.add(task);
+        }
+
+        for (String task : ta) {
+            if (tasks.contains(task)) return;
+            if (archived.contains(task) || deleted.contains(task)) continue;
+            tasks.add(task);
+        }
+
+        for (String task : aa) {
+            if (archived.contains(task)) return;
+            if (deleted.contains(task)) continue;
+            if (tasks.contains(task)) tasks.remove(task);
+            archived.add(task);
+        }
+
+        for (String task : da) {
+            if (deleted.contains(task)) return;
+            if (archived.contains(task)) archived.remove(task);
+            if (tasks.contains(task)) tasks.remove(task);
+        }
     }
 
     // Task Methods
@@ -129,8 +189,7 @@ public class TaskManager {
 
     public static boolean deleteTask(Task task) {
         if (archived.contains(task.getFilename()))  {
-            task.markDeleted();
-            task.save();
+            task.delete();
             deleted.add(task.getFilename());
             archived.remove(task.getFilename());
             TaskManager.save();

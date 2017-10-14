@@ -24,8 +24,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class StatusAdapter extends BaseAdapter {
     // Data
-    private StatusActivity activity;
-    private List<Task> tasks;
+    private final StatusActivity activity;
+    private final List<Task> tasks;
 
     // Initializer
     public StatusAdapter(StatusActivity activity, List<Task> tasks) {
