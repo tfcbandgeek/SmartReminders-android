@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 
 // Views
 import android.view.View;
@@ -27,7 +26,8 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * CheckpointActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (133).
+ * Last Edited on 10/15/17 (132).
+ * Edited on 10/11/17 (133).
  */
 public class CheckpointActivity
         extends Activity
@@ -122,8 +122,7 @@ public class CheckpointActivity
             r_data.put(Task.CHECKPOINT_TEXT, text);
 
             Intent intent = new Intent();
-            intent.putExtra(ActivityUtility.CHECKPOINT, r_data.toString(4));
-            Log.e("Sent", r_data.toString(4));
+            intent.putExtra(ActivityUtility.CHECKPOINT, r_data.toString());
 
             setResult(ActivityUtility.RESPONSE_CHANGE, intent);
         } catch (JSONException | NullPointerException e) {

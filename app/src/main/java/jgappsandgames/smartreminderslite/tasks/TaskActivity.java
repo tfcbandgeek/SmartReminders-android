@@ -45,7 +45,8 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (350).
+ * Last Edited on 10/15/17 (350).
+ * Edited on 10/11/17 (350).
  * Edited On 10/5/17 (334).
  *
  * Main Task View
@@ -251,7 +252,11 @@ public class TaskActivity
 
             // Called in A Task
             else {
-                Checkpoint checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).id + 1, "");
+                Checkpoint checkpoint;
+                if (task.getCheckpoints().size()== 0) checkpoint = new Checkpoint(1, "");
+                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).id + 1, "");
+                task.addCheckpoint(checkpoint);
+                task.save();
 
                 Intent check_intent = new Intent(this, CheckpointActivity.class);
                 check_intent.putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString());
@@ -323,6 +328,7 @@ public class TaskActivity
     public void editCheckpoint(Checkpoint checkpoint) {
         task.editCheckpoint(checkpoint);
         task.save();
+        onResume();
     }
 
     public void deleteCheckpoint(Checkpoint checkpoint) {
