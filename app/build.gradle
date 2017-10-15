@@ -7,14 +7,20 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 17100303
-        versionName "17.10.3"
+        versionCode 17100305
+        versionName "17.10.3.1"
     }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 }
 
