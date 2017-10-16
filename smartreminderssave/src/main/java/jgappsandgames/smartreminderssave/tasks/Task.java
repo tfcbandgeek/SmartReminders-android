@@ -234,8 +234,20 @@ public class Task {
         return date_create;
     }
 
+    @Deprecated
     public Calendar getDate_due() {
         return date_due;
+    }
+
+    public Calendar getDateDue() {
+        return date_due;
+    }
+
+    public String getDateDueString() {
+        if (date_due == null) return "No Date";
+        return String.valueOf(date_due.get(Calendar.MONTH) + 1) + "/" +
+                String.valueOf(date_due.get(Calendar.DAY_OF_MONTH)) + "/" +
+                String.valueOf(date_due.get(Calendar.YEAR));
     }
 
     public Calendar getDateUpdated() {
@@ -285,6 +297,11 @@ public class Task {
 
     public boolean isCompleted() {
         return status == STATUS_DONE;
+    }
+
+    public String getStatusString() {
+        if (isCompleted()) return "Completed";
+        return "Incomplete";
     }
 
     public int getPriority() {
