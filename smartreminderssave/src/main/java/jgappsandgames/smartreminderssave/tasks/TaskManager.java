@@ -18,7 +18,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * TaskManager
  * Created by joshua on 8/24/17.
- * Last 10/14/17 (201).
+ * Last Edited on 10/16/17 (200).
+ * Edited on 10/14/17 (201).
  * Edited on 10/21/17 (141).
  * Edited on 9/21/17. (140)
  *
@@ -176,15 +177,13 @@ public class TaskManager {
             home.remove(task.getFilename());
         } else if (tasks.contains(task.getParent())) {
             Task parent = new Task(task.getParent());
-
             parent.removeChild(task.getFilename());
-
             parent.save();
         }
 
         tasks.remove(task.getFilename());
         archived.add(task.getFilename());
-        TaskManager.save();
+        save();
     }
 
     public static boolean deleteTask(Task task) {
@@ -192,7 +191,7 @@ public class TaskManager {
             task.delete();
             deleted.add(task.getFilename());
             archived.remove(task.getFilename());
-            TaskManager.save();
+            save();
             return true;
         }
 
