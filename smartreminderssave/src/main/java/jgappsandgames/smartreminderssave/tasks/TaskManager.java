@@ -148,20 +148,20 @@ public class TaskManager {
         }
 
         for (String task : ta) {
-            if (tasks.contains(task)) return;
+            if (tasks.contains(task)) continue;
             if (archived.contains(task) || deleted.contains(task)) continue;
             tasks.add(task);
         }
 
         for (String task : aa) {
-            if (archived.contains(task)) return;
+            if (archived.contains(task)) continue;
             if (deleted.contains(task)) continue;
             if (tasks.contains(task)) tasks.remove(task);
             archived.add(task);
         }
 
         for (String task : da) {
-            if (deleted.contains(task)) return;
+            if (deleted.contains(task)) continue;
             if (archived.contains(task)) archived.remove(task);
             if (tasks.contains(task)) tasks.remove(task);
         }

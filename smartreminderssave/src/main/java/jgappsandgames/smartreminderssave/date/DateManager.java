@@ -12,7 +12,8 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * DateManager
  * Created by joshua on 9/10/17.
- * Last Edited on 10/9/17 (100).
+ * Last Edited on 10/15/17 (157).
+ * Edited on 10/9/17 (100).
  * Edited on 10/5/17 (97)
  */
 public class DateManager {
@@ -43,27 +44,30 @@ public class DateManager {
         }
 
         for (Task task : tasks) {
+            if (task.getDate_due().before(weeks.get(0).week.getStart())) continue;
             int i = 0;
             boolean b = true;
-            if (!task.getDate_due().before(weeks.get(0).week.getStart())) {
-                while (b) {
-                    if (weeks.get(i).week.addTask(task)) b = false;
 
-                    if (i > weeks.size() - 10) {
-                        Calendar t = Calendar.getInstance();
-                        t.add(Calendar.WEEK_OF_YEAR, weeks.size());
-                        weeks.add(new KeyValue(weeks.size(), new Week(t)));
-                    }
+            while (b) {
+                if (weeks.get(i).week.addTask(task)) b = false;
 
-                    if (i >= 52) b = false;
-
-                    i++;
+                if (i > weeks.size() - 10) {
+                    Calendar t = Calendar.getInstance();
+                    t.add(Calendar.WEEK_OF_YEAR, weeks.size());
+                    weeks.add(new KeyValue(weeks.size(), new Week(t)));
                 }
+
+                if (i >= 52) b = false;
+                i++;
             }
         }
 
         Calendar marker = Calendar.getInstance();
         marker.set(Calendar.DAY_OF_MONTH, 1);
+        marker.set(Calendar.HOUR_OF_DAY, 0);
+        marker.set(Calendar.MINUTE, 0);
+        marker.set(Calendar.SECOND, 1);
+
         months = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
             months.add(new KeyMonth(i, new Month((Calendar) marker.clone())));
@@ -71,22 +75,21 @@ public class DateManager {
         }
 
         for (Task task : tasks) {
+            if (task.getDate_due().before(months.get(0).month.getStart())) continue;
             int i = 0;
             boolean b = true;
-            if (!task.getDate_due().before(months.get(0).month.getStart())) {
-                while (b) {
-                    if (months.get(i).month.addTask(task)) b = false;
 
-                    if (i > months.size() - 2) {
-                        Calendar t = Calendar.getInstance();
-                        t.add(Calendar.MONTH, months.size());
-                        months.add(new KeyMonth(months.size(), new Month(t)));
-                    }
+            while (b) {
+                if (months.get(i).month.addTask(task)) b = false;
 
-                    if (i >= 24) b = false;
-
-                    i++;
+                if (i > months.size() - 2) {
+                    Calendar t = Calendar.getInstance();
+                    t.add(Calendar.MONTH, months.size());
+                    months.add(new KeyMonth(months.size(), new Month(t)));
                 }
+
+                if (i >= 24) b = false;
+                i++;
             }
         }
     }

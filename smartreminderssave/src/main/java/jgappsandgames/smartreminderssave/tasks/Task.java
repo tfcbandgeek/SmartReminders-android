@@ -33,17 +33,6 @@ public class Task {
     private static final String TYPE = "type";
     private static final String TASK_ID = "id";
 
-    @Deprecated
-    private static final String DATE_CREATE = "create";
-    @Deprecated
-    private static final String DATE_DUE = "due";
-    @Deprecated
-    private static final String LAST_UPDATED = "last_update";
-    @Deprecated
-    private static final String ARCHIVED = "archived";
-    @Deprecated
-    private static final String DELETED = "deleted";
-
     private static final String CAL_CREATE = "cal_a";
     private static final String CAL_DUE = "cal_b";
     private static final String CAL_UPDATE = "cal_c";
@@ -158,40 +147,6 @@ public class Task {
         type = data.optInt(TYPE, TYPE_NONE);
         task_id = data.optLong(TASK_ID, Calendar.getInstance().getTimeInMillis());
 
-        if (data.has(CAL_CREATE)) date_create = j_cal.loadCalendar(data.optJSONObject(CAL_CREATE));
-        else {
-            JSONArray create = data.optJSONArray(DATE_CREATE);
-            date_create = new GregorianCalendar(create.optInt(0, 0), create.optInt(1, 0), create.optInt(2, 0));
-        }
-
-        if (data.has(CAL_DUE)) date_due = j_cal.loadCalendar(data.optJSONObject(CAL_DUE));
-        else {
-            JSONArray due = data.optJSONArray(DATE_DUE);
-
-            if (due.optBoolean(0, false)) {
-                date_due = new GregorianCalendar(due.optInt(1, 0), due.optInt(2, 0), due.optInt(3, 0));
-                date_due.set(Calendar.SECOND, 1);
-            }
-        }
-
-        if (data.has(CAL_UPDATE)) date_updated = j_cal.loadCalendar(data.optJSONObject(CAL_UPDATE));
-        else {
-            date_updated = Calendar.getInstance();
-            date_updated.setTimeInMillis(data.optLong(LAST_UPDATED));
-        }
-
-        if (data.has(CAL_ARCHIVED)) date_archived = j_cal.loadCalendar(data.optJSONObject(CAL_ARCHIVED));
-        else {
-            date_archived = new GregorianCalendar();
-            date_archived.setTimeInMillis(data.optLong(ARCHIVED, 0));
-        }
-
-        if (data.has(CAL_DELETED)) date_deleted = j_cal.loadCalendar(data.optJSONObject(CAL_DELETED));
-        else {
-            date_deleted = new GregorianCalendar();
-            date_deleted.setTimeInMillis(data.optLong(DELETED, 0));
-        }
-
         title = data.optString(TITLE, "");
         note = data.optString(NOTE, "");
         status = data.optInt(STATUS, 0);
@@ -220,20 +175,6 @@ public class Task {
             data.put(VERSION, version);
             data.put(TYPE, type);
             data.put(TASK_ID, task_id);
-
-            // Old Calendar Add
-            JSONArray create = new JSONArray().put(date_create.get(Calendar.YEAR)).put(date_create.get(Calendar.MONTH)).put(date_create.get(Calendar.DAY_OF_MONTH));
-            JSONArray due = new JSONArray();
-            if (date_due == null) due.put(false);
-            else due.put(true).put(date_due.get(Calendar.YEAR)).put(date_due.get(Calendar.MONTH)).put(date_due.get(Calendar.DAY_OF_MONTH));
-
-            data.put(DATE_CREATE, create);
-            data.put(DATE_DUE, due);
-            data.put(LAST_UPDATED, date_updated.getTimeInMillis());
-            if (date_archived != null) data.put(ARCHIVED, date_archived.getTimeInMillis());
-            else data.put(ARCHIVED, 0);
-            if (date_deleted != null) data.put(DELETED, date_deleted.getTimeInMillis());
-            else  data.put(DELETED, 0);
 
             data.put(CAL_CREATE, j_cal.saveCalendar(date_create));
             data.put(CAL_DUE, j_cal.saveCalendar(date_due));
