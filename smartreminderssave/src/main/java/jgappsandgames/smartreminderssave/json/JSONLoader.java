@@ -39,7 +39,7 @@ public class JSONLoader {
             return new JSONObject(builder.toString());
         } catch (IOException | NullPointerException | JSONException e) {
             e.printStackTrace();
-            return null;
+            return new JSONObject();
         }
     }
 
