@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Save
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -52,12 +52,12 @@ public class TaskManager {
     }
 
     public static void load() {
-        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
         if (deleted.size() >= 50) deleted.remove(0);
     }
 
     public static void save() {
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON());
+        JSONUtility.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON());
     }
 
     public static void clearTasks() {

@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -40,7 +40,7 @@ public class ThemeManager {
 
     // Management Methods
     public static void load() {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        JSONObject data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
 
         version = data.optInt(VERSION, API.RELEASE);
         color = data.optInt(COLOR, 1);
@@ -64,6 +64,6 @@ public class ThemeManager {
             e.printStackTrace();
         }
 
-        JSONLoader.saveJSONObject(new File(FileUtility.getInternalFileDirectory(), FILENAME), data);
+        JSONUtility.saveJSONObject(new File(FileUtility.getInternalFileDirectory(), FILENAME), data);
     }
 }

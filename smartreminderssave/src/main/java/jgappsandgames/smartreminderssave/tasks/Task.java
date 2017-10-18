@@ -12,7 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Save
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -120,12 +120,12 @@ public class Task {
 
     public Task(String filename) {
         this.filename = filename;
-        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
     }
 
     // Management Methods
     public void save() {
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), toJSON());
+        JSONUtility.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), toJSON());
     }
 
     public void delete() {

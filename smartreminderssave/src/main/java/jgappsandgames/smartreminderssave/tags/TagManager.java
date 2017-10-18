@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Program
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -41,11 +41,11 @@ public class TagManager {
 	}
 
 	public static void load() {
-        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
     }
 
     public static void save() {
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON());
+        JSONUtility.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON());
     }
 
     // JSON Management Methods

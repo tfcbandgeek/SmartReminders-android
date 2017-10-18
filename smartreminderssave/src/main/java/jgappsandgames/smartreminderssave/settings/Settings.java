@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import android.os.Build;
 
 // Save
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -82,7 +82,7 @@ public class Settings {
     }
 
     public static void load() {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        JSONObject data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
 
         if (data == null) {
             create();
@@ -133,6 +133,6 @@ public class Settings {
             e.printStackTrace();
         }
 
-        JSONLoader.saveJSONObject(new File(FileUtility.getInternalFileDirectory(), FILENAME), data);
+        JSONUtility.saveJSONObject(new File(FileUtility.getInternalFileDirectory(), FILENAME), data);
     }
 }
