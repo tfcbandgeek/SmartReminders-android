@@ -21,7 +21,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  *
  * Extends the BaseAdapter
  */
-public class HomeAdapter extends BaseAdapter {
+class HomeAdapter extends BaseAdapter {
     // Data
     private final HomeActivity activity;
 

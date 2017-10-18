@@ -27,11 +27,11 @@ public class TagManager {
 	// Constants
 	private static final String FILENAME = "tagmanager.srj";
 	
-	public static final String VERSION = "version";
-	public static final String TAGS = "tags";
+	private static final String VERSION = "version";
+	private static final String TAGS = "tags";
 	
 	// Data
-	public static int version;
+	private static int version;
 	public static List<String> tags;
 	
 	// Management Methods

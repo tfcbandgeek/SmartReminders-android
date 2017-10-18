@@ -82,8 +82,8 @@ public class StatusActivity
             Task temp = new Task(TaskManager.tasks.get(i));
             if (temp.getType() == Task.TYPE_TASK) {
                 if (temp.getStatus() == Task.STATUS_DONE) done_array.add(temp);
-                else if (temp.getDate_due() == null) incomplete_array.add(temp);
-                else if (temp.getDate_due().before(Calendar.getInstance())) overdue_array.add(temp);
+                else if (temp.getDateDue() == null) incomplete_array.add(temp);
+                else if (temp.getDateDue().before(Calendar.getInstance())) overdue_array.add(temp);
                 else incomplete_array.add(temp);
             }
         }

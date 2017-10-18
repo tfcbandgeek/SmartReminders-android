@@ -28,7 +28,7 @@ public class DateManager {
         List<Task> tasks = new ArrayList<>();
         for (String t : TaskManager.tasks) {
             final Task task = new Task(t);
-            if (task.getDate_due() != null) tasks.add(task);
+            if (task.getDateDue() != null) tasks.add(task);
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -44,7 +44,7 @@ public class DateManager {
         }
 
         for (Task task : tasks) {
-            if (task.getDate_due().before(weeks.get(0).week.getStart())) continue;
+            if (task.getDateDue().before(weeks.get(0).week.getStart())) continue;
             int i = 0;
             boolean b = true;
 
@@ -75,7 +75,7 @@ public class DateManager {
         }
 
         for (Task task : tasks) {
-            if (task.getDate_due().before(months.get(0).month.getStart())) continue;
+            if (task.getDateDue().before(months.get(0).month.getStart())) continue;
             int i = 0;
             boolean b = true;
 

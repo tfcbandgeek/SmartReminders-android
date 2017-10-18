@@ -46,7 +46,7 @@ public class Settings {
     private static final String LAST_VERSION_SPLASH = "last_version_splash";
 
     // Data
-    public static int version;
+    private static int version;
 
     public static String user_name;
     public static String device_name;

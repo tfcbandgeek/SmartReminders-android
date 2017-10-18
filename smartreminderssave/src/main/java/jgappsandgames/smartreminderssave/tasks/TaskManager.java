@@ -37,7 +37,7 @@ public class TaskManager {
     private static final String DELETED = "deleted";
 
     // Data
-    public static int version;
+    private static int version;
     public static List<String> home;
     public static List<String> tasks;
     public static List<String> archived;

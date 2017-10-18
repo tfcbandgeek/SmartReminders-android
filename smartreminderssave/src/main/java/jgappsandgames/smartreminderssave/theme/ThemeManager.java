@@ -34,7 +34,7 @@ public class ThemeManager {
     public static final int WHITE = 3;
 
     // Data
-    public static int version = 0;
+    private static int version = 0;
     public static int color = 0;
     public static int light = 0;
 
