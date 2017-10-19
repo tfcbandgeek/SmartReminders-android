@@ -28,7 +28,7 @@ class TagSelectedAdapter extends BaseAdapter {
     private final List<String> tags;
 
     // Initializers
-    public TagSelectedAdapter(TagEditorActivity activity, Task task) {
+    TagSelectedAdapter(TagEditorActivity activity, Task task) {
         super();
 
         // Set Activity
@@ -38,7 +38,7 @@ class TagSelectedAdapter extends BaseAdapter {
         tags = task.getTags();
     }
 
-    public TagSelectedAdapter(TagEditorActivity activity, Task task, String search) {
+    TagSelectedAdapter(TagEditorActivity activity, Task task, String search) {
         // Set Activity
         this.activity = activity;
 

@@ -28,7 +28,7 @@ class ChildrenAdapter extends BaseAdapter {
     private final List<String> tasks;
 
     // Initializer
-    public ChildrenAdapter(TaskActivity activity, List<String> tasks) {
+    ChildrenAdapter(TaskActivity activity, List<String> tasks) {
         super();
 
         // Set Data

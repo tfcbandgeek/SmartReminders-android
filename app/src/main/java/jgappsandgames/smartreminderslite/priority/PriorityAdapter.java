@@ -21,7 +21,7 @@ class PriorityAdapter extends BaseAdapter {
     private final List<Task> tasks;
 
     // Initializers
-    public PriorityAdapter(PriorityActivity activity, List<Task> tasks) {
+    PriorityAdapter(PriorityActivity activity, List<Task> tasks) {
         this.activity = activity;
         this.tasks = tasks;
     }

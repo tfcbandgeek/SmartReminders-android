@@ -26,7 +26,7 @@ class HomeAdapter extends BaseAdapter {
     private final HomeActivity activity;
 
     // Initializer
-    public HomeAdapter(HomeActivity activity) {
+    HomeAdapter(HomeActivity activity) {
         super();
 
         this.activity = activity;
@@ -40,7 +40,7 @@ class HomeAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 1000;
+        return 3;
     }
 
     // Item Methods

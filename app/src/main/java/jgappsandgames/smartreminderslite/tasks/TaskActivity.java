@@ -32,7 +32,6 @@ import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
-import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointAdapter;
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 

@@ -24,7 +24,7 @@ class DayAdapter extends BaseAdapter {
     private final DayActivity activity;
 
     // Initializer
-    public DayAdapter(DayActivity activity, Calendar date_active) {
+    DayAdapter(DayActivity activity, Calendar date_active) {
         this.activity = activity;
 
         tasks = DateManager.getDay(date_active);

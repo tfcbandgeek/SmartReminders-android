@@ -30,7 +30,7 @@ class TagUnselectedAdapter extends BaseAdapter {
     private final List<String> tags;
 
     // Initializers
-    public TagUnselectedAdapter(TagEditorActivity activity, Task task) {
+    TagUnselectedAdapter(TagEditorActivity activity, Task task) {
         super();
 
         // Set Activity
@@ -43,7 +43,7 @@ class TagUnselectedAdapter extends BaseAdapter {
         }
     }
 
-    public TagUnselectedAdapter(TagEditorActivity activity, Task task, String search) {
+    TagUnselectedAdapter(TagEditorActivity activity, Task task, String search) {
         // Set Activity
         this.activity = activity;
 

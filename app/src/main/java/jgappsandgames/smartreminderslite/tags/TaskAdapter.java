@@ -27,7 +27,7 @@ class TaskAdapter extends BaseAdapter {
     private final TagActivity activity;
     private final List<Task> tasks;
 
-    public TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
+    TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
         super();
 
         this.activity = activity;

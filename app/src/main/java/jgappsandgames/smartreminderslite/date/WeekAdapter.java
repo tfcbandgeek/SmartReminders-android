@@ -23,7 +23,7 @@ class WeekAdapter extends BaseAdapter {
     private final WeekActivity activity;
 
     // Initializer
-    public WeekAdapter(WeekActivity activity, int date_active) {
+    WeekAdapter(WeekActivity activity, int date_active) {
         this.activity = activity;
 
         tasks = DateManager.getWeek(date_active).getAllTasks();

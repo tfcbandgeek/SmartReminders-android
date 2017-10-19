@@ -28,7 +28,7 @@ class StatusAdapter extends BaseAdapter {
     private final List<Task> tasks;
 
     // Initializer
-    public StatusAdapter(StatusActivity activity, List<Task> tasks) {
+    StatusAdapter(StatusActivity activity, List<Task> tasks) {
         super();
 
         this.activity = activity;

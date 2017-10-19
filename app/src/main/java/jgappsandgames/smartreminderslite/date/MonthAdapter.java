@@ -21,7 +21,7 @@ class MonthAdapter extends BaseAdapter {
     private final MonthActivity activity;
     private final List<Task> tasks;
 
-    public MonthAdapter(MonthActivity activity, List<Task> tasks) {
+    MonthAdapter(MonthActivity activity, List<Task> tasks) {
         this.activity = activity;
         this.tasks = tasks;
     }
