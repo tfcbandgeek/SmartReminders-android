@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderssave.json;
+package jgappsandgames.smartreminderssave.utility;
 
 // Java
 import java.io.BufferedReader;
@@ -16,12 +16,12 @@ import org.json.JSONObject;
 import android.os.Build;
 
 /**
- * JSONLoader
+ * JSONUtility
  * Created by joshua on 10/4/17.
  * Last Edited on 10/12/17 (58).
  * Edited on 10/9/17 (58). <Support SDK16-26>
  */
-public class JSONLoader {
+public class JSONUtility {
     public static JSONObject loadJSON(File file) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -39,7 +39,7 @@ public class JSONLoader {
             return new JSONObject(builder.toString());
         } catch (IOException | NullPointerException | JSONException e) {
             e.printStackTrace();
-            return null;
+            return new JSONObject();
         }
     }
 

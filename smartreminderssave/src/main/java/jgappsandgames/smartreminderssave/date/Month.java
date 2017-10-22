@@ -37,12 +37,12 @@ public class Month {
 
     // Task Management Methods
     public boolean addTask(Task task) {
-        if (task.getDate_due().get(Calendar.YEAR) >= start.get(Calendar.YEAR)) {
-            if (task.getDate_due().get(Calendar.DAY_OF_YEAR) >= start.get(Calendar.MONTH)) {
-                if (task.getDate_due().get(Calendar.YEAR) <= end.get(Calendar.YEAR)) {
-                    if (task.getDate_due().get(Calendar.MONTH) <= end.get(Calendar.MONTH)) {
+        if (task.getDateDue().get(Calendar.YEAR) >= start.get(Calendar.YEAR)) {
+            if (task.getDateDue().get(Calendar.DAY_OF_YEAR) >= start.get(Calendar.MONTH)) {
+                if (task.getDateDue().get(Calendar.YEAR) <= end.get(Calendar.YEAR)) {
+                    if (task.getDateDue().get(Calendar.MONTH) <= end.get(Calendar.MONTH)) {
                         for (Day day : days) {
-                            if (day.getDay().get(Calendar.DAY_OF_MONTH) == task.getDate_due().get(Calendar.DAY_OF_MONTH)) {
+                            if (day.getDay().get(Calendar.DAY_OF_MONTH) == task.getDateDue().get(Calendar.DAY_OF_MONTH)) {
                                 day.addTask(task);
                                 return true;
                             }
@@ -56,12 +56,12 @@ public class Month {
     }
 
     public boolean removeTask(Task task) {
-        if (task.getDate_due().get(Calendar.YEAR) >= start.get(Calendar.YEAR)) {
-            if (task.getDate_due().get(Calendar.DAY_OF_YEAR) >= start.get(Calendar.MONTH)) {
-                if (task.getDate_due().get(Calendar.YEAR) <= end.get(Calendar.YEAR)) {
-                    if (task.getDate_due().get(Calendar.MONTH) <= end.get(Calendar.MONTH)) {
+        if (task.getDateDue().get(Calendar.YEAR) >= start.get(Calendar.YEAR)) {
+            if (task.getDateDue().get(Calendar.DAY_OF_YEAR) >= start.get(Calendar.MONTH)) {
+                if (task.getDateDue().get(Calendar.YEAR) <= end.get(Calendar.YEAR)) {
+                    if (task.getDateDue().get(Calendar.MONTH) <= end.get(Calendar.MONTH)) {
                         for (Day day : days) {
-                            if (day.getDay().get(Calendar.DAY_OF_MONTH) == task.getDate_due().get(Calendar.DAY_OF_MONTH)) {
+                            if (day.getDay().get(Calendar.DAY_OF_MONTH) == task.getDateDue().get(Calendar.DAY_OF_MONTH)) {
                                 day.removeTask(task);
                                 return true;
                             }

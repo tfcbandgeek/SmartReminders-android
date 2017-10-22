@@ -22,7 +22,7 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Last Edited on 10/11/17 (85).
  * Edited on 10/5/17 (79).
  */
-public class ChildrenAdapter extends BaseAdapter {
+class ChildrenAdapter extends BaseAdapter {
     // Data
     private final TaskActivity activity;
     private final List<String> tasks;

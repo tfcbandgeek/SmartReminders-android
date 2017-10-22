@@ -17,7 +17,7 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Created by joshua on 10/9/17.
  * Last Edited on 10/9/17 ().
  */
-public class WeekAdapter extends BaseAdapter {
+class WeekAdapter extends BaseAdapter {
     // Data
     private final List<Task> tasks;
     private final WeekActivity activity;

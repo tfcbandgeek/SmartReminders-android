@@ -16,7 +16,7 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Created by joshua on 10/14/17.
  * Last Edited on 10/14/17 (78).
  */
-public class MonthAdapter extends BaseAdapter {
+class MonthAdapter extends BaseAdapter {
     // Data
     private final MonthActivity activity;
     private final List<Task> tasks;
