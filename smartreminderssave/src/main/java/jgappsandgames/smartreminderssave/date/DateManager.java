@@ -95,6 +95,9 @@ public class DateManager {
     }
 
     // Getters
+    public static int getDayCount() {
+        return getWeekCount() * 7;
+    }
     public static int getWeekCount() {
         return weeks.size();
     }
