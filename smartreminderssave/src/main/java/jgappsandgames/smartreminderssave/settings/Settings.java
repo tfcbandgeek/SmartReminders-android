@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.settings;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 
 // JSON
 import org.json.JSONException;
@@ -82,10 +83,20 @@ public class Settings {
     }
 
     public static void load() {
-        JSONObject data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        JSONObject data = null;
+        try {
+            data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            create();
+            save();
+            return;
+        }
 
         if (data == null) {
             create();
+            save();
             return;
         }
 

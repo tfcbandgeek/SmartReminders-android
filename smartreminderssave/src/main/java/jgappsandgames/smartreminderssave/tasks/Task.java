@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.tasks;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -120,7 +121,11 @@ public class Task {
 
     public Task(String filename) {
         this.filename = filename;
-        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+        try {
+            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 
     // Management Methods

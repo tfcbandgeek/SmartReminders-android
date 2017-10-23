@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.tasks;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,14 @@ public class TaskManager {
     }
 
     public static void load() {
-        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        try {
+            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        } catch (IOException i) {
+            i.printStackTrace();
+
+            create();
+            save();
+        }
         if (deleted.size() >= 50) deleted.remove(0);
     }
 
