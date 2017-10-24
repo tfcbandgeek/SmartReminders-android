@@ -197,9 +197,9 @@ public class Task {
             JSONArray c = new JSONArray();
             JSONArray p = new JSONArray();
 
-            for (String tag : tags) t.put(tag);
-            for (String child : children) c.put(child);
-            for (Checkpoint checkpoint : checkpoints) p.put(checkpoint.toJSON());
+            if (tags != null && tags.size() != 0) for (String tag : tags) t.put(tag);
+            if (children != null && children.size() != 0) for (String child : children) c.put(child);
+            if (checkpoints != null && checkpoints.size() != 0) for (Checkpoint checkpoint : checkpoints) p.put(checkpoint.toJSON());
 
             data.put(TAGS, t);
             data.put(CHILDREN, c);
