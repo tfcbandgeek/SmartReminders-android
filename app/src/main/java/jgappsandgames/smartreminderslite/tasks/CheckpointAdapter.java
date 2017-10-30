@@ -34,7 +34,6 @@ class CheckpointAdapter extends BaseAdapter {
     }
 
     // List Methods
-
     @Override
     public int getCount() {
         return checkpoints.size();
@@ -45,10 +44,16 @@ class CheckpointAdapter extends BaseAdapter {
         return 1;
     }
 
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
     // Item Methods
     @Override
     public Checkpoint getItem(int position) {
-        return checkpoints.get(position);
+        final Checkpoint c = checkpoints.get(position);
+        return c;
     }
 
     @Override
@@ -58,11 +63,15 @@ class CheckpointAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        // TODO: Only inflate when neccesary
-        view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false);
+        if (view == null) {
+            view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false);
 
-        CheckpointHolder holder = new CheckpointHolder(activity, task, getItem(position), view);
-        view.setTag(holder);
+            final CheckpointHolder holder = new CheckpointHolder(activity, task, getItem(position), view);
+            view.setTag(holder);
+        } else {
+            final CheckpointHolder holder = new CheckpointHolder(activity, task, getItem(position), view);
+            view.setTag(holder);
+        }
 
         return view;
     }

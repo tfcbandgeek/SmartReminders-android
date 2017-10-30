@@ -19,18 +19,21 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
 
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
@@ -52,7 +55,8 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  */
 public class TaskActivity
         extends Activity
-        implements TextWatcher, View.OnClickListener, View.OnLongClickListener, TaskFolderHolder.OnTaskChangedListener, SeekBar.OnSeekBarChangeListener {
+        implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener,
+        OnTaskChangedListener  {
     // Data
     private Task task;
 
@@ -68,7 +72,7 @@ public class TaskActivity
     // Adapters
     private BaseAdapter adapter;
 
-    // Life Cycle MEthods
+    // Life Cycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -336,10 +340,7 @@ public class TaskActivity
     }
 
     private void setTags() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < task.getTags().size(); i++) builder.append(task.getTags().get(i)).append(", ");
-        if (builder.length() >= 2) builder.setLength(builder.length() - 2);
-        tags.setText(builder.toString());
+        tags.setText(task.getTagString());
     }
 
     @Override

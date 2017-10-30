@@ -8,8 +8,8 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 17100502
-        versionName "17.10.5 Beta 2"
+        versionCode 17100506
+        versionName "17.11.1"
     }
 
     buildTypes {
@@ -28,7 +28,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':smartreminderssave')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 repositories {
     mavenCentral()

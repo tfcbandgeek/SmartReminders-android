@@ -151,6 +151,12 @@ public class Task {
         type = data.optInt(TYPE, TYPE_NONE);
         task_id = data.optLong(TASK_ID, Calendar.getInstance().getTimeInMillis());
 
+        date_create = j_cal.loadCalendar(data.optJSONObject(CAL_CREATE));
+        date_due = j_cal.loadCalendar(data.optJSONObject(CAL_DUE));
+        date_updated = j_cal.loadCalendar(data.optJSONObject(CAL_UPDATE));
+        date_archived = j_cal.loadCalendar(data.optJSONObject(CAL_ARCHIVED));
+        date_deleted = j_cal.loadCalendar(data.optJSONObject(CAL_DELETED));
+
         title = data.optString(TITLE, "");
         note = data.optString(NOTE, "");
         status = data.optInt(STATUS, 0);
@@ -207,7 +213,8 @@ public class Task {
         } catch (JSONException j) {
             j.printStackTrace();
         } catch (NullPointerException n) {
-            throw new RuntimeException("Fix Me");
+            n.printStackTrace();
+            //throw new RuntimeException("Fix Me");
         }
 
         return data;
