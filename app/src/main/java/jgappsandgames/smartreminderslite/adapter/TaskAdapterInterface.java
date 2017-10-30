@@ -1,59 +1,41 @@
-package jgappsandgames.smartreminderslite.tags;
+package jgappsandgames.smartreminderslite.adapter;
 
-// Java
-import java.util.ArrayList;
-import java.util.List;
-
-// Views
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
-// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
-
-// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * TaskAdapter
- * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (104).
- * Edited on 10/5/17 (97).
+ * TaskAdapterInterface
+ * Created by joshua on 10/22/17.
  */
-class TaskAdapter extends BaseAdapter {
-    private final TagActivity activity;
-    private final List<Task> tasks;
+public abstract class TaskAdapterInterface extends BaseAdapter {
+    // Data
+    public final Activity activity;
+    public final TaskFolderHolder.OnTaskChangedListener listener;
+    public final List<Task> tasks;
 
-    TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
-        super();
-
+    // Initializers
+    public TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, List<Task> tasks) {
         this.activity = activity;
+        this.listener = listener;
+        this.tasks = tasks;
+    }
 
-        tasks = new ArrayList<>();
-        for (Task task : n_tasks) {
-            boolean task_clear = true;
+    public TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, List<String> tasks, @Nullable String unused) {
+        this.activity = activity;
+        this.listener = listener;
 
-            for (String t : selected) {
-                boolean tag_clear = false;
-
-                for (int i = 0; i < task.getTags().size(); i++) {
-                    if (task.getTags().get(i).equals(t)) {
-                        tag_clear = true;
-                        break;
-                    }
-                }
-
-                if (!tag_clear) {
-                    task_clear = false;
-                    break;
-                }
-            }
-
-            if (task_clear) tasks.add(task);
-        }
+        this.tasks = new ArrayList<>();
+        for (String t : tasks) this.tasks.add(new Task(t));
     }
 
     // List Methods
@@ -67,6 +49,7 @@ class TaskAdapter extends BaseAdapter {
         return 3;
     }
 
+    // Item Methods
     @Override
     public Task getItem(int position) {
         return tasks.get(position);
@@ -89,7 +72,7 @@ class TaskAdapter extends BaseAdapter {
             if (getItem(position).getType() == Task.TYPE_FLDR) convert_view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false);
             else convert_view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false);
 
-            holder = new TaskFolderHolder(getItem(position), convert_view, activity, activity);
+            holder = new TaskFolderHolder(getItem(position), convert_view, activity, listener);
             convert_view.setTag(holder);
         } else {
             holder = (TaskFolderHolder) convert_view.getTag();

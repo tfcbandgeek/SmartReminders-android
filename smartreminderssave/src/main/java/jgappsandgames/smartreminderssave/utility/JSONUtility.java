@@ -22,7 +22,7 @@ import android.os.Build;
  * Edited on 10/9/17 (58). <Support SDK16-26>
  */
 public class JSONUtility {
-    public static JSONObject loadJSON(File file) {
+    public static JSONObject loadJSON(File file) throws IOException {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder builder = new StringBuilder();
@@ -37,7 +37,7 @@ public class JSONUtility {
                 }
             }
             return new JSONObject(builder.toString());
-        } catch (IOException | NullPointerException | JSONException e) {
+        } catch (NullPointerException | JSONException e) {
             e.printStackTrace();
             return new JSONObject();
         }

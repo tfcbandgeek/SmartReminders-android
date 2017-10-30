@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.tasks;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -120,7 +121,11 @@ public class Task {
 
     public Task(String filename) {
         this.filename = filename;
-        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+        try {
+            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 
     // Management Methods
@@ -145,6 +150,12 @@ public class Task {
         parent = data.optString(PARENT, "home");
         type = data.optInt(TYPE, TYPE_NONE);
         task_id = data.optLong(TASK_ID, Calendar.getInstance().getTimeInMillis());
+
+        date_create = j_cal.loadCalendar(data.optJSONObject(CAL_CREATE));
+        date_due = j_cal.loadCalendar(data.optJSONObject(CAL_DUE));
+        date_updated = j_cal.loadCalendar(data.optJSONObject(CAL_UPDATE));
+        date_archived = j_cal.loadCalendar(data.optJSONObject(CAL_ARCHIVED));
+        date_deleted = j_cal.loadCalendar(data.optJSONObject(CAL_DELETED));
 
         title = data.optString(TITLE, "");
         note = data.optString(NOTE, "");
@@ -192,9 +203,9 @@ public class Task {
             JSONArray c = new JSONArray();
             JSONArray p = new JSONArray();
 
-            for (String tag : tags) t.put(tag);
-            for (String child : children) c.put(child);
-            for (Checkpoint checkpoint : checkpoints) p.put(checkpoint.toJSON());
+            if (tags != null && tags.size() != 0) for (String tag : tags) t.put(tag);
+            if (children != null && children.size() != 0) for (String child : children) c.put(child);
+            if (checkpoints != null && checkpoints.size() != 0) for (Checkpoint checkpoint : checkpoints) p.put(checkpoint.toJSON());
 
             data.put(TAGS, t);
             data.put(CHILDREN, c);
@@ -202,7 +213,8 @@ public class Task {
         } catch (JSONException j) {
             j.printStackTrace();
         } catch (NullPointerException n) {
-            throw new RuntimeException("Fix Me");
+            n.printStackTrace();
+            //throw new RuntimeException("Fix Me");
         }
 
         return data;

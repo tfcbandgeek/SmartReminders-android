@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.tags;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +42,13 @@ public class TagManager {
 	}
 
 	public static void load() {
-        loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+	    try {
+            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        } catch (IOException i) {
+	        i.printStackTrace();
+	        create();
+	        save();
+        }
     }
 
     public static void save() {

@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 
 import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
@@ -40,7 +41,15 @@ public class ThemeManager {
 
     // Management Methods
     public static void load() {
-        JSONObject data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        JSONObject data = null;
+        try {
+            data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            create();
+            save();
+        }
 
         version = data.optInt(VERSION, API.RELEASE);
         color = data.optInt(COLOR, 1);

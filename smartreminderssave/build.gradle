@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
@@ -7,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 10020000
-        versionName "10.2.0 Alpha 1"
+        versionCode 10020006
+        versionName "10.2.0"
     }
 
     buildTypes {
@@ -26,4 +27,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

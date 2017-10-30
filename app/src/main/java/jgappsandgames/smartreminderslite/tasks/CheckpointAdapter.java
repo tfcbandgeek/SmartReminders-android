@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.tasks.checkpoint;
+package jgappsandgames.smartreminderslite.tasks;
 
 // Views
 import android.view.LayoutInflater;
@@ -11,21 +11,20 @@ import java.util.List;
 
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.CheckpointHolder;
-import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 
 /**
  * CheckpointAdapter
  * Created by joshua on 8/31/17.
  */
-public class CheckpointAdapter extends BaseAdapter {
+class CheckpointAdapter extends BaseAdapter {
     // Data
     private final TaskActivity activity;
     private final String task;
     private final List<Checkpoint> checkpoints;
 
     // Initializer
-    public CheckpointAdapter(TaskActivity activity, String task, List<Checkpoint> checkpoints) {
+    CheckpointAdapter(TaskActivity activity, String task, List<Checkpoint> checkpoints) {
         super();
 
         // Load Data
@@ -35,7 +34,6 @@ public class CheckpointAdapter extends BaseAdapter {
     }
 
     // List Methods
-
     @Override
     public int getCount() {
         return checkpoints.size();
@@ -46,10 +44,16 @@ public class CheckpointAdapter extends BaseAdapter {
         return 1;
     }
 
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
     // Item Methods
     @Override
     public Checkpoint getItem(int position) {
-        return checkpoints.get(position);
+        final Checkpoint c = checkpoints.get(position);
+        return c;
     }
 
     @Override
@@ -59,11 +63,15 @@ public class CheckpointAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        // TODO: Only inflate when neccesary
-        view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false);
+        if (view == null) {
+            view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false);
 
-        CheckpointHolder holder = new CheckpointHolder(activity, task, getItem(position), view);
-        view.setTag(holder);
+            final CheckpointHolder holder = new CheckpointHolder(activity, task, getItem(position), view);
+            view.setTag(holder);
+        } else {
+            final CheckpointHolder holder = new CheckpointHolder(activity, task, getItem(position), view);
+            view.setTag(holder);
+        }
 
         return view;
     }

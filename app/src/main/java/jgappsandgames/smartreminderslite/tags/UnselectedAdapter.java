@@ -27,7 +27,7 @@ class UnselectedAdapter extends BaseAdapter {
     private final TagActivity activity;
     private final List<String> tags;
 
-    public UnselectedAdapter(TagActivity activity, List<String> selected) {
+    UnselectedAdapter(TagActivity activity, List<String> selected) {
         super();
 
         this.activity = activity;

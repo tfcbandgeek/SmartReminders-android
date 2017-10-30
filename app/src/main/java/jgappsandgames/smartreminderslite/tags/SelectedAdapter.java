@@ -23,7 +23,7 @@ class SelectedAdapter extends BaseAdapter {
     private final List<String> tags;
 
     // Initializer
-    public SelectedAdapter(TagActivity activity, List<String> selected) {
+    SelectedAdapter(TagActivity activity, List<String> selected) {
         super();
 
         this.activity = activity;
