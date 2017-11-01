@@ -1,0 +1,3 @@
+- Update Target to Android API 27
+- Update Gradle to 4.3
+- Update Android Tools to 3.1
