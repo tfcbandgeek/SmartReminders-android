@@ -46,4 +46,5 @@
     <string name="stared">Stared</string>
     <string name="complete">Completed.</string>
     <string name="date">Date</string>
+    <string name="edit">Edit</string>
 </resources>

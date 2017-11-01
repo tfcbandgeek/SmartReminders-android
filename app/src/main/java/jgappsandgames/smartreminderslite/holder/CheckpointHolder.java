@@ -2,23 +2,23 @@ package jgappsandgames.smartreminderslite.holder;
 
 // Android OS
 import android.content.Context;
-import android.content.Intent;
 
 // Views
+import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Vibrator;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 // Program
 import jgappsandgames.smartreminderslite.R;
-
 import jgappsandgames.smartreminderslite.tasks.TaskActivity;
-import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
-import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
+import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 
 /**
@@ -34,8 +34,9 @@ public class CheckpointHolder implements View.OnClickListener, View.OnLongClickL
     private final String task;
 
     // Views
-    private final CheckBox status;
+    //private final CheckBox status;
     private final TextView text;
+    private final Button edit;
 
     // Initializer
     public CheckpointHolder(TaskActivity activity, String task, Checkpoint checkpoint, View view) {
@@ -47,13 +48,16 @@ public class CheckpointHolder implements View.OnClickListener, View.OnLongClickL
         this.checkpoint = checkpoint;
 
         // Find Views
-        status = view.findViewById(R.id.status);
+        //status = view.findViewById(R.id.status);
         text = view.findViewById(R.id.text);
+        edit = view.findViewById(R.id.edit);
 
         // Set Click Listeners
-        status.setOnCheckedChangeListener(this);
+        //status.setOnCheckedChangeListener(this);
         text.setOnClickListener(this);
         text.setOnLongClickListener(this);
+        edit.setOnClickListener(this);
+        edit.setOnLongClickListener(this);
 
         // Set Views
         setViews();
@@ -61,19 +65,28 @@ public class CheckpointHolder implements View.OnClickListener, View.OnLongClickL
 
     // View Handler
     private void setViews() {
-        status.setChecked(checkpoint.status);
+        //status.setChecked(checkpoint.status);
         text.setText(checkpoint.text);
+        if (checkpoint.status) text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        else text.setPaintFlags(text.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
     // Click Handlers
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(activity, CheckpointActivity.class);
+        if (view.equals(edit)) {
+            Intent intent = new Intent(activity, CheckpointActivity.class);
 
-        intent.putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString());
-        intent.putExtra(ActivityUtility.TASK_NAME, task);
+            intent.putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString());
+            intent.putExtra(ActivityUtility.TASK_NAME, task);
 
-        activity.startActivityForResult(intent, ActivityUtility.REQUEST_CHECKPOINT);
+            activity.startActivityForResult(intent, ActivityUtility.REQUEST_CHECKPOINT);
+        } else if (view.equals(text)) {
+            checkpoint.status = !checkpoint.status;
+            activity.editCheckpoint(checkpoint);
+            if (checkpoint.status) text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            else text.setPaintFlags(text.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+        }
     }
 
     @Override
