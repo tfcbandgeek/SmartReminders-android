@@ -1,0 +1,14 @@
+Goals
+- Fix Checkpoints Vanishing
+- Checkpoint Strike Through
+- Completed Tasks To the Bottom (Optional)
+- Completed Tasks Hidden (Optional)
+- Completed Checkpoints To the Bottom (Optional)
+- Completed Checkpoints Hidden (Optional)
+- Edit Date
+- Today Widget <?>
+- Week Widget <?>
+- MultiWindow Support <?>
+- Landscape Support <?>
+- Tutorial Support <?>
+- User Manual <?>

@@ -2,8 +2,12 @@ package jgappsandgames.smartreminderslite.tasks;
 
 // Java
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 // JSON
+import android.app.DatePickerDialog;
+import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,14 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
@@ -55,7 +52,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  */
 public class TaskActivity
         extends Activity
-        implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener,
+        implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener,
         OnTaskChangedListener  {
     // Data
     private Task task;
@@ -64,13 +61,11 @@ public class TaskActivity
     private EditText title;
     private EditText note;
     private TextView tags;
+    private Button date;
     private Button status;
     private SeekBar priority;
     private ListView list;
     private Button fab;
-
-    // Adapters
-    private BaseAdapter adapter;
 
     // Life Cycle Methods
     @Override
@@ -96,20 +91,24 @@ public class TaskActivity
         fab = findViewById(R.id.fab);
 
         if (task.getType() == Task.TYPE_TASK) {
+            date = findViewById(R.id.date);
             status = findViewById(R.id.status);
             priority = findViewById(R.id.priority);
+
+            date.setText(task.getDateDueString());
+            setStatus();
+            priority.setMax(100);
+            priority.setProgress(task.getPriority());
+            priority.setOnSeekBarChangeListener(this);
+
+            date.setOnClickListener(this);
+            date.setOnLongClickListener(this);
+            status.setOnClickListener(this);
         }
 
         // Set Text
         title.setText(task.getTitle());
         note.setText(task.getNote());
-
-        if (task.getType() == Task.TYPE_TASK) {
-            setStatus();
-            priority.setMax(100);
-            priority.setProgress(task.getPriority());
-            priority.setOnSeekBarChangeListener(this);
-        }
 
         // Set TextWatcher
         title.addTextChangedListener(this);
@@ -118,10 +117,6 @@ public class TaskActivity
         // Set Click Listener
         fab.setOnClickListener(this);
         fab.setOnLongClickListener(this);
-
-        if (task.getType() == Task.TYPE_TASK) {
-            status.setOnClickListener(this);
-        }
 
         tags.setOnClickListener(this);
         tags.setOnLongClickListener(this);
@@ -133,6 +128,7 @@ public class TaskActivity
 
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
+        BaseAdapter adapter;
         if (task.getType() == Task.TYPE_FLDR) {
             adapter = new ChildrenAdapter(this, task.getChildren());
             list.setAdapter(adapter);
@@ -266,6 +262,26 @@ public class TaskActivity
 
                 startActivityForResult(check_intent, ActivityUtility.REQUEST_CHECKPOINT);
             }
+        } else if (view.equals(date)) {
+            if (task.getDateDue() == null) {
+                Calendar c = Calendar.getInstance();
+
+                new DatePickerDialog(
+                        this,
+                        this,
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH))
+                        .show();
+            } else {
+                new DatePickerDialog(
+                        this,
+                        this,
+                        task.getDateDue().get(Calendar.YEAR),
+                        task.getDateDue().get(Calendar.MONTH),
+                        task.getDateDue().get(Calendar.DAY_OF_MONTH))
+                        .show();
+            }
         } else if (view.equals(status)) {
             if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false);
             else task.markComplete(true);
@@ -302,7 +318,11 @@ public class TaskActivity
 
                 return true;
             }
-        } else if (view.equals(status)) {
+        } else if (view.equals(date)) {
+            task.setDateDue(null);
+            task.save();
+            date.setText(task.getDateDueString());
+        }else if (view.equals(status)) {
             return false;
         }
 
@@ -346,5 +366,12 @@ public class TaskActivity
     @Override
     public void onTaskChanged() {
         onResume();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        task.setDateDue(new GregorianCalendar(year, month, day));
+        task.save();
+        date.setText(task.getDateDueString());
     }
 }
