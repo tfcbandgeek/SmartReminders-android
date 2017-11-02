@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.os.Build;
 
 // Save
+import jgappsandgames.smartreminderssave.utility.APIKt;
 import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
@@ -65,7 +66,7 @@ public class Settings {
 
     // Management Methods
     public static void create() {
-        version = API.RELEASE;
+        version = APIKt.getMANAGEMENT();
 
         user_name = "";
         device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT;
