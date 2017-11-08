@@ -202,7 +202,7 @@ public class Week {
         private static final String ACTIVE = "active";
         private static final String DATE = "date";
 
-        public Calendar loadCalendar(JSONObject data) {
+        Calendar loadCalendar(JSONObject data) {
             if (data.optBoolean(ACTIVE, false)) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(data.optLong(DATE, 0));
@@ -212,7 +212,7 @@ public class Week {
             return null;
         }
 
-        public JSONObject saveCalendar(Calendar calendar) {
+        JSONObject saveCalendar(Calendar calendar) {
             try {
                 JSONObject data = new JSONObject();
 

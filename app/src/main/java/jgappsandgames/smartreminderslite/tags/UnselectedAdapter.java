@@ -15,7 +15,7 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 
 // Program
-import jgappsandgames.smartreminderssave.tags.TagManager;
+
 
 /**
  * UnselectedAdapter

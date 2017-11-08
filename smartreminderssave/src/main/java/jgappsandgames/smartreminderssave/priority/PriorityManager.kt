@@ -1,13 +1,13 @@
 package jgappsandgames.smartreminderssave.priority
 
-import jgappsandgames.smartreminderssave.tasks.Task
-import jgappsandgames.smartreminderssave.tasks.tasks
-import jgappsandgames.smartreminderssave.utility.MANAGEMENT
-import jgappsandgames.smartreminderssave.utility.RELEASE
-import jgappsandgames.smartreminderssave.utility.getApplicationFileDirectory
-import jgappsandgames.smartreminderssave.utility.loadJSON
+// JSON
 import org.json.JSONArray
 import org.json.JSONObject
+
+// Save
+import jgappsandgames.smartreminderssave.tasks.Task
+import jgappsandgames.smartreminderssave.tasks.tasks
+import jgappsandgames.smartreminderssave.utility.*
 
 /**
  * PriorityManager
@@ -89,6 +89,25 @@ fun savePriorty() {
     val n = JSONArray()
     val h = JSONArray()
     val s = JSONArray()
+
+    // Save Header
+    data.put(VERSION, MANAGEMENT)
+    data.put(META, meta)
+
+    // Save Tas Lists
+    for (temp in ignore!!) i.put(temp)
+    for (temp in low!!) l.put(temp)
+    for (temp in normal!!) n.put(temp)
+    for (temp in high!!) h.put(temp)
+    for (temp in star!!) s.put(temp)
+
+    data.put(IGNORE, i)
+    data.put(LOW, l)
+    data.put(NORMAL, n)
+    data.put(HIGH, h)
+    data.put(STAR, s)
+
+    saveJSONObject(getApplicationFileDirectory(), FILENAME, data)
 }
 
 // Task Management Methods
@@ -100,13 +119,13 @@ fun addTask(task: Task) {
     if (task.priority == 0 && ignore != null) ignore!!.add(task.filename)
 
     // Low Priority Tasks
-    if (task.priority >= 1 && task.priority < 33 && low != null) low!!.add(task.filename)
+    if (task.priority in 1..32 && low != null) low!!.add(task.filename)
 
     // Normal Priority Tasks
-    if (task.priority >= 33 && task.priority < 67 && normal != null) normal!!.add(task.filename)
+    if (task.priority in 33..66 && normal != null) normal!!.add(task.filename)
 
     // High Priority Tasks
-    if (task.priority >= 67 && task.priority < 100 && high != null) high!!.add(task.filename)
+    if (task.priority in 67..99 && high != null) high!!.add(task.filename)
 
     // Stared Tasks
     if (task.priority == 100 && star != null) star!!.add(task.filename)

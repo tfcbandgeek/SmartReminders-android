@@ -1,8 +1,13 @@
 package jgappsandgames.smartreminderssave.utility
 
-import android.os.Build
-import org.json.JSONObject
+// Java
 import java.io.*
+
+// JSON
+import org.json.JSONObject
+
+// Android OS
+import android.os.Build
 
 /**
  * JSONUtility

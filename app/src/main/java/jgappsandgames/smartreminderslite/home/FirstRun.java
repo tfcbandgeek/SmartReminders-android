@@ -21,7 +21,7 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
+
 
 /**
  * FirstRun

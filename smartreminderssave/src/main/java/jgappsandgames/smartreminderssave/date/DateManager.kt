@@ -1,14 +1,22 @@
 package jgappsandgames.smartreminderssave.date
 
+// Java
+import java.util.Calendar
+import java.util.GregorianCalendar
+
+// Kotlin
+import kotlin.collections.ArrayList
+
+// JSON
+import org.json.JSONArray
+import org.json.JSONObject
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.tasks
 import jgappsandgames.smartreminderssave.utility.getApplicationFileDirectory
 import jgappsandgames.smartreminderssave.utility.loadJSON
 import jgappsandgames.smartreminderssave.utility.saveJSONObject
-import org.json.JSONArray
-import org.json.JSONObject
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * DateManager
@@ -172,7 +180,7 @@ fun addTask(task: Task) {
 }
 
 private fun addTaskBefore(task: Task) {
-    var i: Int = 0
+    var i = 0
     while (true) {
         // Try to Add it to a Day
         if (days_reverse!![i].addTask(task)) break
@@ -195,7 +203,7 @@ private fun addTaskBefore(task: Task) {
 }
 
 private fun addTaskAfter(task: Task) {
-    var i: Int = 0
+    var i = 0
     while (true) {
         // Try to Add Task to A Day
         if (days!![i].addTask(task)) break

@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderssave.tasks;
 
 // Java
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -12,6 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// Save
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
+import jgappsandgames.smartreminderssave.priority.PriorityManagerKt;
+import jgappsandgames.smartreminderssave.status.StatusManagerKt;
 import jgappsandgames.smartreminderssave.utility.APIKt;
 import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 import jgappsandgames.smartreminderssave.utility.JSONUtilityKt;
@@ -24,8 +27,6 @@ import jgappsandgames.smartreminderssave.utility.JSONUtilityKt;
  * Edited On 10/5/17 (521)
  *
  * Current API: 11
- * TODO: Implement Change Listener Like MEthods
- * TODO: Is Overdue Method
  */
 public class Task {
     // Save Constants
@@ -132,6 +133,7 @@ public class Task {
 
     public void delete() {
         File file = new File(FileUtilityKt.getApplicationFileDirectory(), filename);
+        //noinspection ResultOfMethodCallIgnored
         file.delete();
     }
 
@@ -345,9 +347,15 @@ public class Task {
 
     // Setters
     public Task setDateDue(Calendar calendar) {
+        // Task Changes
         if (calendar == null) date_due = null;
         else date_due = (Calendar) calendar.clone();
         date_updated = Calendar.getInstance();
+
+        // DateManager Changes
+        DateManagerKt.editTask(this);
+
+        // Return Task Object
         return this;
     }
 
@@ -382,12 +390,19 @@ public class Task {
     }
 
     public Task setPriority(int priority) {
+        // Task Changes
         this.priority = priority;
         date_updated = Calendar.getInstance();
+
+        // Priority Changes
+        PriorityManagerKt.editTask(this);
+
+        // Return Task
         return this;
     }
 
     public Task markComplete(boolean mark) {
+        // Task Changes
         if (mark) {
             status = STATUS_DONE;
 
@@ -402,6 +417,9 @@ public class Task {
         }
 
         date_updated = Calendar.getInstance();
+
+        // Status Changes
+        StatusManagerKt.editTask(this);
         return this;
     }
 
@@ -496,7 +514,7 @@ public class Task {
         private static final String ACTIVE = "active";
         private static final String DATE = "date";
 
-        public Calendar loadCalendar(JSONObject data) {
+        Calendar loadCalendar(JSONObject data) {
             if (data.optBoolean(ACTIVE, false)) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(data.optLong(DATE, 0));
@@ -506,7 +524,7 @@ public class Task {
             return null;
         }
 
-        public JSONObject saveCalendar(Calendar calendar) {
+        JSONObject saveCalendar(Calendar calendar) {
             try {
                 JSONObject data = new JSONObject();
 

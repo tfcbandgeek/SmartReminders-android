@@ -27,8 +27,6 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**

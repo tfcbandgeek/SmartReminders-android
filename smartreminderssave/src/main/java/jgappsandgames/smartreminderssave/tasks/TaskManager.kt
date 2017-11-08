@@ -1,8 +1,11 @@
 package jgappsandgames.smartreminderssave.tasks
 
-import jgappsandgames.smartreminderssave.utility.*
+// JSON
 import org.json.JSONArray
 import org.json.JSONObject
+
+// Save
+import jgappsandgames.smartreminderssave.utility.*
 
 /**
  * TaskManager
@@ -40,7 +43,7 @@ fun createTasks() {
 fun loadTasks() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
-    if (data == null || data == JSONObject()) {
+    if (data == JSONObject()) {
         createTasks()
         saveTasks()
         return
@@ -103,16 +106,66 @@ fun saveTasks() {
 }
 
 // Task Methods
-/* TODO: Implement Methods
 fun createTask(): Task {
+    // Create Task
+    val task = Task("home", Task.TYPE_TASK)
+    task.save()
 
+    // Add Task
+    tasks!!.add(task.filename)
+    home!!.add(task.filename)
+    saveTasks()
 
+    // Return the New Task
+    return task
+}
+
+fun createFolder(): Task {
+    // Create Folder
+    val task = Task("home", Task.TYPE_FLDR)
+    task.save()
+
+    // Add Folder
+    tasks!!.add(task.filename)
+    home!!.add(task.filename)
+    saveTasks()
+
+    // Return the New Folder
+    return task
 }
 
 fun createTask(parent: Task): Task {
+    // Create Task
+    val task = Task(parent.filename, Task.TYPE_TASK)
+    task.save()
 
+    // Add Task
+    tasks!!.add(task.filename)
+    saveTasks()
+
+    parent.addChild(task.filename)
+    parent.save()
+
+    // Return the New Task
+    return task
 }
-*/
+
+fun createFolder(parent: Task): Task {
+    // Create Folder
+    val task = Task(parent.filename, Task.TYPE_FLDR)
+    task.save()
+
+    // Add Folder
+    tasks!!.add(task.filename)
+    saveTasks()
+
+    parent.addChild(task.filename)
+    parent.save()
+
+    // Return the New Folder
+    return task
+}
+
 fun archiveTask(task: Task) {
     task.markArchived()
     task.save()

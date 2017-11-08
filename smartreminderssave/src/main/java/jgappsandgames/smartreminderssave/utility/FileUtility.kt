@@ -1,9 +1,12 @@
 package jgappsandgames.smartreminderssave.utility
 
+// Java
+import java.io.File
+
+// Android OS
 import android.content.Context
 import android.os.Build
 import android.os.Environment
-import java.io.File
 
 /**
  * FileUtility

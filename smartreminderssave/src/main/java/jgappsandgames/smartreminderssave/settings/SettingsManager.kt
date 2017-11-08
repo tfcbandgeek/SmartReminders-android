@@ -1,9 +1,15 @@
 package jgappsandgames.smartreminderssave.settings
 
-import android.os.Build
-import jgappsandgames.smartreminderssave.utility.*
+// JSON
 import org.json.JSONArray
 import org.json.JSONObject
+
+// Android OS
+import android.os.Build
+
+// Save
+import jgappsandgames.smartreminderssave.utility.*
+
 
 /**
  * SettingsManager
@@ -75,7 +81,7 @@ fun createSettings() {
 
 fun loadSettings() {
     val data = loadJSON(getInternalFileDirectory(), FILENAME)
-    if (data == null || data == JSONObject()) {
+    if (data == JSONObject()) {
         createSettings()
         saveSettings()
         return

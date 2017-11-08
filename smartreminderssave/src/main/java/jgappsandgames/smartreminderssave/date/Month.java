@@ -1,14 +1,16 @@
 package jgappsandgames.smartreminderssave.date;
 
+// JSON
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+// Java
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
@@ -139,7 +141,7 @@ public class Month {
         private static final String ACTIVE = "active";
         private static final String DATE = "date";
 
-        public Calendar loadCalendar(JSONObject data) {
+        Calendar loadCalendar(JSONObject data) {
             if (data.optBoolean(ACTIVE, false)) {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(data.optLong(DATE, 0));
@@ -149,7 +151,7 @@ public class Month {
             return null;
         }
 
-        public JSONObject saveCalendar(Calendar calendar) {
+        JSONObject saveCalendar(Calendar calendar) {
             try {
                 JSONObject data = new JSONObject();
 

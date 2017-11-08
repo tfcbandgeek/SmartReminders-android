@@ -23,7 +23,6 @@ import jgappsandgames.smartreminderslite.holder.TagHolder;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**

@@ -36,7 +36,6 @@ import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 import jgappsandgames.smartreminderssave.tasks.Task;
 

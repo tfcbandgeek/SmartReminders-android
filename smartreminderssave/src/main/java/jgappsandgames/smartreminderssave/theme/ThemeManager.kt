@@ -1,7 +1,10 @@
 package jgappsandgames.smartreminderssave.theme
 
-import jgappsandgames.smartreminderssave.utility.*
+// JSON
 import org.json.JSONObject
+
+// Save
+import jgappsandgames.smartreminderssave.utility.*
 
 /**
  * ThemeManager

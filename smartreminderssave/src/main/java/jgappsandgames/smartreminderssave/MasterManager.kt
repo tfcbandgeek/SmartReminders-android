@@ -1,5 +1,6 @@
 package jgappsandgames.smartreminderssave
 
+// Save
 import jgappsandgames.smartreminderssave.daily.*
 import jgappsandgames.smartreminderssave.date.createDates
 import jgappsandgames.smartreminderssave.date.loadDates
@@ -89,12 +90,4 @@ fun save() {
     saveWeekly()
     saveMonthly()
     saveYearly()
-}
-
-fun lowMemory() {
-
-}
-
-fun lowStorage() {
-
 }

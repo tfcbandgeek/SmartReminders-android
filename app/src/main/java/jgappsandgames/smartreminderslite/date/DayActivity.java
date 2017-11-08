@@ -24,8 +24,7 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
+
 
 /**
  * DayActivity
