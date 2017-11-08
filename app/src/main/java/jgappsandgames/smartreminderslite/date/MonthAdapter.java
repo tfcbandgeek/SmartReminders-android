@@ -1,8 +1,12 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
 import java.util.List;
 
+// App
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**

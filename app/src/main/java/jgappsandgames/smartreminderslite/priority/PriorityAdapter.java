@@ -1,5 +1,6 @@
 package jgappsandgames.smartreminderslite.priority;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
@@ -11,7 +12,7 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 class PriorityAdapter extends TaskAdapterInterface {
     // Initializers
-    PriorityAdapter(PriorityActivity activity, List<Task> tasks) {
-        super(activity, activity, tasks);
+    PriorityAdapter(PriorityActivity activity, ArrayList<String> tasks) {
+        super(activity, activity, tasks, null);
     }
 }

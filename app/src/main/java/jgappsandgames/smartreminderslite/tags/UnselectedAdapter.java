@@ -14,8 +14,8 @@ import android.widget.BaseAdapter;
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 
-// Program
-
+// Save
+import jgappsandgames.smartreminderssave.tags.TagManagerKt;
 
 /**
  * UnselectedAdapter
@@ -33,8 +33,8 @@ class UnselectedAdapter extends BaseAdapter {
         this.activity = activity;
 
         tags = new ArrayList<>();
-        for (int i = 0; i < TagManager.tags.size(); i++)
-            if (!selected.contains(TagManager.tags.get(i))) tags.add(TagManager.tags.get(i));
+        for (int i = 0; i < TagManagerKt.getTags().size(); i++)
+            if (!selected.contains(TagManagerKt.getTags().get(i))) tags.add(TagManagerKt.getTags().get(i));
     }
 
     // List Methods

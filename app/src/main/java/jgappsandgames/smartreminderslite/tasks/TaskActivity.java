@@ -6,13 +6,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 // JSON
-import android.app.DatePickerDialog;
-import android.widget.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 // Android OS
+import android.app.DatePickerDialog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,19 +24,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 // App
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
+import jgappsandgames.smartreminderslite.home.FirstRun;
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * TaskActivity
@@ -79,6 +83,16 @@ public class TaskActivity
         // Set Content View
         if (task.getType() == Task.TYPE_TASK) setContentView(R.layout.activity_task);
         else setContentView(R.layout.activity_folder);
+
+        // First Run
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
+            Intent first_run = new Intent(this, FirstRun.class);
+            startActivity(first_run);
+        }
+
+        // Load Data
+        MasterManagerKt.load();
 
         // Find Views
         title = findViewById(R.id.title);
@@ -174,7 +188,7 @@ public class TaskActivity
                     } catch (JSONException | NullPointerException e) {
                         e.printStackTrace();
                     }
-                    TagManager.save();
+                    MasterManagerKt.save();
                     task.save();
 
                     setTags();
@@ -231,14 +245,7 @@ public class TaskActivity
             // Called in A Folder
             if (task.getType() == Task.TYPE_FLDR) {
                 // Create Task
-                Task t = new Task(task.getFilename(), Task.TYPE_TASK);
-                t.save();
-
-                task.addChild(t.getFilename());
-                task.save();
-
-                TaskManager.tasks.add(t.getFilename());
-                TaskManager.save();
+                Task t = TaskManagerKt.createTask(task);
 
                 // Create Intent
                 Intent task_intent = new Intent(this, TaskActivity.class);
@@ -297,15 +304,8 @@ public class TaskActivity
     public boolean onLongClick(View view) {
         if (view.equals(fab)) {
             if (task.getType() == Task.TYPE_FLDR) {
-                // Create Task
-                Task t = new Task(task.getFilename(), Task.TYPE_FLDR);
-                t.save();
-
-                task.addChild(t.getFilename());
-                task.save();
-
-                TaskManager.tasks.add(t.getFilename());
-                TaskManager.save();
+                // Create Folder
+                Task t = TaskManagerKt.createFolder(task);
 
                 // Create Intent
                 Intent intent = new Intent(this, TaskActivity.class);

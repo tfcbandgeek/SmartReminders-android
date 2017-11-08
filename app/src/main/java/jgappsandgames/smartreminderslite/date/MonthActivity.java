@@ -1,9 +1,14 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
+import java.util.Calendar;
+
+// Vies
 import android.widget.BaseAdapter;
 import android.widget.CalendarView;
 
-import java.util.Calendar;
+// Save
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
 
 /**
  * MonthActivity
@@ -19,8 +24,7 @@ public class MonthActivity extends MonthActivityInterface {
     protected void onResume() {
         super.onResume();
         // Set List
-        DateManager.create();
-        selected_tasks = DateManager.getDay(selected);
+        selected_tasks = DateManagerKt.getDayTasks(selected);
         adapter = new MonthAdapter(this, selected_tasks);
         tasks.setAdapter(adapter);
     }
@@ -31,7 +35,7 @@ public class MonthActivity extends MonthActivityInterface {
         selected.set(Calendar.YEAR, year);
         selected.set(Calendar.MONTH, month);
         selected.set(Calendar.DAY_OF_MONTH, day);
-        selected_tasks = DateManager.getDay(selected);
+        selected_tasks = DateManagerKt.getDayTasks(selected);
         adapter = new MonthAdapter(this, selected_tasks);
         tasks.setAdapter(adapter);
     }

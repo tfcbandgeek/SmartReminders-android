@@ -15,8 +15,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 // Program
+import java.util.Set;
+
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
 
 // Save
 
@@ -48,9 +52,9 @@ public class SettingsActivity extends Activity implements OnClickListener{
         tutorial = findViewById(R.id.tutorial);
 
         // Set Text
-        your_name.setText(Settings.user_name);
-        device_name.setText(Settings.device_name);
-        if (Settings.use_external_file) app_directory.setText(R.string.save_external);
+        your_name.setText(SettingsManagerKt.getUser_name());
+        device_name.setText(SettingsManagerKt.getDevice_name());
+        if (SettingsManagerKt.getExternal_file()) app_directory.setText(R.string.save_external);
         else app_directory.setText(R.string.save_app);
 
         // Set Listeners
@@ -62,9 +66,9 @@ public class SettingsActivity extends Activity implements OnClickListener{
     protected void onPause() {
         super.onPause();
 
-        Settings.user_name = your_name.getText().toString();
-        Settings.device_name = device_name.getText().toString();
-        Settings.save();
+        SettingsManagerKt.setUser_name(your_name.getText().toString());
+        SettingsManagerKt.setDevice_name(device_name.getText().toString());
+        MasterManagerKt.save();
     }
 
     // Click Listener
@@ -72,11 +76,11 @@ public class SettingsActivity extends Activity implements OnClickListener{
     public void onClick(View view) {
         // App Directory
         if (view.equals(app_directory)) {
-            if (Settings.use_external_file) {
-                Settings.use_external_file = false;
+            if (SettingsManagerKt.getExternal_file()) {
+                SettingsManagerKt.setExternal_file(false);
                 app_directory.setText(R.string.save_app);
             } else {
-                Settings.use_external_file = true;
+                SettingsManagerKt.setExternal_file(true);
                 app_directory.setText(R.string.save_external);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -101,7 +105,7 @@ public class SettingsActivity extends Activity implements OnClickListener{
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults.length > 0) {
                     if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        Settings.use_external_file = false;
+                        SettingsManagerKt.setExternal_file(false);
                         app_directory.setText(R.string.save_app);
                     }
                 }

@@ -23,6 +23,10 @@ import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.daily.DailyManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 // Save
 
@@ -38,7 +42,7 @@ public class WeekActivity
         extends Activity
         implements OnClickListener, OnTaskChangedListener {
     // Data
-    private int week_active;
+    private Calendar week_active;
 
     // Views
     private ListView tasks;
@@ -57,18 +61,17 @@ public class WeekActivity
         setContentView(R.layout.activity_date);
 
         // First Run
-        FileUtility.loadFilePaths(this);
-        if (FileUtility.isFirstRun()) {
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
         }
 
         // Load Data
-        Settings.load();
-        TaskManager.load();
-        TagManager.load();
+        MasterManagerKt.load();
 
-        week_active = 0;
+        week_active = Calendar.getInstance();
+        week_active.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
         // Set Title
         setTitle();
@@ -109,7 +112,7 @@ public class WeekActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 
@@ -125,8 +128,7 @@ public class WeekActivity
     public void onClick(View view) {
         // Previous
         if (view.equals(previous)) {
-            week_active--;
-            if (week_active < 0) week_active = 0;
+            week_active.add(Calendar.WEEK_OF_YEAR, -1);
 
             adapter = new WeekAdapter(this, week_active);
             tasks.setAdapter(adapter);
@@ -136,7 +138,7 @@ public class WeekActivity
 
         // Next
         else if (view.equals(next)) {
-            week_active++;
+            week_active.add(Calendar.WEEK_OF_YEAR, 1);
 
             adapter = new WeekAdapter(this, week_active);
             tasks.setAdapter(adapter);
@@ -153,8 +155,8 @@ public class WeekActivity
 
     // Private Class Methods
     private void setTitle() {
-        Calendar start = DateManager.getWeek(week_active).getStart();
-        Calendar end = DateManager.getWeek(week_active).getEnd();
+        Calendar start = DateManagerKt.getWeek(week_active).getStart();//DateManager.getWeek(week_active).getStart();
+        Calendar end = DateManagerKt.getWeek(week_active).getEnd();
 
         setTitle(String.valueOf(start.get(Calendar.MONTH) + 1) + "/" +
                 String.valueOf(start.get(Calendar.DAY_OF_MONTH)) + " - " +
@@ -163,9 +165,6 @@ public class WeekActivity
     }
 
     private void save() {
-        // Save
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManagerKt.save();
     }
 }

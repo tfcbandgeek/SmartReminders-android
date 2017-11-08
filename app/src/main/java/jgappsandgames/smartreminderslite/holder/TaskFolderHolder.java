@@ -23,6 +23,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
 
 /**
  * TaskFolderHolder
@@ -85,7 +86,7 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
 
     @Override
     public boolean onLongClick(View view) {
-        TaskManager.archiveTask(task);
+        TaskManagerKt.archiveTask(task);
 
         Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
         try {

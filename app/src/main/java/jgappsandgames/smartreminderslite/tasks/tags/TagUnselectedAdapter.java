@@ -15,6 +15,7 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 
 // Save
+import jgappsandgames.smartreminderssave.tags.TagManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
@@ -37,7 +38,7 @@ class TagUnselectedAdapter extends BaseAdapter {
 
         // Set Tags
         tags = new ArrayList<>();
-        for (String tag : TagManager.tags) {
+        for (String tag : TagManagerKt.getTags()) {
             if (!task.getTags().contains(tag)) tags.add(tag);
         }
     }
@@ -49,7 +50,7 @@ class TagUnselectedAdapter extends BaseAdapter {
 
         // Set Tags
         tags = new ArrayList<>();
-        for (String tag : TagManager.tags) {
+        for (String tag : TagManagerKt.getTags()) {
             if (tag.toLowerCase().contains(search)) {
                 if (!task.getTags().contains(tag)) tags.add(tag);
             }

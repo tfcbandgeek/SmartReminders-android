@@ -23,6 +23,7 @@ import jgappsandgames.smartreminderslite.holder.TagHolder;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderssave.tags.TagManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
@@ -95,7 +96,7 @@ public class TagEditorActivity
     @Override
     public void onClick(View view) {
         task.addTag(search_text.getText().toString());
-        TagManager.tags.add(search_text.getText().toString());
+        TagManagerKt.getTags().add(search_text.getText().toString());
         search_text.setText("");
 
         selected.setAdapter(new TagSelectedAdapter(this, task));

@@ -27,7 +27,10 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * HomeActivity
@@ -57,16 +60,14 @@ public class HomeActivity
         setTitle(R.string.app_name);
 
         // First Run
-        FileUtility.loadFilePaths(this);
-        if (FileUtility.isFirstRun()) {
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
         }
 
         // Load Data
-        Settings.load();
-        TaskManager.load();
-        TagManager.load();
+        MasterManagerKt.load();
 
         // Find Views
         tasks = findViewById(R.id.tasks);
@@ -137,9 +138,7 @@ public class HomeActivity
                 return true;
 
             case R.id.save:
-                TaskManager.save();
-                TagManager.save();
-                Settings.save();
+                save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
                 return true;
 
@@ -155,12 +154,7 @@ public class HomeActivity
     @Override
     public void onClick(View view) {
         // Create Task
-        Task task = new Task("home", Task.TYPE_TASK);
-        task.save();
-
-        TaskManager.home.add(task.getFilename());
-        TaskManager.tasks.add(task.getFilename());
-        TaskManager.save();
+        Task task = TaskManagerKt.createTask();
 
         // Create Intent
         Intent intent = new Intent(this, TaskActivity.class);
@@ -173,13 +167,7 @@ public class HomeActivity
     @Override
     public boolean onLongClick(View view) {
         // Create Task
-        Task task = new Task("home", Task.TYPE_FLDR);
-        task.save();
-
-        TaskManager.home.add(task.getFilename());
-        TaskManager.tasks.add(task.getFilename());
-        TaskManager.save();
-
+        Task task = TaskManagerKt.createFolder();
         // Create Intent
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename());
@@ -195,8 +183,6 @@ public class HomeActivity
     }
 
     private void save() {
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManagerKt.save();
     }
 }

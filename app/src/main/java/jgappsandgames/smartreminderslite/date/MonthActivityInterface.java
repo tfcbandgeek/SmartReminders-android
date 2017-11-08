@@ -1,18 +1,30 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
+import java.util.Calendar;
+import java.util.List;
+
+// Android OS
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+
+// Vies
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
-import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderslite.home.FirstRun;
 
-import java.util.Calendar;
-import java.util.List;
+// Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * MonthActivityInterface
@@ -34,7 +46,18 @@ abstract class MonthActivityInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set Activity View
         setContentView(R.layout.activity_month);
+
+        // First Run
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
+            Intent first_run = new Intent(this, FirstRun.class);
+            startActivity(first_run);
+        }
+
+        // Load Data
+        MasterManagerKt.load();
 
         // Find Views
         calendar = findViewById(R.id.calendar);
@@ -59,7 +82,7 @@ abstract class MonthActivityInterface
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 
@@ -74,5 +97,10 @@ abstract class MonthActivityInterface
     @Override
     public void onTaskChanged() {
         onResume();
+    }
+
+    // Class Methods
+    public void save() {
+        MasterManagerKt.save();
     }
 }

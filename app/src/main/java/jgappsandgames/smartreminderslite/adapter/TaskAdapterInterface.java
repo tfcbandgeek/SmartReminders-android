@@ -1,17 +1,27 @@
 package jgappsandgames.smartreminderslite.adapter;
 
+// Java
+import java.util.ArrayList;
+import java.util.List;
+
+// Jetbrains
+import org.jetbrains.annotations.Nullable;
+
+// Android OS
 import android.app.Activity;
+
+// Views
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
-import jgappsandgames.smartreminderssave.tasks.Task;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+// Save
+import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * TaskAdapterInterface
@@ -20,7 +30,7 @@ import java.util.List;
 public abstract class TaskAdapterInterface extends BaseAdapter {
     // Data
     public final Activity activity;
-    public final TaskFolderHolder.OnTaskChangedListener listener;
+    private final TaskFolderHolder.OnTaskChangedListener listener;
     public final List<Task> tasks;
 
     // Initializers

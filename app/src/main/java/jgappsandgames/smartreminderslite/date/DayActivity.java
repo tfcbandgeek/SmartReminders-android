@@ -24,6 +24,8 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 
 /**
@@ -54,17 +56,14 @@ public class DayActivity extends Activity
         setContentView(R.layout.activity_date);
 
         // First Run
-        FileUtility.loadFilePaths(this);
-        if (FileUtility.isFirstRun()) {
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
         }
 
         // Load Data
-        Settings.load();
-
-        TaskManager.load();
-        TagManager.load();
+        MasterManagerKt.load();
 
         day_active = Calendar.getInstance();
 
@@ -100,7 +99,7 @@ public class DayActivity extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 
@@ -146,9 +145,7 @@ public class DayActivity extends Activity
     // Private Class Methods
     private void save() {
         // Save
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManagerKt.save();
     }
 
     // Private Class Methods

@@ -7,6 +7,7 @@ import java.util.List;
 
 // Android OS
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 // Android View
@@ -21,7 +22,11 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 
 // Save
+import jgappsandgames.smartreminderslite.home.FirstRun;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.status.StatusManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * Status Activity
@@ -59,6 +64,16 @@ public class StatusActivity
         // Set Content View
         setContentView(R.layout.activity_status);
 
+        // First Run
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
+            Intent first_run = new Intent(this, FirstRun.class);
+            startActivity(first_run);
+        }
+
+        // Load Data
+        MasterManagerKt.load();
+
         // Find Views
         overdue_text = findViewById(R.id.overdue_text);
         overdue_list = findViewById(R.id.overdue_list);
@@ -72,25 +87,13 @@ public class StatusActivity
     protected void onResume() {
         super.onResume();
 
-        // Load Data
-        overdue_array = new ArrayList<>();
-        incomplete_array = new ArrayList<>();
-        done_array = new ArrayList<>();
-
-        for (int i = 0; i < TaskManager.tasks.size(); i++) {
-            Task temp = new Task(TaskManager.tasks.get(i));
-            if (temp.getType() == Task.TYPE_TASK) {
-                if (temp.getStatus() == Task.STATUS_DONE) done_array.add(temp);
-                else if (temp.getDateDue() == null) incomplete_array.add(temp);
-                else if (temp.getDateDue().before(Calendar.getInstance())) overdue_array.add(temp);
-                else incomplete_array.add(temp);
-            }
-        }
-
         // Set Adapters
-        overdue_adapter = new StatusAdapter(this, overdue_array);
-        incomplete_adapter = new StatusAdapter(this, incomplete_array);
-        done_adapter = new StatusAdapter(this, done_array);
+        ArrayList<String> incomplete = new ArrayList<>();
+        incomplete.addAll(StatusManagerKt.getNot_yet_done());
+        incomplete.addAll(StatusManagerKt.getNo_date());
+        overdue_adapter = new StatusAdapter(this, StatusManagerKt.getOverdue());
+        incomplete_adapter = new StatusAdapter(this, incomplete);
+        done_adapter = new StatusAdapter(this, StatusManagerKt.getCompleted());
 
         try {
             overdue_list.setAdapter(overdue_adapter);
@@ -122,7 +125,7 @@ public class StatusActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 

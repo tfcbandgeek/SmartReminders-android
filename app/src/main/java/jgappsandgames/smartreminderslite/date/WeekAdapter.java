@@ -1,6 +1,9 @@
 package jgappsandgames.smartreminderslite.date;
 
+import java.util.Calendar;
+
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
 
 /**
  * WeekAdapter
@@ -9,7 +12,7 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
  */
 class WeekAdapter extends TaskAdapterInterface {
     // Initializer
-    WeekAdapter(WeekActivity activity, int date_active) {
-        super(activity, activity, DateManager.getWeek(date_active).getAllTasks());
+    WeekAdapter(WeekActivity activity, Calendar date_active) {
+        super(activity, activity, DateManagerKt.getWeek(date_active).getAllTasks());
     }
 }

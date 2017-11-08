@@ -19,6 +19,8 @@ import android.widget.Toast;
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
 
 // Save
 
@@ -50,7 +52,7 @@ public class FirstRun extends Activity implements OnClickListener {
         setContentView(R.layout.activity_first_run);
 
         // Create Settings Page
-        Settings.create();
+        MasterManagerKt.create();
 
         // Find Views
         your_name = findViewById(R.id.yourname);
@@ -72,11 +74,11 @@ public class FirstRun extends Activity implements OnClickListener {
     public void onClick(View view) {
         // App Directory
         if (view.equals(app_directory)) {
-            if (Settings.use_external_file) {
-                Settings.use_external_file = false;
+            if (SettingsManagerKt.getExternal_file()) {
+                SettingsManagerKt.setExternal_file(false);
                 app_directory.setText(R.string.save_app);
             } else {
-                Settings.use_external_file = true;
+                SettingsManagerKt.setExternal_file(true);
                 app_directory.setText(R.string.save_external);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -101,11 +103,18 @@ public class FirstRun extends Activity implements OnClickListener {
 
         // Continue
         if (view.equals(con)) {
-            Settings.save();
+            MasterManagerKt.save();
             Intent home = new Intent(this, HomeActivity.class);
             home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        MasterManagerKt.save();
     }
 
     @Override
@@ -114,7 +123,7 @@ public class FirstRun extends Activity implements OnClickListener {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults.length > 0) {
                     if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        Settings.use_external_file = false;
+                        SettingsManagerKt.setExternal_file(false);
                         app_directory.setText(R.string.save_app);
                     }
                 }

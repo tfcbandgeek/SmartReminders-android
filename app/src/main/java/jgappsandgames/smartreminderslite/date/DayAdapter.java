@@ -1,8 +1,13 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
 import java.util.Calendar;
 
+// App
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
+
+// Save
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
 
 /**
  * DayAdapter
@@ -12,6 +17,6 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
 class DayAdapter extends TaskAdapterInterface {
     // Initializer
     DayAdapter(DayActivity activity, Calendar date_active) {
-        super(activity, activity, DateManager.getDay(date_active));
+        super(activity, activity, DateManagerKt.getDayTasks(date_active));
     }
 }
