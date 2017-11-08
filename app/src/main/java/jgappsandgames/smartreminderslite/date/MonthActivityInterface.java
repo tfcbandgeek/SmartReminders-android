@@ -55,10 +55,10 @@ abstract class MonthActivityInterface
         if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManagerKt.load();
         }
-
-        // Load Data
-        MasterManagerKt.load();
 
         // Find Views
         calendar = findViewById(R.id.calendar);

@@ -64,10 +64,10 @@ public class HomeActivity
         if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManagerKt.load();
         }
-
-        // Load Data
-        MasterManagerKt.load();
 
         // Find Views
         tasks = findViewById(R.id.tasks);

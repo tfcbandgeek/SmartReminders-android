@@ -111,6 +111,12 @@ fun createDates() {
 fun loadDates() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
+    if (data == JSONObject() || !data.has(VERSION)) {
+        createDates()
+        saveDates()
+        return
+    }
+
     // Load JSON
     val d = data.optJSONArray(DAYS)
     val d_r = data.optJSONArray(DAYS_REVERSE)
@@ -148,12 +154,12 @@ fun saveDates() {
     val m_r = JSONArray()
 
     // Fill JSONArrays
-    for (i in 0 .. days!!.size) d.put(days!![i].toJSON())
-    for (i in 0 .. days_reverse!!.size) d_r.put(days_reverse!![i].toJSON())
-    for (i in 0 .. weeks!!.size) w.put(weeks!![i].toJSON())
-    for (i in 0 .. weeks_reverse!!.size) w_r.put(weeks_reverse!![i].toJSON())
-    for (i in 0 .. months!!.size) m.put(months!![i].toJSON())
-    for (i in 0 .. months_reverse!!.size) m_r.put(months_reverse!![i].toJSON())
+    if (days!!.size > 0) for (i in 0 until days!!.size) d.put(days!![i].toJSON())
+    if (days_reverse!!.size > 0) for (i in 0 until days_reverse!!.size - 1) d_r.put(days_reverse!![i].toJSON())
+    if (weeks!!.size > 0) for (i in 0 until weeks!!.size) w.put(weeks!![i].toJSON())
+    if (weeks_reverse!!.size > 0) for (i in 0 until weeks_reverse!!.size) w_r.put(weeks_reverse!![i].toJSON())
+    if (months!!.size > 0) for (i in 0 until months!!.size) m.put(months!![i].toJSON())
+    if (months_reverse!!.size > 0) for (i in 0 until months_reverse!!.size) m_r.put(months_reverse!![i].toJSON())
 
     // Fill Data
     data.put(DAYS, d)

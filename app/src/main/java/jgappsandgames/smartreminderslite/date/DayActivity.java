@@ -58,10 +58,10 @@ public class DayActivity extends Activity
         if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManagerKt.load();
         }
-
-        // Load Data
-        MasterManagerKt.load();
 
         day_active = Calendar.getInstance();
 

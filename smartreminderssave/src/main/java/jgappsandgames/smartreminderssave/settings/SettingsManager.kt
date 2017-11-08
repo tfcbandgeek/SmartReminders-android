@@ -80,7 +80,7 @@ fun createSettings() {
 
 fun loadSettings() {
     val data = loadJSON(getInternalFileDirectory(), FILENAME)
-    if (data == JSONObject()) {
+    if (data == JSONObject() || !data.has(VERSION)) {
         createSettings()
         saveSettings()
         return
@@ -104,15 +104,17 @@ fun loadSettings() {
     if (version!! >= MANAGEMENT) {
         meta = data.optJSONObject(META)
 
-        val b = data.optJSONArray(BACKUP_FILES)
+        var b = data.optJSONArray(BACKUP_FILES)
+        if (b == null) b = JSONArray()
         backup_files = ArrayList()
         for (i in 0 .. b.length()) backup_files!!.add(b.optString(i, ""))
 
         shortcut_month = data.optBoolean(SHORTCUT_MONTH, false)
 
-        val t = data.optJSONArray(SHORTCUT_TASKS)
+        var t = data.optJSONArray(SHORTCUT_TASKS)
+        if (t == null) t = JSONArray()
         shortcut_tasks = ArrayList()
-        for (i in 0 .. b.length()) shortcut_tasks!!.add(t.optString(i, ""))
+        for (i in 0 .. t.length()) shortcut_tasks!!.add(t.optString(i, ""))
 
         completed_tasks = data.optInt(COMPLETED_TASK, 0)
         completed_checkpoints = data.optInt(COMPLETED_CHECKPOINT, 0)

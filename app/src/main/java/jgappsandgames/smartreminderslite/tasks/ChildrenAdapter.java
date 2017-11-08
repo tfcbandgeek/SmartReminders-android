@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderslite.tasks;
 
 // Java
+import java.util.ArrayList;
 import java.util.List;
 
 // App
@@ -14,7 +15,7 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
  */
 class ChildrenAdapter extends TaskAdapterInterface {
     // Initializer
-    ChildrenAdapter(TaskActivity activity, List<String> tasks) {
+    ChildrenAdapter(TaskActivity activity, ArrayList<String> tasks) {
         super(activity, activity, tasks, null);
     }
 }

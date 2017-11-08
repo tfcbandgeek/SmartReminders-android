@@ -57,6 +57,12 @@ fun createStatus() {
 fun loadStatus() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
+    if (data == JSONObject() || !data.has(VERSION)) {
+        createStatus()
+        saveStatus()
+        return
+    }
+
     version = data.optInt(VERSION, RELEASE)
     meta = data.optJSONObject(META)
 

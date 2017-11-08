@@ -38,11 +38,18 @@ fun createTags() {
 fun loadTags() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
+    if (data == JSONObject() || !data.has(VERSION)) {
+        createTags()
+        saveTags()
+        return
+    }
+
     version = data.optInt(VERSION, RELEASE)
     meta = if (version!! >= MANAGEMENT) data.optJSONObject(META)
     else JSONObject()
 
-    val t = data.optJSONArray(TAGS)
+    var t = data.optJSONArray(TAGS)
+    if (t == null) t = JSONArray()
     tags = ArrayList()
     for (i in 0 .. t.length()) tags!!.add(t.optString(i, ""))
 }

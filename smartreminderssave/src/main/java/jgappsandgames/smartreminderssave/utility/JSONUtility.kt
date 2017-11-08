@@ -16,21 +16,21 @@ import android.os.Build
 
 // Load JSON
 fun loadJSON(file: File, path: String): JSONObject {
-    val reader = BufferedReader(FileReader(File(file, path)))
-    val builder = StringBuilder()
+    try {
+        val reader = BufferedReader(FileReader(File(file, path)))
+        val builder = StringBuilder()
 
-    while (true) {
-        val t = reader.readLine() ?: break
+        while (true) {
+            val t = reader.readLine() ?: break
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) builder.append(t).append(System.lineSeparator())
-        else builder.append(t).append(System.getProperty("line.separator"))
-    }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) builder.append(t).append(System.lineSeparator())
+            else builder.append(t).append(System.getProperty("line.separator"))
+        }
 
-    return try {
-        JSONObject(builder.toString())
+        return JSONObject(builder.toString())
     } catch (e: Exception) {
         e.printStackTrace()
-        JSONObject()
+        return JSONObject()
     }
 }
 

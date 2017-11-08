@@ -57,6 +57,12 @@ fun createPriority() {
 fun loadPriority() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
+    if (data == JSONObject() || !data.has(VERSION)) {
+        createPriority()
+        savePriorty()
+        return
+    }
+
     // Load File Header
     version = data.optInt(VERSION, RELEASE)
     meta = data.optJSONObject(META)

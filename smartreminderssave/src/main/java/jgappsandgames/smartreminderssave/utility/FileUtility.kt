@@ -7,6 +7,7 @@ import java.io.File
 import android.content.Context
 import android.os.Build
 import android.os.Environment
+import jgappsandgames.smartreminderssave.settings.external_file
 
 /**
  * FileUtility
@@ -57,7 +58,7 @@ fun getInternalCacheDirectory(): File {
 fun getApplicationFileDirectory(): File {
     if (external != null) return external!!
     else {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), FILEPATH)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && external_file!!) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), FILEPATH)
         else external = data
     }
 

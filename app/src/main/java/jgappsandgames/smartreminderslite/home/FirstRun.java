@@ -56,6 +56,7 @@ public class FirstRun extends Activity implements OnClickListener {
 
         // Create Settings Page
         MasterManagerKt.create();
+        MasterManagerKt.save();
 
         // Find Views
         your_name = findViewById(R.id.yourname);

@@ -43,7 +43,7 @@ fun createTasks() {
 fun loadTasks() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
-    if (data == JSONObject()) {
+    if (data == JSONObject() || !data.has(VERSION)) {
         createTasks()
         saveTasks()
         return
@@ -51,10 +51,14 @@ fun loadTasks() {
 
     version = data.optInt(VERSION, RELEASE)
 
-    val h = data.optJSONArray(HOME)
-    val t = data.optJSONArray(TASKS)
-    val a = data.optJSONArray(ARCHIVED)
-    val d = data.optJSONArray(DELETED)
+    var h = data.optJSONArray(HOME)
+    if (h == null) h = JSONArray()
+    var t = data.optJSONArray(TASKS)
+    if (t == null) t = JSONArray()
+    var a = data.optJSONArray(ARCHIVED)
+    if (a == null) a = JSONArray()
+    var d = data.optJSONArray(DELETED)
+    if (d == null) d = JSONArray()
 
     home = ArrayList()
     tasks = ArrayList()

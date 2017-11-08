@@ -46,6 +46,12 @@ fun createTheme() {
 fun loadTheme() {
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
+    if (data == JSONObject() || !data.has(VERSION)) {
+        createTheme()
+        saveTheme()
+        return
+    }
+
     version = data.optInt(VERSION, RELEASE)
     color = data.optInt(COLOR, 1)
     light = data.optInt(LIGHT, 1)

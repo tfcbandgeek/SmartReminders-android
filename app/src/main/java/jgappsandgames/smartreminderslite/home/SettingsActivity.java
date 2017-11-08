@@ -3,6 +3,7 @@ package jgappsandgames.smartreminderslite.home;
 // Android OS
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 // Save
 import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * // SettingsActivity
@@ -42,6 +44,16 @@ public class SettingsActivity extends Activity implements OnClickListener{
 
         // Set Content View
         setContentView(R.layout.activity_settings);
+
+        // First Run
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
+            Intent first_run = new Intent(this, FirstRun.class);
+            startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManagerKt.load();
+        }
 
         // Find Views
         your_name = findViewById(R.id.yourname);
