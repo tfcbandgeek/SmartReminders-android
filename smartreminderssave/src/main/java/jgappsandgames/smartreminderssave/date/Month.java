@@ -16,7 +16,6 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * Month
  * Created by joshua on 10/12/17.
- * Last Edited on 10/12/17 (112). <10.1>
  */
 public class Month {
     // Save Constants
@@ -29,14 +28,14 @@ public class Month {
     private static final String DAYS = "days";
 
     // Data
-    private Calendar start;
-    private Calendar end;
+    private final Calendar start;
+    private final Calendar end;
 
-    private int starts_on;
+    private final int starts_on;
     private int days_in_month;
 
     private long update = 0;
-    private ArrayList<Calendar> days;
+    private final ArrayList<Calendar> days;
     private ArrayList<Day> holders;
 
     // Initializers

@@ -32,7 +32,7 @@ fun loadFilepaths(context: Context) {
 
 // Check to See if it is the Apps First Run
 fun isFirstRun(): Boolean {
-    if (data == null) throw RuntimeException("Filepaths have yet to of been loaded")
+    if (data == null) throw RuntimeException("Filenames have yet to of been loaded")
     val file = File(data, "firstrun")
 
     if (file.isDirectory) return false
@@ -44,13 +44,13 @@ fun isFirstRun(): Boolean {
 // Get the Internal App Directory (Useful for App Settings)
 fun getInternalFileDirectory(): File {
     if (data != null) return data!!
-    throw RuntimeException("Filepaths have yet to of been loaded")
+    throw RuntimeException("Filenames have yet to of been loaded")
 }
 
 // Get the Internal Cache Directory
 fun getInternalCacheDirectory(): File {
     if (cache != null) return cache!!
-    throw RuntimeException("Filepaths have yet to of been loaded")
+    throw RuntimeException("Filenames have yet to of been loaded")
 }
 
 // Get the Application Save Directory

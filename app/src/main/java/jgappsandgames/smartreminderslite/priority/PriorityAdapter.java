@@ -1,10 +1,9 @@
 package jgappsandgames.smartreminderslite.priority;
 
+// Java
 import java.util.ArrayList;
-import java.util.List;
 
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
-import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * PriorityAdapter

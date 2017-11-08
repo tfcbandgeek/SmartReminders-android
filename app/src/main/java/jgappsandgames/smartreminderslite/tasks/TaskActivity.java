@@ -46,9 +46,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/15/17 (350).
- * Edited on 10/11/17 (350).
- * Edited On 10/5/17 (334).
  *
  * Main Task View
  */
@@ -65,6 +62,7 @@ public class TaskActivity
     private TextView tags;
     private Button date;
     private Button status;
+    @SuppressWarnings("FieldCanBeLocal")
     private SeekBar priority;
     private ListView list;
     private Button fab;

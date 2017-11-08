@@ -22,12 +22,10 @@ import jgappsandgames.smartreminderssave.utility.JSONUtilityKt;
 /**
  * Task
  * Created by joshua on 8/24/17.
- * Last Edited on 10/15/17 (541).
- * Edited On 10/12/17 (520).
- * Edited On 10/5/17 (521)
  *
  * Current API: 11
  */
+@SuppressWarnings("UnusedReturnValue")
 public class Task {
     // Save Constants
     private static final String PARENT = "parent";
@@ -53,6 +51,7 @@ public class Task {
     private static final String COMPLETED_LATE = "completed_late";
 
     // Type Constants
+    @SuppressWarnings("WeakerAccess")
     public static final int TYPE_NONE = 0;
     public static final int TYPE_FLDR = 1;
     public static final int TYPE_TASK = 2;
@@ -213,7 +212,6 @@ public class Task {
             j.printStackTrace();
         } catch (NullPointerException n) {
             n.printStackTrace();
-            //throw new RuntimeException("Fix Me");
         }
 
         return data;
@@ -329,8 +327,7 @@ public class Task {
     }
 
     public String getStatusString() {
-        if (isCompleted()) return "Completed";
-        return "Incomplete";
+        return isCompleted() ? "Completed" : "Incomplete";
     }
 
     public int getPriority() {

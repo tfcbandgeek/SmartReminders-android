@@ -1,9 +1,5 @@
 package jgappsandgames.smartreminderslite.priority;
 
-// Java
-import java.util.ArrayList;
-import java.util.List;
-
 // Android OS
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +24,6 @@ import jgappsandgames.smartreminderslite.home.FirstRun;
 // Save
 import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.priority.PriorityManagerKt;
-import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
@@ -42,12 +37,6 @@ public class PriorityActivity
         implements OnClickListener, OnTaskChangedListener {
     // Data
     private int position = 3;
-
-    private List<Task> ignore_tasks;
-    private List<Task> low_tasks;
-    private List<Task> normal_tasks;
-    private List<Task> high_tasks;
-    private List<Task> stared_tasks;
 
     // Views
     private ListView tasks;
@@ -78,12 +67,6 @@ public class PriorityActivity
 
         // Load Data
         MasterManagerKt.load();
-
-        ignore_tasks = new ArrayList<>();
-        low_tasks = new ArrayList<>();
-        normal_tasks = new ArrayList<>();
-        high_tasks = new ArrayList<>();
-        stared_tasks = new ArrayList<>();
 
         tasks = findViewById(R.id.tasks);
         down = findViewById(R.id.down);

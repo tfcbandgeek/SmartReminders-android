@@ -1,5 +1,8 @@
 package jgappsandgames.smartreminderslite.home;
 
+// Jetbrains
+import org.jetbrains.annotations.NotNull;
+
 // Android OS
 import android.Manifest;
 import android.app.Activity;
@@ -19,24 +22,24 @@ import android.widget.Toast;
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
-import jgappsandgames.smartreminderssave.MasterManagerKt;
-import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
 
 
 /**
  * FirstRun
  * Created by joshua on 8/31/17.
- * Last Edited on 10/8/17 (123).
- * Edited on 10/5/17 (115).
  *
  * Activity class that is called on the First one of the Application.
  * Contains info for settings, save Location, User Data, Device Name and Tutorial.
  */
 public class FirstRun extends Activity implements OnClickListener {
     // Views
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private EditText your_name;
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private EditText device_name;
     private Button app_directory;
     private Button settings;
@@ -74,6 +77,7 @@ public class FirstRun extends Activity implements OnClickListener {
     public void onClick(View view) {
         // App Directory
         if (view.equals(app_directory)) {
+            //noinspection ConstantConditions
             if (SettingsManagerKt.getExternal_file()) {
                 SettingsManagerKt.setExternal_file(false);
                 app_directory.setText(R.string.save_app);
@@ -118,7 +122,7 @@ public class FirstRun extends Activity implements OnClickListener {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         switch (requestCode) {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults.length > 0) {

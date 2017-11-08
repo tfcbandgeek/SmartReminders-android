@@ -10,7 +10,6 @@ import jgappsandgames.smartreminderslite.R;
 /**
  * TagHolder
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (60).
  */
 public class TagHolder implements View.OnClickListener {
     // Data
@@ -45,6 +44,7 @@ public class TagHolder implements View.OnClickListener {
     }
 
     // Management Methods
+    @SuppressWarnings("unused")
     public void updateView(String tag, boolean selected) {
         this.tag_selected = selected;
         this.tag_text = tag;

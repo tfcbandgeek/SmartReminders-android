@@ -1,8 +1,8 @@
 package jgappsandgames.smartreminderslite.date;
 
 // Java
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
@@ -34,12 +34,13 @@ abstract class MonthActivityInterface
         extends Activity
         implements TaskFolderHolder.OnTaskChangedListener, CalendarView.OnDateChangeListener {
     // Data
-    protected Calendar selected;
-    protected List<Task> selected_tasks;
+    Calendar selected;
+    ArrayList<Task> selected_tasks;
 
     // Views
-    protected CalendarView calendar;
-    protected ListView tasks;
+    @SuppressWarnings("FieldCanBeLocal")
+    private CalendarView calendar;
+    ListView tasks;
 
     // LifeCycle Methods
     @Override
@@ -82,7 +83,7 @@ abstract class MonthActivityInterface
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                save();
+                MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 
@@ -97,10 +98,5 @@ abstract class MonthActivityInterface
     @Override
     public void onTaskChanged() {
         onResume();
-    }
-
-    // Class Methods
-    public void save() {
-        MasterManagerKt.save();
     }
 }

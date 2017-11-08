@@ -40,6 +40,7 @@ public class TagEditorActivity
 
     // Views
     private EditText search_text;
+    @SuppressWarnings("FieldCanBeLocal")
     private Button search_enter;
     private ListView selected;
     private ListView unselected;
@@ -96,6 +97,7 @@ public class TagEditorActivity
     @Override
     public void onClick(View view) {
         task.addTag(search_text.getText().toString());
+        //noinspection ConstantConditions
         TagManagerKt.getTags().add(search_text.getText().toString());
         search_text.setText("");
 

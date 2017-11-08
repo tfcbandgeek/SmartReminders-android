@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.adapter;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Jetbrains
 import org.jetbrains.annotations.Nullable;
@@ -29,18 +28,18 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public abstract class TaskAdapterInterface extends BaseAdapter {
     // Data
-    public final Activity activity;
+    private final Activity activity;
     private final TaskFolderHolder.OnTaskChangedListener listener;
-    public final List<Task> tasks;
+    private final ArrayList<Task> tasks;
 
     // Initializers
-    public TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, List<Task> tasks) {
+    protected TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, ArrayList<Task> tasks) {
         this.activity = activity;
         this.listener = listener;
         this.tasks = tasks;
     }
 
-    public TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, List<String> tasks, @Nullable String unused) {
+    protected TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, ArrayList<String> tasks, @SuppressWarnings({"SameParameterValue", "unused"}) @Nullable String unused) {
         this.activity = activity;
         this.listener = listener;
 
@@ -78,20 +77,27 @@ public abstract class TaskAdapterInterface extends BaseAdapter {
     @Override
     public View getView(int position, View convert_view, ViewGroup parent) {
         TaskFolderHolder holder;
+
+        // View Does Not Exist so Create it
         if (convert_view == null) {
             if (getItem(position).getType() == Task.TYPE_FLDR) convert_view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false);
             else convert_view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false);
 
             holder = new TaskFolderHolder(getItem(position), convert_view, activity, listener);
             convert_view.setTag(holder);
-        } else {
+        }
+
+        // View Does Exist so Just Get it
+        else {
             holder = (TaskFolderHolder) convert_view.getTag();
 
             holder.task = getItem(position);
         }
 
+        // Update View
         holder.setViews();
 
+        // Return the View
         return convert_view;
     }
 }

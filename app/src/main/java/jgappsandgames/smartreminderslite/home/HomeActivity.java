@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-// Program
+// App
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.date.DayActivity;
@@ -35,8 +35,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 /**
  * HomeActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/14/17 (205).
- * Edited on 10/05/17 (190).
  *
  * Main Entry Point For The Application
  */
@@ -45,9 +43,11 @@ public class HomeActivity
         implements View.OnClickListener, View.OnLongClickListener, TaskFolderHolder.OnTaskChangedListener {
     // Views
     private ListView tasks;
+    @SuppressWarnings("FieldCanBeLocal")
     private Button fab;
 
     // Adapters
+    @SuppressWarnings("FieldCanBeLocal")
     private HomeAdapter adapter;
 
     // Lifecycle Methods

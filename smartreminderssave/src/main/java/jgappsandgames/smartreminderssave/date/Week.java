@@ -31,16 +31,16 @@ public class Week {
     private static final String SATURDAY = "saturday";
 
     // Data
-    private Calendar start;
-    private Calendar end;
+    private final Calendar start;
+    private final Calendar end;
 
-    private Calendar sunday_c;
-    private Calendar monday_c;
-    private Calendar tuesday_c;
-    private Calendar wednesday_c;
-    private Calendar thursday_c;
-    private Calendar friday_c;
-    private Calendar saturday_c;
+    private final Calendar sunday_c;
+    private final Calendar monday_c;
+    private final Calendar tuesday_c;
+    private final Calendar wednesday_c;
+    private final Calendar thursday_c;
+    private final Calendar friday_c;
+    private final Calendar saturday_c;
 
     private long load = 0;
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Views
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ class TagUnselectedAdapter extends BaseAdapter {
 
         // Set Tags
         tags = new ArrayList<>();
+        //noinspection ConstantConditions
         for (String tag : TagManagerKt.getTags()) {
             if (!task.getTags().contains(tag)) tags.add(tag);
         }
@@ -50,6 +52,7 @@ class TagUnselectedAdapter extends BaseAdapter {
 
         // Set Tags
         tags = new ArrayList<>();
+        //noinspection ConstantConditions
         for (String tag : TagManagerKt.getTags()) {
             if (tag.toLowerCase().contains(search)) {
                 if (!task.getTags().contains(tag)) tags.add(tag);
@@ -80,6 +83,8 @@ class TagUnselectedAdapter extends BaseAdapter {
         return tags.get(position);
     }
 
+    // TODO: Implement ViewHolder Design
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false);

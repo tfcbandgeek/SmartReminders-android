@@ -3,6 +3,9 @@ package jgappsandgames.smartreminderslite.date;
 // Java
 import java.util.Calendar;
 
+// Jetbeans
+import org.jetbrains.annotations.NotNull;
+
 // Vies
 import android.widget.BaseAdapter;
 import android.widget.CalendarView;
@@ -31,7 +34,7 @@ public class MonthActivity extends MonthActivityInterface {
 
     // On Date Set Presses
     @Override
-    public void onSelectedDayChange(CalendarView calendar, int year, int month, int day) {
+    public void onSelectedDayChange(@NotNull CalendarView calendar, int year, int month, int day) {
         selected.set(Calendar.YEAR, year);
         selected.set(Calendar.MONTH, month);
         selected.set(Calendar.DAY_OF_MONTH, day);

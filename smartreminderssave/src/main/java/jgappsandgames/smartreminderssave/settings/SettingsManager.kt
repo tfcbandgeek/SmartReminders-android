@@ -10,7 +10,6 @@ import android.os.Build
 // Save
 import jgappsandgames.smartreminderssave.utility.*
 
-
 /**
  * SettingsManager
  * Created by joshuagarner on 11/1/17.

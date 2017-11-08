@@ -15,20 +15,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 // Program
-import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
-import jgappsandgames.smartreminderssave.MasterManagerKt;
-import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
 
 // Save
-
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
 
 /**
  * // SettingsActivity
  * Created by joshua on 10/2/17.
- * Last Edited on 10/11/17 (101).
  */
 public class SettingsActivity extends Activity implements OnClickListener{
     // Views
@@ -54,6 +52,7 @@ public class SettingsActivity extends Activity implements OnClickListener{
         // Set Text
         your_name.setText(SettingsManagerKt.getUser_name());
         device_name.setText(SettingsManagerKt.getDevice_name());
+        //noinspection ConstantConditions
         if (SettingsManagerKt.getExternal_file()) app_directory.setText(R.string.save_external);
         else app_directory.setText(R.string.save_app);
 
@@ -76,6 +75,7 @@ public class SettingsActivity extends Activity implements OnClickListener{
     public void onClick(View view) {
         // App Directory
         if (view.equals(app_directory)) {
+            //noinspection ConstantConditions
             if (SettingsManagerKt.getExternal_file()) {
                 SettingsManagerKt.setExternal_file(false);
                 app_directory.setText(R.string.save_app);
@@ -100,7 +100,7 @@ public class SettingsActivity extends Activity implements OnClickListener{
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         switch (requestCode) {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults.length > 0) {

@@ -14,12 +14,12 @@ public class ActivityUtility {
 
     // Request Codes
     public static final int REQUEST_CHECKPOINT = 1;
-    public static final int REQUEST_Management = 2;
+    //public static final int REQUEST_Management = 2;
     public static final int REQUEST_TAGS = 3;
     public static final int REQUEST_EXTERNAL_STORAGE_PERMISSION = 4;
 
     // Response Codes
-    public static final int RESPONSE_CANCEL = -1;
+    //public static final int RESPONSE_CANCEL = -1;
     public static final int RESPONSE_NONE = 0;
     public static final int RESPONSE_CHANGE = 1;
 }

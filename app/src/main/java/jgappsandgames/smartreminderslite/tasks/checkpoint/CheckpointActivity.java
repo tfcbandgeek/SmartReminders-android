@@ -38,6 +38,7 @@ public class CheckpointActivity
     private String text;
 
     // Views
+    @SuppressWarnings("FieldCanBeLocal")
     private EditText text_view;
     private Button status_button;
 

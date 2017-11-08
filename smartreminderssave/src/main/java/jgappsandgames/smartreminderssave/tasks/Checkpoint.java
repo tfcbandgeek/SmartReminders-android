@@ -7,7 +7,6 @@ import org.json.JSONObject;
 /**
  * Checkpoint
  * Created by joshua on 10/4/17.
- * Last Edited on 10/5/17 (53).
  */
 public class Checkpoint {
     private static final String ID = "position";
@@ -18,12 +17,13 @@ public class Checkpoint {
     public boolean status;
     public String text;
 
+    @SuppressWarnings("unused")
     public Checkpoint(int id) {
         this.id = id;
         status = false;
     }
 
-    public Checkpoint(int id, String text) {
+    public Checkpoint(int id, @SuppressWarnings("SameParameterValue") String text) {
         this.id = id;
         this.text = text;
         status = false;

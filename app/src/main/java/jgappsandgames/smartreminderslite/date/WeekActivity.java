@@ -23,20 +23,16 @@ import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
-import jgappsandgames.smartreminderssave.MasterManagerKt;
-import jgappsandgames.smartreminderssave.daily.DailyManagerKt;
-import jgappsandgames.smartreminderssave.date.DateManagerKt;
-import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 
 /**
  * WeekActivity
  * Created by joshua on 10/9/17.
- * Last Last Edited on 10/12/17 (175).
- * Edited on 10/11/17 (149).
- * Edited on 10/9/17 (140).
  */
 public class WeekActivity
         extends Activity

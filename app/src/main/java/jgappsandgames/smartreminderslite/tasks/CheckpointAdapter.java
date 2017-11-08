@@ -52,8 +52,7 @@ class CheckpointAdapter extends BaseAdapter {
     // Item Methods
     @Override
     public Checkpoint getItem(int position) {
-        final Checkpoint c = checkpoints.get(position);
-        return c;
+        return checkpoints.get(position);
     }
 
     @Override

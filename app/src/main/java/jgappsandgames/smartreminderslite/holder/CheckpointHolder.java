@@ -24,8 +24,6 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 /**
  * CheckpointHolder
  * Created by joshua on 9/1/17.
- * Last Edited on 10/14/17 (99).
- * Edited On 10/11/17 (94).
  */
 public class CheckpointHolder implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Data

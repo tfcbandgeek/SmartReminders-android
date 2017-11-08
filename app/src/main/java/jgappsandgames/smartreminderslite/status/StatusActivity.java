@@ -2,8 +2,6 @@ package jgappsandgames.smartreminderslite.status;
 
 // Java
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
@@ -25,27 +23,21 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.status.StatusManagerKt;
-import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * Status Activity
  * Created by joshua on 9/4/17.
- * Last Edited on 10/12/17 (141).
- * Edited on 10/11/17 (114).
- * Edited On 10/5/17 (112).
  */
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class StatusActivity
         extends Activity
         implements TaskFolderHolder.OnTaskChangedListener {
-    // Data
-    private List<Task> overdue_array;
-    private List<Task> incomplete_array;
-    private List<Task> done_array;
-
     // Views
+    @SuppressWarnings("unused")
     private TextView overdue_text;
     private ListView overdue_list;
+    @SuppressWarnings("unused")
     private TextView incomplete_text;
     private ListView incomplete_list;
     private TextView done_text;

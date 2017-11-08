@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-// Program
+// App
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
@@ -31,9 +31,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 /**
  * DayActivity
  * Created by joshua on 10/9/17.
- * Last Edited on 10/12/17 (161).
- * Edited on 10/11/17 (135).
- * Edited on 10/9/17 (126).
  */
 public class DayActivity extends Activity
         implements View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
@@ -52,6 +49,7 @@ public class DayActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Set Content View
         setContentView(R.layout.activity_date);
 
@@ -84,6 +82,7 @@ public class DayActivity extends Activity
     protected void onResume() {
         super.onResume();
 
+        // Reset the Adapter (It is possible that the information it was based on has changed)
         adapter = new DayAdapter(this, day_active);
         tasks.setAdapter(adapter);
     }
@@ -99,7 +98,7 @@ public class DayActivity extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                save();
+                MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 
@@ -142,13 +141,7 @@ public class DayActivity extends Activity
         onResume();
     }
 
-    // Private Class Methods
-    private void save() {
-        // Save
-        MasterManagerKt.save();
-    }
-
-    // Private Class Methods
+    // Method to Set the Days Title
     private void setTitle() {
         setTitle(String.valueOf(day_active.get(Calendar.MONTH) + 1) + "/" + String.valueOf(day_active.get(Calendar.DAY_OF_MONTH)));
     }

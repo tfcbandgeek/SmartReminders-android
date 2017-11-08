@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.tags;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
@@ -19,9 +18,9 @@ import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
+import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
-import jgappsandgames.smartreminderslite.home.FirstRun;
 import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
@@ -30,20 +29,20 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 /**
  * TagActivity
  * Created by joshua on 9/2/17.
- * Last Edited on 10/12/17 (134).
- * Edited on 10/11/17 (106).
- * Edited on 10/5/17 (100).
  */
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class TagActivity
         extends Activity
         implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
     // Data
-    private List<String> selected_tags;
-    private List<Task> tasks;
+    private ArrayList<String> selected_tags;
+    private ArrayList<Task> tasks;
 
     // Views
+    @SuppressWarnings("unused")
     private TextView tasks_text;
     private ListView tasks_list;
+    @SuppressWarnings("unused")
     private TextView selected_text;
     private ListView selected_list;
     private TextView unselected_text;
@@ -89,7 +88,9 @@ public class TagActivity
         super.onResume();
 
         tasks = new ArrayList<>();
-        for (int i = 0; i < TaskManagerKt.getTasks().size(); i++) tasks.add(new Task(TaskManagerKt.getTasks().get(i)));
+        //noinspection ConstantConditions
+        for (int i = 0; i < TaskManagerKt.getTasks().size(); i++) //noinspection ConstantConditions
+            tasks.add(new Task(TaskManagerKt.getTasks().get(i)));
 
         // Set Adapters
         task_adapter = new TaskAdapter(this, selected_tags, tasks);

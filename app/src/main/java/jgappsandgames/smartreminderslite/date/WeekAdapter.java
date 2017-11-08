@@ -8,7 +8,6 @@ import jgappsandgames.smartreminderssave.date.DateManagerKt;
 /**
  * WeekAdapter
  * Created by joshua on 10/9/17.
- * Last Edited on 10/9/17 ().
  */
 class WeekAdapter extends TaskAdapterInterface {
     // Initializer
