@@ -5,8 +5,6 @@ import android.widget.CalendarView;
 
 import java.util.Calendar;
 
-import jgappsandgames.smartreminderssave.date.DateManager;
-
 /**
  * MonthActivity
  * Created by joshua on 10/12/17.

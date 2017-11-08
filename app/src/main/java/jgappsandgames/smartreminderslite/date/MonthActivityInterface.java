@@ -10,7 +10,6 @@ import android.widget.Toast;
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 import java.util.Calendar;
 import java.util.List;

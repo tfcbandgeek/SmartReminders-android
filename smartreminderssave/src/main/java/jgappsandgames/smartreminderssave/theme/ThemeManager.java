@@ -6,10 +6,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
-import jgappsandgames.smartreminderssave.utility.JSONUtility;
-import jgappsandgames.smartreminderssave.utility.API;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
-
 /**
  * ThemeManager
  * Created by joshua on 10/16/17.

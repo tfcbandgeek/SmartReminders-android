@@ -23,7 +23,6 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 /**
  * TaskFolderHolder

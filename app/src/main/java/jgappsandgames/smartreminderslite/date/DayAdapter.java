@@ -3,7 +3,6 @@ package jgappsandgames.smartreminderslite.date;
 import java.util.Calendar;
 
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
-import jgappsandgames.smartreminderssave.date.DateManager;
 
 /**
  * DayAdapter

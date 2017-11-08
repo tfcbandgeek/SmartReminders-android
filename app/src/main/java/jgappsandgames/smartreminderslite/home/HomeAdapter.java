@@ -4,7 +4,7 @@ package jgappsandgames.smartreminderslite.home;
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
 
 // Save
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
+
 
 /**
  * HomeAdapter

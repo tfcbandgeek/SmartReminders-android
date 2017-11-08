@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderslite.date;
 
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;
-import jgappsandgames.smartreminderssave.date.DateManager;
 
 /**
  * WeekAdapter

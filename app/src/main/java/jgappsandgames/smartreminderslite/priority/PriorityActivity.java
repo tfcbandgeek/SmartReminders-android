@@ -29,8 +29,6 @@ import jgappsandgames.smartreminderslite.home.FirstRun;
 import jgappsandgames.smartreminderssave.settings.Settings;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * PriorityActivity

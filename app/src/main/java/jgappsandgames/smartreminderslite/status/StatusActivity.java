@@ -22,7 +22,6 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 /**
  * Status Activity

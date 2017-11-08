@@ -12,10 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-// Save
-import jgappsandgames.smartreminderssave.utility.JSONUtility;
-import jgappsandgames.smartreminderssave.utility.API;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
+import jgappsandgames.smartreminderssave.utility.APIKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
+import jgappsandgames.smartreminderssave.utility.JSONUtilityKt;
 
 /**
  * Task
@@ -24,7 +23,9 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
  * Edited On 10/12/17 (520).
  * Edited On 10/5/17 (521)
  *
- * Current API: 10
+ * Current API: 11
+ * TODO: Implement Change Listener Like MEthods
+ * TODO: Is Overdue Method
  */
 public class Task {
     // Save Constants
@@ -97,7 +98,7 @@ public class Task {
         filename = String.valueOf(calendar.getTimeInMillis()) + ".srj";
 
         this.parent = parent;
-        version = API.RELEASE;
+        version = APIKt.getRELEASE();
         this.type = type;
         task_id = Calendar.getInstance().getTimeInMillis();
 
@@ -121,20 +122,16 @@ public class Task {
 
     public Task(String filename) {
         this.filename = filename;
-        try {
-            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), filename)));
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
+        loadJSON(JSONUtilityKt.loadJSON(FileUtilityKt.getApplicationFileDirectory(), filename));
     }
 
     // Management Methods
     public void save() {
-        JSONUtility.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), filename), toJSON());
+        JSONUtilityKt.saveJSONObject(FileUtilityKt.getApplicationFileDirectory(), filename, toJSON());
     }
 
     public void delete() {
-        File file = new File(FileUtility.getApplicationDataDirectory(), filename);
+        File file = new File(FileUtilityKt.getApplicationFileDirectory(), filename);
         file.delete();
     }
 
@@ -146,7 +143,7 @@ public class Task {
             return;
         }
 
-        version = data.optInt(VERSION, API.RELEASE);
+        version = data.optInt(VERSION, APIKt.getRELEASE());
         parent = data.optString(PARENT, "home");
         type = data.optInt(TYPE, TYPE_NONE);
         task_id = data.optLong(TASK_ID, Calendar.getInstance().getTimeInMillis());
@@ -308,6 +305,25 @@ public class Task {
 
     public boolean isCompleted() {
         return status == STATUS_DONE;
+    }
+
+    public boolean isOverdue() {
+        final Calendar today = Calendar.getInstance();
+        // If the Task is a folder Return False
+        if (type == TYPE_FLDR) return false;
+
+        // If the Task has no date due Return False
+        if (date_due == null) return false;
+
+        // If the Task is Due today Return False
+        if (date_due.get(Calendar.YEAR) == today.get(Calendar.YEAR) && date_due.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) return false;
+
+        // If the Task's Due Date is After todays date Return False
+        if (date_due.get(Calendar.YEAR) > today.get(Calendar.YEAR)) return false;
+        if (date_due.get(Calendar.YEAR) == today.get(Calendar.YEAR) && date_due.get(Calendar.DAY_OF_YEAR) > today.get(Calendar.DAY_OF_YEAR)) return false;
+
+        // The task is Overdue
+        return true;
     }
 
     public String getStatusString() {
@@ -475,6 +491,7 @@ public class Task {
         return this;
     }
 
+    // Class to Convert A Calendar to JSONObject
     private class JSONCalendar {
         private static final String ACTIVE = "active";
         private static final String DATE = "date";
