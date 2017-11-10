@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // JSON
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -11,6 +12,9 @@ import jgappsandgames.smartreminderssave.utility.*
  * TaskManager
  * Created by joshuagarner on 11/2/17.
  */
+
+// Log Constants
+private val LOG = "taskmanager"
 
 // Filepath Constant
 private val FILENAME = "taskmanager.srj"
@@ -32,23 +36,28 @@ var deleted: ArrayList<String>? = null
 
 // Management Methods
 fun createTasks() {
+    Log.d(LOG, "createTasks Create")
     version = MANAGEMENT
 
     home = ArrayList()
     tasks = ArrayList()
     archived = ArrayList()
     deleted = ArrayList()
+    Log.v(LOG, "createTasks Done")
 }
 
 fun loadTasks() {
+    Log.d(LOG, "loadTasks Create")
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
     if (data == JSONObject() || !data.has(VERSION)) {
+        Log.v(LOG, "No data, Calling Create")
         createTasks()
         saveTasks()
         return
     }
 
+    Log.v(LOG, "Loading Data")
     version = data.optInt(VERSION, RELEASE)
 
     var h = data.optJSONArray(HOME)
@@ -65,6 +74,7 @@ fun loadTasks() {
     archived = ArrayList()
     deleted = ArrayList()
 
+    Log.v(LOG, "Insert Tasks")
     (0 .. h.length())
             .mapNotNull { h.optString(it) }
             .filterNot { home!!.contains(it) }
@@ -86,9 +96,16 @@ fun loadTasks() {
             .forEach { deleted!!.add(it) }
 
     if (deleted!!.size >= 50) deleted!!.removeAt(0)
+    Log.i(HOME, home!!.size.toString())
+    Log.i(TASKS, tasks!!.size.toString())
+    Log.i(ARCHIVED, archived!!.size.toString())
+    Log.i(DELETED, deleted!!.size.toString())
+
+    Log.v(LOG, "loadTasks Done")
 }
 
 fun saveTasks() {
+    Log.d(LOG, "saveTasks Called")
     val data = JSONObject()
 
     val h = JSONArray()
@@ -106,11 +123,21 @@ fun saveTasks() {
     data.put(ARCHIVED, a)
     data.put(DELETED, d)
 
+    Log.i(HOME, home!!.size.toString())
+    Log.i(TASKS, tasks!!.size.toString())
+    Log.i(ARCHIVED, archived!!.size.toString())
+    Log.i(DELETED, deleted!!.size.toString())
+
+    Log.v(LOG, "Saving")
     saveJSONObject(getApplicationFileDirectory(), FILENAME, data)
+
+    Log.v(LOG, "saveTasks Done")
 }
 
 // Task Methods
 fun createTask(): Task {
+    Log.d(LOG, "createTask Called")
+
     // Create Task
     val task = Task("home", Task.TYPE_TASK)
     task.save()
@@ -125,6 +152,7 @@ fun createTask(): Task {
 }
 
 fun createFolder(): Task {
+    Log.d(LOG, "createFolder Called")
     // Create Folder
     val task = Task("home", Task.TYPE_FLDR)
     task.save()
@@ -139,6 +167,8 @@ fun createFolder(): Task {
 }
 
 fun createTask(parent: Task): Task {
+    Log.d(LOG, "createTask() Called")
+
     // Create Task
     val task = Task(parent.filename, Task.TYPE_TASK)
     task.save()
@@ -155,6 +185,8 @@ fun createTask(parent: Task): Task {
 }
 
 fun createFolder(parent: Task): Task {
+    Log.d(LOG, "createFolder() Called")
+
     // Create Folder
     val task = Task(parent.filename, Task.TYPE_FLDR)
     task.save()

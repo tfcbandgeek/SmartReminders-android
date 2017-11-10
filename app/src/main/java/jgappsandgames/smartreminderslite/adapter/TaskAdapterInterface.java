@@ -44,23 +44,27 @@ public abstract class TaskAdapterInterface extends BaseAdapter {
 
     // Initializers
     protected TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, ArrayList<Task> tasks) {
-        Log.d(LOG, "Initializing");
+        Log.d(LOG, "Initializing.");
         this.activity = activity;
         this.listener = listener;
         this.tasks = tasks;
 
-        Log.v(LOG, "Finished Initializing");
+        Log.v(LOG, String.valueOf(this.tasks.size()));
+
+        Log.v(LOG, "Finished Initializing.");
     }
 
     protected TaskAdapterInterface(Activity activity, TaskFolderHolder.OnTaskChangedListener listener, ArrayList<String> tasks, @SuppressWarnings({"SameParameterValue", "unused"}) @Nullable String unused) {
-        Log.d(LOG, "Initializing");
+        Log.d(LOG, "Initializing.");
         this.activity = activity;
         this.listener = listener;
 
         this.tasks = new ArrayList<>();
         for (String t : tasks) this.tasks.add(new Task(t));
 
-        Log.v(LOG, "Finished Initializing");
+        Log.v(LOG, String.valueOf(this.tasks.size()));
+
+        Log.v(LOG, "Finished Initializing.");
     }
 
     // List Methods

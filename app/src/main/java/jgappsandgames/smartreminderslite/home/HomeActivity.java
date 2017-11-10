@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 
 // Views
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,7 +22,7 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.date.DayActivity;
 import jgappsandgames.smartreminderslite.date.MonthActivity;
 import jgappsandgames.smartreminderslite.date.WeekActivity;
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.priority.PriorityActivity;
 import jgappsandgames.smartreminderslite.status.StatusActivity;
 import jgappsandgames.smartreminderslite.tags.TagActivity;
@@ -38,9 +41,10 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
  *
  * Main Entry Point For The Application
  */
-public class HomeActivity
-        extends Activity
-        implements View.OnClickListener, View.OnLongClickListener, TaskFolderHolder.OnTaskChangedListener {
+public class HomeActivity extends Activity implements OnClickListener, OnLongClickListener, OnTaskChangedListener {
+    // Log Constant
+    private String LOG = "HomeActivity";
+
     // Views
     private ListView tasks;
     @SuppressWarnings("FieldCanBeLocal")
@@ -54,47 +58,68 @@ public class HomeActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG, "onCreate Called");
 
         // Set Activity View
+        Log.v(LOG, "Setting the View");
         setContentView(R.layout.activity_home);
         setTitle(R.string.app_name);
 
-        // First Run
+        // Load Filepath
+        Log.v(LOG, "Loading Filepaths");
         FileUtilityKt.loadFilepaths(this);
+
+        // First Run, Create Data
         if (FileUtilityKt.isFirstRun()) {
+            Log.v(LOG, "First Run, Create all information and Launch the FirstRunActivity");
             MasterManagerKt.create();
             MasterManagerKt.save();
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
-        } else {
-            // Load Data
+        }
+
+        // Every Other Run, Load Data
+        else {
+            Log.v(LOG, "Normal Run, Load the Data");
             MasterManagerKt.load();
         }
 
         // Find Views
+        Log.v(LOG, "Finding Views");
         tasks = findViewById(R.id.tasks);
         fab = findViewById(R.id.fab);
 
         // Set Click Listeners
+        Log.v(LOG, "Setting Click Listeners");
         fab.setOnClickListener(this);
         fab.setOnLongClickListener(this);
+
+        Log.v(LOG, "onCreate is Complete");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(LOG, "onResume called");
 
         // Set Adapters
+        Log.v(LOG, "Setting Adapters");
         adapter = new HomeAdapter(this);
         tasks.setAdapter(adapter);
+
+        Log.v(LOG, "onResume Done");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(LOG, "onPause Called");
 
         // Save
-        save();
+        Log.v(LOG, "Saving");
+        MasterManagerKt.save();
+
+        Log.v(LOG, "onPause Done");
     }
 
     // Menu Methods
@@ -140,7 +165,7 @@ public class HomeActivity
                 return true;
 
             case R.id.save:
-                save();
+                MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
                 return true;
 
@@ -155,27 +180,39 @@ public class HomeActivity
     // Click Listeners
     @Override
     public void onClick(View view) {
+        Log.d(LOG, "onClick Called");
+
         // Create Task
+        Log.v(LOG, "Create Task");
         Task task = TaskManagerKt.createTask();
 
         // Create Intent
+        Log.v(LOG, "Create Intent");
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename());
 
         // Start Activity
+        Log.v(LOG, "Start Activity");
         startActivity(intent);
+
+        Log.v(LOG, "onClick Done");
     }
 
     @Override
     public boolean onLongClick(View view) {
-        // Create Task
+        Log.d(LOG, "onLongClick Called");
+
+        // Create Folder
+        Log.v(LOG, "Create Folder");
         Task task = TaskManagerKt.createFolder();
 
         // Create Intent
+        Log.v(LOG, "Create Intent");
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename());
 
         // Start Activity
+        Log.v(LOG, "Start Activity");
         startActivity(intent);
         return true;
     }
@@ -183,9 +220,5 @@ public class HomeActivity
     @Override
     public void onTaskChanged() {
         onResume();
-    }
-
-    private void save() {
-        MasterManagerKt.save();
     }
 }
