@@ -62,6 +62,8 @@ public class HomeActivity
         // First Run
         FileUtilityKt.loadFilepaths(this);
         if (FileUtilityKt.isFirstRun()) {
+            MasterManagerKt.create();
+            MasterManagerKt.save();
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
         } else {
@@ -168,6 +170,7 @@ public class HomeActivity
     public boolean onLongClick(View view) {
         // Create Task
         Task task = TaskManagerKt.createFolder();
+
         // Create Intent
         Intent intent = new Intent(this, TaskActivity.class);
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename());

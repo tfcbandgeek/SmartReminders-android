@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,7 +21,7 @@ import android.widget.Toast;
 // App
 import jgappsandgames.smartreminderslite.R;
 
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
@@ -32,8 +33,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
  * DayActivity
  * Created by joshua on 10/9/17.
  */
-public class DayActivity extends Activity
-        implements View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
+public class DayActivity extends Activity implements OnClickListener, OnTaskChangedListener {
     // Data
     private Calendar day_active;
 

@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave
 
 // Save
+import android.util.Log
 import jgappsandgames.smartreminderssave.daily.*
 import jgappsandgames.smartreminderssave.date.createDates
 import jgappsandgames.smartreminderssave.date.loadDates
@@ -25,8 +26,16 @@ import jgappsandgames.smartreminderssave.theme.saveTheme
 /**
  * MasterManager
  * Created by joshua on 10/30/17.
+ *
+ * File for Universallizing the Management of Managers
  */
+
+// Lod ID
+private val LOG = "MasterManager"
+
 fun create() {
+    Log.d(LOG, "Creating Managers")
+
     // Settings
     createSettings()
     createTheme()
@@ -51,6 +60,8 @@ fun create() {
 }
 
 fun load() {
+    Log.d(LOG, "Loading Managers")
+
     // Settings
     loadSettings()
     loadTheme()
@@ -72,6 +83,7 @@ fun load() {
 }
 
 fun save() {
+    Log.d(LOG, "Saving Managers")
     // Settings
     saveSettings()
     saveTheme()
