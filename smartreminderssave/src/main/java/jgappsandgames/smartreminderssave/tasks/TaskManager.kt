@@ -1,7 +1,9 @@
 package jgappsandgames.smartreminderssave.tasks
 
-// JSON
+// Android OS
 import android.util.Log
+
+// JSON
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -105,6 +107,8 @@ fun loadTasks() {
 }
 
 fun saveTasks() {
+    if (home == null) return
+
     Log.d(LOG, "saveTasks Called")
     val data = JSONObject()
 
@@ -136,6 +140,8 @@ fun saveTasks() {
 
 // Task Methods
 fun createTask(): Task {
+    if (home == null) loadTasks()
+
     Log.d(LOG, "createTask Called")
 
     // Create Task
@@ -148,10 +154,13 @@ fun createTask(): Task {
     saveTasks()
 
     // Return the New Task
+    Log.v(LOG, task.toString())
     return task
 }
 
 fun createFolder(): Task {
+    if (home == null) loadTasks()
+
     Log.d(LOG, "createFolder Called")
     // Create Folder
     val task = Task("home", Task.TYPE_FLDR)
@@ -167,6 +176,8 @@ fun createFolder(): Task {
 }
 
 fun createTask(parent: Task): Task {
+    loadTasks()
+
     Log.d(LOG, "createTask() Called")
 
     // Create Task
@@ -185,6 +196,8 @@ fun createTask(parent: Task): Task {
 }
 
 fun createFolder(parent: Task): Task {
+    if (home == null) loadTasks()
+
     Log.d(LOG, "createFolder() Called")
 
     // Create Folder
@@ -203,6 +216,8 @@ fun createFolder(parent: Task): Task {
 }
 
 fun archiveTask(task: Task) {
+    if (home == null) loadTasks()
+
     task.markArchived()
     task.save()
 
@@ -218,6 +233,8 @@ fun unArchiveTask(task: Task) {
 */
 
 fun deleteTask(task: Task) {
+    if (home == null) loadTasks()
+
     if (archived!!.contains(task.filename)) {
         task.delete()
         deleted!!.add(task.filename)

@@ -216,6 +216,16 @@ public class Task {
         return data;
     }
 
+    @Override
+    public String toString() {
+        try {
+            return toJSON().toString(4);
+        } catch (NullPointerException | JSONException e) {
+            e.printStackTrace();
+            return super.toString();
+        }
+    }
+
     public void updateTask(JSONObject data) {
         if (j_cal.loadCalendar(data.optJSONObject(CAL_UPDATE)).after(date_updated)) loadJSON(data);
     }
