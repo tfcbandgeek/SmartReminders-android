@@ -73,6 +73,7 @@ public class TaskActivity
         super.onCreate(savedInstanceState);
 
         // Load Data
+        MasterManagerKt.load();
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
         // Set Title
@@ -81,16 +82,6 @@ public class TaskActivity
         // Set Content View
         if (task.getType() == Task.TYPE_TASK) setContentView(R.layout.activity_task);
         else setContentView(R.layout.activity_folder);
-
-        // First Run
-        FileUtilityKt.loadFilepaths(this);
-        if (FileUtilityKt.isFirstRun()) {
-            Intent first_run = new Intent(this, FirstRun.class);
-            startActivity(first_run);
-        } else {
-            // Load Data
-            MasterManagerKt.load();
-        }
 
         // Find Views
         title = findViewById(R.id.title);

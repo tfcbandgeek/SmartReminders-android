@@ -79,7 +79,7 @@ fun getApplicationFileDirectory(): File {
     Log.d(LOG, "Getting the Application File Directory")
     // Saving to the Internal Directory as per Settings
     if (!external_file!!) {
-        Log.v(LOG, "Currntly Setup to save to the Internal Directory")
+        Log.v(LOG, "Currently Setup to save to the Internal Directory")
         if (data != null) return data!!
         throw RuntimeException("Filenames have yet to of been loaded")
     }

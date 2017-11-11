@@ -33,7 +33,6 @@ fun loadJSON(file: File, path: String): JSONObject {
             else builder.append(t).append(System.getProperty("line.separator"))
         }
 
-        Log.v(LOG, builder.toString())
         return JSONObject(builder.toString())
     } catch (e: Exception) {
         e.printStackTrace()
@@ -43,8 +42,7 @@ fun loadJSON(file: File, path: String): JSONObject {
 
 // Save JSON
 fun saveJSONObject(file: File, path: String, data: JSONObject) {
-    Log.v(LOG, "Saving " + data.toString(4) + "\n" + file.absolutePath + path)
-
+    Log.d(LOG, "Saving: " + file.absolutePath + path)
     val writer = BufferedWriter(FileWriter(File(file, path)))
     writer.write(data.toString())
     writer.flush()

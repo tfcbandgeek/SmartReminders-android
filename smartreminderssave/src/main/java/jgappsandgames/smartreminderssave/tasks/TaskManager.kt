@@ -52,6 +52,7 @@ fun loadTasks() {
     Log.d(LOG, "loadTasks Create")
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
+    Log.i(LOG, data.toString(4))
     if (data == JSONObject() || !data.has(VERSION)) {
         Log.v(LOG, "No data, Calling Create")
         createTasks()
@@ -78,23 +79,23 @@ fun loadTasks() {
 
     Log.v(LOG, "Insert Tasks")
     (0 .. h.length())
-            .mapNotNull { h.optString(it) }
-            .filterNot { home!!.contains(it) }
+            .map { h.optString(it, "") }
+            .filter { it != "" && !home!!.contains(it) }
             .forEach { home!!.add(it) }
 
     (0 .. t.length())
             .mapNotNull { t.optString(it) }
-            .filterNot { tasks!!.contains(it) }
+            .filterNot { it != "" && !tasks!!.contains(it) }
             .forEach { tasks!!.add(it) }
 
     (0 .. a.length())
             .mapNotNull { a.optString(it) }
-            .filterNot { archived!!.contains(it) }
+            .filterNot { it != "" && !archived!!.contains(it) }
             .forEach { archived!!.add(it) }
 
     (0 .. d.length())
             .mapNotNull { d.optString(it) }
-            .filterNot { deleted!!.contains(it) }
+            .filterNot { it != "" && !deleted!!.contains(it) }
             .forEach { deleted!!.add(it) }
 
     if (deleted!!.size >= 50) deleted!!.removeAt(0)
@@ -117,11 +118,15 @@ fun saveTasks() {
     val a = JSONArray()
     val d = JSONArray()
 
-    for (string in home!!) h.put(string)
+    for (string in home!!) {
+        Log.i(LOG + " home", string)
+        h.put(string)
+    }
     for (string in tasks!!) t.put(string)
     for (string in archived!!) a.put(string)
     for (string in deleted!!) d.put(string)
 
+    data.put(VERSION, version)
     data.put(HOME, h)
     data.put(TASKS, t)
     data.put(ARCHIVED, a)

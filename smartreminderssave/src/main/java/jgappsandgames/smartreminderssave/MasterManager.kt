@@ -76,10 +76,10 @@ fun load() {
     loadStatus()
 
     // Task Manipulation
-    loadDaily()
-    loadWeekly()
-    loadMonthly()
-    loadYearly()
+    //loadDaily()
+    //loadWeekly()
+    //loadMonthly()
+    //loadYearly()
 }
 
 fun save() {

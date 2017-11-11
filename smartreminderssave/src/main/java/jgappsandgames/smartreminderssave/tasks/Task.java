@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.date.DateManagerKt;
 import jgappsandgames.smartreminderssave.priority.PriorityManagerKt;
 import jgappsandgames.smartreminderssave.status.StatusManagerKt;
@@ -121,6 +122,7 @@ public class Task {
 
     public Task(String filename) {
         this.filename = filename;
+        MasterManagerKt.load();
         loadJSON(JSONUtilityKt.loadJSON(FileUtilityKt.getApplicationFileDirectory(), filename));
     }
 

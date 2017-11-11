@@ -116,13 +116,6 @@ public class FirstRun extends Activity implements OnClickListener {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        MasterManagerKt.save();
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         switch (requestCode) {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:

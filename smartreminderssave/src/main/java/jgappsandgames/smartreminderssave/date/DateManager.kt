@@ -70,9 +70,11 @@ fun createDates() {
     }
 
     if (tasks == null) throw RuntimeException("TaskManager should be loaded first")
-    for (task in tasks!!) {
-        val temp = Task(task)
-        if (temp.type == Task.TYPE_TASK && temp.dateDue != null) addTask(temp)
+    if (tasks!!.size != 0) {
+        for (task in tasks!!) {
+            val temp = Task(task)
+            if (temp.type == Task.TYPE_TASK && temp.dateDue != null) addTask(temp)
+        }
     }
 
     // Weeks

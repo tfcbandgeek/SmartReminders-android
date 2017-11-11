@@ -7,10 +7,7 @@ import org.json.JSONObject
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.tasks
-import jgappsandgames.smartreminderssave.utility.MANAGEMENT
-import jgappsandgames.smartreminderssave.utility.RELEASE
-import jgappsandgames.smartreminderssave.utility.getApplicationFileDirectory
-import jgappsandgames.smartreminderssave.utility.loadJSON
+import jgappsandgames.smartreminderssave.utility.*
 
 /**
  * StatusManager
@@ -103,6 +100,8 @@ fun saveStatus() {
     for (s in not_yet_done!!) n.put(s)
     for (s in overdue!!) o.put(s)
     for (s in completed!!) c.put(s)
+
+    saveJSONObject(getApplicationFileDirectory(), FILENAME, data)
 }
 
 fun addTask(task: Task) {
