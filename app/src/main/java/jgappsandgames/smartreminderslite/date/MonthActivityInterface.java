@@ -10,15 +10,17 @@ import android.content.Intent;
 import android.os.Bundle;
 
 // Vies
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CalendarView;
+import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
@@ -30,9 +32,10 @@ import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
  * MonthActivityInterface
  * Created by joshua on 10/18/17.
  */
-abstract class MonthActivityInterface
-        extends Activity
-        implements TaskFolderHolder.OnTaskChangedListener, CalendarView.OnDateChangeListener {
+abstract class MonthActivityInterface extends Activity implements OnTaskChangedListener, OnDateChangeListener {
+    // Log Constants
+    private static final String LOG = "MonthActivityInterface";
+
     // Data
     Calendar selected;
     ArrayList<Task> selected_tasks;
@@ -46,30 +49,36 @@ abstract class MonthActivityInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG, "onCreate Called");
 
         // Set Activity View
+        Log.v(LOG, "Set the Content View");
         setContentView(R.layout.activity_month);
 
         // First Run
         FileUtilityKt.loadFilepaths(this);
         if (FileUtilityKt.isFirstRun()) {
+            Log.v(LOG, "First Run, Launching the First Run Activity");
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
         } else {
             // Load Data
+            Log.v(LOG, "Normal Run, Loading the Data");
             MasterManagerKt.load();
         }
 
         // Find Views
+        Log.v(LOG, "Finding the Views");
         calendar = findViewById(R.id.calendar);
         tasks = findViewById(R.id.tasks);
 
-        // Set Listeners
-        calendar.setOnDateChangeListener(this);
-
         // Set Calendar
+        Log.v(LOG, "Setting the Calendar");
+        calendar.setOnDateChangeListener(this);
         selected = Calendar.getInstance();
         selected.setTimeInMillis(calendar.getDate());
+
+        Log.v(LOG, "onCreate Done");
     }
 
     // Menu

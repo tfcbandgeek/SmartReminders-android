@@ -78,22 +78,22 @@ fun loadTasks() {
     deleted = ArrayList()
 
     Log.v(LOG, "Insert Tasks")
-    (0 .. h.length())
+    (0 until h.length())
             .map { h.optString(it, "") }
             .filter { it != "" && !home!!.contains(it) }
             .forEach { home!!.add(it) }
 
-    (0 .. t.length())
+    (0 until t.length())
             .mapNotNull { t.optString(it) }
             .filterNot { it != "" && !tasks!!.contains(it) }
             .forEach { tasks!!.add(it) }
 
-    (0 .. a.length())
+    (0 until a.length())
             .mapNotNull { a.optString(it) }
             .filterNot { it != "" && !archived!!.contains(it) }
             .forEach { archived!!.add(it) }
 
-    (0 .. d.length())
+    (0 until d.length())
             .mapNotNull { d.optString(it) }
             .filterNot { it != "" && !deleted!!.contains(it) }
             .forEach { deleted!!.add(it) }

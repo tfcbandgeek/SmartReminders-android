@@ -80,11 +80,11 @@ fun loadPriority() {
     high = ArrayList()
     star = ArrayList()
 
-    for (a in 0 .. i.length()) ignore!!.add(i.optString(a, ""))
-    for (a in 0 .. l.length()) low!!.add(l.optString(a, ""))
-    for (a in 0 .. n.length()) normal!!.add(n.optString(a, ""))
-    for (a in 0 .. h.length()) high!!.add(h.optString(a, ""))
-    for (a in 0 .. s.length()) star!!.add(s.optString(a, ""))
+    for (a in 0 until i.length()) ignore!!.add(i.optString(a, ""))
+    for (a in 0 until l.length()) low!!.add(l.optString(a, ""))
+    for (a in 0 until n.length()) normal!!.add(n.optString(a, ""))
+    for (a in 0 until h.length()) high!!.add(h.optString(a, ""))
+    for (a in 0 until s.length()) star!!.add(s.optString(a, ""))
 }
 
 fun savePriorty() {

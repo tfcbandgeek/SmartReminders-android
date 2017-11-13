@@ -136,12 +136,12 @@ fun loadDates() {
     months_reverse = ArrayList()
 
     // Load Data
-    for (i in 0 .. d.length()) days!!.add(Day(d.optJSONObject(i)))
-    for (i in 0 .. d_r.length()) days_reverse!!.add(Day(d_r.optJSONObject(i)))
-    for (i in 0 .. w.length()) weeks!!.add(Week(w.optJSONObject(i)))
-    for (i in 0 .. w_r.length()) weeks_reverse!!.add(Week(w_r.optJSONObject(i)))
-    for (i in 0 .. m.length()) months!!.add(Month(m.optJSONObject(i)))
-    for (i in 0 .. m_r.length()) months_reverse!!.add(Month(m_r.optJSONObject(i)))
+    for (i in 0 until d.length()) days!!.add(Day(d.optJSONObject(i)))
+    for (i in 0 until d_r.length()) days_reverse!!.add(Day(d_r.optJSONObject(i)))
+    for (i in 0 until w.length()) weeks!!.add(Week(w.optJSONObject(i)))
+    for (i in 0 until w_r.length()) weeks_reverse!!.add(Week(w_r.optJSONObject(i)))
+    for (i in 0 until m.length()) months!!.add(Month(m.optJSONObject(i)))
+    for (i in 0 until m_r.length()) months_reverse!!.add(Month(m_r.optJSONObject(i)))
 }
 
 fun saveDates() {

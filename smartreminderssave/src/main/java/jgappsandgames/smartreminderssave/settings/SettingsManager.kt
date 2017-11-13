@@ -107,14 +107,14 @@ fun loadSettings() {
         var b = data.optJSONArray(BACKUP_FILES)
         if (b == null) b = JSONArray()
         backup_files = ArrayList()
-        for (i in 0 .. b.length()) backup_files!!.add(b.optString(i, ""))
+        for (i in 0 until b.length()) backup_files!!.add(b.optString(i, ""))
 
         shortcut_month = data.optBoolean(SHORTCUT_MONTH, false)
 
         var t = data.optJSONArray(SHORTCUT_TASKS)
         if (t == null) t = JSONArray()
         shortcut_tasks = ArrayList()
-        for (i in 0 .. t.length()) shortcut_tasks!!.add(t.optString(i, ""))
+        for (i in 0 until t.length()) shortcut_tasks!!.add(t.optString(i, ""))
 
         completed_tasks = data.optInt(COMPLETED_TASK, 0)
         completed_checkpoints = data.optInt(COMPLETED_CHECKPOINT, 0)

@@ -63,11 +63,16 @@ fun loadStatus() {
     version = data.optInt(VERSION, RELEASE)
     meta = data.optJSONObject(META)
 
-    val f = data.optJSONArray(FOLDERS)
-    val d = data.optJSONArray(NO_DATE)
-    val n = data.optJSONArray(NOT_YET_DUE)
-    val o = data.optJSONArray(OVERDUE)
-    val c = data.optJSONArray(COMPLETED)
+    var f = data.optJSONArray(FOLDERS)
+    if (f == null) f = JSONArray()
+    var d = data.optJSONArray(NO_DATE)
+    if (d == null) d = JSONArray()
+    var n = data.optJSONArray(NOT_YET_DUE)
+    if (n == null) n = JSONArray()
+    var o = data.optJSONArray(OVERDUE)
+    if (o == null) o = JSONArray()
+    var c = data.optJSONArray(COMPLETED)
+    if (c == null) c = JSONArray()
 
     folders = ArrayList()
     no_date = ArrayList()
@@ -75,11 +80,11 @@ fun loadStatus() {
     overdue = ArrayList()
     completed = ArrayList()
 
-    for (i in 0 .. f.length()) folders!!.add(f.optString(i, ""))
-    for (i in 0 .. d.length()) no_date!!.add(d.optString(i, ""))
-    for (i in 0 .. n.length()) not_yet_done!!.add(n.optString(i, ""))
-    for (i in 0 .. o.length()) overdue!!.add(o.optString(i, ""))
-    for (i in 0 .. c.length()) completed!!.add(c.optString(i, ""))
+    for (i in 0 until f.length()) folders!!.add(f.optString(i, ""))
+    for (i in 0 until d.length()) no_date!!.add(d.optString(i, ""))
+    for (i in 0 until n.length()) not_yet_done!!.add(n.optString(i, ""))
+    for (i in 0 until o.length()) overdue!!.add(o.optString(i, ""))
+    for (i in 0 until c.length()) completed!!.add(c.optString(i, ""))
 
     checkTasks()
 }

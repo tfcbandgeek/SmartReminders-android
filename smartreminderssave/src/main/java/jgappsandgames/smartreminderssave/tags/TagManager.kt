@@ -51,7 +51,7 @@ fun loadTags() {
     var t = data.optJSONArray(TAGS)
     if (t == null) t = JSONArray()
     tags = ArrayList()
-    for (i in 0 .. t.length()) tags!!.add(t.optString(i, ""))
+    for (i in 0 until t.length()) tags!!.add(t.optString(i, ""))
 }
 
 fun saveTags() {

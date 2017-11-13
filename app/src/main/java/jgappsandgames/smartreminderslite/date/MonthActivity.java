@@ -7,6 +7,7 @@ import java.util.Calendar;
 import org.jetbrains.annotations.NotNull;
 
 // Vies
+import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.CalendarView;
 
@@ -19,6 +20,9 @@ import jgappsandgames.smartreminderssave.date.DateManagerKt;
  * Last Edited on 10/14/17 (106).
  */
 public class MonthActivity extends MonthActivityInterface {
+    // Log Constant
+    private static final String LOG = "MonthActivity";
+
     // Adapter
     private BaseAdapter adapter;
 
@@ -26,10 +30,15 @@ public class MonthActivity extends MonthActivityInterface {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(LOG, "onResume Called");
+
         // Set List
+        Log.v(LOG, "Setting Lists");
         selected_tasks = DateManagerKt.getDayTasks(selected);
         adapter = new MonthAdapter(this, selected_tasks);
         tasks.setAdapter(adapter);
+
+        Log.v(LOG, "onResume Done");
     }
 
     // On Date Set Presses
