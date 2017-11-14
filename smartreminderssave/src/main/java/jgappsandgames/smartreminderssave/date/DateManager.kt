@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.date
 
 // Java
+import android.util.Log
 import java.util.Calendar
 import java.util.GregorianCalendar
 
@@ -22,6 +23,9 @@ import jgappsandgames.smartreminderssave.utility.saveJSONObject
  * DateManager
  * Created by joshua on 11/2/2017.
  */
+
+// Log Constant
+private val LOG = "DateManager"
 
 // Filepath
 private val FILENAME = "datemanager.srj"
@@ -50,10 +54,14 @@ var months_reverse: ArrayList<Month>? = null
 
 // Management Methods
 fun createDates() {
+    Log.v(LOG, "createDates Called")
+
     // Days
+    Log.v(LOG, "Run Through Days")
     days = ArrayList()
     days_reverse = ArrayList()
 
+    Log.v(LOG, "Create Days For the Next Year")
     start = Calendar.getInstance()
     start!!.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
     for (i in 0 .. 365) {
@@ -61,6 +69,7 @@ fun createDates() {
         start!!.add(Calendar.DAY_OF_MONTH, 1)
     }
 
+    Log.v(LOG, "Create Days for the Past Week")
     start = Calendar.getInstance()
     start!!.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
     start!!.add(Calendar.DAY_OF_MONTH, -1)
@@ -69,6 +78,7 @@ fun createDates() {
         start!!.add(Calendar.DAY_OF_MONTH, -1)
     }
 
+    Log.v(LOG, "Sort Through the Tasks to Add to the Days")
     if (tasks == null) throw RuntimeException("TaskManager should be loaded first")
     if (tasks!!.size != 0) {
         for (task in tasks!!) {
@@ -78,48 +88,59 @@ fun createDates() {
     }
 
     // Weeks
+    Log.v(LOG, "Run Through The Weeks")
     weeks = ArrayList()
     weeks_reverse = ArrayList()
 
     start = Calendar.getInstance()
     start!!.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
 
+    Log.v(LOG, "Create Last Week")
     val a = start!!.clone() as Calendar
     a.add(Calendar.WEEK_OF_YEAR, -1)
     weeks_reverse!!.add(Week(a))
 
+    Log.v(LOG, "Create Weeks for the Next Year")
     for (i in 0 .. 52) {
         weeks!!.add(Week(start!!.clone() as Calendar))
         start!!.add(Calendar.WEEK_OF_YEAR, 1)
     }
 
     // Months
+    Log.v(LOG, "Run Through the Months")
     months = ArrayList()
     months_reverse = ArrayList()
 
     start = Calendar.getInstance()
-    start!!.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+    start!!.set(Calendar.DAY_OF_MONTH, 1)
 
+    Log.v(LOG, "Create the Last Month")
     val b = start!!.clone() as Calendar
     b.add(Calendar.MONTH, -1)
     months_reverse!!.add(Month(b))
 
+    Log.v(LOG, "Create Months for the Next Year")
     for (i in 0 .. 12) {
         months!!.add(Month(start!!.clone() as Calendar))
         start!!.add(Calendar.MONTH, 1)
     }
+
+    Log.v(LOG, "createDates Done")
 }
 
 fun loadDates() {
+    Log.d(LOG, "loadDates Called")
     val data = loadJSON(getApplicationFileDirectory(), FILENAME)
 
     if (data == JSONObject() || !data.has(VERSION)) {
+        Log.v(LOG, "No Save File Found, Creating Dates")
         createDates()
         saveDates()
         return
     }
 
     // Load JSON
+    Log.v(LOG, "Load JSON")
     val d = data.optJSONArray(DAYS)
     val d_r = data.optJSONArray(DAYS_REVERSE)
     val w = data.optJSONArray(WEEKS)
@@ -128,6 +149,7 @@ fun loadDates() {
     val m_r = data.optJSONArray(MONTHS_REVERSE)
 
     // Create Arrays
+    Log.v(LOG, "Load Arrays")
     days = ArrayList()
     days_reverse = ArrayList()
     weeks = ArrayList()
@@ -136,16 +158,22 @@ fun loadDates() {
     months_reverse = ArrayList()
 
     // Load Data
+    Log.v(LOG, "Load Data")
     for (i in 0 until d.length()) days!!.add(Day(d.optJSONObject(i)))
     for (i in 0 until d_r.length()) days_reverse!!.add(Day(d_r.optJSONObject(i)))
     for (i in 0 until w.length()) weeks!!.add(Week(w.optJSONObject(i)))
     for (i in 0 until w_r.length()) weeks_reverse!!.add(Week(w_r.optJSONObject(i)))
     for (i in 0 until m.length()) months!!.add(Month(m.optJSONObject(i)))
     for (i in 0 until m_r.length()) months_reverse!!.add(Month(m_r.optJSONObject(i)))
+
+    Log.v(LOG, "loadDates Done")
 }
 
 fun saveDates() {
+    Log.d(LOG, "saveDates")
+
     // Create JSON Holders
+    Log.v(LOG, "Create JSON Holders")
     val data = JSONObject()
 
     val d = JSONArray()
@@ -156,6 +184,7 @@ fun saveDates() {
     val m_r = JSONArray()
 
     // Fill JSONArrays
+    Log.d(LOG, "Fill JSONArrays")
     if (days!!.size > 0) for (i in 0 until days!!.size) d.put(days!![i].toJSON())
     if (days_reverse!!.size > 0) for (i in 0 until days_reverse!!.size - 1) d_r.put(days_reverse!![i].toJSON())
     if (weeks!!.size > 0) for (i in 0 until weeks!!.size) w.put(weeks!![i].toJSON())
@@ -164,6 +193,7 @@ fun saveDates() {
     if (months_reverse!!.size > 0) for (i in 0 until months_reverse!!.size) m_r.put(months_reverse!![i].toJSON())
 
     // Fill Data
+    Log.v(LOG, "Fill Data")
     data.put(DAYS, d)
     data.put(DAYS_REVERSE, d_r)
     data.put(WEEKS, w)
@@ -172,22 +202,40 @@ fun saveDates() {
     data.put(MONTHS_REVERSE, m_r)
 
     // Save to File
+    Log.v(LOG, "Save to File")
     saveJSONObject(getApplicationFileDirectory(), FILENAME, data)
+
+    Log.v(LOG, "saveDates Done")
 }
 
 // Add A Task Methods
 fun addTask(task: Task) {
+    Log.d(LOG, "addTask Called")
+
     // The Task is not a folder or having an actual date so we do not care about it
-    if (task.type != Task.TYPE_TASK || task.dateDue == null) return
+    if (task.type != Task.TYPE_TASK || task.dateDue == null) {
+        Log.v(LOG, "It is Not a Task or it is a Task With No Date Due")
+        return
+    }
 
     // The Task is in the Reverse ArrayList
-    if (task.dateDue.before(days!![0].day)) addTaskBefore(task)
+    if (task.dateDue.before(days!![0].day)) {
+        Log.v(LOG, "The Task should be added to the Reverse Tag List")
+        addTaskBefore(task)
+    }
 
     // The Task is in the Main ArrayList
-    else addTaskAfter(task)
+    else {
+        Log.v(LOG, "The Task should be added to the Main Tag List")
+        addTaskAfter(task)
+    }
+
+    Log.v(LOG, "addTask Done")
 }
 
 private fun addTaskBefore(task: Task) {
+    Log.v(LOG, "addTaskBefore Called"
+    )
     var i = 0
     while (true) {
         // Try to Add it to a Day
@@ -195,6 +243,7 @@ private fun addTaskBefore(task: Task) {
 
         // Approaching end of list, Add More Items (Before)
         if (i > days_reverse!!.size - 10) {
+            Log.i(LOG, "Add More Items to the List")
             val cal: Calendar = days_reverse!![days_reverse!!.size].day.clone() as Calendar
             cal.add(Calendar.DAY_OF_MONTH, -1)
 
@@ -208,9 +257,13 @@ private fun addTaskBefore(task: Task) {
         // Increment the Counter(i)
         i++
     }
+
+    Log.v(LOG, "addTaskBefore Done")
 }
 
 private fun addTaskAfter(task: Task) {
+    Log.d(LOG, "addTaskAfter Called")
+
     var i = 0
     while (true) {
         // Try to Add Task to A Day
@@ -218,6 +271,7 @@ private fun addTaskAfter(task: Task) {
 
         // Approaching end of list, Add More Items (After)
         if (i > days!!.size - 10) {
+            Log.i(LOG, "Approaching the end of the List, Adding More Items")
             val cal: Calendar = days!![days!!.size].day.clone() as Calendar
             cal.add(Calendar.DAY_OF_MONTH, 1)
 
@@ -231,31 +285,42 @@ private fun addTaskAfter(task: Task) {
         // Increment the Counter
         i++
     }
+    Log.v(LOG, "addTaskAfter Done")
 }
 
 // Remove A Task Methods
 fun removeTask(task: Task) {
+    Log.d(LOG, "removeTask Called")
+
     if (removeTaskAfter(task))
     else removeTaskBefore(task)
+
+    Log.v(LOG, "removeTask Done")
 }
 
 
 private fun removeTaskBefore(task: Task): Boolean {
-    for (i in 0 .. days_reverse!!.size) if (days_reverse!![i].removeTask(task)) return true
+    Log.d(LOG, "removeTaskBefore Called")
+    for (i in 0 until days_reverse!!.size) if (days_reverse!![i].removeTask(task)) return true
     return false
 }
 
 private fun removeTaskAfter(task: Task): Boolean {
-    for (i in 0 .. days!!.size) if (days!![i].removeTask(task)) return true
+    Log.d(LOG, "removeTaskAfter Called")
+    for (i in 0 until days!!.size) if (days!![i].removeTask(task)) return true
     return false
 }
 
 // Edit A Task Methods TODO: Make Method More Efficient
 fun editTask(task: Task) {
+    Log.d(LOG, "editTask Called")
+
     // Remove the Old Version of the Task
+    Log.v(LOG, "Remove Task")
     removeTask(task)
 
     // Add the new Version of the Task
+    Log.v(LOG, "Add Task")
     addTask(task)
 }
 

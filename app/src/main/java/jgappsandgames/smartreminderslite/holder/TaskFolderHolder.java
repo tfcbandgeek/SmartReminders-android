@@ -4,9 +4,10 @@ package jgappsandgames.smartreminderslite.holder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
+import android.util.Log;
 
 // Views
-import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -32,6 +33,9 @@ import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
  * Implements OnClickListener, OnLongClickListener, OnCheckedChangeListener
  */
 public class TaskFolderHolder implements OnClickListener, OnLongClickListener, OnCheckedChangeListener {
+    // Log Constant
+    private static final String LOG = "TaskFolderHolder";
+
     // Data
     public Task task;
     private final Activity activity;
@@ -44,48 +48,79 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
 
     // Initializer
     public TaskFolderHolder(Task task, View view, Activity activity, OnTaskChangedListener taskChangedListener) {
+        Log.d(LOG, "Initializer Called");
+
+        // Setting the Data
+        Log.v(LOG, "Setting the Data");
         this.task = task;
         this.activity = activity;
         this.onTaskChanged = taskChangedListener;
 
+        // Finding Views
+        Log.v(LOG, "Finding Views");
         title = view.findViewById(R.id.title);
+        note = view.findViewById(R.id.note);
+
+        // Set Click Listeners
+        Log.v(LOG, "Setting Click Listeners");
         title.setOnClickListener(this);
         title.setOnLongClickListener(this);
-
-        note = view.findViewById(R.id.note);
         note.setOnClickListener(this);
         note.setOnLongClickListener(this);
 
+        // Task Actions
         if (task.getType() == Task.TYPE_TASK) {
+            Log.v(LOG, "Task Actions");
             status = view.findViewById(R.id.status);
             status.setOnCheckedChangeListener(this);
         }
 
+        Log.v(LOG, "Set Views");
         setViews();
+
+        Log.v(LOG, "Initializer Done");
     }
 
     // Viwe Handler
     public void setViews() {
+        Log.d(LOG, "setViews Called");
+
+        // Tasks and Folders
+        Log.v(LOG, "Task and Folder Actions");
         title.setText(task.getTitle());
         note.setText(task.getNote());
 
+        // Task Actions
         if (task.getType() == Task.TYPE_TASK) {
+            Log.v(LOG, "Task Actions");
             status.setChecked(task.isCompleted());
         }
+
+        Log.v(LOG, "setViews Done");
     }
 
     // Click Handler
     @Override
     public void onClick(View view) {
+        Log.d(LOG, "onClick Called");
+
         Intent intent = new Intent(activity, TaskActivity.class);
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename());
         activity.startActivity(intent);
+
+        Log.v(LOG, "onClick Done");
     }
 
     @Override
     public boolean onLongClick(View view) {
+        Log.d(LOG, "onLongClick");
+
+        // Archive the Task
+        Log.v(LOG, "Archive the Task");
         TaskManagerKt.archiveTask(task);
 
+        // Vibrate
+        Log.v(LOG, "Vibrate");
         Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
         try {
             if (v != null && v.hasVibrator()) v.vibrate(100);
@@ -93,6 +128,8 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
             n.printStackTrace();
         }
 
+        // Notify of Task Change
+        Log.v(LOG, "Notify of Task Changed");
         if (onTaskChanged != null) onTaskChanged.onTaskChanged();
         return true;
     }
@@ -100,8 +137,14 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
     // Check Listeners
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        Log.d(LOG, "onCheckedChange Called");
+
+        // Change the Task
+        Log.d(LOG, "Change the Task");
         task.markComplete(b);
         task.save();
+
+        Log.v(LOG, "onCheckedChanged Done");
     }
 
     // Task Change Listener

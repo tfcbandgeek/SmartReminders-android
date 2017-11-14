@@ -355,13 +355,17 @@ public class Task {
 
     // Setters
     public Task setDateDue(Calendar calendar) {
+        boolean b = (date_due == null);
+
         // Task Changes
         if (calendar == null) date_due = null;
         else date_due = (Calendar) calendar.clone();
         date_updated = Calendar.getInstance();
 
         // DateManager Changes
-        DateManagerKt.editTask(this);
+        if (b && calendar != null) DateManagerKt.addTask(this);
+        else if (calendar != null) DateManagerKt.editTask(this);
+        else if (calendar == null) DateManagerKt.removeTask(this);
 
         // Return Task Object
         return this;

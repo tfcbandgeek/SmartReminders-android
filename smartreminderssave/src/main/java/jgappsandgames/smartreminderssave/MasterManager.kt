@@ -45,7 +45,7 @@ fun create() {
 
     // Sort
     createTags()
-    //createDates()
+    createDates()
     createPriority()
     createStatus()
 
@@ -71,7 +71,7 @@ fun load() {
 
     // Sort
     loadTags()
-    //loadDates()
+    loadDates()
     loadPriority()
     loadStatus()
 
@@ -93,7 +93,7 @@ fun save() {
 
     // Sort
     saveTags()
-    //  saveDates()
+    saveDates()
     savePriorty()
     saveStatus()
 
