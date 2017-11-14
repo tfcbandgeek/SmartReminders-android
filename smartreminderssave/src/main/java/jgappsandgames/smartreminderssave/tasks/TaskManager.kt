@@ -150,12 +150,12 @@ fun createTask(): Task {
     Log.d(LOG, "createTask Called")
 
     // Create Task
-    val task = Task("home", Task.TYPE_TASK)
+    val task = Task("home", TYPE_TASK)
     task.save()
 
     // Add Task
-    tasks!!.add(task.filename)
-    home!!.add(task.filename)
+    tasks!!.add(task.getFilename())
+    home!!.add(task.getFilename())
     saveTasks()
 
     // Return the New Task
@@ -168,12 +168,12 @@ fun createFolder(): Task {
 
     Log.d(LOG, "createFolder Called")
     // Create Folder
-    val task = Task("home", Task.TYPE_FLDR)
+    val task = Task("home", TYPE_FLDR)
     task.save()
 
     // Add Folder
-    tasks!!.add(task.filename)
-    home!!.add(task.filename)
+    tasks!!.add(task.getFilename())
+    home!!.add(task.getFilename())
     saveTasks()
 
     // Return the New Folder
@@ -186,14 +186,14 @@ fun createTask(parent: Task): Task {
     Log.d(LOG, "createTask() Called")
 
     // Create Task
-    val task = Task(parent.filename, Task.TYPE_TASK)
+    val task = Task(parent.getFilename(), TYPE_TASK)
     task.save()
 
     // Add Task
-    tasks!!.add(task.filename)
+    tasks!!.add(task.getFilename())
     saveTasks()
 
-    parent.addChild(task.filename)
+    parent.addChild(task.getFilename())
     parent.save()
 
     // Return the New Task
@@ -206,14 +206,14 @@ fun createFolder(parent: Task): Task {
     Log.d(LOG, "createFolder() Called")
 
     // Create Folder
-    val task = Task(parent.filename, Task.TYPE_FLDR)
+    val task = Task(parent.getFilename(), TYPE_FLDR)
     task.save()
 
     // Add Folder
-    tasks!!.add(task.filename)
+    tasks!!.add(task.getFilename())
     saveTasks()
 
-    parent.addChild(task.filename)
+    parent.addChild(task.getFilename())
     parent.save()
 
     // Return the New Folder
@@ -226,8 +226,8 @@ fun archiveTask(task: Task) {
     task.markArchived()
     task.save()
 
-    tasks!!.remove(task.filename)
-    archived!!.add(task.filename)
+    tasks!!.remove(task.getFilename())
+    archived!!.add(task.getFilename())
     saveTasks()
 }
 
@@ -240,10 +240,10 @@ fun unArchiveTask(task: Task) {
 fun deleteTask(task: Task) {
     if (home == null) loadTasks()
 
-    if (archived!!.contains(task.filename)) {
+    if (archived!!.contains(task.getFilename())) {
         task.delete()
-        deleted!!.add(task.filename)
-        archived!!.remove(task.filename)
+        deleted!!.add(task.getFilename())
+        archived!!.remove(task.getFilename())
         saveTasks()
     } else {
         archiveTask(task)

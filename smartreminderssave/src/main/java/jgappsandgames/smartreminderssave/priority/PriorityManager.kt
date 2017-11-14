@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.priority
 
 // JSON
+import jgappsandgames.smartreminderssave.tasks.TYPE_FLDR
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -119,22 +120,24 @@ fun savePriorty() {
 // Task Management Methods
 fun addTask(task: Task) {
     // Folders Have No Priority So Ignore Them
-    if (task.type == Task.TYPE_FLDR) return
+    if (task.getType() == TYPE_FLDR) return
 
     // Ignored Tasks
-    if (task.priority == 0 && ignore != null) ignore!!.add(task.filename)
+    if (task.getPriority() == 0 && ignore != null) ignore!!.add(task.getFilename())
 
     // Low Priority Tasks
-    if (task.priority in 1..32 && low != null) low!!.add(task.filename)
+    if (task.getPriority() in 1..32 && low != null) low!!.add(task.getFilename())
 
     // Normal Priority Tasks
-    if (task.priority in 33..66 && normal != null) normal!!.add(task.filename)
+    if (task.getPriority() in 33..66 && normal != null) normal!!.add(task.getFilename())
 
     // High Priority Tasks
-    if (task.priority in 67..99 && high != null) high!!.add(task.filename)
+    if (task.getPriority() in 67..99 && high != null) high!!.add(task.getFilename())
 
     // Stared Tasks
-    if (task.priority == 100 && star != null) star!!.add(task.filename)
+    if (task.getPriority() == 100 && star != null) star!!.add(task.getFilename())
+
+    savePriorty()
 }
 
 fun editTask(task: Task) {
@@ -143,12 +146,16 @@ fun editTask(task: Task) {
 
     // Add the New Version of the Task
     addTask(task)
+
+    savePriorty()
 }
 
 fun removeTask(task: Task) {
-    ignore!!.remove(task.filename)
-    low!!.remove(task.filename)
-    normal!!.remove(task.filename)
-    high!!.remove(task.filename)
-    star!!.remove(task.filename)
+    ignore!!.remove(task.getFilename())
+    low!!.remove(task.getFilename())
+    normal!!.remove(task.getFilename())
+    high!!.remove(task.getFilename())
+    star!!.remove(task.getFilename())
+
+    savePriorty()
 }

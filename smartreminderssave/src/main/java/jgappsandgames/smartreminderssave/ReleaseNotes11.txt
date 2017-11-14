@@ -6,3 +6,4 @@
 - New SortManagers
 - Code Consistence
 - Bug Fixes
+- All Checkpoints Completed Marks a Task as Completed

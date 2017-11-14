@@ -23,6 +23,7 @@ import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
 import jgappsandgames.smartreminderssave.priority.PriorityManagerKt;
 import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
@@ -110,10 +111,18 @@ public class PriorityActivity
             case R.id.save:
                 save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
+                return true;
 
             case R.id.close:
                 finish();
+                return true;
+
+            case R.id.refresh:
+                DateManagerKt.createDates();
+                DateManagerKt.saveDates();
+                onResume();
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

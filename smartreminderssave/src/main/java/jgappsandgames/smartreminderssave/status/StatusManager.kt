@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.status
 
 // JSON
+import jgappsandgames.smartreminderssave.tasks.TYPE_FLDR
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -111,19 +112,21 @@ fun saveStatus() {
 
 fun addTask(task: Task) {
     // Task is of Type folder
-    if (task.type == Task.TYPE_FLDR) folders!!.add(task.filename)
+    if (task.getType() == TYPE_FLDR) folders!!.add(task.getFilename())
 
     // Task is Completed
-    if (task.isCompleted) completed!!.add(task.filename)
+    if (task.isCompleted()) completed!!.add(task.getFilename())
 
     // Task has no date
-    if (task.dateDue == null) no_date!!.add(task.filename)
+    if (task.getDateDue() == null) no_date!!.add(task.getFilename())
 
     // Task is Overdue
-    if (task.isOverdue) overdue!!.add(task.filename)
+    if (task.isOverdue()) overdue!!.add(task.getFilename())
 
     // All others
-    not_yet_done!!.add(task.filename)
+    not_yet_done!!.add(task.getFilename())
+
+    saveStatus()
 }
 
 fun editTask(task: Task) {
@@ -132,21 +135,25 @@ fun editTask(task: Task) {
 
     // Add the New Version of the Task
     addTask(task)
+
+    saveStatus()
 }
 
 fun removeTask(task: Task) {
-    folders!!.remove(task.filename)
-    no_date!!.remove(task.filename)
-    not_yet_done!!.remove(task.filename)
-    overdue!!.remove(task.filename)
-    completed!!.remove(task.filename)
+    folders!!.remove(task.getFilename())
+    no_date!!.remove(task.getFilename())
+    not_yet_done!!.remove(task.getFilename())
+    overdue!!.remove(task.getFilename())
+    completed!!.remove(task.getFilename())
+
+    saveStatus()
 }
 
 fun checkTasks() {
     val temp = ArrayList<String>()
 
     for (task in not_yet_done!!) {
-        if (Task(task).isOverdue) {
+        if (Task(task).isOverdue()) {
             temp.add(task)
             overdue!!.add(task)
         }

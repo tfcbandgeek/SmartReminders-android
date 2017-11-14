@@ -12,6 +12,9 @@ import android.os.Build;
 import android.os.Bundle;
 
 // Views
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,7 +38,10 @@ import jgappsandgames.smartreminderssave.settings.SettingsManagerKt;
  * Activity class that is called on the First one of the Application.
  * Contains info for settings, save Location, User Data, Device Name and Tutorial.
  */
-public class FirstRun extends Activity implements OnClickListener {
+public class FirstRun extends Activity implements OnClickListener, TextWatcher {
+    // Log Constant
+    private static final String LOG = "FirstRun";
+
     // Views
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private EditText your_name;
@@ -50,34 +56,65 @@ public class FirstRun extends Activity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(LOG, "onCreate Called");
 
         // Set Content View
+        Log.v(LOG, "Set Content View");
         setContentView(R.layout.activity_first_run);
 
-        // Create Settings Page
+        // Create Data
+        Log.v(LOG, "Create Date");
         MasterManagerKt.create();
         MasterManagerKt.save();
 
         // Find Views
+        Log.v(LOG, "Find Views");
         your_name = findViewById(R.id.yourname);
         device_name = findViewById(R.id.device_name);
+        device_name.setText(SettingsManagerKt.getDevice_name());
         app_directory = findViewById(R.id.app_directory);
         settings = findViewById(R.id.settings);
         tutorial = findViewById(R.id.tutorial);
         con = findViewById(R.id.con);
 
         // Set Listeners
+        Log.v(LOG, "Set Listeners");
         app_directory.setOnClickListener(this);
         settings.setOnClickListener(this);
         tutorial.setOnClickListener(this);
         con.setOnClickListener(this);
+        your_name.addTextChangedListener(this);
+        device_name.addTextChangedListener(this);
+
+        Log.v(LOG, "onCreate Done");
+    }
+
+    // TextWatchers
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        SettingsManagerKt.setUser_name(your_name.getText().toString());
+        SettingsManagerKt.setDevice_name(device_name.getText().toString());
+        SettingsManagerKt.saveSettings();
     }
 
     // Click Listeners
     @Override
     public void onClick(View view) {
+        Log.d(LOG, "onClick Called");
+
         // App Directory
         if (view.equals(app_directory)) {
+            Log.v(LOG, "App Directory Pressed");
             //noinspection ConstantConditions
             if (SettingsManagerKt.getExternal_file()) {
                 SettingsManagerKt.setExternal_file(false);
@@ -98,21 +135,26 @@ public class FirstRun extends Activity implements OnClickListener {
 
         // Settings
         if (view.equals(settings)) {
+            Log.v(LOG, "Setting Pressed");
             Toast.makeText(this, "Coming Soon.", Toast.LENGTH_SHORT).show();
         }
 
         // Tutorial
         if (view.equals(tutorial)) {
+            Log.v(LOG, "Tutorial Pressed");
             Toast.makeText(this, "Coming Soon.", Toast.LENGTH_SHORT).show();
         }
 
         // Continue
         if (view.equals(con)) {
+            Log.v(LOG,"Continue Pressed");
             MasterManagerKt.save();
             Intent home = new Intent(this, HomeActivity.class);
             home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(home);
         }
+
+        Log.v(LOG, "onClick Done");
     }
 
     @Override

@@ -73,8 +73,8 @@ public class CheckpointHolder implements OnClickListener, OnLongClickListener {
     // View Handler
     private void setViews() {
         Log.d(LOG, "SetViews Called");
-        text.setText(checkpoint.text);
-        if (checkpoint.status) text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        text.setText(checkpoint.getText());
+        if (checkpoint.getStatus()) text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         else text.setPaintFlags(text.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
 
         Log.v(LOG, "SetViews Done");
@@ -99,9 +99,9 @@ public class CheckpointHolder implements OnClickListener, OnLongClickListener {
         // Text Pressed
         else if (view.equals(text)) {
             Log.v(LOG, "Text Pressed, Cycle Status");
-            checkpoint.status = !checkpoint.status;
+            checkpoint.setStatus(!checkpoint.getStatus());
             activity.editCheckpoint(checkpoint);
-            if (checkpoint.status) text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            if (checkpoint.getStatus()) text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             else text.setPaintFlags(text.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
         }
 

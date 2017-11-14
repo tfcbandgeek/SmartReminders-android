@@ -23,7 +23,7 @@ import jgappsandgames.smartreminderssave.settings.external_file
 private val LOG = "FileUtility"
 
 // FilePath
-private val FILEPATH = ".smartreminders"
+private val FILEPATH = ".smartreminders_testing"
 
 // FileObjects
 private var data: File? = null

@@ -22,6 +22,7 @@ import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
 import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
@@ -130,10 +131,18 @@ public class TagActivity
             case R.id.save:
                 MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
+                return true;
 
             case R.id.close:
                 finish();
+                return true;
+
+            case R.id.refresh:
+                DateManagerKt.createDates();
+                DateManagerKt.saveDates();
+                onResume();
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

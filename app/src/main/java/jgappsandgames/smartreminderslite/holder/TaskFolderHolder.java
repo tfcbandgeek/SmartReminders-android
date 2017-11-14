@@ -24,6 +24,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskKt;
 import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
 
 /**
@@ -69,7 +70,7 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
         note.setOnLongClickListener(this);
 
         // Task Actions
-        if (task.getType() == Task.TYPE_TASK) {
+        if (task.getType() == TaskKt.getTYPE_TASK()) {
             Log.v(LOG, "Task Actions");
             status = view.findViewById(R.id.status);
             status.setOnCheckedChangeListener(this);
@@ -91,7 +92,7 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
         note.setText(task.getNote());
 
         // Task Actions
-        if (task.getType() == Task.TYPE_TASK) {
+        if (task.getType() == TaskKt.getTYPE_TASK()) {
             Log.v(LOG, "Task Actions");
             status.setChecked(task.isCompleted());
         }

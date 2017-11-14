@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.date
 
 // Java
 import android.util.Log
+import jgappsandgames.smartreminderssave.tasks.TYPE_TASK
 import java.util.Calendar
 import java.util.GregorianCalendar
 
@@ -83,7 +84,7 @@ fun createDates() {
     if (tasks!!.size != 0) {
         for (task in tasks!!) {
             val temp = Task(task)
-            if (temp.type == Task.TYPE_TASK && temp.dateDue != null) addTask(temp)
+            if (temp.getType() == TYPE_TASK && temp.getDateDue() != null) addTask(temp)
         }
     }
 
@@ -213,13 +214,13 @@ fun addTask(task: Task) {
     Log.d(LOG, "addTask Called")
 
     // The Task is not a folder or having an actual date so we do not care about it
-    if (task.type != Task.TYPE_TASK || task.dateDue == null) {
+    if (task.getType() != TYPE_TASK || task.getDateDue() == null) {
         Log.v(LOG, "It is Not a Task or it is a Task With No Date Due")
         return
     }
 
     // The Task is in the Reverse ArrayList
-    if (task.dateDue.before(days!![0].day)) {
+    if (task.getDateDue()!!.before(days!![0].day)) {
         Log.v(LOG, "The Task should be added to the Reverse Tag List")
         addTaskBefore(task)
     }
@@ -230,6 +231,7 @@ fun addTask(task: Task) {
         addTaskAfter(task)
     }
 
+    saveDates()
     Log.v(LOG, "addTask Done")
 }
 
@@ -295,6 +297,7 @@ fun removeTask(task: Task) {
     if (removeTaskAfter(task))
     else removeTaskBefore(task)
 
+    saveDates()
     Log.v(LOG, "removeTask Done")
 }
 
@@ -322,6 +325,9 @@ fun editTask(task: Task) {
     // Add the new Version of the Task
     Log.v(LOG, "Add Task")
     addTask(task)
+
+    saveDates()
+    Log.v(LOG, "editTask Done")
 }
 
 // Get A Day Methods

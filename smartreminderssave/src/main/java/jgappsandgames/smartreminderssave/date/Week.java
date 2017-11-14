@@ -1,6 +1,8 @@
 package jgappsandgames.smartreminderssave.date;
 
 // JSON
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,6 +20,9 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Last Edited on 10/5/17 (204).
  */
 public class Week {
+    // Log Constants
+    private static final String LOG = "Week";
+
     // Save Constants
     private static final String START = "start";
     private static final String END = "end";
@@ -54,6 +59,9 @@ public class Week {
 
     // Initializers
     public Week(Calendar start) {
+        Log.d(LOG, "Week(Calendar Called");
+
+        Log.v(LOG, "Set Days");
         this.start = (Calendar) start.clone();
 
         sunday_c = this.start;
@@ -76,11 +84,15 @@ public class Week {
 
         saturday_c = (Calendar) start.clone();
         end = saturday_c;
+
+        Log.v(LOG, "Week Done");
     }
 
     public Week(JSONObject data) {
+        Log.d(LOG, "Week(JSONObject)");
         JSONCalendar jc = new JSONCalendar();
 
+        Log.v(LOG, "Set Calendar Days");
         start = jc.loadCalendar(data.optJSONObject(START));
         end = jc.loadCalendar(data.optJSONObject(END));
 
@@ -91,9 +103,14 @@ public class Week {
         thursday_c = jc.loadCalendar(data.optJSONObject(THURSDAY));
         friday_c = jc.loadCalendar(data.optJSONObject(FRIDAY));
         saturday_c = jc.loadCalendar(data.optJSONObject(SATURDAY));
+
+        Log.v(LOG, "Week Done");
     }
 
     public Week() {
+        Log.d(LOG, "Week Called");
+
+        Log.v(LOG, "Set Calendar Days");
         start = new GregorianCalendar(2404, 4, 0, 4, 40, 4);
         end = start;
 
@@ -104,14 +121,18 @@ public class Week {
         thursday_c = start;
         friday_c = start;
         saturday_c = start;
+
+        Log.v(LOG, "Week Done");
     }
 
     // Saving Method
     public JSONObject toJSON() {
+        Log.d(LOG, "toJSON");
         final JSONObject data = new JSONObject();
         final JSONCalendar jc = new JSONCalendar();
 
         try {
+            Log.v(LOG, "Insert into JSON");
             data.put(START, jc.saveCalendar(start));
             data.put(END, end);
 
@@ -126,13 +147,16 @@ public class Week {
             e.printStackTrace();
         }
 
+        Log.v(LOG, "Return Data");
         return data;
     }
 
     // Actually load the Days
     public void load() {
+        Log.d(LOG, "load Called");
         load = System.currentTimeMillis();
 
+        Log.v(LOG, "Load Days");
         sunday_d = DateManagerKt.getDay(sunday_c);
         monday_d = DateManagerKt.getDay(monday_c);
         tuesday_d = DateManagerKt.getDay(tuesday_c);
@@ -140,6 +164,8 @@ public class Week {
         thursday_d = DateManagerKt.getDay(thursday_c);
         friday_d = DateManagerKt.getDay(friday_c);
         saturday_d = DateManagerKt.getDay(saturday_c);
+
+        Log.v(LOG, "load Done");
     }
 
     // Getters

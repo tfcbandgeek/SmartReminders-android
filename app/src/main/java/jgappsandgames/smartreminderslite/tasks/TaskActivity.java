@@ -40,6 +40,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskKt;
 import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
 import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
@@ -80,7 +81,7 @@ public class TaskActivity
         setTitle(task.getTitle());
 
         // Set Content View
-        if (task.getType() == Task.TYPE_TASK) setContentView(R.layout.activity_task);
+        if (task.getType() == TaskKt.getTYPE_TASK()) setContentView(R.layout.activity_task);
         else setContentView(R.layout.activity_folder);
 
         // Find Views
@@ -91,7 +92,7 @@ public class TaskActivity
 
         fab = findViewById(R.id.fab);
 
-        if (task.getType() == Task.TYPE_TASK) {
+        if (task.getType() == TaskKt.getTYPE_TASK()) {
             date = findViewById(R.id.date);
             status = findViewById(R.id.status);
             priority = findViewById(R.id.priority);
@@ -130,7 +131,7 @@ public class TaskActivity
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
         BaseAdapter adapter;
-        if (task.getType() == Task.TYPE_FLDR) {
+        if (task.getType() == TaskKt.getTYPE_FLDR()) {
             adapter = new ChildrenAdapter(this, task.getChildren());
             list.setAdapter(adapter);
         } else {
@@ -232,7 +233,7 @@ public class TaskActivity
         // Fab Click
         if (view.equals(fab)) {
             // Called in A Folder
-            if (task.getType() == Task.TYPE_FLDR) {
+            if (task.getType() == TaskKt.getTYPE_FLDR()) {
                 // Create Task
                 Task t = TaskManagerKt.createTask(task);
 
@@ -247,7 +248,7 @@ public class TaskActivity
             else {
                 Checkpoint checkpoint;
                 if (task.getCheckpoints().size()== 0) checkpoint = new Checkpoint(1, "");
-                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).id + 1, "");
+                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).getId() + 1, "");
                 task.addCheckpoint(checkpoint);
                 task.save();
 
@@ -277,7 +278,7 @@ public class TaskActivity
                         .show();
             }
         } else if (view.equals(status)) {
-            if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false);
+            if (task.getStatus() == TaskKt.getSTATUS_DONE()) task.markComplete(false);
             else task.markComplete(true);
 
             task.save();
@@ -292,7 +293,7 @@ public class TaskActivity
     @Override
     public boolean onLongClick(View view) {
         if (view.equals(fab)) {
-            if (task.getType() == Task.TYPE_FLDR) {
+            if (task.getType() == TaskKt.getTYPE_FLDR()) {
                 // Create Folder
                 Task t = TaskManagerKt.createFolder(task);
 
@@ -329,8 +330,8 @@ public class TaskActivity
 
     // Class Methods
     private void setStatus() {
-        if (task.getType() == Task.TYPE_TASK) {
-            if (task.getStatus() == Task.STATUS_DONE) status.setText(R.string.complete);
+        if (task.getType() == TaskKt.getTYPE_TASK()) {
+            if (task.getStatus() == TaskKt.getSTATUS_DONE()) status.setText(R.string.complete);
             else status.setText(R.string.incomplete);
         }
     }

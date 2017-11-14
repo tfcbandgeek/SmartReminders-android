@@ -1,6 +1,8 @@
 package jgappsandgames.smartreminderssave.date;
 
 // JSON
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +20,9 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Created by joshua on 10/12/17.
  */
 public class Month {
+    // Log Constants
+    private static final String LOG = "Month";
+
     // Save Constants
     private static final String START = "start";
     private static final String END = "end";
@@ -40,6 +45,10 @@ public class Month {
 
     // Initializers
     public Month(Calendar start) {
+        Log.d(LOG, "Month(Calendar) Called");
+
+        // Set Calendar
+        Log.v(LOG, "Set Calendar");
         start.set(Calendar.DAY_OF_MONTH, 1);
         this.start = (Calendar) start.clone();
         starts_on = start.get(Calendar.DAY_OF_WEEK);
@@ -55,12 +64,19 @@ public class Month {
         start.add(Calendar.DAY_OF_MONTH, -1);
         end = start;
 
+        // Tasks
+        Log.v(LOG, "Tasks");
         holders = new ArrayList<>();
+
+        Log.v(LOG, "Initializer Done");
     }
 
     public Month(JSONObject data) {
-        final JSONCalendar jc = new JSONCalendar();
+        Log.d(LOG, "Month(JSONObject)");
 
+        // Set Calendar
+        Log.v(LOG, "Set Calendar");
+        final JSONCalendar jc = new JSONCalendar();
         start = jc.loadCalendar(data.optJSONObject(START));
         end = jc.loadCalendar(data.optJSONObject(END));
         days_in_month = data.optInt(DAYS_IN_MONTH, 28);
@@ -70,9 +86,12 @@ public class Month {
         days = new ArrayList<>();
         holders = new ArrayList<>();
         for (int i = 0; i < a.length(); i++) days.add(jc.loadCalendar(a.optJSONObject(i)));
+
+        Log.v(LOG, "Initializer Done");
     }
 
     public Month() {
+        Log.e(LOG, "Error Initializer Called");
         start = new GregorianCalendar(2404, 4, 0, 4, 40, 4);
         end = new GregorianCalendar(2404, 4, 0, 4, 40, 4);
         starts_on = -1;
@@ -84,11 +103,13 @@ public class Month {
 
     // Saving Method
     public JSONObject toJSON() {
+        Log.d(LOG, "toJSON Called");
         final JSONObject data = new JSONObject();
         final JSONArray d = new JSONArray();
         final JSONCalendar jc = new JSONCalendar();
 
         try {
+            Log.v(LOG, "Insert Data");
             data.put(START, jc.saveCalendar(start));
             data.put(END, jc.saveCalendar(end));
             data.put(STARTS_ON, starts_on);
@@ -100,15 +121,18 @@ public class Month {
             e.printStackTrace();
         }
 
+        Log.v(LOG, "toJSON Done");
         return data;
     }
 
     // Actually Load the days
     public void load() {
+        Log.d(LOG, "load Called");
         update = System.currentTimeMillis();
 
         holders = new ArrayList<>(days.size());
         for (Calendar temp : days) holders.add(DateManagerKt.getDay(temp));
+        Log.v(LOG, "load Done");
     }
 
     // Getters
