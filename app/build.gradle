@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.1"
     defaultConfig {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 17100506
-        versionName "17.11.1"
+        targetSdkVersion 27
+        versionCode 171102013
+        versionName "17.11.2 Alpha 4"
     }
 
     buildTypes {

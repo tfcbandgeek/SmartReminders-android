@@ -2,9 +2,9 @@ package jgappsandgames.smartreminderslite.tags;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Views
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,27 +14,25 @@ import android.widget.BaseAdapter;
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
 
-// Program
-import jgappsandgames.smartreminderssave.tags.TagManager;
+// Save
+import jgappsandgames.smartreminderssave.tags.TagManagerKt;
 
 /**
  * UnselectedAdapter
- * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (71).
- * Edited on 10/5/17 (65).
  */
 class UnselectedAdapter extends BaseAdapter {
     private final TagActivity activity;
-    private final List<String> tags;
+    private final ArrayList<String> tags;
 
-    UnselectedAdapter(TagActivity activity, List<String> selected) {
+    @SuppressWarnings("ConstantConditions")
+    UnselectedAdapter(TagActivity activity, ArrayList<String> selected) {
         super();
 
         this.activity = activity;
 
         tags = new ArrayList<>();
-        for (int i = 0; i < TagManager.tags.size(); i++)
-            if (!selected.contains(TagManager.tags.get(i))) tags.add(TagManager.tags.get(i));
+        for (int i = 0; i < TagManagerKt.getTags().size(); i++)
+            if (!selected.contains(TagManagerKt.getTags().get(i))) tags.add(TagManagerKt.getTags().get(i));
     }
 
     // List Methods
@@ -59,6 +57,8 @@ class UnselectedAdapter extends BaseAdapter {
         return position;
     }
 
+    // TODO: Implement ViewHolder Design
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false);

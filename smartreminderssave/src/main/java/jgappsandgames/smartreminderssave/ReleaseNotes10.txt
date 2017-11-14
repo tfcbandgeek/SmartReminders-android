@@ -1,0 +1,3 @@
+Goals
+- Completed Checkpoints Options
+- Completed Tasks Options

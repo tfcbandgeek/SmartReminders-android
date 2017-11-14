@@ -1,9 +1,5 @@
 package jgappsandgames.smartreminderslite.priority;
 
-// Java
-import java.util.ArrayList;
-import java.util.List;
-
 // Android OS
 import android.app.Activity;
 import android.content.Intent;
@@ -26,11 +22,10 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedLi
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
-import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
+import jgappsandgames.smartreminderssave.priority.PriorityManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * PriorityActivity
@@ -43,12 +38,6 @@ public class PriorityActivity
         implements OnClickListener, OnTaskChangedListener {
     // Data
     private int position = 3;
-
-    private List<Task> ignore_tasks;
-    private List<Task> low_tasks;
-    private List<Task> normal_tasks;
-    private List<Task> high_tasks;
-    private List<Task> stared_tasks;
 
     // Views
     private ListView tasks;
@@ -71,37 +60,18 @@ public class PriorityActivity
         setContentView(R.layout.activity_priority);
 
         // First Run
-        if (FileUtility.isFirstRun()) {
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManagerKt.load();
         }
-
-        // Load Data
-        Settings.load();
-        TaskManager.load();
-        TagManager.load();
-
-        ignore_tasks = new ArrayList<>();
-        low_tasks = new ArrayList<>();
-        normal_tasks = new ArrayList<>();
-        high_tasks = new ArrayList<>();
-        stared_tasks = new ArrayList<>();
 
         tasks = findViewById(R.id.tasks);
         down = findViewById(R.id.down);
         up = findViewById(R.id.up);
-
-        for (String t : TaskManager.tasks) {
-            Task task= new Task(t);
-
-            if (task.getType() == Task.TYPE_FLDR) continue;
-
-            if (task.getPriority() == 0) ignore_tasks.add(task);
-            else if (task.getPriority() <= 33) low_tasks.add(task);
-            else if (task.getPriority() <= 66) normal_tasks.add(task);
-            else if (task.getPriority() <= 99) high_tasks.add(task);
-            else stared_tasks.add(task);
-        }
 
         down.setOnClickListener(this);
         up.setOnClickListener(this);
@@ -139,12 +109,20 @@ public class PriorityActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
+                return true;
 
             case R.id.close:
                 finish();
+                return true;
+
+            case R.id.refresh:
+                DateManagerKt.createDates();
+                DateManagerKt.saveDates();
+                onResume();
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -258,36 +236,33 @@ public class PriorityActivity
     private void setAdapter() {
         switch (position) {
             case 1:
-                if (ignore_adapter == null) ignore_adapter = new PriorityAdapter(this, ignore_tasks);
+                if (ignore_adapter == null) ignore_adapter = new PriorityAdapter(this, PriorityManagerKt.getIgnore());
                 tasks.setAdapter(ignore_adapter);
                 return;
 
             case 2:
-                if (low_adapter == null) low_adapter = new PriorityAdapter(this, low_tasks);
+                if (low_adapter == null) low_adapter = new PriorityAdapter(this, PriorityManagerKt.getLow());
                 tasks.setAdapter(low_adapter);
                 return;
 
             case 3:
-                if (normal_adapter == null) normal_adapter = new PriorityAdapter(this, normal_tasks);
+                if (normal_adapter == null) normal_adapter = new PriorityAdapter(this, PriorityManagerKt.getNormal());
                 tasks.setAdapter(normal_adapter);
                 return;
 
             case 4:
-                if (high_adapter == null) high_adapter = new PriorityAdapter(this, high_tasks);
+                if (high_adapter == null) high_adapter = new PriorityAdapter(this, PriorityManagerKt.getHigh());
                 tasks.setAdapter(high_adapter);
                 return;
 
             case 5:
-                if (stared_adapter == null) stared_adapter = new PriorityAdapter(this, stared_tasks);
+                if (stared_adapter == null) stared_adapter = new PriorityAdapter(this, PriorityManagerKt.getStar());
                 tasks.setAdapter(stared_adapter);
                 break;
         }
     }
 
     private void save() {
-        // Save
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManagerKt.save();
     }
 }

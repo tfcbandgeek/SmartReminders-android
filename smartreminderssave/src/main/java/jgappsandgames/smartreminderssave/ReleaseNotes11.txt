@@ -1,0 +1,9 @@
+- Update Target to Android API 27
+- Update Build Tools to 27.0.1
+- Update Gradle to 4.3.1
+- Update Android Tools to 3.1
+- Major Overhaul
+- New SortManagers
+- Code Consistence
+- Bug Fixes
+- All Checkpoints Completed Marks a Task as Completed

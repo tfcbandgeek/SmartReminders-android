@@ -9,35 +9,36 @@ import android.content.Intent;
 import android.os.Bundle;
 
 // Views
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-// Program
+// App
 import jgappsandgames.smartreminderslite.R;
 
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
+
 
 /**
  * DayActivity
  * Created by joshua on 10/9/17.
- * Last Edited on 10/12/17 (161).
- * Edited on 10/11/17 (135).
- * Edited on 10/9/17 (126).
  */
-public class DayActivity extends Activity
-        implements View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
+public class DayActivity extends Activity implements OnClickListener, OnTaskChangedListener {
+    // Log Constants
+    private static final String LOG = "DayActivity";
+
     // Data
     private Calendar day_active;
 
@@ -53,43 +54,56 @@ public class DayActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d(LOG, "onCreate Called");
+
         // Set Content View
+        Log.v(LOG, "Setting the Content View");
         setContentView(R.layout.activity_date);
 
         // First Run
-        FileUtility.loadFilePaths(this);
-        if (FileUtility.isFirstRun()) {
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
+            Log.v(LOG, "It is the First Run, Call the First Run Activity.");
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            Log.v(LOG, "It is not the first Run Loading data");
+            MasterManagerKt.load();
         }
-
-        // Load Data
-        Settings.load();
-
-        TaskManager.load();
-        TagManager.load();
 
         day_active = Calendar.getInstance();
 
         // Set Title
+        Log.v(LOG, "Setting the Title");
         setTitle();
 
         // Find Views
+        Log.v(LOG, "Finding Views");
         tasks = (findViewById(R.id.tasks));
         previous = findViewById(R.id.previous);
         next = findViewById(R.id.next);
 
         // Set Click Listeners
+        Log.v(LOG, "Setting Click Listeners");
         previous.setOnClickListener(this);
         next.setOnClickListener(this);
+
+        Log.v(LOG, "onCreate Done");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        Log.d(LOG, "onResume Called");
+
+        // Reset the Adapter (It is possible that the information it was based on has changed)
         adapter = new DayAdapter(this, day_active);
         tasks.setAdapter(adapter);
+
+        Log.v(LOG, "onResume Done");
     }
 
     // Menu
@@ -103,12 +117,20 @@ public class DayActivity extends Activity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
+                return true;
 
             case R.id.close:
                 finish();
+                return true;
+
+            case R.id.refresh:
+                DateManagerKt.createDates();
+                DateManagerKt.saveDates();
+                onResume();
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -117,8 +139,11 @@ public class DayActivity extends Activity
     // Click Listeners
     @Override
     public void onClick(View view) {
+        Log.d(LOG, "onClick Called");
+
         // Previous
         if (view.equals(previous)) {
+            Log.v(LOG, "Previous Button Pressed");
             day_active.add(Calendar.DAY_OF_MONTH, -1);
 
             if (day_active.before(Calendar.getInstance())) day_active = Calendar.getInstance();
@@ -131,6 +156,7 @@ public class DayActivity extends Activity
 
         // Next
         else if (view.equals(next)) {
+            Log.v(LOG, "Next Button Pressed");
             day_active.add(Calendar.DAY_OF_MONTH, 1);
 
             adapter = new DayAdapter(this, day_active);
@@ -138,6 +164,8 @@ public class DayActivity extends Activity
 
             setTitle();
         }
+
+        Log.v(LOG, "onClick Done");
     }
 
     // Task Changed Listener
@@ -146,15 +174,7 @@ public class DayActivity extends Activity
         onResume();
     }
 
-    // Private Class Methods
-    private void save() {
-        // Save
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
-    }
-
-    // Private Class Methods
+    // Method to Set the Days Title
     private void setTitle() {
         setTitle(String.valueOf(day_active.get(Calendar.MONTH) + 1) + "/" + String.valueOf(day_active.get(Calendar.DAY_OF_MONTH)));
     }

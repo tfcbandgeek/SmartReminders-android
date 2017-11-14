@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -60,8 +61,17 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/date"
+            android:id="@+id/date"
+            tools:ignore="ButtonStyle" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/status"
-            android:id="@+id/status"/>
+            android:id="@+id/status"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 
     <!--Priority Bar-->
@@ -88,6 +98,7 @@
             android:layout_marginRight="8sp"
             android:layout_marginBottom="8sp"
             android:foreground="@android:drawable/ic_menu_add"
-            android:id="@+id/fab"/>
+            android:id="@+id/fab"
+            tools:ignore="RtlHardcoded" />
     </RelativeLayout>
 </LinearLayout>

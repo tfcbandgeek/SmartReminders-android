@@ -2,10 +2,10 @@ package jgappsandgames.smartreminderslite.tags;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,29 +18,32 @@ import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.holder.TagHolder;
+import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
-import jgappsandgames.smartreminderssave.tags.TagManager;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
+import jgappsandgames.smartreminderssave.date.DateManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
+import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * TagActivity
  * Created by joshua on 9/2/17.
- * Last Edited on 10/12/17 (134).
- * Edited on 10/11/17 (106).
- * Edited on 10/5/17 (100).
  */
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class TagActivity
         extends Activity
         implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
     // Data
-    private List<String> selected_tags;
-    private List<Task> tasks;
+    private ArrayList<String> selected_tags;
+    private ArrayList<Task> tasks;
 
     // Views
+    @SuppressWarnings("unused")
     private TextView tasks_text;
     private ListView tasks_list;
+    @SuppressWarnings("unused")
     private TextView selected_text;
     private ListView selected_list;
     private TextView unselected_text;
@@ -62,6 +65,15 @@ public class TagActivity
         // Load Data
         selected_tags = new ArrayList<>();
 
+        // First Run
+        FileUtilityKt.loadFilepaths(this);
+        if (FileUtilityKt.isFirstRun()) {
+            Intent first_run = new Intent(this, FirstRun.class);
+            startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManagerKt.load();
+        }
 
         // Find Views
         tasks_text = findViewById(R.id.tasks_title);
@@ -77,7 +89,9 @@ public class TagActivity
         super.onResume();
 
         tasks = new ArrayList<>();
-        for (int i = 0; i < TaskManager.tasks.size(); i++) tasks.add(new Task(TaskManager.tasks.get(i)));
+        //noinspection ConstantConditions
+        for (int i = 0; i < TaskManagerKt.getTasks().size(); i++) //noinspection ConstantConditions
+            tasks.add(new Task(TaskManagerKt.getTasks().get(i)));
 
         // Set Adapters
         task_adapter = new TaskAdapter(this, selected_tags, tasks);
@@ -115,13 +129,20 @@ public class TagActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
-                TagManager.save();
+                MasterManagerKt.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
+                return true;
 
             case R.id.close:
                 finish();
+                return true;
+
+            case R.id.refresh:
+                DateManagerKt.createDates();
+                DateManagerKt.saveDates();
+                onResume();
+                Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -2,6 +2,8 @@ package jgappsandgames.smartreminderslite.tasks;
 
 // Java
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 // JSON
 import org.json.JSONArray;
@@ -9,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Android OS
+import android.app.DatePickerDialog;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,41 +24,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SeekBar;
+import android.widget.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
 
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
+import jgappsandgames.smartreminderslite.home.FirstRun;
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity;
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.tags.TagManager;
+import jgappsandgames.smartreminderssave.MasterManagerKt;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
+import jgappsandgames.smartreminderssave.tasks.TaskKt;
+import jgappsandgames.smartreminderssave.tasks.TaskManagerKt;
+import jgappsandgames.smartreminderssave.utility.FileUtilityKt;
 
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/15/17 (350).
- * Edited on 10/11/17 (350).
- * Edited On 10/5/17 (334).
  *
  * Main Task View
  */
 public class TaskActivity
         extends Activity
-        implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener,
+        implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener,
         OnTaskChangedListener  {
     // Data
     private Task task;
@@ -64,13 +61,12 @@ public class TaskActivity
     private EditText title;
     private EditText note;
     private TextView tags;
+    private Button date;
     private Button status;
+    @SuppressWarnings("FieldCanBeLocal")
     private SeekBar priority;
     private ListView list;
     private Button fab;
-
-    // Adapters
-    private BaseAdapter adapter;
 
     // Life Cycle Methods
     @Override
@@ -78,13 +74,14 @@ public class TaskActivity
         super.onCreate(savedInstanceState);
 
         // Load Data
+        MasterManagerKt.load();
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
         // Set Title
         setTitle(task.getTitle());
 
         // Set Content View
-        if (task.getType() == Task.TYPE_TASK) setContentView(R.layout.activity_task);
+        if (task.getType() == TaskKt.getTYPE_TASK()) setContentView(R.layout.activity_task);
         else setContentView(R.layout.activity_folder);
 
         // Find Views
@@ -95,21 +92,25 @@ public class TaskActivity
 
         fab = findViewById(R.id.fab);
 
-        if (task.getType() == Task.TYPE_TASK) {
+        if (task.getType() == TaskKt.getTYPE_TASK()) {
+            date = findViewById(R.id.date);
             status = findViewById(R.id.status);
             priority = findViewById(R.id.priority);
+
+            date.setText(task.getDateDueString());
+            setStatus();
+            priority.setMax(100);
+            priority.setProgress(task.getPriority());
+            priority.setOnSeekBarChangeListener(this);
+
+            date.setOnClickListener(this);
+            date.setOnLongClickListener(this);
+            status.setOnClickListener(this);
         }
 
         // Set Text
         title.setText(task.getTitle());
         note.setText(task.getNote());
-
-        if (task.getType() == Task.TYPE_TASK) {
-            setStatus();
-            priority.setMax(100);
-            priority.setProgress(task.getPriority());
-            priority.setOnSeekBarChangeListener(this);
-        }
 
         // Set TextWatcher
         title.addTextChangedListener(this);
@@ -118,10 +119,6 @@ public class TaskActivity
         // Set Click Listener
         fab.setOnClickListener(this);
         fab.setOnLongClickListener(this);
-
-        if (task.getType() == Task.TYPE_TASK) {
-            status.setOnClickListener(this);
-        }
 
         tags.setOnClickListener(this);
         tags.setOnLongClickListener(this);
@@ -133,7 +130,8 @@ public class TaskActivity
 
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
-        if (task.getType() == Task.TYPE_FLDR) {
+        BaseAdapter adapter;
+        if (task.getType() == TaskKt.getTYPE_FLDR()) {
             adapter = new ChildrenAdapter(this, task.getChildren());
             list.setAdapter(adapter);
         } else {
@@ -180,7 +178,7 @@ public class TaskActivity
                     } catch (JSONException | NullPointerException e) {
                         e.printStackTrace();
                     }
-                    TagManager.save();
+                    MasterManagerKt.save();
                     task.save();
 
                     setTags();
@@ -235,16 +233,9 @@ public class TaskActivity
         // Fab Click
         if (view.equals(fab)) {
             // Called in A Folder
-            if (task.getType() == Task.TYPE_FLDR) {
+            if (task.getType() == TaskKt.getTYPE_FLDR()) {
                 // Create Task
-                Task t = new Task(task.getFilename(), Task.TYPE_TASK);
-                t.save();
-
-                task.addChild(t.getFilename());
-                task.save();
-
-                TaskManager.tasks.add(t.getFilename());
-                TaskManager.save();
+                Task t = TaskManagerKt.createTask(task);
 
                 // Create Intent
                 Intent task_intent = new Intent(this, TaskActivity.class);
@@ -257,7 +248,7 @@ public class TaskActivity
             else {
                 Checkpoint checkpoint;
                 if (task.getCheckpoints().size()== 0) checkpoint = new Checkpoint(1, "");
-                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).id + 1, "");
+                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).getId() + 1, "");
                 task.addCheckpoint(checkpoint);
                 task.save();
 
@@ -266,8 +257,28 @@ public class TaskActivity
 
                 startActivityForResult(check_intent, ActivityUtility.REQUEST_CHECKPOINT);
             }
+        } else if (view.equals(date)) {
+            if (task.getDateDue() == null) {
+                Calendar c = Calendar.getInstance();
+
+                new DatePickerDialog(
+                        this,
+                        this,
+                        c.get(Calendar.YEAR),
+                        c.get(Calendar.MONTH),
+                        c.get(Calendar.DAY_OF_MONTH))
+                        .show();
+            } else {
+                new DatePickerDialog(
+                        this,
+                        this,
+                        task.getDateDue().get(Calendar.YEAR),
+                        task.getDateDue().get(Calendar.MONTH),
+                        task.getDateDue().get(Calendar.DAY_OF_MONTH))
+                        .show();
+            }
         } else if (view.equals(status)) {
-            if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false);
+            if (task.getStatus() == TaskKt.getSTATUS_DONE()) task.markComplete(false);
             else task.markComplete(true);
 
             task.save();
@@ -282,16 +293,9 @@ public class TaskActivity
     @Override
     public boolean onLongClick(View view) {
         if (view.equals(fab)) {
-            if (task.getType() == Task.TYPE_FLDR) {
-                // Create Task
-                Task t = new Task(task.getFilename(), Task.TYPE_FLDR);
-                t.save();
-
-                task.addChild(t.getFilename());
-                task.save();
-
-                TaskManager.tasks.add(t.getFilename());
-                TaskManager.save();
+            if (task.getType() == TaskKt.getTYPE_FLDR()) {
+                // Create Folder
+                Task t = TaskManagerKt.createFolder(task);
 
                 // Create Intent
                 Intent intent = new Intent(this, TaskActivity.class);
@@ -302,7 +306,11 @@ public class TaskActivity
 
                 return true;
             }
-        } else if (view.equals(status)) {
+        } else if (view.equals(date)) {
+            task.setDateDue(null);
+            task.save();
+            date.setText(task.getDateDueString());
+        }else if (view.equals(status)) {
             return false;
         }
 
@@ -322,8 +330,8 @@ public class TaskActivity
 
     // Class Methods
     private void setStatus() {
-        if (task.getType() == Task.TYPE_TASK) {
-            if (task.getStatus() == Task.STATUS_DONE) status.setText(R.string.complete);
+        if (task.getType() == TaskKt.getTYPE_TASK()) {
+            if (task.getStatus() == TaskKt.getSTATUS_DONE()) status.setText(R.string.complete);
             else status.setText(R.string.incomplete);
         }
     }
@@ -346,5 +354,12 @@ public class TaskActivity
     @Override
     public void onTaskChanged() {
         onResume();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        task.setDateDue(new GregorianCalendar(year, month, day));
+        task.save();
+        date.setText(task.getDateDueString());
     }
 }

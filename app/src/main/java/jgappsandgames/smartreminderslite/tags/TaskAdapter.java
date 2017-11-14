@@ -16,6 +16,7 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskKt;
 
 /**
  * TaskAdapter
@@ -86,7 +87,7 @@ class TaskAdapter extends BaseAdapter {
     public View getView(int position, View convert_view, ViewGroup parent) {
         TaskFolderHolder holder;
         if (convert_view == null) {
-            if (getItem(position).getType() == Task.TYPE_FLDR) convert_view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false);
+            if (getItem(position).getType() == TaskKt.getTYPE_FLDR()) convert_view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false);
             else convert_view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false);
 
             holder = new TaskFolderHolder(getItem(position), convert_view, activity, activity);

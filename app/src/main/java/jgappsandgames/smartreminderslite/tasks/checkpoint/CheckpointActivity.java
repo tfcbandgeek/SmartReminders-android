@@ -22,6 +22,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskKt;
 
 /**
  * CheckpointActivity
@@ -38,6 +39,7 @@ public class CheckpointActivity
     private String text;
 
     // Views
+    @SuppressWarnings("FieldCanBeLocal")
     private EditText text_view;
     private Button status_button;
 
@@ -53,9 +55,9 @@ public class CheckpointActivity
         try {
             JSONObject data = new JSONObject(getIntent().getStringExtra(ActivityUtility.CHECKPOINT));
 
-            position = data.getInt(Task.CHECKPOINT_POSITION);
-            status = data.getBoolean(Task.CHECKPOINT_STATUS);
-            text = data.getString(Task.CHECKPOINT_TEXT);
+            position = data.getInt(TaskKt.getCHECKPOINT_POSITION());
+            status = data.getBoolean(TaskKt.getCHECKPOINT_STATUS());
+            text = data.getString(TaskKt.getCHECKPOINT_TEXT());
         } catch (JSONException | NullPointerException e) {
             e.printStackTrace();
         }
@@ -117,9 +119,9 @@ public class CheckpointActivity
         JSONObject r_data = new JSONObject();
 
         try {
-            r_data.put(Task.CHECKPOINT_POSITION, position);
-            r_data.put(Task.CHECKPOINT_STATUS, status);
-            r_data.put(Task.CHECKPOINT_TEXT, text);
+            r_data.put(TaskKt.getCHECKPOINT_POSITION(), position);
+            r_data.put(TaskKt.getCHECKPOINT_STATUS(), status);
+            r_data.put(TaskKt.getCHECKPOINT_TEXT(), text);
 
             Intent intent = new Intent();
             intent.putExtra(ActivityUtility.CHECKPOINT, r_data.toString());

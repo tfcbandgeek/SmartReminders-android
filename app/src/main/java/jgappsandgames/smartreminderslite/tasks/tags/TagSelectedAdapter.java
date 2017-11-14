@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Views
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,8 @@ class TagSelectedAdapter extends BaseAdapter {
         return tags.get(position);
     }
 
+    // TODO: Implement ViewHolder Design
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false);
