@@ -7,8 +7,11 @@ import android.content.Intent;
 // Views
 import android.os.Vibrator;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 // Program
@@ -24,10 +27,8 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 /**
  * CheckpointHolder
  * Created by joshua on 9/1/17.
- * Last Edited on 10/14/17 (99).
- * Edited On 10/11/17 (94).
  */
-public class CheckpointHolder implements View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+public class CheckpointHolder implements OnClickListener, OnLongClickListener, OnCheckedChangeListener {
     // Data
     private final Checkpoint checkpoint;
     private final TaskActivity activity;

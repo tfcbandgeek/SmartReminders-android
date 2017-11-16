@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.tags;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Views
 import android.view.LayoutInflater;
@@ -20,14 +19,12 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * TaskAdapter
  * Created by joshua on 9/2/17.
- * Last Edited on 10/11/17 (104).
- * Edited on 10/5/17 (97).
  */
 class TaskAdapter extends BaseAdapter {
     private final TagActivity activity;
-    private final List<Task> tasks;
+    private final ArrayList<Task> tasks;
 
-    TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
+    TaskAdapter(TagActivity activity, ArrayList<String> selected, ArrayList<Task> n_tasks) {
         super();
 
         this.activity = activity;

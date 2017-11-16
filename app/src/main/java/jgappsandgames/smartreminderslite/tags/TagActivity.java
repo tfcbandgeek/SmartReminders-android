@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.tags;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
@@ -35,8 +34,8 @@ public class TagActivity
         extends Activity
         implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
     // Data
-    private List<String> selected_tags;
-    private List<Task> tasks;
+    private ArrayList<String> selected_tags;
+    private ArrayList<Task> tasks;
 
     // Views
     private TextView tasks_text;

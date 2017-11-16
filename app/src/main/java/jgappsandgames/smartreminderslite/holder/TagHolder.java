@@ -2,17 +2,17 @@ package jgappsandgames.smartreminderslite.holder;
 
 // Views
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-// PRogram
+// App
 import jgappsandgames.smartreminderslite.R;
 
 /**
  * TagHolder
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (60).
  */
-public class TagHolder implements View.OnClickListener {
+public class TagHolder implements OnClickListener {
     // Data
     private final TagSwitcher switcher;
 

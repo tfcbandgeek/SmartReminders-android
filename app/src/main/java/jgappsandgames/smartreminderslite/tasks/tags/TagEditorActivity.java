@@ -13,13 +13,15 @@ import android.text.TextWatcher;
 
 // Views
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 // App
 import jgappsandgames.smartreminderslite.R;
-import jgappsandgames.smartreminderslite.holder.TagHolder;
+import jgappsandgames.smartreminderslite.holder.TagHolder.TagSwitcher;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
@@ -29,12 +31,9 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * Tag Editor Activity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/11/17 (139).
- * Edited On 10/5/17 (139).
  */
-public class TagEditorActivity
-        extends Activity
-        implements TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
+public class TagEditorActivity extends Activity
+        implements TextWatcher, OnClickListener, OnLongClickListener, TagSwitcher {
     // Data
     private Task task;
 

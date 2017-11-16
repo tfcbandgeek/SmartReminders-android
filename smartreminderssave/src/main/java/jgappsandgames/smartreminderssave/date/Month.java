@@ -2,14 +2,12 @@ package jgappsandgames.smartreminderssave.date;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * Month
  * Created by joshua on 10/12/17.
- * Last Edited on 10/12/17 (112). <10.1>
  */
 public class Month {
     // Data
@@ -19,7 +17,7 @@ public class Month {
     private final Calendar start;
     private final Calendar end;
 
-    private final List<Day> days;
+    private final ArrayList<Day> days;
 
     public Month(Calendar start) {
         this.start = (Calendar) start.clone();
@@ -102,8 +100,8 @@ public class Month {
         return end;
     }
 
-    public List<Task> getAllTasks() {
-        List<Task> tasks = new ArrayList<>();
+    public ArrayList<Task> getAllTasks() {
+        ArrayList<Task> tasks = new ArrayList<>();
 
         if (days == null || days.size() == 0) return tasks;
         for (Day day : days) tasks.addAll(day.getTasks());

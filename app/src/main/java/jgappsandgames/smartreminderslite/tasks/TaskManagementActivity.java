@@ -12,7 +12,7 @@ import jgappsandgames.smartreminderslite.R;
  * Created by joshua on 8/31/17.
  */
 public class TaskManagementActivity extends Activity {
-    // LifeCycle MEthods
+    // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

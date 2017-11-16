@@ -34,13 +34,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * WeekActivity
  * Created by joshua on 10/9/17.
- * Last Last Edited on 10/12/17 (175).
- * Edited on 10/11/17 (149).
- * Edited on 10/9/17 (140).
  */
-public class WeekActivity
-        extends Activity
-        implements OnClickListener, OnTaskChangedListener {
+public class WeekActivity extends Activity implements OnClickListener, OnTaskChangedListener {
     // Data
     private int week_active;
 

@@ -1,7 +1,7 @@
 package jgappsandgames.smartreminderslite.status;
 
 // Java
-import java.util.List;
+import java.util.ArrayList;
 
 
 // App
@@ -13,12 +13,10 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * StatusAdapter
  * Created by joshua on 9/4/17.
- * Last Edited on 10/11/17 (84).
- * Edited On 10/5/17 (77).
  */
 class StatusAdapter extends TaskAdapterInterface {
     // Initializer
-    StatusAdapter(StatusActivity activity, List<Task> tasks) {
+    StatusAdapter(StatusActivity activity, ArrayList<Task> tasks) {
         super(activity, activity, tasks);
     }
 }

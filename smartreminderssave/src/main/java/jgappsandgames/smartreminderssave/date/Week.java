@@ -3,7 +3,6 @@ package jgappsandgames.smartreminderssave.date;
 // Java
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -11,7 +10,6 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * Week
  * Created by joshua on 9/10/17.
- * Last Edited on 10/5/17 (204).
  */
 public class Week {
     // Data
@@ -189,7 +187,7 @@ public class Week {
         return saturday.getDay();
     }
 
-    public List<Task> getAllTasks() {
+    public ArrayList<Task> getAllTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
 
         tasks.addAll(sunday.getTasks());

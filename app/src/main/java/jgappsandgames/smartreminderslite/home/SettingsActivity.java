@@ -24,7 +24,6 @@ import jgappsandgames.smartreminderssave.settings.Settings;
 /**
  * // SettingsActivity
  * Created by joshua on 10/2/17.
- * Last Edited on 10/11/17 (101).
  */
 public class SettingsActivity extends Activity implements OnClickListener{
     // Views

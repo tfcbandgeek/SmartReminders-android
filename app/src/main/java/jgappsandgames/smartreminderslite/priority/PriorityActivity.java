@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.priority;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
@@ -35,20 +34,16 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * PriorityActivity
  * Created by joshua on 10/1/17.
- * Last Edited on 10/12/17 (293).
- * Edited on 10/9/17 (263).
  */
-public class PriorityActivity
-        extends Activity
-        implements OnClickListener, OnTaskChangedListener {
+public class PriorityActivity extends Activity implements OnClickListener, OnTaskChangedListener {
     // Data
     private int position = 3;
 
-    private List<Task> ignore_tasks;
-    private List<Task> low_tasks;
-    private List<Task> normal_tasks;
-    private List<Task> high_tasks;
-    private List<Task> stared_tasks;
+    private ArrayList<Task> ignore_tasks;
+    private ArrayList<Task> low_tasks;
+    private ArrayList<Task> normal_tasks;
+    private ArrayList<Task> high_tasks;
+    private ArrayList<Task> stared_tasks;
 
     // Views
     private ListView tasks;

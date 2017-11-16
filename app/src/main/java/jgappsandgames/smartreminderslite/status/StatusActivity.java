@@ -3,7 +3,6 @@ package jgappsandgames.smartreminderslite.status;
 // Java
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // Android OS
 import android.app.Activity;
@@ -18,7 +17,7 @@ import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -27,17 +26,12 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * Status Activity
  * Created by joshua on 9/4/17.
- * Last Edited on 10/12/17 (141).
- * Edited on 10/11/17 (114).
- * Edited On 10/5/17 (112).
  */
-public class StatusActivity
-        extends Activity
-        implements TaskFolderHolder.OnTaskChangedListener {
+public class StatusActivity extends Activity implements OnTaskChangedListener {
     // Data
-    private List<Task> overdue_array;
-    private List<Task> incomplete_array;
-    private List<Task> done_array;
+    private ArrayList<Task> overdue_array;
+    private ArrayList<Task> incomplete_array;
+    private ArrayList<Task> done_array;
 
     // Views
     private TextView overdue_text;

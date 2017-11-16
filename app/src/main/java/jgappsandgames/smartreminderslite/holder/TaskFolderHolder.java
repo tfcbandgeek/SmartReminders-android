@@ -28,10 +28,6 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TaskFolderHolder
  * Created by joshua on 8/31/17.
- * Last Edited on 10/14/17 (136).
- * Edited on 10/5/17 (131).
- *
- * Implements OnClickListener, OnLongClickListener, OnCheckedChangeListener
  */
 public class TaskFolderHolder implements OnClickListener, OnLongClickListener, OnCheckedChangeListener {
     // Data
@@ -90,7 +86,7 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
 
         Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
         try {
-            if (v.hasVibrator()) v.vibrate(100);
+            if (v != null && v.hasVibrator()) v.vibrate(100);
         } catch(NullPointerException n) {
             n.printStackTrace();
         }

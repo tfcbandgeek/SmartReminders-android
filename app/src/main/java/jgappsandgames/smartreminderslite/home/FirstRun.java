@@ -26,11 +26,6 @@ import jgappsandgames.smartreminderssave.settings.Settings;
 /**
  * FirstRun
  * Created by joshua on 8/31/17.
- * Last Edited on 10/8/17 (123).
- * Edited on 10/5/17 (115).
- *
- * Activity class that is called on the First one of the Application.
- * Contains info for settings, save Location, User Data, Device Name and Tutorial.
  */
 public class FirstRun extends Activity implements OnClickListener {
     // Views

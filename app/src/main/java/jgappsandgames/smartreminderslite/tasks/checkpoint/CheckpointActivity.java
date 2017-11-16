@@ -26,8 +26,6 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * CheckpointActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/15/17 (132).
- * Edited on 10/11/17 (133).
  */
 public class CheckpointActivity
         extends Activity

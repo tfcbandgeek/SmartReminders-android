@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,7 +21,7 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.date.DayActivity;
 import jgappsandgames.smartreminderslite.date.MonthActivity;
 import jgappsandgames.smartreminderslite.date.WeekActivity;
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.priority.PriorityActivity;
 import jgappsandgames.smartreminderslite.status.StatusActivity;
 import jgappsandgames.smartreminderslite.tags.TagActivity;
@@ -36,14 +38,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * HomeActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/14/17 (205).
- * Edited on 10/05/17 (190).
- *
- * Main Entry Point For The Application
  */
-public class HomeActivity
-        extends Activity
-        implements View.OnClickListener, View.OnLongClickListener, TaskFolderHolder.OnTaskChangedListener {
+public class HomeActivity extends Activity implements OnClickListener, OnLongClickListener, OnTaskChangedListener {
     // Views
     private ListView tasks;
     private Button fab;

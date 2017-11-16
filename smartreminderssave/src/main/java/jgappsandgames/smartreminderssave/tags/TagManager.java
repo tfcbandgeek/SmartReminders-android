@@ -4,7 +4,6 @@ package jgappsandgames.smartreminderssave.tags;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 // JSON
 import org.json.JSONArray;
@@ -19,8 +18,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * TagManager
  * Created by joshua on 8/26/17.
- * Last Edited on 10/12/17 (85).
- * Edited on 10/5/17 (116)
  *
  * Currently on API: 10
  **/
@@ -33,7 +30,7 @@ public class TagManager {
 	
 	// Data
 	private static int version;
-	public static List<String> tags;
+	public static ArrayList<String> tags;
 	
 	// Management Methods
 	public static void create() {

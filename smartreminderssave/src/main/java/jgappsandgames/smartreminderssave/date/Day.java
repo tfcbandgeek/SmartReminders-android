@@ -3,7 +3,6 @@ package jgappsandgames.smartreminderssave.date;
 // Java
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -15,7 +14,7 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  */
 public class Day {
     private final Calendar day;
-    private final List<Task> tasks;
+    private final ArrayList<Task> tasks;
 
     public Day(Calendar day) {
         this.day = day;
@@ -35,7 +34,7 @@ public class Day {
         tasks.remove(task);
     }
 
-    public List<Task> getTasks() {
+    public ArrayList<Task> getTasks() {
         if (tasks == null) return new ArrayList<>();
         return tasks;
     }

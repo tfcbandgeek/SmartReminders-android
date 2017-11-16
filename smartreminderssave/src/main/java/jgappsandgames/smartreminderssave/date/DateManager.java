@@ -3,7 +3,6 @@ package jgappsandgames.smartreminderssave.date;
 // Java
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // Library
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -12,20 +11,17 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * DateManager
  * Created by joshua on 9/10/17.
- * Last Edited on 10/15/17 (157).
- * Edited on 10/9/17 (100).
- * Edited on 10/5/17 (97)
  */
 public class DateManager {
     // Data
-    private static List<KeyValue> weeks;
-    private static List<KeyMonth> months;
+    private static ArrayList<KeyValue> weeks;
+    private static ArrayList<KeyMonth> months;
 
     // Management Methods
     public static void create() {
         if (TaskManager.tasks == null) throw new RuntimeException("TaskManager needs to be loaded before the DateManager can do any work");
 
-        List<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = new ArrayList<>();
         for (String t : TaskManager.tasks) {
             final Task task = new Task(t);
             if (task.getDateDue() != null) tasks.add(task);
@@ -126,7 +122,7 @@ public class DateManager {
         return getWeek(0).getDay(Calendar.getInstance());
     }
 
-    public static List<Task> getDay(Calendar date_active) {
+    public static ArrayList<Task> getDay(Calendar date_active) {
         if (date_active.before(getWeek(0).getStart())) return new ArrayList<>();
 
         if (weeks == null) create();

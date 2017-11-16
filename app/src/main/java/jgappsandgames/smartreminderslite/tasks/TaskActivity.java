@@ -47,9 +47,6 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
- * Last Edited on 10/15/17 (350).
- * Edited on 10/11/17 (350).
- * Edited On 10/5/17 (334).
  *
  * Main Task View
  */

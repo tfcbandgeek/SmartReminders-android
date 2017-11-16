@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.tasks.tags;
 
 // Java
 import java.util.ArrayList;
-import java.util.List;
 
 // Views
 import android.view.LayoutInflater;
@@ -21,13 +20,11 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * TagUnselected Adapter
  * Created by joshua on 8/31/17.
- * Last Edited on 10/14/17 (92).
- * Edited on 10/5/17 (88).
  */
 class TagUnselectedAdapter extends BaseAdapter {
     // Data
     private final TagEditorActivity activity;
-    private final List<String> tags;
+    private final ArrayList<String> tags;
 
     // Initializers
     TagUnselectedAdapter(TagEditorActivity activity, Task task) {

@@ -4,7 +4,6 @@ package jgappsandgames.smartreminderssave.tasks;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 // JSON
 import org.json.JSONArray;
@@ -19,10 +18,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * TaskManager
  * Created by joshua on 8/24/17.
- * Last Edited on 10/16/17 (200).
- * Edited on 10/14/17 (201).
- * Edited on 10/21/17 (141).
- * Edited on 9/21/17. (140)
  *
  * Currently on API: 10
  */
@@ -39,10 +34,10 @@ public class TaskManager {
 
     // Data
     private static int version;
-    public static List<String> home;
-    public static List<String> tasks;
-    public static List<String> archived;
-    public static List<String> deleted;
+    public static ArrayList<String> home;
+    public static ArrayList<String> tasks;
+    public static ArrayList<String> archived;
+    public static ArrayList<String> deleted;
 
     // Management Methods
     public static void create() {
@@ -130,10 +125,10 @@ public class TaskManager {
     }
 
     public static void updateTasks(JSONObject data) {
-        List<String> ha = new ArrayList<>();
-        List<String> ta = new ArrayList<>();
-        List<String> aa = new ArrayList<>();
-        List<String> da = new ArrayList<>();
+        ArrayList<String> ha = new ArrayList<>();
+        ArrayList<String> ta = new ArrayList<>();
+        ArrayList<String> aa = new ArrayList<>();
+        ArrayList<String> da = new ArrayList<>();
 
         JSONArray h = data.optJSONArray(HOME);
         JSONArray t = data.optJSONArray(TASKS);

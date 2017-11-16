@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 // JSON
 import org.json.JSONArray;
@@ -20,9 +19,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * Task
  * Created by joshua on 8/24/17.
- * Last Edited on 10/15/17 (541).
- * Edited On 10/12/17 (520).
- * Edited On 10/5/17 (521)
  *
  * Current API: 10
  */
@@ -78,9 +74,9 @@ public class Task {
 
     private String title;
     private String note;
-    private List<String> tags;
-    private List<String> children;
-    private List<Checkpoint> checkpoints;
+    private ArrayList<String> tags;
+    private ArrayList<String> children;
+    private ArrayList<Checkpoint> checkpoints;
     private int status;
     private int priority;
 
@@ -281,7 +277,7 @@ public class Task {
         return note;
     }
 
-    public List<String> getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
@@ -294,11 +290,11 @@ public class Task {
         return builder.toString();
     }
 
-    public List<String> getChildren() {
+    public ArrayList<String> getChildren() {
         return children;
     }
 
-    public List<Checkpoint> getCheckpoints() {
+    public ArrayList<Checkpoint> getCheckpoints() {
         return checkpoints;
     }
 
@@ -347,19 +343,19 @@ public class Task {
         return this;
     }
 
-    public Task setTags(List<String> tags) {
+    public Task setTags(ArrayList<String> tags) {
         this.tags = tags;
         date_updated = Calendar.getInstance();
         return this;
     }
 
-    public Task setChildren(List<String> children) {
+    public Task setChildren(ArrayList<String> children) {
         this.children = children;
         date_updated = Calendar.getInstance();
         return this;
     }
 
-    public Task setCheckpoints(List<Checkpoint> checkpoints) {
+    public Task setCheckpoints(ArrayList<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
         date_updated = Calendar.getInstance();
         return this;
