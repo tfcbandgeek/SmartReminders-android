@@ -23,11 +23,11 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Last Edited on 10/11/17 (104).
  * Edited on 10/5/17 (97).
  */
-public class TaskAdapter extends BaseAdapter {
+class TaskAdapter extends BaseAdapter {
     private final TagActivity activity;
     private final List<Task> tasks;
 
-    public TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
+    TaskAdapter(TagActivity activity, List<String> selected, List<Task> n_tasks) {
         super();
 
         this.activity = activity;

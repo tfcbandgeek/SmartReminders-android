@@ -18,6 +18,11 @@ public class Checkpoint {
     public boolean status;
     public String text;
 
+    public Checkpoint(int id) {
+        this.id = id;
+        status = false;
+    }
+
     public Checkpoint(int id, String text) {
         this.id = id;
         this.text = text;

@@ -46,48 +46,48 @@ public class Week {
     }
 
     public boolean addTask(Task task) {
-        if (task.getDate_due().get(Calendar.YEAR) >= sunday.getDay().get(Calendar.YEAR)) {
-            if (task.getDate_due().get(Calendar.DAY_OF_YEAR) >= sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
-                if (task.getDate_due().get(Calendar.YEAR) <= saturday.getDay().get(Calendar.YEAR)) {
-                    if (task.getDate_due().get(Calendar.DAY_OF_YEAR) <= saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
+        if (task.getDateDue().get(Calendar.YEAR) >= sunday.getDay().get(Calendar.YEAR)) {
+            if (task.getDateDue().get(Calendar.DAY_OF_YEAR) >= sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                if (task.getDateDue().get(Calendar.YEAR) <= saturday.getDay().get(Calendar.YEAR)) {
+                    if (task.getDateDue().get(Calendar.DAY_OF_YEAR) <= saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
                         // Sunday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             sunday.addTask(task);
                             return true;
                         }
 
                         // Monday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == monday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == monday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             monday.addTask(task);
                             return true;
                         }
 
                         // Tuesday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == tuesday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == tuesday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             tuesday.addTask(task);
                             return true;
                         }
 
                         // Wednesday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == wednesday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == wednesday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             wednesday.addTask(task);
                             return true;
                         }
 
                         // Thursday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == thursday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == thursday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             thursday.addTask(task);
                             return true;
                         }
 
                         // Friday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == friday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == friday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             friday.addTask(task);
                             return true;
                         }
 
                         // Saturday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             saturday.addTask(task);
                             return true;
                         }
@@ -100,48 +100,48 @@ public class Week {
     }
 
     public boolean removeTask(Task task) {
-        if (task.getDate_due().get(Calendar.YEAR) >= sunday.getDay().get(Calendar.YEAR)) {
-            if (task.getDate_due().get(Calendar.DAY_OF_YEAR) >= sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
-                if (task.getDate_due().get(Calendar.YEAR) <= saturday.getDay().get(Calendar.YEAR)) {
-                    if (task.getDate_due().get(Calendar.DAY_OF_YEAR) <= saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
+        if (task.getDateDue().get(Calendar.YEAR) >= sunday.getDay().get(Calendar.YEAR)) {
+            if (task.getDateDue().get(Calendar.DAY_OF_YEAR) >= sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                if (task.getDateDue().get(Calendar.YEAR) <= saturday.getDay().get(Calendar.YEAR)) {
+                    if (task.getDateDue().get(Calendar.DAY_OF_YEAR) <= saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
                         // Sunday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == sunday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             sunday.removeTask(task);
                             return true;
                         }
 
                         // Monday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == monday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == monday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             monday.removeTask(task);
                             return true;
                         }
 
                         // Tuesday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == tuesday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == tuesday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             tuesday.removeTask(task);
                             return true;
                         }
 
                         // Wednesday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == wednesday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == wednesday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             wednesday.removeTask(task);
                             return true;
                         }
 
                         // Thursday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == thursday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == thursday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             thursday.removeTask(task);
                             return true;
                         }
 
                         // Friday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == friday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == friday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             friday.removeTask(task);
                             return true;
                         }
 
                         // Saturday
-                        if (task.getDate_due().get(Calendar.DAY_OF_YEAR) == saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
+                        if (task.getDateDue().get(Calendar.DAY_OF_YEAR) == saturday.getDay().get(Calendar.DAY_OF_YEAR)) {
                             saturday.removeTask(task);
                             return true;
                         }

@@ -82,7 +82,7 @@ public class CheckpointHolder implements View.OnClickListener, View.OnLongClickL
 
         Vibrator v = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
         try {
-            if (v.hasVibrator()) v.vibrate(100);
+            if (v != null && v.hasVibrator()) v.vibrate(100);
         } catch (NullPointerException n) {
             n.printStackTrace();
         }

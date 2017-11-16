@@ -45,29 +45,6 @@ public class TaskFolderHolder implements OnClickListener, OnLongClickListener, O
     private final TextView note;
 
     // Initializer
-    @Deprecated
-    public TaskFolderHolder(Task task, View view, Activity activity) {
-        // Set data
-        this.task = task;
-        this.activity = activity;
-
-        // Find Views
-        title = view.findViewById(R.id.title);
-        note = view.findViewById(R.id.note);
-
-        title.setOnClickListener(this);
-        title.setOnLongClickListener(this);
-
-        note.setOnClickListener(this);
-        note.setOnLongClickListener(this);
-
-        if (task.getType() == Task.TYPE_TASK) {
-            status = view.findViewById(R.id.status);
-            status.setOnCheckedChangeListener(this);
-        }
-    }
-
-    // Initializer
     public TaskFolderHolder(Task task, View view, Activity activity, OnTaskChangedListener taskChangedListener) {
         this.task = task;
         this.activity = activity;

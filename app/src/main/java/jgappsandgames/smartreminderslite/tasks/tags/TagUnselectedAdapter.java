@@ -24,13 +24,13 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Last Edited on 10/14/17 (92).
  * Edited on 10/5/17 (88).
  */
-public class TagUnselectedAdapter extends BaseAdapter {
+class TagUnselectedAdapter extends BaseAdapter {
     // Data
     private final TagEditorActivity activity;
-    public final List<String> tags;
+    private final List<String> tags;
 
     // Initializers
-    public TagUnselectedAdapter(TagEditorActivity activity, Task task) {
+    TagUnselectedAdapter(TagEditorActivity activity, Task task) {
         super();
 
         // Set Activity
@@ -43,7 +43,7 @@ public class TagUnselectedAdapter extends BaseAdapter {
         }
     }
 
-    public TagUnselectedAdapter(TagEditorActivity activity, Task task, String search) {
+    TagUnselectedAdapter(TagEditorActivity activity, Task task, String search) {
         // Set Activity
         this.activity = activity;
 

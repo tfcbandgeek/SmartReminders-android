@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.tags;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Program
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -27,11 +28,11 @@ public class TagManager {
 	// Constants
 	private static final String FILENAME = "tagmanager.srj";
 	
-	public static final String VERSION = "version";
-	public static final String TAGS = "tags";
+	private static final String VERSION = "version";
+	private static final String TAGS = "tags";
 	
 	// Data
-	public static int version;
+	private static int version;
 	public static List<String> tags;
 	
 	// Management Methods
@@ -41,11 +42,17 @@ public class TagManager {
 	}
 
 	public static void load() {
-        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+	    try {
+            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        } catch (IOException i) {
+	        i.printStackTrace();
+	        create();
+	        save();
+        }
     }
 
     public static void save() {
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON());
+        JSONUtility.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON());
     }
 
     // JSON Management Methods

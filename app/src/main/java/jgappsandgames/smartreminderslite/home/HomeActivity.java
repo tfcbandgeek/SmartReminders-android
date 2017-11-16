@@ -58,7 +58,7 @@ public class HomeActivity
 
         // Set Activity View
         setContentView(R.layout.activity_home);
-        setTitle("Smart Reminders Lite");
+        setTitle(R.string.app_name);
 
         // First Run
         FileUtility.loadFilePaths(this);

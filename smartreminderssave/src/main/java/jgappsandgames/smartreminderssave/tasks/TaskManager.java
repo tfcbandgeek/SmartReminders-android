@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.tasks;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +12,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Save
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * TaskManager
  * Created by joshua on 8/24/17.
- * Last 10/14/17 (201).
+ * Last Edited on 10/16/17 (200).
+ * Edited on 10/14/17 (201).
  * Edited on 10/21/17 (141).
  * Edited on 9/21/17. (140)
  *
@@ -36,7 +38,7 @@ public class TaskManager {
     private static final String DELETED = "deleted";
 
     // Data
-    public static int version;
+    private static int version;
     public static List<String> home;
     public static List<String> tasks;
     public static List<String> archived;
@@ -51,12 +53,19 @@ public class TaskManager {
     }
 
     public static void load() {
-        loadJSON(JSONLoader.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        try {
+            loadJSON(JSONUtility.loadJSON(new File(FileUtility.getApplicationDataDirectory(), FILENAME)));
+        } catch (IOException i) {
+            i.printStackTrace();
+
+            create();
+            save();
+        }
         if (deleted.size() >= 50) deleted.remove(0);
     }
 
     public static void save() {
-        JSONLoader.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON());
+        JSONUtility.saveJSONObject(new File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON());
     }
 
     public static void clearTasks() {
@@ -148,20 +157,20 @@ public class TaskManager {
         }
 
         for (String task : ta) {
-            if (tasks.contains(task)) return;
+            if (tasks.contains(task)) continue;
             if (archived.contains(task) || deleted.contains(task)) continue;
             tasks.add(task);
         }
 
         for (String task : aa) {
-            if (archived.contains(task)) return;
+            if (archived.contains(task)) continue;
             if (deleted.contains(task)) continue;
             if (tasks.contains(task)) tasks.remove(task);
             archived.add(task);
         }
 
         for (String task : da) {
-            if (deleted.contains(task)) return;
+            if (deleted.contains(task)) continue;
             if (archived.contains(task)) archived.remove(task);
             if (tasks.contains(task)) tasks.remove(task);
         }
@@ -176,15 +185,13 @@ public class TaskManager {
             home.remove(task.getFilename());
         } else if (tasks.contains(task.getParent())) {
             Task parent = new Task(task.getParent());
-
             parent.removeChild(task.getFilename());
-
             parent.save();
         }
 
         tasks.remove(task.getFilename());
         archived.add(task.getFilename());
-        TaskManager.save();
+        save();
     }
 
     public static boolean deleteTask(Task task) {
@@ -192,7 +199,7 @@ public class TaskManager {
             task.delete();
             deleted.add(task.getFilename());
             archived.remove(task.getFilename());
-            TaskManager.save();
+            save();
             return true;
         }
 

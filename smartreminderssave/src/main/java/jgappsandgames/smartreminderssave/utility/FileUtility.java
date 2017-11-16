@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 
 // Program
+import android.util.Log;
 import jgappsandgames.smartreminderssave.settings.Settings;
 
 /**

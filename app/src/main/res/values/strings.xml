@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart RemindersLite</string>
+    <string name="app_name">Smart Reminders Lite</string>
     <string name="status">Status</string>
     <string name="your_name">Your Name</string>
     <string name="device_name">Device Name</string>
@@ -23,7 +23,6 @@
     <string name="save">Save</string>
     <string name="tags">Tags</string>
     <string name="close">Close</string>
-    <string name="management">Management</string>
     <string name="completed">Completed</string>
     <string name="version">Version</string>
     <string name="build">Build</string>

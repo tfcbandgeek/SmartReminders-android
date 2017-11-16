@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderssave.settings;
 
 // Java
 import java.io.File;
+import java.io.IOException;
 
 // JSON
 import org.json.JSONException;
@@ -11,7 +12,7 @@ import org.json.JSONObject;
 import android.os.Build;
 
 // Save
-import jgappsandgames.smartreminderssave.json.JSONLoader;
+import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
@@ -46,7 +47,7 @@ public class Settings {
     private static final String LAST_VERSION_SPLASH = "last_version_splash";
 
     // Data
-    public static int version;
+    private static int version;
 
     public static String user_name;
     public static String device_name;
@@ -82,10 +83,20 @@ public class Settings {
     }
 
     public static void load() {
-        JSONObject data = JSONLoader.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        JSONObject data = null;
+        try {
+            data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            create();
+            save();
+            return;
+        }
 
         if (data == null) {
             create();
+            save();
             return;
         }
 
@@ -133,6 +144,6 @@ public class Settings {
             e.printStackTrace();
         }
 
-        JSONLoader.saveJSONObject(new File(FileUtility.getInternalFileDirectory(), FILENAME), data);
+        JSONUtility.saveJSONObject(new File(FileUtility.getInternalFileDirectory(), FILENAME), data);
     }
 }
