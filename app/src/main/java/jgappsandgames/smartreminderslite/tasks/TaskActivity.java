@@ -2,6 +2,8 @@ package jgappsandgames.smartreminderslite.tasks;
 
 // Java
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 // JSON
 import org.json.JSONArray;
@@ -10,6 +12,7 @@ import org.json.JSONObject;
 
 // Android OS
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -50,10 +54,9 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  *
  * Main Task View
  */
-public class TaskActivity
-        extends Activity
+public class TaskActivity extends Activity
         implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener,
-        OnTaskChangedListener  {
+        OnTaskChangedListener, DatePickerDialog.OnDateSetListener {
     // Data
     private Task task;
 
@@ -61,6 +64,7 @@ public class TaskActivity
     private EditText title;
     private EditText note;
     private TextView tags;
+    private Button date;
     private Button status;
     private SeekBar priority;
     private ListView list;
@@ -92,21 +96,29 @@ public class TaskActivity
 
         fab = findViewById(R.id.fab);
 
+        // Task Specific Items
         if (task.getType() == Task.TYPE_TASK) {
+            // Find Views
+            date = findViewById(R.id.date);
             status = findViewById(R.id.status);
             priority = findViewById(R.id.priority);
+
+            // Set Views
+            setStatus();
+            status.setOnClickListener(this);
+
+            setDate();
+            date.setOnClickListener(this);
+            date.setOnLongClickListener(this);
+
+            priority.setMax(100);
+            priority.setProgress(task.getPriority());
+            priority.setOnSeekBarChangeListener(this);
         }
 
         // Set Text
         title.setText(task.getTitle());
         note.setText(task.getNote());
-
-        if (task.getType() == Task.TYPE_TASK) {
-            setStatus();
-            priority.setMax(100);
-            priority.setProgress(task.getPriority());
-            priority.setOnSeekBarChangeListener(this);
-        }
 
         // Set TextWatcher
         title.addTextChangedListener(this);
@@ -115,10 +127,6 @@ public class TaskActivity
         // Set Click Listener
         fab.setOnClickListener(this);
         fab.setOnLongClickListener(this);
-
-        if (task.getType() == Task.TYPE_TASK) {
-            status.setOnClickListener(this);
-        }
 
         tags.setOnClickListener(this);
         tags.setOnLongClickListener(this);
@@ -263,6 +271,9 @@ public class TaskActivity
 
                 startActivityForResult(check_intent, ActivityUtility.REQUEST_CHECKPOINT);
             }
+        } else if (view.equals(date)) {
+            if (task.getDateDue() == null) new DatePickerDialog(this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
+            else new DatePickerDialog(this, this, task.getDateDue().get(Calendar.YEAR), task.getDateDue().get(Calendar.MONTH), task.getDateDue().get(Calendar.DAY_OF_MONTH)).show();
         } else if (view.equals(status)) {
             if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false);
             else task.markComplete(true);
@@ -296,9 +307,12 @@ public class TaskActivity
 
                 // Start Activity
                 startActivity(intent);
-
                 return true;
             }
+        } else if (view.equals(date)) {
+            task.setDateDue(null);
+            setDate();
+            return true;
         } else if (view.equals(status)) {
             return false;
         }
@@ -340,8 +354,18 @@ public class TaskActivity
         tags.setText(task.getTagString());
     }
 
+    private void setDate() {
+        date.setText(task.getDateDueString());
+    }
+
     @Override
     public void onTaskChanged() {
         onResume();
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        task.setDateDue(new GregorianCalendar(year, month, day, 0, 0, 1));
+        setDate();
     }
 }
