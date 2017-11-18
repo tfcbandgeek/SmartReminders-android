@@ -265,7 +265,12 @@ public class Task {
         return date_archived;
     }
 
+    @Deprecated
     public Calendar getDate_deleted() {
+        return date_deleted;
+    }
+
+    public Calendar getDateDeleted() {
         return date_deleted;
     }
 
