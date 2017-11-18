@@ -9,14 +9,11 @@ import android.os.Build;
 import android.os.Environment;
 
 // Program
-import android.util.Log;
 import jgappsandgames.smartreminderssave.settings.Settings;
 
 /**
  * FileUtility
  * Created by joshua on 8/24/17.
- * Last Edited on 10/12/17 (78).
- * Edited on 10/9/17 (75). <SDK 16-26>
  *
  * Last Updated API Level: 10
  */
@@ -34,6 +31,7 @@ public class FileUtility {
 
         if (file.isDirectory()) return false;
 
+        //noinspection ResultOfMethodCallIgnored
         file.mkdirs();
         return true;
     }
@@ -57,13 +55,15 @@ public class FileUtility {
             else external = data;
 
             // Create Directory
-            if (!external.exists() || !external.isDirectory()) external.mkdirs();
+            if (!external.exists() || !external.isDirectory()) //noinspection ResultOfMethodCallIgnored
+                external.mkdirs();
 
             return external;
         }
 
         // Create Directory
-        if (!data.exists() || !data.isDirectory()) data.mkdirs();
+        if (!data.exists() || !data.isDirectory()) //noinspection ResultOfMethodCallIgnored
+            data.mkdirs();
 
         // Return the File
         return data;
@@ -78,7 +78,8 @@ public class FileUtility {
 	// Get The Internal Cache Directory
 	public static File getApplicationCacheDirectory() {
         // Create Directory
-		if (!cache.exists() || !cache.isDirectory()) cache.mkdirs();
+		if (!cache.exists() || !cache.isDirectory()) //noinspection ResultOfMethodCallIgnored
+		    cache.mkdirs();
 		
 		// Return the File
 		return cache;

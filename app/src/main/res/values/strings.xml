@@ -46,4 +46,5 @@
     <string name="stared">Stared</string>
     <string name="complete">Completed.</string>
     <string name="edit">Edit</string>
+    <string name="check_for_updates">Check for Updates</string>
 </resources>
