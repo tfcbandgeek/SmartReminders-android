@@ -30,6 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="6sp"
             android:id="@+id/note"
             android:textSize="12sp"
             android:layout_gravity="start"

@@ -8,6 +8,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="6sp"
+        android:layout_marginRight="6sp"
+        android:layout_marginTop="4sp"
+        android:layout_marginBottom="4sp"
         android:id="@+id/tag"
         android:textSize="13sp"/>
 </LinearLayout>
