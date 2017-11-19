@@ -32,6 +32,10 @@ public class FileUtility {
         if (file.isDirectory()) return false;
 
         //noinspection ResultOfMethodCallIgnored
+        data.mkdirs();
+        //noinspection ResultOfMethodCallIgnored
+        cache.mkdirs();
+        //noinspection ResultOfMethodCallIgnored
         file.mkdirs();
         return true;
     }
@@ -72,7 +76,12 @@ public class FileUtility {
 
     // Get the Internal App Directory (Useful for App Settings
     public static File getInternalFileDirectory() {
-		return data;
+        // Create Directory
+        if (!data.exists() || !data.isDirectory()) //noinspection ResultOfMethodCallIgnored
+            data.mkdirs();
+
+        // Return the File
+        return data;
 	}
 
 	// Get The Internal Cache Directory
