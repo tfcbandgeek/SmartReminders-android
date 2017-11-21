@@ -32,8 +32,7 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Tag Editor Activity
  * Created by joshua on 8/31/17.
  */
-public class TagEditorActivity extends Activity
-        implements TextWatcher, OnClickListener, OnLongClickListener, TagSwitcher {
+public class TagEditorActivity extends Activity implements TextWatcher, OnClickListener, OnLongClickListener, TagSwitcher {
     // Data
     private Task task;
 
@@ -44,7 +43,6 @@ public class TagEditorActivity extends Activity
     private ListView unselected;
 
     // LifeCycle Methods
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,25 +87,44 @@ public class TagEditorActivity extends Activity
     public void afterTextChanged(Editable editable) {
         selected.setAdapter(new TagSelectedAdapter(this, task, editable.toString()));
         unselected.setAdapter(new TagUnselectedAdapter(this, task, editable.toString()));
+
+        if (TagManager.contains(editable.toString())) search_enter.setText(R.string.select);
+        else search_enter.setText(R.string.add);
     }
 
     // Click Listeners
     @Override
     public void onClick(View view) {
-        task.addTag(search_text.getText().toString());
-        TagManager.tags.add(search_text.getText().toString());
-        search_text.setText("");
+        if (TagManager.addTag(search_text.getText().toString())) {
+            task.addTag(search_text.getText().toString());
+            search_text.setText("");
 
-        selected.setAdapter(new TagSelectedAdapter(this, task));
-        unselected.setAdapter(new TagUnselectedAdapter(this, task));
+            selected.setAdapter(new TagSelectedAdapter(this, task));
+            unselected.setAdapter(new TagUnselectedAdapter(this, task));
 
-        // Set new Result Intent
-        try {
-            JSONArray tags  = new JSONArray();
-            for (String tag : task.getTags()) tags.put(tag);
-            setResult(ActivityUtility.RESPONSE_CHANGE, new Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString(4)));
-        } catch (JSONException | NullPointerException e) {
-            e.printStackTrace();
+            // Set new Result Intent
+            try {
+                JSONArray tags  = new JSONArray();
+                for (String tag : task.getTags()) tags.put(tag);
+                setResult(ActivityUtility.RESPONSE_CHANGE, new Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString(4)));
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        } else if (search_text.getText().toString().equals("")) {
+            task.addTag(search_text.getText().toString());
+            search_text.setText("");
+
+            selected.setAdapter(new TagSelectedAdapter(this, task));
+            unselected.setAdapter(new TagUnselectedAdapter(this, task));
+
+            // Set new Result Intent
+            try {
+                JSONArray tags  = new JSONArray();
+                for (String tag : task.getTags()) tags.put(tag);
+                setResult(ActivityUtility.RESPONSE_CHANGE, new Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString(4)));
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

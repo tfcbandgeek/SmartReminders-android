@@ -14,9 +14,8 @@ import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
-
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
-import jgappsandgames.smartreminderslite.holder.TagHolder;
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
+import jgappsandgames.smartreminderslite.holder.TagHolder.TagSwitcher;
 
 // Save
 import jgappsandgames.smartreminderssave.tags.TagManager;
@@ -26,13 +25,8 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TagActivity
  * Created by joshua on 9/2/17.
- * Last Edited on 10/12/17 (134).
- * Edited on 10/11/17 (106).
- * Edited on 10/5/17 (100).
  */
-public class TagActivity
-        extends Activity
-        implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
+public class TagActivity extends Activity implements TagSwitcher, OnTaskChangedListener {
     // Data
     private ArrayList<String> selected_tags;
     private ArrayList<Task> tasks;
