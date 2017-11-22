@@ -19,9 +19,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * Settings
  * Created by joshua on 8/30/17.
- * Last Edited on 10/12/17 (138).
- * Edited on 10/8/17 (169).
- * Edited On 10/5/17 (174)
  *
  * Current API Version: 10
  */
@@ -36,6 +33,7 @@ public class Settings {
     private static final String DEVICE_NAME = "device_name";
 
     private static final String USE_EXTERNAL_FILE = "external_file";
+    private static final String EXTERNAL_FILE_LOCATION = "external_file_location";
 
     private static final String HAS_TAG_SHORTCUT = "has_tag_shortcut";
     private static final String HAS_STATUS_SHORTCUT = "has_status_shortcut";
@@ -53,6 +51,7 @@ public class Settings {
     public static String device_name;
 
     public static boolean use_external_file;
+    public static String external_file_location;
 
     public static boolean has_tag_shortcut;
     public static boolean has_status_shortcut;
@@ -83,7 +82,7 @@ public class Settings {
     }
 
     public static void load() {
-        JSONObject data = null;
+        JSONObject data;
         try {
             data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
         } catch (IOException e) {
@@ -107,6 +106,7 @@ public class Settings {
         device_name = data.optString(DEVICE_NAME);
 
         use_external_file = data.optBoolean(USE_EXTERNAL_FILE);
+        external_file_location = data.optString(EXTERNAL_FILE_LOCATION, ".smartreminders");
 
         has_tag_shortcut = data.optBoolean(HAS_TAG_SHORTCUT);
         has_status_shortcut = data.optBoolean(HAS_STATUS_SHORTCUT, false);
@@ -116,8 +116,6 @@ public class Settings {
 
         has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL);
         last_version_splash = data.optInt(LAST_VERSION_SPLASH);
-
-
     }
 
     public static void save() {
@@ -131,6 +129,8 @@ public class Settings {
             data.put(DEVICE_NAME, device_name);
 
             data.put(USE_EXTERNAL_FILE, use_external_file);
+            if (external_file_location == null || external_file_location.equals(""))
+                data.put(EXTERNAL_FILE_LOCATION, external_file_location);
 
             data.put(HAS_TAG_SHORTCUT, has_tag_shortcut);
             data.put(HAS_STATUS_SHORTCUT, has_status_shortcut);
