@@ -27,6 +27,8 @@ public class TaskManager {
 
     // Save Constants
     private static final String VERSION = "version";
+    private static final String META = "meta";
+
     private static final String HOME = "home";
     private static final String TASKS = "tasks";
     private static final String ARCHIVED = "archived";
@@ -34,6 +36,7 @@ public class TaskManager {
 
     // Data
     private static int version;
+    public static JSONObject meta;
     public static ArrayList<String> home;
     public static ArrayList<String> tasks;
     public static ArrayList<String> archived;
@@ -41,10 +44,15 @@ public class TaskManager {
 
     // Management Methods
     public static void create() {
+        version = API.MANAGEMENT;
+
         home = new ArrayList<>();
         tasks = new ArrayList<>();
         archived = new ArrayList<>();
         deleted = new ArrayList<>();
+
+        // Version 11
+        meta = new JSONObject();
     }
 
     public static void load() {
@@ -95,13 +103,23 @@ public class TaskManager {
             if (!archived.contains(a.optString(i))) archived.add(a.optString(i));
         if (d != null && d.length() != 0) for (int i = 0; i < d.length(); i++)
             if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i));
+
+        // Version 11
+        if (version >= API.MANAGEMENT) {
+            meta = data.optJSONObject(META);
+            if (meta == null) {
+                meta = new JSONObject();
+            }
+        } else {
+            meta = new JSONObject();
+        }
     }
 
     public static JSONObject saveJSON() {
         JSONObject data = new JSONObject();
 
         try {
-            data.put(VERSION, API.RELEASE);
+            data.put(VERSION, API.MANAGEMENT);
 
             JSONArray h = new JSONArray();
             JSONArray t = new JSONArray();
@@ -117,6 +135,9 @@ public class TaskManager {
             data.put(TASKS, t);
             data.put(ARCHIVED, a);
             data.put(DELETED, d);
+
+            // Version 11
+            data.put(META, meta);
         } catch (JSONException j) {
             j.printStackTrace();
         }

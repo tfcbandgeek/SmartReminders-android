@@ -28,6 +28,7 @@ public class Settings {
 
     // Save Data
     private static final String VERSION = "version";
+    private static final String META = "meta";
 
     private static final String USER_NAME = "user_name";
     private static final String DEVICE_NAME = "device_name";
@@ -46,6 +47,7 @@ public class Settings {
 
     // Data
     private static int version;
+    public static JSONObject meta;
 
     public static String user_name;
     public static String device_name;
@@ -64,7 +66,7 @@ public class Settings {
 
     // Management Methods
     public static void create() {
-        version = API.RELEASE;
+        version = API.MANAGEMENT;
 
         user_name = "";
         device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT;
@@ -79,6 +81,10 @@ public class Settings {
 
         has_done_tutorial = false;
         last_version_splash = -1;
+
+        // Version 11
+        meta = new JSONObject();
+        external_file_location = ".smartreminders";
     }
 
     public static void load() {
@@ -106,7 +112,6 @@ public class Settings {
         device_name = data.optString(DEVICE_NAME);
 
         use_external_file = data.optBoolean(USE_EXTERNAL_FILE);
-        external_file_location = data.optString(EXTERNAL_FILE_LOCATION, ".smartreminders");
 
         has_tag_shortcut = data.optBoolean(HAS_TAG_SHORTCUT);
         has_status_shortcut = data.optBoolean(HAS_STATUS_SHORTCUT, false);
@@ -116,6 +121,16 @@ public class Settings {
 
         has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL);
         last_version_splash = data.optInt(LAST_VERSION_SPLASH);
+
+        // Version 11
+        if (version >= API.MANAGEMENT) {
+            meta = data.optJSONObject(META);
+            if (meta == null) meta = new JSONObject();
+            external_file_location = data.optString(EXTERNAL_FILE_LOCATION, ".smartreminders");
+        } else {
+            meta = new JSONObject();
+            external_file_location = ".smartreminders";
+        }
     }
 
     public static void save() {
@@ -123,7 +138,7 @@ public class Settings {
 
         // Write to JSON
         try {
-            data.put(VERSION, API.RELEASE);
+            data.put(VERSION, API.MANAGEMENT);
 
             data.put(USER_NAME, user_name);
             data.put(DEVICE_NAME, device_name);
@@ -140,6 +155,10 @@ public class Settings {
 
             data.put(HAS_DONE_TUTORIAL, has_done_tutorial);
             data.put(LAST_VERSION_SPLASH, last_version_splash);
+
+            // Version 11
+            data.put(META, meta);
+            data.put(EXTERNAL_FILE_LOCATION, external_file_location);
         } catch (JSONException e) {
             e.printStackTrace();
         }

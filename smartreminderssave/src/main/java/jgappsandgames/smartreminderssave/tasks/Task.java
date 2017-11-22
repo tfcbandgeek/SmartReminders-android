@@ -26,6 +26,7 @@ public class Task {
     // Save Constants
     private static final String PARENT = "parent";
     private static final String VERSION = "version";
+    private static final String META = "meta";
     private static final String TYPE = "type";
     private static final String TASK_ID = "id";
 
@@ -63,6 +64,7 @@ public class Task {
     private final String filename;
     private String parent;
     private int version;
+    private JSONObject meta;
     private int type;
     private long task_id;
 
@@ -93,7 +95,7 @@ public class Task {
         filename = String.valueOf(calendar.getTimeInMillis()) + ".srj";
 
         this.parent = parent;
-        version = API.RELEASE;
+        version = API.MANAGEMENT;
         this.type = type;
         task_id = Calendar.getInstance().getTimeInMillis();
 
@@ -171,6 +173,14 @@ public class Task {
         if (t != null && t.length() != 0) for (int i = 0; i < t.length(); i++) tags.add(t.optString(i));
         if (c != null && c.length() != 0) for (int i = 0; i < c.length(); i++) children.add(c.optString(i));
         if (p != null && p.length() != 0) for (int i = 0; i < p.length(); i++) checkpoints.add(new Checkpoint(p.optJSONObject(i)));
+
+        // Version 11
+        if (version >= API.MANAGEMENT) {
+            meta = data.optJSONObject(META);
+            if (meta == null) meta = new JSONObject();
+        } else {
+            meta = new JSONObject();
+        }
     }
 
     public JSONObject toJSON() {
@@ -178,7 +188,7 @@ public class Task {
 
         try {
             data.put(PARENT, parent);
-            data.put(VERSION, version);
+            data.put(VERSION, API.MANAGEMENT);
             data.put(TYPE, type);
             data.put(TASK_ID, task_id);
 
@@ -206,6 +216,10 @@ public class Task {
             data.put(TAGS, t);
             data.put(CHILDREN, c);
             data.put(CHECKPOINTS, p);
+
+            // Version 11
+            data.put(META, meta);
+
         } catch (JSONException j) {
             j.printStackTrace();
         } catch (NullPointerException n) {
