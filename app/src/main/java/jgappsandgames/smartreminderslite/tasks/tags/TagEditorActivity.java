@@ -1,9 +1,5 @@
 package jgappsandgames.smartreminderslite.tasks.tags;
 
-// JSON
-import org.json.JSONArray;
-import org.json.JSONException;
-
 // Android OS
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +14,11 @@ import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+
+// JSON
+import org.json.JSONArray;
+import org.json.JSONException;
+
 
 // App
 import jgappsandgames.smartreminderslite.R;
@@ -80,21 +81,22 @@ public class TagEditorActivity extends Activity implements TextWatcher, OnClickL
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        // Not Needed, OnLy included because it is required by the TextWatcher
+        selected.setAdapter(new TagSelectedAdapter(this, task, search_text.getText().toString()));
+        unselected.setAdapter(new TagUnselectedAdapter(this, task, search_text.getText().toString()));
+
+        if (TagManager.contains(search_text.getText().toString())) search_enter.setText(R.string.select);
+        else search_enter.setText(R.string.add);
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
-        selected.setAdapter(new TagSelectedAdapter(this, task, editable.toString()));
-        unselected.setAdapter(new TagUnselectedAdapter(this, task, editable.toString()));
-
-        if (TagManager.contains(editable.toString())) search_enter.setText(R.string.select);
-        else search_enter.setText(R.string.add);
+        // Not Needed, OnLy included because it is required by the TextWatcher
     }
 
     // Click Listeners
     @Override
     public void onClick(View view) {
+        // Tag is Not in the List And is addable
         if (TagManager.addTag(search_text.getText().toString())) {
             task.addTag(search_text.getText().toString());
             search_text.setText("");
@@ -110,7 +112,10 @@ public class TagEditorActivity extends Activity implements TextWatcher, OnClickL
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
-        } else if (search_text.getText().toString().equals("")) {
+        }
+
+        // Tag is not addable
+        else if (!search_text.getText().toString().equals("")) {
             task.addTag(search_text.getText().toString());
             search_text.setText("");
 
