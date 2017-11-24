@@ -48,4 +48,5 @@
     <string name="edit">Edit</string>
     <string name="check_for_updates">Check for Updates</string>
     <string name="select">Select</string>
+    <string name="no_date">No Date</string>
 </resources>

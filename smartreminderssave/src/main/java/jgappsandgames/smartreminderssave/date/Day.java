@@ -10,7 +10,6 @@ import jgappsandgames.smartreminderssave.tasks.Task;
 /**
  * Day
  * Created by joshua on 9/10/17.
- * Last Edited 10/8/17 (41).
  */
 public class Day {
     private final Calendar day;
@@ -35,7 +34,6 @@ public class Day {
     }
 
     public ArrayList<Task> getTasks() {
-        if (tasks == null) return new ArrayList<>();
         return tasks;
     }
 }
