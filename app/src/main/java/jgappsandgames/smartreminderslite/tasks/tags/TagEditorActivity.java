@@ -83,7 +83,7 @@ public class TagEditorActivity extends Activity implements TextWatcher, OnClickL
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         selected.setAdapter(new TagSelectedAdapter(this, task, search_text.getText().toString()));
         unselected.setAdapter(new TagUnselectedAdapter(this, task, search_text.getText().toString()));
-
+        
         if (TagManager.contains(search_text.getText().toString())) search_enter.setText(R.string.select);
         else search_enter.setText(R.string.add);
     }
