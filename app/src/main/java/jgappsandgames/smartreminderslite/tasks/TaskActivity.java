@@ -51,8 +51,6 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
- *
- * Main Task View
  */
 public class TaskActivity extends Activity
         implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener,

@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 // Views
-import android.widget.Button;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +56,8 @@ public class AboutActivity extends Activity {
 
                     JSONObject data = new JSONObject(s.toString());
 
-                    if (data.optInt("release", 0) > BuildConfig.VERSION_CODE) {
+                    Log.v("Release Check", data.toString());
+                    if (data.optInt("stable", 0) > BuildConfig.VERSION_CODE) {
                         runOnUiThread(() -> {
                             Toast.makeText(this, "Update Found", Toast.LENGTH_LONG).show();
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/tfcbandgeek/SmartReminders-android/releases")));

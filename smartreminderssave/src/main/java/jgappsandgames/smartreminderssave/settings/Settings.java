@@ -83,7 +83,7 @@ public class Settings {
     }
 
     public static void load() {
-        JSONObject data = null;
+        JSONObject data;
         try {
             data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
         } catch (IOException e) {
