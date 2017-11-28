@@ -6,7 +6,7 @@ android {
     buildToolsVersion "27.0.1"
     defaultConfig {
         applicationId "jgappsandgames.smartreminderslite"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 27
         versionCode 17120110
         versionName "17.12.1A1"
