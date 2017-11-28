@@ -20,6 +20,8 @@ public class ThemeManager {
 
     // JSON Constants
     private static final String VERSION = "version";
+    private static final String META = "meta";
+
     private static final String COLOR = "color";
     private static final String LIGHT = "light";
 
@@ -36,6 +38,7 @@ public class ThemeManager {
 
     // Data
     private static int version = 0;
+    public static JSONObject meta;
     public static int color = 0;
     public static int light = 0;
 
@@ -63,21 +66,35 @@ public class ThemeManager {
         version = data.optInt(VERSION, API.RELEASE);
         color = data.optInt(COLOR, 1);
         light = data.optInt(LIGHT, 1);
+
+        // Version 11
+        if (version >= API.MANAGEMENT) {
+            meta = data.optJSONObject(META);
+            if (meta == null) meta = new JSONObject();
+        } else {
+            meta = new JSONObject();
+        }
     }
 
     public static void create() {
-        version = API.RELEASE;
+        version = API.MANAGEMENT;
         color = 1;
         light = 1;
+
+        // Version 11
+        meta = new JSONObject();
     }
 
     public static void save() {
         JSONObject data = new JSONObject();
 
         try {
-            data.put(VERSION, API.RELEASE);
+            data.put(VERSION, API.MANAGEMENT);
             data.put(COLOR, color);
             data.put(LIGHT, light);
+
+            // Version 11
+            data.put(META, meta);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -19,9 +19,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
 /**
  * Settings
  * Created by joshua on 8/30/17.
- * Last Edited on 10/12/17 (138).
- * Edited on 10/8/17 (169).
- * Edited On 10/5/17 (174)
  *
  * Current API Version: 10
  */
@@ -31,11 +28,13 @@ public class Settings {
 
     // Save Data
     private static final String VERSION = "version";
+    private static final String META = "meta";
 
     private static final String USER_NAME = "user_name";
     private static final String DEVICE_NAME = "device_name";
 
     private static final String USE_EXTERNAL_FILE = "external_file";
+    private static final String EXTERNAL_FILE_LOCATION = "external_file_location";
 
     private static final String HAS_TAG_SHORTCUT = "has_tag_shortcut";
     private static final String HAS_STATUS_SHORTCUT = "has_status_shortcut";
@@ -48,11 +47,13 @@ public class Settings {
 
     // Data
     private static int version;
+    public static JSONObject meta;
 
     public static String user_name;
     public static String device_name;
 
     public static boolean use_external_file;
+    public static String external_file_location;
 
     public static boolean has_tag_shortcut;
     public static boolean has_status_shortcut;
@@ -65,7 +66,7 @@ public class Settings {
 
     // Management Methods
     public static void create() {
-        version = API.RELEASE;
+        version = API.MANAGEMENT;
 
         user_name = "";
         device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT;
@@ -80,6 +81,10 @@ public class Settings {
 
         has_done_tutorial = false;
         last_version_splash = -1;
+
+        // Version 11
+        meta = new JSONObject();
+        external_file_location = ".smartreminders";
     }
 
     public static void load() {
@@ -117,7 +122,15 @@ public class Settings {
         has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL);
         last_version_splash = data.optInt(LAST_VERSION_SPLASH);
 
-
+        // Version 11
+        if (version >= API.MANAGEMENT) {
+            meta = data.optJSONObject(META);
+            if (meta == null) meta = new JSONObject();
+            external_file_location = data.optString(EXTERNAL_FILE_LOCATION, ".smartreminders");
+        } else {
+            meta = new JSONObject();
+            external_file_location = ".smartreminders";
+        }
     }
 
     public static void save() {
@@ -125,12 +138,14 @@ public class Settings {
 
         // Write to JSON
         try {
-            data.put(VERSION, API.RELEASE);
+            data.put(VERSION, API.MANAGEMENT);
 
             data.put(USER_NAME, user_name);
             data.put(DEVICE_NAME, device_name);
 
             data.put(USE_EXTERNAL_FILE, use_external_file);
+            if (external_file_location == null || external_file_location.equals(""))
+                data.put(EXTERNAL_FILE_LOCATION, external_file_location);
 
             data.put(HAS_TAG_SHORTCUT, has_tag_shortcut);
             data.put(HAS_STATUS_SHORTCUT, has_status_shortcut);
@@ -140,6 +155,10 @@ public class Settings {
 
             data.put(HAS_DONE_TUTORIAL, has_done_tutorial);
             data.put(LAST_VERSION_SPLASH, last_version_splash);
+
+            // Version 11
+            data.put(META, meta);
+            data.put(EXTERNAL_FILE_LOCATION, external_file_location);
         } catch (JSONException e) {
             e.printStackTrace();
         }

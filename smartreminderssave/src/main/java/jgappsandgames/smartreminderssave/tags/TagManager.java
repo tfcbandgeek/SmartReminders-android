@@ -28,16 +28,23 @@ public class TagManager {
 	private static final String FILENAME = "tagmanager.srj";
 	
 	private static final String VERSION = "version";
+	private static final String META = "meta";
+
 	private static final String TAGS = "tags";
 	
 	// Data
 	private static int version;
+	public static JSONObject meta;
+
 	public static ArrayList<String> tags;
 	
 	// Management Methods
 	public static void create() {
-		version = API.RELEASE;
+		version = API.MANAGEMENT;
         tags = new ArrayList<>();
+
+        // VERSION 11
+        meta = new JSONObject();
 	}
 
 	public static void load() {
@@ -65,6 +72,14 @@ public class TagManager {
         JSONArray t = data.optJSONArray(TAGS);
         tags = new ArrayList<>(t.length());
         for (int i = 0; i < t.length(); i++) tags.add(t.optString(i));
+
+        // Version 11
+        if (version >= API.MANAGEMENT) {
+            meta = data.optJSONObject(META);
+            if (meta == null) meta = new JSONObject();
+        } else {
+            meta = new JSONObject();
+        }
     }
 
     public static JSONObject toJSON() {
@@ -74,8 +89,9 @@ public class TagManager {
         try {
             for (String tag : tags) t.put(tag);
 
-            data.put(VERSION, version);
+            data.put(VERSION, API.MANAGEMENT);
             data.put(TAGS, t);
+            data.put(META, meta);
         } catch (JSONException j) {
             j.printStackTrace();
         }
