@@ -44,7 +44,7 @@ public class ThemeManager {
 
     // Management Methods
     public static void load() {
-        JSONObject data = null;
+        JSONObject data;
         try {
             data = JSONUtility.loadJSON(new File(FileUtility.getInternalFileDirectory(), FILENAME));
         } catch (IOException e) {
@@ -52,6 +52,15 @@ public class ThemeManager {
 
             create();
             save();
+
+            return;
+        }
+
+        if (data == null) {
+            create();
+            save();
+
+            return;
         }
 
         version = data.optInt(VERSION, API.RELEASE);
