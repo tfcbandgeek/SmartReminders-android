@@ -8,7 +8,6 @@ import java.io.IOException;
 
 import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * ThemeManager

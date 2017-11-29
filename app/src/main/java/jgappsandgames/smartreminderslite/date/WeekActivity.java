@@ -29,7 +29,6 @@ import jgappsandgames.smartreminderssave.date.DateManager;
 import jgappsandgames.smartreminderssave.settings.Settings;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * WeekActivity

@@ -14,7 +14,6 @@ import android.os.Build;
 // Save
 import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * Settings

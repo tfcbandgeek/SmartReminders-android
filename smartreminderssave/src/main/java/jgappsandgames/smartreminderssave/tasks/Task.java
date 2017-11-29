@@ -14,7 +14,6 @@ import org.json.JSONObject;
 // Save
 import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * Task
