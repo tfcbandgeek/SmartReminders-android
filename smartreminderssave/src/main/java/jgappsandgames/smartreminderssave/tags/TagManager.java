@@ -11,6 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Program
+import jgappsandgames.smartreminderssave.tasks.Task;
+import jgappsandgames.smartreminderssave.tasks.TaskManager;
 import jgappsandgames.smartreminderssave.utility.JSONUtility;
 import jgappsandgames.smartreminderssave.utility.API;
 
@@ -100,5 +102,39 @@ public class TagManager {
         JSONArray t = data.optJSONArray(TAGS);
         tags = new ArrayList<>(t.length());
         for (int i = 0; i < t.length(); i++) if (!tags.contains(t.optString(i))) tags.add(t.optString(i));
+    }
+
+    // TagManagement Methods
+    public static boolean addTag(String tag) {
+	    // Check to See if the Tag is equal to ""
+        if (tag.equals("")) return false;
+
+        // Check to See if the Tag is Already there
+        if (tags.contains(tag)) return false;
+
+        // Add the Tag
+        tags.add(tag);
+        return true;
+    }
+
+    public static void deleteTag(String tag) {
+        // Check to See if the Tag is equal to ""
+        if (tag.equals("")) return;
+
+        // Check to See if the Tag is Already there
+        if (!tags.contains(tag)) return;
+
+        // Remove Tag
+        tags.remove(tag);
+
+        // Clear Tags from Tasks
+        for (String t : TaskManager.tasks) {
+            Task task = new Task(t);
+            task.removeTag(tag).save();
+        }
+    }
+
+    public static boolean contains(String tag) {
+	    return tags.contains(tag);
     }
 }

@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 // Views
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,7 +29,7 @@ import jgappsandgames.smartreminderssave.settings.Settings;
  * FirstRun
  * Created by joshua on 8/31/17.
  */
-public class FirstRun extends Activity implements OnClickListener {
+public class FirstRun extends Activity implements OnClickListener, TextWatcher {
     // Views
     private EditText your_name;
     private EditText device_name;
@@ -55,7 +57,12 @@ public class FirstRun extends Activity implements OnClickListener {
         tutorial = findViewById(R.id.tutorial);
         con = findViewById(R.id.con);
 
+        // Set Text
+        device_name.setText(Settings.device_name);
+
         // Set Listeners
+        your_name.addTextChangedListener(this);
+        device_name.addTextChangedListener(this);
         app_directory.setOnClickListener(this);
         settings.setOnClickListener(this);
         tutorial.setOnClickListener(this);
@@ -104,6 +111,12 @@ public class FirstRun extends Activity implements OnClickListener {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        Settings.save();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
@@ -114,5 +127,23 @@ public class FirstRun extends Activity implements OnClickListener {
                     }
                 }
         }
+    }
+
+    // Text Watchers
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        Settings.user_name = your_name.getText().toString();
+        Settings.device_name = device_name.getText().toString();
+        Settings.save();
     }
 }
