@@ -12,70 +12,77 @@ import java.io.File
  */
 class FileUtility {
     // File Paths
-    private val path = ".smartreminders"
+    companion object {
+        private val path = ".smartreminders"
 
-    private var data: File? = null
-    private var external: File? = null
-    private var cache: File? = null
+        private var data: File? = null
+        private var external: File? = null
+        private var cache: File? = null
 
-    // Check to See if it is the Apps First Run
-    fun isFirstRun(): Boolean {
-        val file = File(data, "firstrun")
+        // Check to See if it is the Apps First Run
+        @JvmStatic
+        fun isFirstRun(): Boolean {
+            val file = File(data, "firstrun")
 
-        // It is not the First Run, Return False
-        if (file.isDirectory) return false
+            // It is not the First Run, Return False
+            if (file.isDirectory) return false
 
-        data!!.mkdirs()
-        cache!!.mkdirs()
+            data!!.mkdirs()
+            cache!!.mkdirs()
 
-        file.mkdirs()
-        return true
-    }
-
-    // Load File Paths
-    fun loadFilePaths(context: Context) {
-        data = File(context.filesDir, path)
-        cache = File(context.cacheDir, path)
-    }
-
-    // Get The Directory Where the Data should be stored
-    fun getApplicationDataDirectory(): File {
-        // Create File Object
-        if (Settings.use_external_file) {
-            if (external != null) return external!!
-
-            external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
-                else data
-
-            // Create Directory
-            if (!external!!.exists() || !external!!.isDirectory) external!!.mkdirs()
-
-            return external!!
+            file.mkdirs()
+            return true
         }
 
-        // Create Directory
-        if (!data!!.exists() || !data!!.isDirectory) data!!.mkdirs()
+        // Load File Paths
+        @JvmStatic
+        fun loadFilePaths(context: Context) {
+            data = File(context.filesDir, path)
+            cache = File(context.cacheDir, path)
+        }
 
-        // Return the File
-        return data!!
+        // Get The Directory Where the Data should be stored
+        @JvmStatic
+        fun getApplicationDataDirectory(): File {
+            // Create File Object
+            if (Settings.use_external_file) {
+                if (external != null) return external!!
 
-    }
+                external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
+                else data
 
-    // Get the Internal App Directory (Useful for App Settings
-    fun getInternalFileDirectory(): File {
-        // Create Directory
-        if (!data!!.exists() || !data!!.isDirectory) data!!.mkdirs()
+                // Create Directory
+                if (!external!!.exists() || !external!!.isDirectory) external!!.mkdirs()
 
-        // Return the File
-        return data!!
-    }
+                return external!!
+            }
 
-    // Get The Internal Cache Directory
-    fun getApplicationCacheDirectory(): File {
-        // Create Directory
-        if (!cache!!.exists() || !cache!!.isDirectory) cache!!.mkdirs()
+            // Create Directory
+            if (!data!!.exists() || !data!!.isDirectory) data!!.mkdirs()
 
-        // Return the File
-        return cache!!
+            // Return the File
+            return data!!
+
+        }
+
+        // Get the Internal App Directory (Useful for App Settings
+        @JvmStatic
+        fun getInternalFileDirectory(): File {
+            // Create Directory
+            if (!data!!.exists() || !data!!.isDirectory) data!!.mkdirs()
+
+            // Return the File
+            return data!!
+        }
+
+        // Get The Internal Cache Directory
+        @JvmStatic
+        fun getApplicationCacheDirectory(): File {
+            // Create Directory
+            if (!cache!!.exists() || !cache!!.isDirectory) cache!!.mkdirs()
+
+            // Return the File
+            return cache!!
+        }
     }
 }
