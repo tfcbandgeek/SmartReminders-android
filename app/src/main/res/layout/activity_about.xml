@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="vertical"
-        tools:ignore="UselessLeaf" />
-
+    <!--Information-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,6 +41,7 @@
         android:textSize="16sp"
         android:layout_marginBottom="32sp"/>
 
+    <!--Check for Updates-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,10 +55,37 @@
             android:text="@string/check_for_updates"/>
     </LinearLayout>
 
+    <!--Prereleases-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/prereleases_n_use_at_your_own_risk"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        tools:ignore="UselessLeaf" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/update_rc"
+            android:text="@string/release_candidates"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/update_beta"
+            android:text="@string/beta_releases"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/update_alpha"
+            android:text="@string/alpha_releases"/>
+    </LinearLayout>
 </LinearLayout>

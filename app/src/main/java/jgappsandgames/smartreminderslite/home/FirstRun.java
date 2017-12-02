@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.home;
 
 // Android OS
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -10,16 +9,11 @@ import android.os.Bundle;
 
 // Views
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 // Program
 import jgappsandgames.smartreminderslite.R;
-
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
@@ -29,44 +23,14 @@ import jgappsandgames.smartreminderssave.settings.Settings;
  * FirstRun
  * Created by joshua on 8/31/17.
  */
-public class FirstRun extends Activity implements OnClickListener, TextWatcher {
-    // Views
-    private EditText your_name;
-    private EditText device_name;
-    private Button app_directory;
-    private Button settings;
-    private Button tutorial;
-    private Button con;
-
+public class FirstRun extends FirstRunActivityInterface  {
     // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set Content View
-        setContentView(R.layout.activity_first_run);
-
         // Create Settings Page
         Settings.create();
-
-        // Find Views
-        your_name = findViewById(R.id.yourname);
-        device_name = findViewById(R.id.device_name);
-        app_directory = findViewById(R.id.app_directory);
-        settings = findViewById(R.id.settings);
-        tutorial = findViewById(R.id.tutorial);
-        con = findViewById(R.id.con);
-
-        // Set Text
-        device_name.setText(Settings.device_name);
-
-        // Set Listeners
-        your_name.addTextChangedListener(this);
-        device_name.addTextChangedListener(this);
-        app_directory.setOnClickListener(this);
-        settings.setOnClickListener(this);
-        tutorial.setOnClickListener(this);
-        con.setOnClickListener(this);
     }
 
     // Click Listeners
