@@ -26,43 +26,18 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  * TagActivity
  * Created by joshua on 9/2/17.
  */
-public class TagActivity extends Activity implements TagSwitcher, OnTaskChangedListener {
+public class TagActivity extends TagActivityInterface {
     // Data
     private ArrayList<String> selected_tags;
     private ArrayList<Task> tasks;
 
-    // Views
-    private TextView tasks_text;
-    private ListView tasks_list;
-    private TextView selected_text;
-    private ListView selected_list;
-    private TextView unselected_text;
-    private ListView unselected_list;
-
-    // Adapters
-    private TaskAdapter task_adapter;
-    private SelectedAdapter selected_adapter;
-    private UnselectedAdapter unselected_adapter;
-
-    // Management Methods
+    // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set View
-        setContentView(R.layout.activity_tag);
-
         // Load Data
         selected_tags = new ArrayList<>();
-
-
-        // Find Views
-        tasks_text = findViewById(R.id.tasks_title);
-        tasks_list = findViewById(R.id.tasks);
-        selected_text = findViewById(R.id.selected_text);
-        selected_list = findViewById(R.id.selected);
-        unselected_text = findViewById(R.id.unselected_text);
-        unselected_list = findViewById(R.id.unselected);
     }
 
     @Override
@@ -97,31 +72,14 @@ public class TagActivity extends Activity implements TagSwitcher, OnTaskChangedL
         unselected_list.setAdapter(unselected_adapter);
     }
 
-    // Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                TaskManager.save();
-                TagManager.save();
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.close:
-                finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onTaskChanged() {
         onResume();
+    }
+
+    @Override
+    public void save() {
+        TaskManager.save();
+        TagManager.save();
     }
 }

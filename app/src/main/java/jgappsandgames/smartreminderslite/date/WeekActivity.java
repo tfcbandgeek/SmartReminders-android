@@ -4,24 +4,13 @@ package jgappsandgames.smartreminderslite.date;
 import java.util.Calendar;
 
 // Android OS
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 // Views
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
 // App
-import jgappsandgames.smartreminderslite.R;
-
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
@@ -35,25 +24,11 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
  * WeekActivity
  * Created by joshua on 10/9/17.
  */
-public class WeekActivity extends Activity implements OnClickListener, OnTaskChangedListener {
-    // Data
-    private int week_active;
-
-    // Views
-    private ListView tasks;
-    private Button previous;
-    private Button next;
-
-    // Adapters
-    private BaseAdapter adapter;
-
+public class WeekActivity extends WeekActivityInterface {
     // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Set Content View
-        setContentView(R.layout.activity_date);
 
         // First Run
         FileUtility.loadFilePaths(this);
@@ -71,15 +46,6 @@ public class WeekActivity extends Activity implements OnClickListener, OnTaskCha
 
         // Set Title
         setTitle();
-
-        // Find Views
-        tasks = findViewById(R.id.tasks);
-        previous = findViewById(R.id.previous);
-        next = findViewById(R.id.next);
-
-        // Set Click Listeners
-        previous.setOnClickListener(this);
-        next.setOnClickListener(this);
     }
 
     @Override
@@ -95,28 +61,6 @@ public class WeekActivity extends Activity implements OnClickListener, OnTaskCha
         super.onPause();
 
         save();
-    }
-
-    // Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                TaskManager.save();
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.close:
-                finish();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // Click Listeners
@@ -161,8 +105,8 @@ public class WeekActivity extends Activity implements OnClickListener, OnTaskCha
                 String.valueOf(end.get(Calendar.DAY_OF_MONTH)));
     }
 
-    private void save() {
-        // Save
+    @Override
+    public void save() {
         TaskManager.save();
         TagManager.save();
         Settings.save();

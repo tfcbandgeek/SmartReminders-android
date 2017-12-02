@@ -34,7 +34,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
  * DayActivity
  * Created by joshua on 10/9/17.
  */
-public class DayActivity extends Activity implements OnClickListener, OnTaskChangedListener {
+public class DayActivity extends DayActivityInterface  {
     // Data
     private Calendar day_active;
 
@@ -48,67 +48,11 @@ public class DayActivity extends Activity implements OnClickListener, OnTaskChan
 
     // LifeCycle Methods
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Set Content View
-        setContentView(R.layout.activity_date);
-
-        // First Run
-        FileUtility.loadFilePaths(this);
-        if (FileUtility.isFirstRun()) {
-            Intent first_run = new Intent(this, FirstRun.class);
-            startActivity(first_run);
-        }
-
-        // Load Data
-        Settings.load();
-
-        TaskManager.load();
-        TagManager.load();
-
-        day_active = Calendar.getInstance();
-
-        // Set Title
-        setTitle();
-
-        // Find Views
-        tasks = (findViewById(R.id.tasks));
-        previous = findViewById(R.id.previous);
-        next = findViewById(R.id.next);
-
-        // Set Click Listeners
-        previous.setOnClickListener(this);
-        next.setOnClickListener(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
 
         adapter = new DayAdapter(this, day_active);
         tasks.setAdapter(adapter);
-    }
-
-    // Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                TaskManager.save();
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.close:
-                finish();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // Click Listeners
@@ -144,15 +88,16 @@ public class DayActivity extends Activity implements OnClickListener, OnTaskChan
     }
 
     // Private Class Methods
-    private void save() {
-        // Save
+    @Override
+    public void save() {
         TaskManager.save();
         TagManager.save();
         Settings.save();
     }
 
     // Private Class Methods
-    private void setTitle() {
+    @Override
+    public void setTitle() {
         setTitle(String.valueOf(day_active.get(Calendar.MONTH) + 1) + "/" + String.valueOf(day_active.get(Calendar.DAY_OF_MONTH)));
     }
 }
