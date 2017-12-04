@@ -3,7 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="4sp"
+    android:paddingRight="4sp"
+    android:paddingTop="4sp"
+    android:paddingBottom="4sp">
 
     <!--Title Bar-->
     <LinearLayout
@@ -93,8 +97,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="8sp"
-            android:layout_marginBottom="8sp"
             android:foreground="@android:drawable/ic_menu_add"
             android:id="@+id/fab"/>
     </RelativeLayout>

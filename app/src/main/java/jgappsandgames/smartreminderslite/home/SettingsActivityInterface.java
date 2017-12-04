@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 // Views
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -32,13 +33,15 @@ public abstract class SettingsActivityInterface extends Activity implements View
         super.onCreate(savedInstanceState);
 
         // Set Content View
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_first_run);
 
         // Find Views
         your_name = findViewById(R.id.yourname);
         device_name = findViewById(R.id.device_name);
         app_directory = findViewById(R.id.app_directory);
         tutorial = findViewById(R.id.tutorial);
+
+        ((ViewGroup) (findViewById(R.id.settings)).getParent()).removeView(findViewById(R.id.settings));
 
         // Set Text
         your_name.setText(Settings.user_name);
