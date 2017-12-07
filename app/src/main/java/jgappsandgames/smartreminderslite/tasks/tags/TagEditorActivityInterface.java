@@ -37,11 +37,6 @@ public abstract class TagEditorActivityInterface extends Activity implements Tex
         selected = findViewById(R.id.selected);
         unselected = findViewById(R.id.unselected);
 
-        // Set Listeners
-        search_enter.setOnClickListener(this);
-        search_enter.setOnLongClickListener(this);
-        search_enter.addTextChangedListener(this);
-
         // Set Result Intent
         setResult(ActivityUtility.RESPONSE_NONE);
     }

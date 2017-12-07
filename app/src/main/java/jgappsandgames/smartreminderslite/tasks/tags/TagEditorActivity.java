@@ -40,6 +40,11 @@ public class TagEditorActivity extends TagEditorActivityInterface implements Tex
         // Load Data
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
+        // Set Listeners
+        search_enter.setOnClickListener(this);
+        search_enter.setOnLongClickListener(this);
+        search_text.addTextChangedListener(this);
+
         // Set Adapters
         selected.setAdapter(new TagSelectedAdapter(this, task));
         unselected.setAdapter(new TagUnselectedAdapter(this, task));

@@ -48,7 +48,7 @@ class TagUnselectedAdapter extends BaseAdapter {
         // Set Tags
         tags = new ArrayList<>();
         for (String tag : TagManager.tags) {
-            if (tag.toLowerCase().contains(search)) {
+            if (tag.toLowerCase().contains(search.toLowerCase())) {
                 if (!task.getTags().contains(tag)) tags.add(tag);
             }
         }
