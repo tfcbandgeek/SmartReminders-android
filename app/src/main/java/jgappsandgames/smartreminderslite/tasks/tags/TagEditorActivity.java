@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderslite.tasks.tags;
 
 // Android OS
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,9 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 
 // JSON
 import org.json.JSONArray;
@@ -33,44 +29,20 @@ import jgappsandgames.smartreminderssave.tasks.Task;
  * Tag Editor Activity
  * Created by joshua on 8/31/17.
  */
-public class TagEditorActivity extends Activity implements TextWatcher, OnClickListener, OnLongClickListener, TagSwitcher {
+public class TagEditorActivity extends TagEditorActivityInterface implements TextWatcher, OnClickListener, OnLongClickListener, TagSwitcher {
     // Data
     private Task task;
-
-    // Views
-    private EditText search_text;
-    private Button search_enter;
-    private ListView selected;
-    private ListView unselected;
 
     // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Set Content View
-        setContentView(R.layout.activity_tag_editpr);
-
         // Load Data
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
-
-        // Find Views
-        search_text = findViewById(R.id.search_text);
-        search_enter = findViewById(R.id.search_enter);
-        selected = findViewById(R.id.selected);
-        unselected = findViewById(R.id.unselected);
 
         // Set Adapters
         selected.setAdapter(new TagSelectedAdapter(this, task));
         unselected.setAdapter(new TagUnselectedAdapter(this, task));
-
-        // Set Listeners
-        search_enter.setOnClickListener(this);
-        search_enter.setOnLongClickListener(this);
-        search_enter.addTextChangedListener(this);
-
-        // Set Result Intent
-        setResult(ActivityUtility.RESPONSE_NONE);
     }
 
     // Text Watcher Methods

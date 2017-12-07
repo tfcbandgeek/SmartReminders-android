@@ -35,36 +35,18 @@ import jgappsandgames.smartreminderssave.utility.FileUtility;
  * PriorityActivity
  * Created by joshua on 10/1/17.
  */
-public class PriorityActivity extends Activity implements OnClickListener, OnTaskChangedListener {
+public class PriorityActivity extends PriorityActivityInterface {
     // Data
-    private int position = 3;
-
     private ArrayList<Task> ignore_tasks;
     private ArrayList<Task> low_tasks;
     private ArrayList<Task> normal_tasks;
     private ArrayList<Task> high_tasks;
     private ArrayList<Task> stared_tasks;
 
-    // Views
-    private ListView tasks;
-    private Button down;
-    private Button up;
-
-    // Adapters
-    private BaseAdapter ignore_adapter;
-    private BaseAdapter low_adapter;
-    private BaseAdapter normal_adapter;
-    private BaseAdapter high_adapter;
-    private BaseAdapter stared_adapter;
-
     // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Set Activity View
-        setContentView(R.layout.activity_priority);
-
         // First Run
         if (FileUtility.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
@@ -82,10 +64,6 @@ public class PriorityActivity extends Activity implements OnClickListener, OnTas
         high_tasks = new ArrayList<>();
         stared_tasks = new ArrayList<>();
 
-        tasks = findViewById(R.id.tasks);
-        down = findViewById(R.id.down);
-        up = findViewById(R.id.up);
-
         for (String t : TaskManager.tasks) {
             Task task= new Task(t);
 
@@ -97,9 +75,6 @@ public class PriorityActivity extends Activity implements OnClickListener, OnTas
             else if (task.getPriority() <= 99) high_tasks.add(task);
             else stared_tasks.add(task);
         }
-
-        down.setOnClickListener(this);
-        up.setOnClickListener(this);
     }
 
     @Override
@@ -121,28 +96,6 @@ public class PriorityActivity extends Activity implements OnClickListener, OnTas
         super.onPause();
 
         save();
-    }
-
-    // Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                TaskManager.save();
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.close:
-                finish();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     // Click Listeners
@@ -279,8 +232,8 @@ public class PriorityActivity extends Activity implements OnClickListener, OnTas
         }
     }
 
-    private void save() {
-        // Save
+    @Override
+    public void save() {
         TaskManager.save();
         TagManager.save();
         Settings.save();

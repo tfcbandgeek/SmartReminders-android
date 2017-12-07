@@ -49,4 +49,8 @@
     <string name="check_for_updates">Check for Updates</string>
     <string name="select">Select</string>
     <string name="no_date">No Date</string>
+    <string name="release_candidates">Release Candidates</string>
+    <string name="beta_releases">Beta Releases</string>
+    <string name="alpha_releases">Alpha Releases</string>
+    <string name="prereleases_n_use_at_your_own_risk">Prereleases \n Use at your own Risk</string>
 </resources>

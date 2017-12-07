@@ -27,42 +27,13 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  * Status Activity
  * Created by joshua on 9/4/17.
  */
-public class StatusActivity extends Activity implements OnTaskChangedListener {
+public class StatusActivity extends StatusActivityInterface {
     // Data
     private ArrayList<Task> overdue_array;
     private ArrayList<Task> incomplete_array;
     private ArrayList<Task> done_array;
 
-    // Views
-    private TextView overdue_text;
-    private ListView overdue_list;
-    private TextView incomplete_text;
-    private ListView incomplete_list;
-    private TextView done_text;
-    private ListView done_list;
-
-    // Adapters
-    private StatusAdapter overdue_adapter;
-    private StatusAdapter incomplete_adapter;
-    private StatusAdapter done_adapter;
-
     // LifeCycle Methods
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Set Content View
-        setContentView(R.layout.activity_status);
-
-        // Find Views
-        overdue_text = findViewById(R.id.overdue_text);
-        overdue_list = findViewById(R.id.overdue_list);
-        incomplete_text = findViewById(R.id.incomplete_text);
-        incomplete_list = findViewById(R.id.incomplete_list);
-        done_text = findViewById(R.id.done_text);
-        done_list = findViewById(R.id.done_list);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -106,30 +77,13 @@ public class StatusActivity extends Activity implements OnTaskChangedListener {
         }
     }
 
-    // Menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_auxilary, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                TaskManager.save();
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.close:
-                finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onTaskChanged() {
         onResume();
+    }
+
+    @Override
+    public void save() {
+        TaskManager.save();
     }
 }

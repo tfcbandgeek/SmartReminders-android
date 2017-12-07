@@ -11,28 +11,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 // Android OS
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 
 // Views
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
-import android.widget.Toast;
 
 // App
 import jgappsandgames.smartreminderslite.R;
@@ -52,24 +39,9 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
  * TaskActivity
  * Created by joshua on 8/31/17.
  */
-public class TaskActivity extends Activity
-        implements TextWatcher, OnClickListener, OnLongClickListener, OnSeekBarChangeListener,
-        OnTaskChangedListener, DatePickerDialog.OnDateSetListener {
+public class TaskActivity extends TaskActivityInterface implements OnTaskChangedListener {
     // Data
     private Task task;
-
-    // Views
-    private EditText title;
-    private EditText note;
-    private TextView tags;
-    private Button date;
-    private Button status;
-    private SeekBar priority;
-    private ListView list;
-    private Button fab;
-
-    // Adapters
-    private BaseAdapter adapter;
 
     // Life Cycle Methods
     @Override
@@ -79,28 +51,8 @@ public class TaskActivity extends Activity
         // Load Data
         task = new Task(getIntent().getStringExtra(ActivityUtility.TASK_NAME));
 
-        // Set Title
-        setTitle(task.getTitle());
-
-        // Set Content View
-        if (task.getType() == Task.TYPE_TASK) setContentView(R.layout.activity_task);
-        else setContentView(R.layout.activity_folder);
-
-        // Find Views
-        title = findViewById(R.id.title);
-        note = findViewById(R.id.note);
-        tags = findViewById(R.id.tags);
-        list = findViewById(R.id.tasks);
-
-        fab = findViewById(R.id.fab);
-
         // Task Specific Items
         if (task.getType() == Task.TYPE_TASK) {
-            // Find Views
-            date = findViewById(R.id.date);
-            status = findViewById(R.id.status);
-            priority = findViewById(R.id.priority);
-
             // Set Views
             setStatus();
             status.setOnClickListener(this);
@@ -114,6 +66,8 @@ public class TaskActivity extends Activity
             priority.setOnSeekBarChangeListener(this);
         }
 
+        setTitle(task.getTitle());
+
         // Set Text
         title.setText(task.getTitle());
         note.setText(task.getNote());
@@ -122,7 +76,7 @@ public class TaskActivity extends Activity
         title.addTextChangedListener(this);
         note.addTextChangedListener(this);
 
-        // Set Click Listener
+        // Set Click Listeners
         fab.setOnClickListener(this);
         fab.setOnLongClickListener(this);
 
@@ -190,29 +144,6 @@ public class TaskActivity extends Activity
                 }
                 break;
         }
-    }
-
-    // Menu Methods
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_task, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save:
-                task.save();
-                Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.close:
-                finish();
-                return true;
-        }
-
-        return false;
     }
 
     // TextWatcher
@@ -365,5 +296,10 @@ public class TaskActivity extends Activity
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         task.setDateDue(new GregorianCalendar(year, month, day, 0, 0, 1));
         setDate();
+    }
+
+    @Override
+    protected void save() {
+        task.save();
     }
 }

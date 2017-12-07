@@ -11,6 +11,7 @@ public class ActivityUtility {
     public static final String TASK_NAME = "task_name";
     public static final String CHECKPOINT = "checkpoint";
     public static final String TAG_LIST = "tags";
+    public static final String TASK_TYPE = "type";
 
     // Request Codes
     public static final int REQUEST_CHECKPOINT = 1;

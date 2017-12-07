@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="4sp"
+    android:paddingRight="4sp"
+    android:paddingTop="4sp"
+    android:paddingBottom="4sp">
 
     <!--Tasks-->
     <LinearLayout
