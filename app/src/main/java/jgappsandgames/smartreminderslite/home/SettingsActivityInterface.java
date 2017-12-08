@@ -20,7 +20,7 @@ import jgappsandgames.smartreminderssave.settings.Settings;
  * SettingsActivityInterface
  * Created by joshua on 11/29/2017.
  */
-public abstract class SettingsActivityInterface extends Activity implements View.OnClickListener {
+public abstract class SettingsActivityInterface extends Activity implements View.OnClickListener, View.OnLongClickListener {
     // Views
     protected EditText your_name;
     protected EditText device_name;
@@ -51,6 +51,7 @@ public abstract class SettingsActivityInterface extends Activity implements View
 
         // Set Listeners
         app_directory.setOnClickListener(this);
+        app_directory.setOnLongClickListener(this);
         tutorial.setOnClickListener(this);
     }
 }

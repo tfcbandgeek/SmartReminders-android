@@ -107,13 +107,13 @@ class FileUtility {
 
         @JvmStatic
         fun moveFolder(input: File, out: File) {
-            FileUtils.deleteDirectory(out)
+            out.deleteRecursively()
             FileUtils.moveDirectoryToDirectory(input, out, true)
         }
 
         @JvmStatic
         fun copyFolder(input: File, out: File) {
-            FileUtils.deleteDirectory(out)
+            out.deleteRecursively()
             FileUtils.copyDirectory(input, out)
         }
 

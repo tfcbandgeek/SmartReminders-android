@@ -10,11 +10,16 @@ import android.view.View;
 import android.widget.Toast;
 
 // App
+import org.jetbrains.annotations.NotNull;
+
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderslite.utility.MoveUtility;
 import jgappsandgames.smartreminderssave.settings.Settings;
+import jgappsandgames.smartreminderssave.tags.TagManager;
+import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
 /**
  * SettingsActivity
@@ -39,6 +44,8 @@ public class SettingsActivity extends SettingsActivityInterface {
             if (Settings.use_external_file) {
                 Settings.use_external_file = false;
                 app_directory.setText(R.string.save_app);
+                TaskManager.load();
+                TagManager.load();
             } else {
                 Settings.use_external_file = true;
                 app_directory.setText(R.string.save_external);
@@ -48,6 +55,9 @@ public class SettingsActivity extends SettingsActivityInterface {
 
                     if (permission == PackageManager.PERMISSION_DENIED) {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION);
+                    } else {
+                        TaskManager.load();
+                        TagManager.load();
                     }
                 }
             }
@@ -60,7 +70,40 @@ public class SettingsActivity extends SettingsActivityInterface {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public boolean onLongClick(View view) {
+        // App Directory
+        if (view.equals(app_directory)) {
+            if (Settings.use_external_file) {
+                Settings.use_external_file = false;
+                app_directory.setText(R.string.save_app);
+                MoveUtility.moveToInternal();
+                TaskManager.load();
+                TagManager.load();
+            } else {
+                Settings.use_external_file = true;
+                app_directory.setText(R.string.save_external);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    int permission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+                    if (permission == PackageManager.PERMISSION_DENIED) {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION);
+                    } else {
+                        MoveUtility.moveToExternal();
+                        TaskManager.load();
+                        TagManager.load();
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
         switch (requestCode) {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults.length > 0) {

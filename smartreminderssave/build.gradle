@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 10040124
-        versionName "10.4.1 Alpha 4"
+        versionCode 10040128
+        versionName "10.4.1 Beta 1"
     }
 
     buildTypes {
@@ -27,6 +27,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':OpenLog_0_4_3')
     compile project(':commons-io-2.6')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
