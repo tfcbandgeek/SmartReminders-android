@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OpenLog_0_4_3/OpenLog_0_4_3.iml" filepath="$PROJECT_DIR$/OpenLog_0_4_3/OpenLog_0_4_3.iml" />
       <module fileurl="file://$PROJECT_DIR$/SmartReminders-android.iml" filepath="$PROJECT_DIR$/SmartReminders-android.iml" />
       <module fileurl="file://C:\Users\joshu\Documents\SmartReminders-android\SmartRemindersLite.iml" filepath="C:\Users\joshu\Documents\SmartReminders-android\SmartRemindersLite.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons-io-2.6/commons-io-2.6.iml" filepath="$PROJECT_DIR$/commons-io-2.6/commons-io-2.6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openlog_1_0_0/openlog_1_0_0.iml" filepath="$PROJECT_DIR$/openlog_1_0_0/openlog_1_0_0.iml" />
       <module fileurl="file://$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" filepath="$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" />
     </modules>
   </component>

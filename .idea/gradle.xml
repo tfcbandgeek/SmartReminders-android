@@ -10,9 +10,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/OpenLog_0_4_3" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commons-io-2.6" />
+            <option value="$PROJECT_DIR$/openlog_1_0_0" />
             <option value="$PROJECT_DIR$/smartreminderssave" />
           </set>
         </option>
