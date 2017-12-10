@@ -1,0 +1,125 @@
+package jgappsandgames.smartreminderssave
+
+// Java
+import java.io.File
+
+// Android OS
+import android.content.Context
+
+// OpenLog
+import me.jgappsandgames.openlog.Config
+import me.jgappsandgames.openlog.ConsoleWriter
+import me.jgappsandgames.openlog.FileWriter
+import me.jgappsandgames.openlog.Exception
+import me.jgappsandgames.openlog.Log
+
+// Save Library
+import jgappsandgames.smartreminderssave.settings.Settings
+import jgappsandgames.smartreminderssave.tags.TagManager
+import jgappsandgames.smartreminderssave.tasks.TaskManager
+import jgappsandgames.smartreminderssave.theme.ThemeManager
+import jgappsandgames.smartreminderssave.utility.FileUtility
+
+
+/**
+ * MasterManager
+ * Created by joshua on 12/10/2017.
+ *
+ * Manager Class For the Entire Save System
+ */
+class MasterManager {
+    companion object {
+        /**
+         * log_loaded
+         *
+         * Is True only when the log has been Loaded
+         */
+        var log_loaded = false
+
+        /**
+         * Create
+         *
+         * Called to Possibly load the Log System, And Create the Application Data
+         * @param context The Application Context
+         */
+        @JvmStatic
+        fun create(context: Context) {
+            if (!log_loaded) loadLog(context)
+
+            Log.d("MasterManager", "Create Called")
+            TaskManager.create()
+            TagManager.create()
+            Settings.create()
+            ThemeManager.create()
+
+            save()
+        }
+
+        /**
+         * Load
+         *
+         * Called to Possibly load the Log System, And Load the Application Data
+         * @param context The Application context
+         */
+        @JvmStatic
+        fun load(context: Context) {
+            if (!log_loaded) loadLog(context)
+
+            Log.d("MasterManager", "Load Called")
+            TaskManager.load()
+            TagManager.load()
+            Settings.load()
+            ThemeManager.load()
+        }
+
+        /**
+         * Save
+         *
+         * Called to Save the Application Data
+         */
+        @JvmStatic
+        fun save() {
+            Log.d("MasterManager", "Save Called")
+            TaskManager.save()
+            TagManager.save()
+            Settings.save()
+            ThemeManager.save()
+        }
+
+        /**
+         * ClearSave
+         *
+         * Called to Clear All of the Save Files That Are No Longer Connected
+         */
+        @JvmStatic
+        fun cleanSave() {
+            Exception.e("MasterManager", "Clean Save Needs To Be Implemented")
+        }
+
+        /**
+         * CleanCache
+         *
+         * Called to Clear the Entire Cache Directory, Then Reset the Log File
+         */
+        @JvmStatic
+        fun cleanCache() {
+            Exception.e("MasterManager", "Clean Cache Needs To Be Implemented")
+        }
+
+        // ---- ---- ---- ---- ---- ---- ---- Class Methods ---- ---- ---- ---- ---- ---- ----
+        /**
+         * loadLog
+         *
+         * Called to Load the Log File
+         */
+        private fun loadLog(context: Context) {
+            Config.getInstance()
+                    .setPrimaryWriter(ConsoleWriter.getInstance())
+                    .setSecondaryWriter(FileWriter.getInstance())
+                    .setFiles(File(FileUtility.getApplicationDataDirectory(), "openlog"))
+                    .setDebug(true)
+
+            Log.i("Smart Reminders Save", BuildConfig.VERSION_NAME)
+        }
+    }
+}
