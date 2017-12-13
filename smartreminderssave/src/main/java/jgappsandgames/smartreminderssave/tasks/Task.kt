@@ -86,7 +86,7 @@ class Task() {
     private var complete_late: Boolean = false
 
     // Initializers
-    constructor(parent: String): this() {
+    constructor(filename: String): this() {
         this.filename = filename
         loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
     }

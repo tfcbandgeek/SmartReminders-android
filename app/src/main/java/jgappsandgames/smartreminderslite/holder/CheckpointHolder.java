@@ -64,12 +64,12 @@ public class CheckpointHolder implements OnClickListener, OnLongClickListener, O
 
     // View Handler
     private void setViews() {
-        if (checkpoint.status) {
+        if (checkpoint.getStatus()) {
             text.setPaintFlags(text.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             text.setPaintFlags(text.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
-        text.setText(checkpoint.text);
+        text.setText(checkpoint.getText());
     }
 
     // Click Handlers
@@ -83,7 +83,7 @@ public class CheckpointHolder implements OnClickListener, OnLongClickListener, O
 
             activity.startActivityForResult(intent, ActivityUtility.REQUEST_CHECKPOINT);
         } else if (view.equals(text)) {
-            checkpoint.status = !checkpoint.status;
+            checkpoint.setStatus(!checkpoint.getStatus());
             setViews();
             activity.editCheckpoint(checkpoint);
         }
@@ -106,7 +106,7 @@ public class CheckpointHolder implements OnClickListener, OnLongClickListener, O
     // Check Handler
     @Override
     public void onCheckedChanged(CompoundButton view, boolean status) {
-        checkpoint.status = status;
+        checkpoint.setStatus(status);
         activity.editCheckpoint(checkpoint);
     }
 }

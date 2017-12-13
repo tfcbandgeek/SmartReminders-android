@@ -133,7 +133,7 @@ class DateManager {
 
             if (weeks == null) create()
             for (week in weeks!!) {
-                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).getTasks()
+                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
             }
 
             return ArrayList()

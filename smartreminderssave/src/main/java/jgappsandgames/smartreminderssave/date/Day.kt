@@ -7,12 +7,8 @@ import java.util.*
  * Day
  * Created by joshua on 12/12/2017.
  */
-class Day(private val day: Calendar) {
-    private var tasks = ArrayList<Task>()
-
-    fun getDay(): Calendar {
-        return day
-    }
+class Day(val day: Calendar) {
+    var tasks = ArrayList<Task>()
 
     fun addTask(task: Task) {
         if (!tasks.contains(task)) tasks.add(task)
@@ -20,9 +16,5 @@ class Day(private val day: Calendar) {
 
     fun removeTask(task: Task) {
         tasks.remove(task)
-    }
-
-    fun getTasks(): ArrayList<Task> {
-        return tasks
     }
 }

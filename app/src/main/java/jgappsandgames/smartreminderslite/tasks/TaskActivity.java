@@ -193,7 +193,7 @@ public class TaskActivity extends TaskActivityInterface implements OnTaskChanged
             else {
                 Checkpoint checkpoint;
                 if (task.getCheckpoints().size()== 0) checkpoint = new Checkpoint(1, "");
-                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).id + 1, "");
+                else checkpoint = new Checkpoint(task.getCheckpoints().get(task.getCheckpoints().size() - 1).getId() + 1, "");
                 task.addCheckpoint(checkpoint);
                 task.save();
 

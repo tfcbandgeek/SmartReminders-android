@@ -177,16 +177,16 @@ class TaskManager {
             task.markArchived()
             task.save()
 
-            if (task.parent == "home") {
-                home.remove(task.filename)
-            } else if (tasks.contains(task.parent)) {
-                val parent = Task(task.parent)
-                parent.removeChild(task.filename)
+            if (task.getParent() == "home") {
+                home.remove(task.getFilename())
+            } else if (tasks.contains(task.getParent())) {
+                val parent = Task(task.getParent())
+                parent.removeChild(task.getFilename())
                 parent.save()
             }
 
-            tasks.remove(task.filename)
-            archived.add(task.filename)
+            tasks.remove(task.getFilename())
+            archived.add(task.getFilename())
             save()
         }
 
@@ -194,10 +194,10 @@ class TaskManager {
         fun deleteTask(task: Task): Boolean {
             Log.d("TaskManager", "DeleteTask Called")
 
-            if (archived.contains(task.filename)) {
+            if (archived.contains(task.getFilename())) {
                 task.delete()
-                deleted.add(task.filename)
-                archived.remove(task.filename)
+                deleted.add(task.getFilename())
+                archived.remove(task.getFilename())
                 save()
                 return true
             }
