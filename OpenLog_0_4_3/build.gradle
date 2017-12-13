@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('OpenLog_0_4_3.jar'))
