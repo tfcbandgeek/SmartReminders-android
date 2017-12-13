@@ -1,4 +1,0 @@
-- Fix Check for New Release
-- Fix First Run
-- Fix Settings
-| Fix Tags
