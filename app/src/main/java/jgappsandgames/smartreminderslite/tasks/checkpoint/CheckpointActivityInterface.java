@@ -7,12 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
-import jgappsandgames.smartreminderssave.tasks.Task;
 
 /**
  * CheckpointActivityInterface

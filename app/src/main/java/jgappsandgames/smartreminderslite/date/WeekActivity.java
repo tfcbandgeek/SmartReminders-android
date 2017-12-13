@@ -14,10 +14,8 @@ import android.view.View;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.date.DateManager;
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
@@ -35,12 +33,10 @@ public class WeekActivity extends WeekActivityInterface {
         if (FileUtility.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManager.load(this);
         }
-
-        // Load Data
-        Settings.load();
-        TaskManager.load();
-        TagManager.load();
 
         week_active = 0;
 
@@ -107,8 +103,6 @@ public class WeekActivity extends WeekActivityInterface {
 
     @Override
     public void save() {
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManager.save();
     }
 }

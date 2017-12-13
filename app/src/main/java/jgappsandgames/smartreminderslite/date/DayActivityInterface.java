@@ -1,8 +1,14 @@
 package jgappsandgames.smartreminderslite.date;
 
+// Java
+import java.util.Calendar;
+
+// Android OS
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+// Views
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,20 +17,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
+// App
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 import jgappsandgames.smartreminderslite.home.FirstRun;
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
+
+// Save Library
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
- * Created by joshu on 11/29/2017.
+ * DayActivityInterface
+ * Created by joshua on 11/29/2017.
  */
-
 public abstract class DayActivityInterface extends Activity implements View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
     // Data
     protected Calendar day_active;
@@ -49,13 +54,10 @@ public abstract class DayActivityInterface extends Activity implements View.OnCl
         if (FileUtility.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManager.load(this);
         }
-
-        // Load Data
-        Settings.load();
-
-        TaskManager.load();
-        TagManager.load();
 
         day_active = Calendar.getInstance();
 

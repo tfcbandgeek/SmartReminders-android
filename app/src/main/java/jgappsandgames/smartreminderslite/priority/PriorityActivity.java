@@ -4,28 +4,18 @@ package jgappsandgames.smartreminderslite.priority;
 import java.util.ArrayList;
 
 // Android OS
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 // Views
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
 // Program
 import jgappsandgames.smartreminderslite.R;
-
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 import jgappsandgames.smartreminderslite.home.FirstRun;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
@@ -51,12 +41,9 @@ public class PriorityActivity extends PriorityActivityInterface {
         if (FileUtility.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            MasterManager.load(this);
         }
-
-        // Load Data
-        Settings.load();
-        TaskManager.load();
-        TagManager.load();
 
         ignore_tasks = new ArrayList<>();
         low_tasks = new ArrayList<>();
@@ -234,8 +221,6 @@ public class PriorityActivity extends PriorityActivityInterface {
 
     @Override
     public void save() {
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManager.save();
     }
 }

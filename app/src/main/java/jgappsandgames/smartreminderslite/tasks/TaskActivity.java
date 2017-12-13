@@ -30,6 +30,7 @@ import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 import jgappsandgames.smartreminderssave.tasks.Task;
@@ -38,6 +39,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager;
 /**
  * TaskActivity
  * Created by joshua on 8/31/17.
+ * TODO: Clean Activity and Clearify What is Going On Here
  */
 public class TaskActivity extends TaskActivityInterface implements OnTaskChangedListener {
     // Data
@@ -300,6 +302,7 @@ public class TaskActivity extends TaskActivityInterface implements OnTaskChanged
 
     @Override
     protected void save() {
+        MasterManager.save();
         task.save();
     }
 }

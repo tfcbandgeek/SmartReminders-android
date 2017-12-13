@@ -17,7 +17,8 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
 import jgappsandgames.smartreminderslite.utility.MoveUtility;
-import jgappsandgames.smartreminderssave.settings.Settings;
+import jgappsandgames.smartreminderssave.MasterManager;
+import jgappsandgames.smartreminderssave.settings.SettingsManager;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
@@ -31,9 +32,9 @@ public class SettingsActivity extends SettingsActivityInterface {
     protected void onPause() {
         super.onPause();
 
-        Settings.user_name = your_name.getText().toString();
-        Settings.device_name = device_name.getText().toString();
-        Settings.save();
+        SettingsManager.user_name = your_name.getText().toString();
+        SettingsManager.device_name = device_name.getText().toString();
+        MasterManager.save();
     }
 
     // Click Listener
@@ -41,13 +42,13 @@ public class SettingsActivity extends SettingsActivityInterface {
     public void onClick(View view) {
         // App Directory
         if (view.equals(app_directory)) {
-            if (Settings.use_external_file) {
-                Settings.use_external_file = false;
+            if (SettingsManager.use_external_file) {
+                SettingsManager.use_external_file = false;
                 app_directory.setText(R.string.save_app);
                 TaskManager.load();
                 TagManager.load();
             } else {
-                Settings.use_external_file = true;
+                SettingsManager.use_external_file = true;
                 app_directory.setText(R.string.save_external);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -73,14 +74,14 @@ public class SettingsActivity extends SettingsActivityInterface {
     public boolean onLongClick(View view) {
         // App Directory
         if (view.equals(app_directory)) {
-            if (Settings.use_external_file) {
-                Settings.use_external_file = false;
+            if (SettingsManager.use_external_file) {
+                SettingsManager.use_external_file = false;
                 app_directory.setText(R.string.save_app);
                 MoveUtility.moveToInternal();
                 TaskManager.load();
                 TagManager.load();
             } else {
-                Settings.use_external_file = true;
+                SettingsManager.use_external_file = true;
                 app_directory.setText(R.string.save_external);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -108,7 +109,7 @@ public class SettingsActivity extends SettingsActivityInterface {
             case ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults.length > 0) {
                     if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                        Settings.use_external_file = false;
+                        SettingsManager.use_external_file = false;
                         app_directory.setText(R.string.save_app);
                     }
                 }

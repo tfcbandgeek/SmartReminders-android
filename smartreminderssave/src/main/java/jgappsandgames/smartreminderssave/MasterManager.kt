@@ -14,7 +14,7 @@ import me.jgappsandgames.openlog.Exception
 import me.jgappsandgames.openlog.Log
 
 // Save Library
-import jgappsandgames.smartreminderssave.settings.Settings
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.theme.ThemeManager
@@ -47,9 +47,9 @@ class MasterManager {
             if (!log_loaded) loadLog(context)
 
             Log.d("MasterManager", "Create Called")
+            SettingsManager.create()
             TaskManager.create()
             TagManager.create()
-            Settings.create()
             ThemeManager.create()
 
             save()
@@ -66,9 +66,9 @@ class MasterManager {
             if (!log_loaded) loadLog(context)
 
             Log.d("MasterManager", "Load Called")
+            SettingsManager.load()
             TaskManager.load()
             TagManager.load()
-            Settings.load()
             ThemeManager.load()
         }
 
@@ -80,9 +80,9 @@ class MasterManager {
         @JvmStatic
         fun save() {
             Log.d("MasterManager", "Save Called")
+            SettingsManager.save()
             TaskManager.save()
             TagManager.save()
-            Settings.save()
             ThemeManager.save()
         }
 
@@ -114,10 +114,10 @@ class MasterManager {
          */
         private fun loadLog(context: Context) {
             Config.getInstance()
-                    .setPrimaryWriter(ConsoleWriter.getInstance())
-                    .setSecondaryWriter(FileWriter.getInstance())
                     .setFiles(File(FileUtility.getApplicationDataDirectory(), "openlog"))
                     .setDebug(true)
+                    .setTimeStamp(true)
+                    //.setSecondaryWriter(FileWriter.getInstance())
 
             Log.i("Smart Reminders Save", BuildConfig.VERSION_NAME)
         }

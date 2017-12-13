@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 // Android OS
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 // Views
@@ -21,8 +22,11 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 
 // Save
+import jgappsandgames.smartreminderslite.home.FirstRun;
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
+import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * MonthActivityInterface
@@ -48,6 +52,16 @@ abstract class MonthActivityInterface extends Activity implements OnTaskChangedL
         calendar = findViewById(R.id.calendar);
         tasks = findViewById(R.id.tasks);
 
+        // First Run
+        FileUtility.loadFilePaths(this);
+        if (FileUtility.isFirstRun()) {
+            Intent first_run = new Intent(this, FirstRun.class);
+            startActivity(first_run);
+        } else {
+            // Load Data
+            MasterManager.load(this);
+        }
+
         // Set Listeners
         calendar.setOnDateChangeListener(this);
 
@@ -67,7 +81,7 @@ abstract class MonthActivityInterface extends Activity implements OnTaskChangedL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                TaskManager.save();
+                MasterManager.save();
                 Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show();
                 break;
 

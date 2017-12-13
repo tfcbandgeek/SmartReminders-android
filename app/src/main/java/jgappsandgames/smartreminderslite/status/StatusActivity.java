@@ -20,6 +20,7 @@ import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 
@@ -84,6 +85,6 @@ public class StatusActivity extends StatusActivityInterface {
 
     @Override
     public void save() {
-        TaskManager.save();
+        MasterManager.save();
     }
 }

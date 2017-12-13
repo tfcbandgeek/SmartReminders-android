@@ -14,7 +14,7 @@ import android.widget.EditText;
 import jgappsandgames.smartreminderslite.R;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
+import jgappsandgames.smartreminderssave.settings.SettingsManager;
 
 /**
  * SettingsActivityInterface
@@ -44,9 +44,9 @@ public abstract class SettingsActivityInterface extends Activity implements View
         ((ViewGroup) (findViewById(R.id.settings)).getParent()).removeView(findViewById(R.id.settings));
 
         // Set Text
-        your_name.setText(Settings.user_name);
-        device_name.setText(Settings.device_name);
-        if (Settings.use_external_file) app_directory.setText(R.string.save_external);
+        your_name.setText(SettingsManager.user_name);
+        device_name.setText(SettingsManager.device_name);
+        if (SettingsManager.use_external_file) app_directory.setText(R.string.save_external);
         else app_directory.setText(R.string.save_app);
 
         // Set Listeners

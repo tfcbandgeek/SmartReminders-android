@@ -13,8 +13,7 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderslite.utility.ActivityUtility;
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
@@ -34,12 +33,9 @@ public class HomeActivity extends HomeActivityInterface implements OnTaskChanged
         if (FileUtility.isFirstRun()) {
             Intent first_run = new Intent(this, FirstRun.class);
             startActivity(first_run);
+        } else {
+            MasterManager.load(this);
         }
-
-        // Load Data
-        Settings.load();
-        TaskManager.load();
-        TagManager.load();
     }
 
     @Override
@@ -104,8 +100,6 @@ public class HomeActivity extends HomeActivityInterface implements OnTaskChanged
 
     @Override
     protected void save() {
-        TaskManager.save();
-        TagManager.save();
-        Settings.save();
+        MasterManager.save();
     }
 }

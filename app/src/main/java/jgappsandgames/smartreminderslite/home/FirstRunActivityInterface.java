@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 // App
 import jgappsandgames.smartreminderslite.R;
-import jgappsandgames.smartreminderssave.settings.Settings;
+import jgappsandgames.smartreminderssave.settings.SettingsManager;
 
 /**
  * FirstRunActivityInterface
@@ -44,7 +44,7 @@ public abstract class FirstRunActivityInterface extends Activity implements View
         con = findViewById(R.id.con);
 
         // Set Text
-        device_name.setText(Settings.device_name);
+        device_name.setText(SettingsManager.device_name);
 
         // Set Listeners
         your_name.addTextChangedListener(this);

@@ -11,6 +11,7 @@ import java.util.Calendar
 
 // Android OS
 import android.os.Build
+import me.jgappsandgames.openlog.Log
 
 // JSON
 import org.json.JSONException
@@ -31,6 +32,7 @@ class JSONUtility {
         @Throws(IOException::class)
         fun loadJSON(file: File): JSONObject {
             try {
+                Log.v("JSONUtility", "Path: " + file.absolutePath)
                 val reader = BufferedReader(FileReader(file))
                 val builder = StringBuilder()
 
@@ -46,6 +48,7 @@ class JSONUtility {
                             builder.append(t).append(System.getProperty("line.separator"))
                     }
                 }
+                Log.i("JSONUtility", "Builder: " + builder.toString())
                 return JSONObject(builder.toString())
             } catch (e: NullPointerException) {
                 e.printStackTrace()

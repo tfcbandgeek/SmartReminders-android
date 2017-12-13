@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderslite.date;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,11 +12,6 @@ import android.widget.Toast;
 
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
-import jgappsandgames.smartreminderslite.home.FirstRun;
-import jgappsandgames.smartreminderssave.settings.Settings;
-import jgappsandgames.smartreminderssave.tags.TagManager;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
-import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**
  * WeekActivityInterface

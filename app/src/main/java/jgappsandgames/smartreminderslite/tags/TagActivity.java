@@ -18,6 +18,7 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedLi
 import jgappsandgames.smartreminderslite.holder.TagHolder.TagSwitcher;
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
@@ -79,7 +80,6 @@ public class TagActivity extends TagActivityInterface {
 
     @Override
     public void save() {
-        TaskManager.save();
-        TagManager.save();
+        MasterManager.save();
     }
 }

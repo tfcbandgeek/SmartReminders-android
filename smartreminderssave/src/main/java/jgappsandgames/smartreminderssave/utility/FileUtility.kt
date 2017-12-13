@@ -12,7 +12,7 @@ import android.os.Environment
 import org.apache.commons.io.FileUtils
 
 // Save
-import jgappsandgames.smartreminderssave.settings.Settings
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 /**
  * FileUtilty
@@ -54,7 +54,7 @@ class FileUtility {
         @JvmStatic
         fun getApplicationDataDirectory(): File {
             // Create File Object
-            if (Settings.use_external_file) {
+            if (SettingsManager.use_external_file) {
                 if (external != null) return external!!
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
@@ -108,12 +108,14 @@ class FileUtility {
         @JvmStatic
         fun moveFolder(input: File, out: File) {
             out.deleteRecursively()
+            File(data, "firstrun")
             FileUtils.moveDirectoryToDirectory(input, out, true)
         }
 
         @JvmStatic
         fun copyFolder(input: File, out: File) {
             out.deleteRecursively()
+            File(data, "firstrun")
             FileUtils.copyDirectory(input, out)
         }
 
