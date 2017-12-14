@@ -2,23 +2,46 @@ package jgappsandgames.smartreminderssave.date
 
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
+import me.jgappsandgames.openlog.Exception
+import me.jgappsandgames.openlog.Log
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * DateManager
  * Created by joshua on 12/12/2017.
+ *
+ * Sorts Tasks Based on Their Date Due
+ * TODO: Save Sorted Tasks
+ * TODO: Improve Sort Effeciency
+ * TODO: Split into Week & Month
  */
 class DateManager {
     companion object {
-        // Data
+        // Data ------------------------------------------------------------------------------------
+        /**
+         * Weeks
+         *
+         * List of Sorted Weeks
+         */
         private var weeks: ArrayList<KeyWeek>? = null
+
+        /**
+         * Months
+         *
+         * List of Sorted Months
+         */
         private var months: ArrayList<KeyMonth>? = null
 
-        // Management Methods
+        // Management Methods ----------------------------------------------------------------------
+        /**
+         * Create
+         *
+         * Called to Sort All of the Tasks
+         */
         @JvmStatic
         fun create() {
-            if (TaskManager.tasks == null) throw RuntimeException("TaskManager needs to be loaded before the DateManager can do any work")
-
+            Log.d("DateManager", "Create Called")
             val tasks = ArrayList<Task>()
             for (t in TaskManager.tasks) {
                 val task = Task(t)
@@ -38,7 +61,7 @@ class DateManager {
             }
 
             for (task in tasks) {
-                if (task.getDateDue().before(weeks!![0].week.getStart())) continue
+                if (task.getDateDue()!!.before(weeks!![0].week.getStart())) continue
                 var i = 0
                 var b = true
 
@@ -69,7 +92,7 @@ class DateManager {
             }
 
             for (task in tasks) {
-                if (task.getDateDue().before(months!![0].month.getStart())) continue
+                if (task.getDateDue()!!.before(months!![0].month.getStart())) continue
                 var i = 0
                 var b = true
 
@@ -88,47 +111,44 @@ class DateManager {
             }
         }
 
-        // Getters
+        // Getters ---------------------------------------------------------------------------------
+        /**
+         * GetDayCount
+         *
+         * @return The number of Days loaded (As seen from the Week View)
+         */
         @JvmStatic
         fun getDayCount(): Int {
+            Log.d("DateManager", "GetDayCount Called")
             return getWeekCount() * 7
         }
 
-        @JvmStatic
-        fun getWeekCount(): Int {
-            return weeks!!.size
-        }
-
-        @JvmStatic
-        fun getMonthCount(): Int {
-            return months!!.size
-        }
-
-        @JvmStatic
-        fun getWeek(week: Int): Week {
-            if (weeks == null) create()
-            for (w in weeks!!) if (w.key == week) return w.week
-
-            // Todo: Return Special Case
-            return Week(Calendar.getInstance())
-        }
-
-        @JvmStatic
-        fun getMonth(month: Int): Month {
-            if (months == null) create()
-            for (m in months!!) if (m.key == month) return m.month
-
-            // Todo: Return Special Case
-            return Month(Calendar.getInstance())
-        }
-
+        /**
+         * GetToday (Depricated)
+         *
+         * @return Today's Day
+         */
+        @Deprecated("Removal in 11.1 or 11.2")
         @JvmStatic
         fun getToday(): Day {
+            Exception.f("DateManager", "GetToday Depricated")
+            Log.d("DateManager", "GetToday Called")
             return getWeek(0).getDay(Calendar.getInstance())
         }
 
+        /**
+         * GetDay (Depricated)
+         *
+         * This Method Will Soon Return The Day Object
+         *
+         * @param date_active The Day We Want to Get
+         * @return The Tasks For This Day
+         */
+        @Deprecated("Will Soon Return the Day Object (11.1 or 11.2")
         @JvmStatic
         fun getDay(date_active: Calendar): ArrayList<Task> {
+            Exception.f("DateManager", "GetDay Depricated")
+            Log.d("DateManager", "GetDay Called")
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
 
             if (weeks == null) create()
@@ -139,9 +159,143 @@ class DateManager {
             return ArrayList()
         }
 
-        // Classes
+        /**
+         * GetDayObject
+         *
+         * @param date_active The Day We Want to Get
+         * @return The Day we Want to Get
+         */
+        @JvmStatic
+        fun getDayObject(date_active: Calendar): Day {
+            Log.d("DateManager", "GetDayObject Called")
+            if (date_active.before(getWeek(0).getStart())) return Day(date_active)
+
+            if (weeks == null) create()
+            for (week in weeks!!) {
+                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
+            }
+
+            return Day(date_active)
+        }
+
+        /**
+         * GetDayTasks
+         *
+         * @param date_active The Day We Want to Get
+         * @return The Tasks For This Day
+         */
+        @JvmStatic
+        fun getDayTasks(date_active: Calendar): ArrayList<Task> {
+            Log.d("DateManager", "GetDayTasks Called")
+            if (date_active.before(getWeek(0).getStart())) return ArrayList()
+
+            if (weeks == null) create()
+            for (week in weeks!!) {
+                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
+            }
+
+            return ArrayList()
+        }
+
+        /**
+         * GetWeekCount
+         *
+         * @return The Number of Weeks Loaded
+         */
+        @JvmStatic
+        fun getWeekCount(): Int {
+            Log.d("DateManager", "GetWeekCount Called")
+            return weeks!!.size
+        }
+
+        /**
+         * GetWeek(int)
+         *
+         * @param week The Week We Want to Get
+         * @return The Week we Wanted
+         */
+        @JvmStatic
+        fun getWeek(week: Int): Week {
+            Log.d("DateManager", "GetWeek Called")
+            if (weeks == null) create()
+            for (w in weeks!!) if (w.key == week) return w.week
+
+            // Todo: Return Special Case
+            return Week(Calendar.getInstance())
+        }
+
+        /**
+         * GetWeekTaasks(int)
+         *
+         * @param week The Week We Want to Get
+         * @return The WTasks for this Week
+         */
+        @JvmStatic
+        fun getWeekTasks(week: Int): ArrayList<Task> {
+            Log.d("DateManager", "GetWeekTasks Called")
+            if (weeks == null) create()
+            for (w in weeks!!) if (w.key == week) return w.week.getAllTasks()
+
+            // Todo: Return Special Case
+            return ArrayList()
+        }
+
+        /**
+         * GetMonthCount
+         *
+         * @return The Number of Months Loaded
+         */
+        @JvmStatic
+        fun getMonthCount(): Int {
+            Log.d("DateManager", "GetMonthCount Called")
+            return months!!.size
+        }
+
+        /**
+         * GetMonth(int)
+         *
+         * @param month The Month We Want to Get
+         * @return The Month we Wanted
+         */
+        @JvmStatic
+        fun getMonth(month: Int): Month {
+            Log.d("DateManager", "GetMonth Called")
+            if (months == null) create()
+            for (m in months!!) if (m.key == month) return m.month
+
+            // Todo: Return Special Case
+            return Month(Calendar.getInstance())
+        }
+
+        /**
+         * GetMonthTasks(int)
+         *
+         * @param month The Month We Want to Get
+         * @return The Tasks of the Month
+         */
+        @JvmStatic
+        fun getMonthTasks(month: Int): ArrayList<Task> {
+            Log.d("DateManager", "GetMonthTasks Called")
+            if (months == null) create()
+            for (m in months!!) if (m.key == month) return m.month.getAllTasks()
+
+            // Todo: Return Special Case
+            return ArrayList()
+        }
+
+        // Classes ---------------------------------------------------------------------------------
+        /**
+         * KeyWeek Class
+         *
+         * Class used to Store and Sort Weeks
+         */
         private class KeyWeek(val key: Int, val week: Week)
 
+        /**
+         * KeyMonth Class
+         *
+         * Class used to Store and Sort Months
+         */
         private class KeyMonth(val key: Int, val month: Month)
     }
 }

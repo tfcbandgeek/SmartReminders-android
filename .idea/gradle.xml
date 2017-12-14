@@ -13,7 +13,10 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/commons-io-2.6" />
             <option value="$PROJECT_DIR$/openlog_1_2_0" />
+            <option value="$PROJECT_DIR$/smartremindersfree" />
+            <option value="$PROJECT_DIR$/smartreminderspro" />
             <option value="$PROJECT_DIR$/smartreminderssave" />
+            <option value="$PROJECT_DIR$/smartremindersunderground" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -115,9 +115,10 @@ class MasterManager {
         private fun loadLog(context: Context) {
             Config.getInstance()
                     .setFiles(File(FileUtility.getApplicationDataDirectory(), "openlog"))
+                    .setKeyLength(16)
                     .setDebug(true)
                     .setTimeStamp(true)
-                    //.setSecondaryWriter(FileWriter.getInstance())
+                    .setSecondaryWriter(FileWriter.getInstance())
 
             Log.i("Smart Reminders Save", BuildConfig.VERSION_NAME)
         }

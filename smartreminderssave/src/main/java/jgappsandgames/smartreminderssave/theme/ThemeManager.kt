@@ -55,6 +55,16 @@ class ThemeManager {
         @JvmField
         var light = 0
 
+        @JvmStatic
+        fun create() {
+            version = API.RELEASE
+            color = 1
+            light = 1
+
+            // API 11
+            meta = JSONObject()
+        }
+
         // Management Methods
         @JvmStatic
         fun load() {
@@ -80,16 +90,6 @@ class ThemeManager {
             } else {
                 meta = JSONObject()
             }
-        }
-
-        @JvmStatic
-        fun create() {
-            version = API.RELEASE
-            color = 1
-            light = 1
-
-            // API 11
-            meta = JSONObject()
         }
 
         @JvmStatic

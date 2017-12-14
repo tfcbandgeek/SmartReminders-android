@@ -256,8 +256,8 @@ class Task() {
         return date_create!!
     }
 
-    fun getDateDue(): Calendar {
-        return date_due!!
+    fun getDateDue(): Calendar? {
+        return date_due
     }
 
     fun getDateDueString(): String {
@@ -270,12 +270,12 @@ class Task() {
         return date_updated!!
     }
 
-    fun getDateArchived(): Calendar {
-        return date_archived!!
+    fun getDateArchived(): Calendar? {
+        return date_archived
     }
 
-    fun getDateDeleted(): Calendar {
-        return date_deleted!!
+    fun getDateDeleted(): Calendar? {
+        return date_deleted
     }
 
     fun getTitle(): String {
