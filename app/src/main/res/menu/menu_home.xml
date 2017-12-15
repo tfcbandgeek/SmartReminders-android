@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:title="@string/tags"
-        android:id="@+id/tags"/>
+    <group android:title="Sort">
+        <item
+            android:title="@string/tags"
+            android:id="@+id/tags"/>
 
-    <item
-        android:title="@string/status"
-        android:id="@+id/status"/>
+        <item
+            android:title="@string/status"
+            android:id="@+id/status"/>
 
-    <item
-        android:title="@string/priority"
-        android:id="@+id/priority" />
+        <item
+            android:title="@string/priority"
+            android:id="@+id/priority" />
 
-    <item
-        android:title="@string/day"
-        android:id="@+id/day"/>
+        <item
+            android:title="@string/day"
+            android:id="@+id/day"/>
 
-    <item
-        android:title="@string/week"
-        android:id="@+id/week"/>
+        <item
+            android:title="@string/week"
+            android:id="@+id/week"/>
 
-    <item
-        android:title="@string/month"
-        android:id="@+id/month"/>
+        <item
+            android:title="@string/month"
+            android:id="@+id/month"/>
+    </group>
 
     <item
         android:title="@string/settings"

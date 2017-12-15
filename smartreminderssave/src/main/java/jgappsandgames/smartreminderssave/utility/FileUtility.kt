@@ -8,9 +8,6 @@ import android.content.Context
 import android.os.Build
 import android.os.Environment
 
-// Apache Commons
-import org.apache.commons.io.FileUtils
-
 // Save
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 
@@ -30,16 +27,11 @@ class FileUtility {
         // Check to See if it is the Apps First Run
         @JvmStatic
         fun isFirstRun(): Boolean {
-            val file = File(data, "firstrun")
-
-            if (file.isDirectory) return false
+            if (data!!.isDirectory) return false
 
 
             data!!.mkdirs()
-
             cache!!.mkdirs()
-
-            file.mkdirs()
             return true
         }
 
@@ -109,24 +101,15 @@ class FileUtility {
         fun moveFolder(input: File, out: File) {
             out.deleteRecursively()
             File(data, "firstrun")
-            FileUtils.moveDirectoryToDirectory(input, out, true)
+            input.copyTo(out, true)
+            input.deleteRecursively()
         }
 
         @JvmStatic
         fun copyFolder(input: File, out: File) {
             out.deleteRecursively()
             File(data, "firstrun")
-            FileUtils.copyDirectory(input, out)
-        }
-
-        @JvmStatic
-        fun moveFile(input: File, out: File) {
-            FileUtils.moveFileToDirectory(input, out, true)
-        }
-
-        @JvmStatic
-        fun copyFile(input: File, out: File) {
-            FileUtils.copyFileToDirectory(input, out, true)
+            input.copyRecursively(out, true)
         }
     }
 }

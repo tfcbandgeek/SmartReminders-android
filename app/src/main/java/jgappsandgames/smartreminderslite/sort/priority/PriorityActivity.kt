@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.priority
+package jgappsandgames.smartreminderslite.sort.priority
 
 // Android OS
 import android.annotation.SuppressLint

@@ -8,7 +8,6 @@ import android.content.Context
 
 // OpenLog
 import me.jgappsandgames.openlog.Config
-import me.jgappsandgames.openlog.ConsoleWriter
 import me.jgappsandgames.openlog.FileWriter
 import me.jgappsandgames.openlog.Exception
 import me.jgappsandgames.openlog.Log
@@ -19,7 +18,6 @@ import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.theme.ThemeManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-
 
 /**
  * MasterManager
@@ -44,7 +42,7 @@ class MasterManager {
          */
         @JvmStatic
         fun create(context: Context) {
-            if (!log_loaded) loadLog(context)
+            if (!log_loaded) loadLog()
 
             Log.d("MasterManager", "Create Called")
             SettingsManager.create()
@@ -63,7 +61,7 @@ class MasterManager {
          */
         @JvmStatic
         fun load(context: Context) {
-            if (!log_loaded) loadLog(context)
+            if (!log_loaded) loadLog()
 
             Log.d("MasterManager", "Load Called")
             SettingsManager.load()
@@ -104,6 +102,8 @@ class MasterManager {
         @JvmStatic
         fun cleanCache() {
             Exception.e("MasterManager", "Clean Cache Needs To Be Implemented")
+            FileUtility.getApplicationCacheDirectory().deleteRecursively()
+            loadLog()
         }
 
         // ---- ---- ---- ---- ---- ---- ---- Class Methods ---- ---- ---- ---- ---- ---- ----
@@ -112,7 +112,7 @@ class MasterManager {
          *
          * Called to Load the Log File
          */
-        private fun loadLog(context: Context) {
+        private fun loadLog() {
             Config.getInstance()
                     .setFiles(File(FileUtility.getApplicationDataDirectory(), "openlog"))
                     .setKeyLength(16)

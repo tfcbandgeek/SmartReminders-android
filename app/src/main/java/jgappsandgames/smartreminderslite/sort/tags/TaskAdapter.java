@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.tags;
+package jgappsandgames.smartreminderslite.sort.tags;
 
 // Java
 import java.util.ArrayList;

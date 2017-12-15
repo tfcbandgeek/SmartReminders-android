@@ -1,53 +1,50 @@
-package jgappsandgames.smartreminderslite.tags;
+package jgappsandgames.smartreminderslite.sort.date;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import jgappsandgames.smartreminderslite.R;
-import jgappsandgames.smartreminderslite.holder.TagHolder;
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder;
 
 /**
- * TagActivityInterface
+ * WeekActivityInterface
  * Created by joshua on 11/29/2017.
  */
-public abstract class TagActivityInterface extends Activity implements TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
+public abstract class WeekActivityInterface extends Activity implements View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
+    // Data
+    protected int week_active;
+
     // Views
-    protected TextView tasks_text;
-    protected ListView tasks_list;
-    protected TextView selected_text;
-    protected ListView selected_list;
-    protected TextView unselected_text;
-    protected ListView unselected_list;
+    protected ListView tasks;
+    protected Button previous;
+    protected Button next;
 
     // Adapters
-    protected TaskAdapter task_adapter;
-    protected SelectedAdapter selected_adapter;
-    protected UnselectedAdapter unselected_adapter;
+    protected BaseAdapter adapter;
 
     // LifeCycle Methods
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set View
-        setContentView(R.layout.activity_tag);
-
+        // Set Content View
+        setContentView(R.layout.activity_date);
 
         // Find Views
-        tasks_text = findViewById(R.id.tasks_title);
-        tasks_list = findViewById(R.id.tasks);
-        selected_text = findViewById(R.id.selected_text);
-        selected_list = findViewById(R.id.selected);
-        unselected_text = findViewById(R.id.unselected_text);
-        unselected_list = findViewById(R.id.unselected);
+        tasks = findViewById(R.id.tasks);
+        previous = findViewById(R.id.previous);
+        next = findViewById(R.id.next);
+
+        // Set Click Listeners
+        previous.setOnClickListener(this);
+        next.setOnClickListener(this);
     }
 
     // Menu

@@ -14,9 +14,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/icon2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/icon"
+        android:roundIcon="@mipmap/icon2"
         android:supportsRtl="true"
         android:theme="@style/blue_dark">
 
@@ -39,11 +39,11 @@
         <activity android:name=".tasks.tags.TagEditorActivity"/>
 
         <!--Sort-->
-        <activity android:name=".tags.TagActivity"/>
-        <activity android:name=".status.StatusActivity"/>
-        <activity android:name=".priority.PriorityActivity"/>
-        <activity android:name=".date.DayActivity"/>
-        <activity android:name=".date.WeekActivity"/>
-        <activity android:name=".date.MonthActivity"/>
+        <activity android:name=".sort.tags.TagActivity"/>
+        <activity android:name="jgappsandgames.smartreminderslite.sort.status.StatusActivity"/>
+        <activity android:name="jgappsandgames.smartreminderslite.sort.priority.PriorityActivity"/>
+        <activity android:name=".sort.date.DayActivity"/>
+        <activity android:name=".sort.date.WeekActivity"/>
+        <activity android:name=".sort.date.MonthActivity"/>
     </application>
 </manifest>

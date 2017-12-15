@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.date;
+package jgappsandgames.smartreminderslite.sort.date;
 
 // App
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface;

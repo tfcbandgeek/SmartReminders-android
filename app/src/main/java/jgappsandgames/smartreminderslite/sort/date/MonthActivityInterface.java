@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.date;
+package jgappsandgames.smartreminderslite.sort.date;
 
 // Java
 import java.util.ArrayList;
@@ -25,7 +25,6 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedLi
 import jgappsandgames.smartreminderslite.home.FirstRun;
 import jgappsandgames.smartreminderssave.MasterManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
-import jgappsandgames.smartreminderssave.tasks.TaskManager;
 import jgappsandgames.smartreminderssave.utility.FileUtility;
 
 /**

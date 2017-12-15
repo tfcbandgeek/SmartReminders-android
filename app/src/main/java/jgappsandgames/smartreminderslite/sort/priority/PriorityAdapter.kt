@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.status
+package jgappsandgames.smartreminderslite.sort.priority
 
 // App
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
@@ -7,10 +7,10 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderssave.tasks.Task
 
 /**
- * StatusAdapter
+ * PriorityAdapter
  * Created by joshua on 12/14/2017.
  *
- * Adapter for The Status View Lists
+ * Task Adapter for the Priority Lists
  */
-class StatusAdapter(activity: StatusActivity, tasks: ArrayList<Task>):
+class PriorityAdapter(activity: PriorityActivity, tasks: ArrayList<Task>):
         TaskAdapterInterface(activity, activity, tasks)

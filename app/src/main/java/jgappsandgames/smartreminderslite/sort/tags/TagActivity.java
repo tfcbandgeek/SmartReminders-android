@@ -1,25 +1,15 @@
-package jgappsandgames.smartreminderslite.tags;
+package jgappsandgames.smartreminderslite.sort.tags;
 
 // Java
 import java.util.ArrayList;
 
 // Android OS
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 // App
-import jgappsandgames.smartreminderslite.R;
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder.OnTaskChangedListener;
-import jgappsandgames.smartreminderslite.holder.TagHolder.TagSwitcher;
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager;
-import jgappsandgames.smartreminderssave.tags.TagManager;
 import jgappsandgames.smartreminderssave.tasks.Task;
 import jgappsandgames.smartreminderssave.tasks.TaskManager;
 

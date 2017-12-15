@@ -19,12 +19,12 @@ import me.jgappsandgames.openlog.Log
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.date.DayActivity
-import jgappsandgames.smartreminderslite.date.MonthActivity
-import jgappsandgames.smartreminderslite.date.WeekActivity
-import jgappsandgames.smartreminderslite.priority.PriorityActivity
-import jgappsandgames.smartreminderslite.status.StatusActivity
-import jgappsandgames.smartreminderslite.tags.TagActivity
+import jgappsandgames.smartreminderslite.sort.date.DayActivity
+import jgappsandgames.smartreminderslite.sort.date.MonthActivity
+import jgappsandgames.smartreminderslite.sort.date.WeekActivity
+import jgappsandgames.smartreminderslite.sort.priority.PriorityActivity
+import jgappsandgames.smartreminderslite.sort.status.StatusActivity
+import jgappsandgames.smartreminderslite.sort.tags.TagActivity
 
 /**
  * HomeActivityInterface
