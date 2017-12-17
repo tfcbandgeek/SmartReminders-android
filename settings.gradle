@@ -1,1 +1,1 @@
-include ':app', ':smartreminderssave', ':commons-io-2.6', ':openlog_1_2_0', ':smartreminderspro', ':smartremindersfree', ':smartremindersunderground'
+include ':app', ':smartreminderssave'

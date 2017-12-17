@@ -5,12 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/SmartReminders-android.iml" filepath="$PROJECT_DIR$/SmartReminders-android.iml" />
       <module fileurl="file://C:\Users\joshu\Documents\SmartReminders-android\SmartRemindersLite.iml" filepath="C:\Users\joshu\Documents\SmartReminders-android\SmartRemindersLite.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/commons-io-2.6/commons-io-2.6.iml" filepath="$PROJECT_DIR$/commons-io-2.6/commons-io-2.6.iml" />
-      <module fileurl="file://$PROJECT_DIR$/openlog_1_2_0/openlog_1_2_0.iml" filepath="$PROJECT_DIR$/openlog_1_2_0/openlog_1_2_0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smartremindersfree/smartremindersfree.iml" filepath="$PROJECT_DIR$/smartremindersfree/smartremindersfree.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smartreminderspro/smartreminderspro.iml" filepath="$PROJECT_DIR$/smartreminderspro/smartreminderspro.iml" />
       <module fileurl="file://$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" filepath="$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smartremindersunderground/smartremindersunderground.iml" filepath="$PROJECT_DIR$/smartremindersunderground/smartremindersunderground.iml" />
     </modules>
   </component>
 </project>

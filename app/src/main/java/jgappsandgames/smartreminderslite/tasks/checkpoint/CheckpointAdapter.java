@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.tasks;
+package jgappsandgames.smartreminderslite.tasks.checkpoint;
 
 // Views
 import android.view.LayoutInflater;
@@ -11,20 +11,21 @@ import java.util.List;
 
 import jgappsandgames.smartreminderslite.R;
 import jgappsandgames.smartreminderslite.holder.CheckpointHolder;
+import jgappsandgames.smartreminderslite.tasks.TaskActivity;
 import jgappsandgames.smartreminderssave.tasks.Checkpoint;
 
 /**
  * CheckpointAdapter
  * Created by joshua on 8/31/17.
  */
-class CheckpointAdapter extends BaseAdapter {
+public class CheckpointAdapter extends BaseAdapter {
     // Data
     private final TaskActivity activity;
     private final String task;
     private final List<Checkpoint> checkpoints;
 
     // Initializer
-    CheckpointAdapter(TaskActivity activity, String task, List<Checkpoint> checkpoints) {
+    public CheckpointAdapter(TaskActivity activity, String task, List<Checkpoint> checkpoints) {
         super();
 
         // Load Data

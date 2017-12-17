@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 11000013
-        versionName "11.0.0 Alpha 3"
+        versionCode 11000014
+        versionName "11.0.0 Alpha 4"
     }
 
     buildTypes {
@@ -27,7 +27,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':openlog_1_2_0')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {
