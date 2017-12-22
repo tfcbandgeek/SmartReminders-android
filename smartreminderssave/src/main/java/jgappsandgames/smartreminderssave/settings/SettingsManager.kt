@@ -75,6 +75,30 @@ class SettingsManager {
         // Management Methods
         @JvmStatic
         fun create() {
+            if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
+
+            version = API.MANAGEMENT
+
+            user_name = ""
+            device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT
+
+            use_external_file = false
+
+            has_tag_shortcut = false
+            has_status_shortcut = false
+            has_priority_shortcut = false
+            has_today_shortcut = false
+            has_week_shortcut = false
+
+            has_done_tutorial = false
+            last_version_splash = -1
+
+            // API 11
+            meta = JSONObject()
+        }
+
+        @JvmStatic
+        fun forceCreate() {
             version = API.MANAGEMENT
 
             user_name = ""

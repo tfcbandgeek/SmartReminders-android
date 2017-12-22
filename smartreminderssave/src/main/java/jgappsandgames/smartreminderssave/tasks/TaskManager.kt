@@ -51,6 +51,21 @@ class TaskManager {
         fun create() {
             Log.d("TaskManager", "Create Called")
 
+            if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
+
+            home = ArrayList()
+            tasks = ArrayList()
+            archived = ArrayList()
+            deleted = ArrayList()
+
+            // API 11
+            meta = JSONObject()
+        }
+
+        @JvmStatic
+        fun forceCreate() {
+            Log.d("TaskManager", "Create Called")
+
             home = ArrayList()
             tasks = ArrayList()
             archived = ArrayList()

@@ -40,6 +40,15 @@ class TagManager {
         // Management Methods
         @JvmStatic
         fun create() {
+            if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
+
+            version = API.RELEASE
+            tags = ArrayList()
+            meta = JSONObject()
+        }
+
+        @JvmStatic
+        fun forceCreate() {
             version = API.RELEASE
             tags = ArrayList()
             meta = JSONObject()
