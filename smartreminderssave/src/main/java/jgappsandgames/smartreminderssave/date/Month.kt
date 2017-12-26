@@ -1,7 +1,10 @@
 package jgappsandgames.smartreminderssave.date
 
+// Java
+import java.util.Calendar
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
-import java.util.*
 
 /**
  * Month
@@ -9,18 +12,15 @@ import java.util.*
  */
 class Month(start: Calendar) {
     // Data
-    private var days_in_month: Int
-    private var month_starts_on: Int
+    private var days_in_month = start.getMaximum(Calendar.DAY_OF_MONTH)
+    private var month_starts_on = start.get(Calendar.DAY_OF_WEEK)
 
-    private val start: Calendar
+    private val start = start.clone() as Calendar
     private var end: Calendar
 
     private var days: ArrayList<Day>?
 
     init {
-        this.start = start.clone() as Calendar
-        days_in_month = start.getMaximum(Calendar.DAY_OF_MONTH)
-        month_starts_on = start.get(Calendar.DAY_OF_WEEK)
 
         days = ArrayList(days_in_month)
         for (i in 0 until days_in_month) {

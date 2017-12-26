@@ -1,7 +1,10 @@
 package jgappsandgames.smartreminderssave.date
 
+// Java
+import java.util.Calendar
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
-import java.util.*
 
 /**
  * Week
@@ -9,7 +12,7 @@ import java.util.*
  */
 class Week(start: Calendar) {
     // Data
-    private var sunday: Day
+    private var sunday = Day(start.clone() as Calendar)
     private var monday: Day
     private var tuesday: Day
     private var wednesday: Day
@@ -18,8 +21,6 @@ class Week(start: Calendar) {
     private var saturday: Day
 
     init {
-        sunday = Day(start.clone() as Calendar)
-
         start.add(Calendar.DAY_OF_WEEK, 1)
         monday = Day(start.clone() as Calendar)
 

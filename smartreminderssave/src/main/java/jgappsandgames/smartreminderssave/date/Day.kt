@@ -1,7 +1,10 @@
 package jgappsandgames.smartreminderssave.date
 
+// Java
+import java.util.Calendar
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
-import java.util.*
 
 /**
  * Day

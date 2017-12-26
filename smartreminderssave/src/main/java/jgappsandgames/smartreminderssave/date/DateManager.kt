@@ -1,11 +1,18 @@
 package jgappsandgames.smartreminderssave.date
 
+// Java
+import java.util.Calendar
+
+// Kotlin
+import kotlin.collections.ArrayList
+
+// Save Code
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
+
+// Log Code
 import me.jgappsandgames.openlog.Exception
 import me.jgappsandgames.openlog.Log
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * DateManager
@@ -13,24 +20,13 @@ import kotlin.collections.ArrayList
  *
  * Sorts Tasks Based on Their Date Due
  * TODO: Save Sorted Tasks
- * TODO: Improve Sort Effeciency
+ * TODO: Improve Sort Efficiency
  * TODO: Split into Week & Month
  */
 class DateManager {
     companion object {
         // Data ------------------------------------------------------------------------------------
-        /**
-         * Weeks
-         *
-         * List of Sorted Weeks
-         */
         private var weeks: ArrayList<KeyWeek>? = null
-
-        /**
-         * Months
-         *
-         * List of Sorted Months
-         */
         private var months: ArrayList<KeyMonth>? = null
 
         // Management Methods ----------------------------------------------------------------------
