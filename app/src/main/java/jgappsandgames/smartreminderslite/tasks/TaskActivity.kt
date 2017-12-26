@@ -96,7 +96,7 @@ class TaskActivity: TaskActivityInterface() {
 
         // Set Folder Adapter
         if (task!!.getType() == Task.TYPE_FLDR) {
-            adapter = CheckpointAdapter(this, task!!.getFilename(), task!!.getCheckpoints())
+            adapter = ChildrenAdapter(this, task!!.getChildren())
             list!!.adapter = adapter
         }
     }
