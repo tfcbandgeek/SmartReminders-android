@@ -1,31 +1,41 @@
 package jgappsandgames.smartreminderslite.holder
 
+// Android OS
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Vibrator
+
+// Views
 import android.view.View
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
+
+// Logs
 import me.jgappsandgames.openlog.Log
 
-@Suppress("JoinDeclarationAndAssignment")
 /**
  * TaskFolderHolder
  * Created by joshua on 12/13/2017.
  *
  * Task/Folder Holder for The TaskAdapter
  */
-class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedListener: OnTaskChangedListener): View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+@Suppress("JoinDeclarationAndAssignment")
+class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedListener: OnTaskChangedListener):
+        View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Data ----------------------------------------------------------------------------------------
     @JvmField
-    public var task: Task
+    var task: Task
     private val activity: Activity
     private val onTaskChanged: OnTaskChangedListener?
 

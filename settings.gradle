@@ -1,1 +1,1 @@
-include ':app', ':smartreminderssave'
+include ':app', ':smartreminderssave', ':smartreminders'

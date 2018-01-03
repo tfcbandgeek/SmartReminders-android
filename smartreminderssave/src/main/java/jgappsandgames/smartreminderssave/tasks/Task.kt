@@ -520,4 +520,8 @@ class Task() {
 
         return this
     }
+
+    override fun toString(): String {
+        return toJSON().toString()
+    }
 }

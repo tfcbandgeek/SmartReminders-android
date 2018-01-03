@@ -27,11 +27,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  */
 class MasterManager {
     companion object {
-        /**
-         * log_loaded
-         *
-         * Is True only when the log has been Loaded
-         */
         var log_loaded = false
 
         /**

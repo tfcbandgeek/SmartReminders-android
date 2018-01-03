@@ -1,30 +1,46 @@
 package jgappsandgames.smartreminderslite.tasks
 
+// Java
+import java.util.*
+
+// Android OS
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+
+// Views
 import android.view.View
 import android.widget.DatePicker
 import android.widget.SeekBar
+
+// JSON
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+
+// Log
+import me.jgappsandgames.openlog.Log
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointAdapter
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.Checkpoint
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import me.jgappsandgames.openlog.Log
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import java.util.*
+
+
+
 
 /**
  * TaskActivity
@@ -62,9 +78,6 @@ class TaskActivity: TaskActivityInterface() {
 
         // Normal Run
         else MasterManager.load(this)
-
-        // Load Data
-        task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
     }
 
     /**
@@ -76,6 +89,9 @@ class TaskActivity: TaskActivityInterface() {
     override fun onResume() {
         super.onResume()
         Log.d("TaskActivity", "OnResume Called")
+
+        // Load Data
+        task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
 
         // Set Generic Text
         setTitle(task!!.getTitle())

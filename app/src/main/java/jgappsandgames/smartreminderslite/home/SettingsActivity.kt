@@ -44,8 +44,7 @@ class SettingsActivity: SettingsActivityInterface() {
             if (SettingsManager.use_external_file) {
                 SettingsManager.use_external_file = false
                 app_directory!!.setText(R.string.save_app)
-                TaskManager.load()
-                TagManager.load()
+                MasterManager.load(this)
             } else {
                 SettingsManager.use_external_file = true
                 app_directory!!.setText(R.string.save_external)
@@ -53,20 +52,14 @@ class SettingsActivity: SettingsActivityInterface() {
                 if (VERSION.SDK_INT >= VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                    if (permission == PackageManager.PERMISSION_DENIED) {
-                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
-                    } else {
-                        TaskManager.load()
-                        TagManager.load()
-                    }
+                    if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
+                    else MasterManager.load(this)
                 }
             }
         }
 
         // Tutorial
-        if (view == tutorial) {
-            Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show()
-        }
+        if (view == tutorial) Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("NewApi")
@@ -86,12 +79,10 @@ class SettingsActivity: SettingsActivityInterface() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                    if (permission == PackageManager.PERMISSION_DENIED) {
-                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
-                    } else {
+                    if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
+                    else {
                         MoveUtility.moveToExternal()
-                        TaskManager.load()
-                        TagManager.load()
+                        MasterManager.load(this)
                     }
                 }
             }
@@ -109,8 +100,7 @@ class SettingsActivity: SettingsActivityInterface() {
                     SettingsManager.use_external_file = false
                     app_directory!!.setText(R.string.save_app)
                 } else {
-                    TaskManager.load()
-                    TagManager.load()
+                    MasterManager.load(this)
                 }
             }
         }

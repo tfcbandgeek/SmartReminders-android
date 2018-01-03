@@ -12,7 +12,7 @@ class API {
         @JvmField
         val RELEASE_INFO = "List<> for JSONArray access Points"
 
-        // Management (1/1/18*)
+        // Management (12/23/17)
         @JvmField
         val MANAGEMENT = 11
         @JvmField

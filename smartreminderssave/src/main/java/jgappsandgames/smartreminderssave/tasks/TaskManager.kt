@@ -196,7 +196,7 @@ class TaskManager {
                 home.remove(task.getFilename())
             } else if (tasks.contains(task.getParent())) {
                 val parent = Task(task.getParent())
-                parent.removeChild(task.getFilename())
+                Log.d("Error", parent.removeChild(task.getFilename()).toString())
                 parent.save()
             }
 

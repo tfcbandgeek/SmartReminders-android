@@ -148,9 +148,7 @@ class DateManager {
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
 
             if (weeks == null) create()
-            for (week in weeks!!) {
-                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
-            }
+            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
 
             return ArrayList()
         }
@@ -167,9 +165,7 @@ class DateManager {
             if (date_active.before(getWeek(0).getStart())) return Day(date_active)
 
             if (weeks == null) create()
-            for (week in weeks!!) {
-                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
-            }
+            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
 
             return Day(date_active)
         }
@@ -186,9 +182,7 @@ class DateManager {
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
 
             if (weeks == null) create()
-            for (week in weeks!!) {
-                if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
-            }
+            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
 
             return ArrayList()
         }
@@ -231,8 +225,6 @@ class DateManager {
             Log.d("DateManager", "GetWeekTasks Called")
             if (weeks == null) create()
             for (w in weeks!!) if (w.key == week) return w.week.getAllTasks()
-
-            // Todo: Return Special Case
             return ArrayList()
         }
 
@@ -274,24 +266,11 @@ class DateManager {
             Log.d("DateManager", "GetMonthTasks Called")
             if (months == null) create()
             for (m in months!!) if (m.key == month) return m.month.getAllTasks()
-
-            // Todo: Return Special Case
             return ArrayList()
         }
 
         // Classes ---------------------------------------------------------------------------------
-        /**
-         * KeyWeek Class
-         *
-         * Class used to Store and Sort Weeks
-         */
         private class KeyWeek(val key: Int, val week: Week)
-
-        /**
-         * KeyMonth Class
-         *
-         * Class used to Store and Sort Months
-         */
         private class KeyMonth(val key: Int, val month: Month)
     }
 }

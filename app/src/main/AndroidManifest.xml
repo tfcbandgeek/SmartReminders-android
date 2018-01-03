@@ -40,8 +40,8 @@
 
         <!--Sort-->
         <activity android:name=".sort.tags.TagActivity"/>
-        <activity android:name="jgappsandgames.smartreminderslite.sort.status.StatusActivity"/>
-        <activity android:name="jgappsandgames.smartreminderslite.sort.priority.PriorityActivity"/>
+        <activity android:name=".sort.status.StatusActivity"/>
+        <activity android:name=".sort.priority.PriorityActivity"/>
         <activity android:name=".sort.date.DayActivity"/>
         <activity android:name=".sort.date.WeekActivity"/>
         <activity android:name=".sort.date.MonthActivity"/>

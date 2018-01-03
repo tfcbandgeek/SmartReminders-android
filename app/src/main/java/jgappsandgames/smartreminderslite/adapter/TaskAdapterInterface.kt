@@ -1,13 +1,22 @@
 package jgappsandgames.smartreminderslite.adapter
 
+// Android OS
 import android.app.Activity
+
+// Views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
+
+// Log
 import me.jgappsandgames.openlog.Log
 import org.jetbrains.annotations.Nullable
 
@@ -24,7 +33,7 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      *
      * Initializer Used to Handle Situations Where the Tasks are Handed Down in String Form
      */
-    constructor(activity: Activity, listener: TaskFolderHolder.OnTaskChangedListener, tasks: ArrayList<String>, unused: String?):
+    constructor(activity: Activity, listener: TaskFolderHolder.OnTaskChangedListener, tasks: ArrayList<String>, @Nullable unused: String?):
             this(activity, listener, ArrayList()) {
         for (t in tasks) this.tasks.add(Task(t))
     }

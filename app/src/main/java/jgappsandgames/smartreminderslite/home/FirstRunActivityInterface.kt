@@ -1,13 +1,12 @@
 package jgappsandgames.smartreminderslite.home
 
 // Android OS
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
+import android.text.TextWatcher
 
 // Views
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 
@@ -18,18 +17,21 @@ import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 /**
- * SettingsActivityInterface
- * Created by joshua on 12/25/2017.
+ * FirstRunActivityInterface
+ * Created by joshua on 12/30/2017.
+ *
+ * Activity Called on the First Run to Setup the App
  */
-abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View.OnLongClickListener {
-    // Views ---------------------------------------------------------------------------------------
+abstract class FirstRunActivityInterface : Activity(), View.OnClickListener, TextWatcher {
+    // Views
     protected var your_name: EditText? = null
     protected var device_name: EditText? = null
     protected var app_directory: Button? = null
+    protected var settings: Button? = null
     protected var tutorial: Button? = null
+    protected var con: Button? = null
 
     // LifeCycle Methods
-    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,20 +42,19 @@ abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View
         your_name = findViewById(R.id.yourname)
         device_name = findViewById(R.id.device_name)
         app_directory = findViewById(R.id.app_directory)
+        settings = findViewById(R.id.settings)
         tutorial = findViewById(R.id.tutorial)
-
-        (findViewById<Button>(R.id.settings).parent as ViewGroup).removeView(findViewById(R.id.settings))
-        (findViewById<Button>(R.id.con).parent as ViewGroup).removeView(findViewById(R.id.con))
+        con = findViewById(R.id.con)
 
         // Set Text
-        your_name!!.setText(SettingsManager.user_name)
         device_name!!.setText(SettingsManager.device_name)
-        if (SettingsManager.use_external_file) app_directory!!.setText(R.string.save_external)
-        else app_directory!!.setText(R.string.save_app)
 
         // Set Listeners
+        your_name!!.addTextChangedListener(this)
+        device_name!!.addTextChangedListener(this)
         app_directory!!.setOnClickListener(this)
-        app_directory!!.setOnLongClickListener(this)
+        settings!!.setOnClickListener(this)
         tutorial!!.setOnClickListener(this)
+        con!!.setOnClickListener(this)
     }
 }
