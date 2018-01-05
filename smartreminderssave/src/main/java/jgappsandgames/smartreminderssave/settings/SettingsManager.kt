@@ -39,6 +39,7 @@ class SettingsManager {
         private val HAS_PRIORITY_SHORTCUT = "has_priority_shortcut"
         private val HAS_TODAY_SHORTCUT = "has_today_shortcut"
         private val HAS_WEEK_SHORTCUT = "has_week_shortcut"
+        private val HAS_MONTH_SHORTCUT = "has_month_shortcut"
 
         private val HAS_DONE_TUTORIAL = "has_done_tutorial"
         private val LAST_VERSION_SPLASH = "last_version_splash"
@@ -66,6 +67,8 @@ class SettingsManager {
         var has_today_shortcut = false
         @JvmField
         var has_week_shortcut = false
+        @JvmField
+        var has_month_shortcut = false
 
         @JvmField
         var has_done_tutorial = false
@@ -89,6 +92,7 @@ class SettingsManager {
             has_priority_shortcut = false
             has_today_shortcut = false
             has_week_shortcut = false
+            has_month_shortcut = false
 
             has_done_tutorial = false
             last_version_splash = -1
@@ -111,6 +115,7 @@ class SettingsManager {
             has_priority_shortcut = false
             has_today_shortcut = false
             has_week_shortcut = false
+            has_month_shortcut = false
 
             has_done_tutorial = false
             last_version_splash = -1
@@ -144,6 +149,7 @@ class SettingsManager {
             has_status_shortcut = data.optBoolean(HAS_STATUS_SHORTCUT, false)
             has_today_shortcut = data.optBoolean(HAS_TODAY_SHORTCUT, false)
             has_week_shortcut = data.optBoolean(HAS_WEEK_SHORTCUT, false)
+            has_month_shortcut = data.optBoolean(HAS_MONTH_SHORTCUT, false)
             has_priority_shortcut = data.optBoolean(HAS_PRIORITY_SHORTCUT, false)
 
             has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL)
@@ -175,6 +181,7 @@ class SettingsManager {
                 data.put(HAS_PRIORITY_SHORTCUT, has_priority_shortcut)
                 data.put(HAS_TODAY_SHORTCUT, has_today_shortcut)
                 data.put(HAS_WEEK_SHORTCUT, has_week_shortcut)
+                data.put(HAS_MONTH_SHORTCUT, has_month_shortcut)
 
                 data.put(HAS_DONE_TUTORIAL, has_done_tutorial)
                 data.put(LAST_VERSION_SPLASH, last_version_splash)
