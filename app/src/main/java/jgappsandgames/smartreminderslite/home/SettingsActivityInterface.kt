@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CompoundButton
 import android.widget.EditText
+import android.widget.Switch
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -21,12 +23,19 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
  * SettingsActivityInterface
  * Created by joshua on 12/25/2017.
  */
-abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View.OnLongClickListener {
+abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Views ---------------------------------------------------------------------------------------
     protected var your_name: EditText? = null
     protected var device_name: EditText? = null
     protected var app_directory: Button? = null
     protected var tutorial: Button? = null
+
+    protected var tag: Switch? = null
+    protected var priority: Switch? = null
+    protected var status: Switch? = null
+    protected var day: Switch? = null
+    protected var week: Switch? = null
+    protected var month: Switch? = null
 
     // LifeCycle Methods
     @SuppressLint("WrongViewCast")
@@ -44,6 +53,13 @@ abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View
 
         (findViewById<Button>(R.id.settings).parent as ViewGroup).removeView(findViewById(R.id.settings))
         (findViewById<Button>(R.id.con).parent as ViewGroup).removeView(findViewById(R.id.con))
+
+        tag = findViewById(R.id.tag)
+        priority = findViewById(R.id.priority)
+        status = findViewById(R.id.status)
+        day = findViewById(R.id.day)
+        week = findViewById(R.id.week)
+        month = findViewById(R.id.month)
 
         // Set Text
         your_name!!.setText(SettingsManager.user_name)

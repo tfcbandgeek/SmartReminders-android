@@ -28,11 +28,6 @@ import org.jetbrains.annotations.Nullable
  */
 open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolderHolder.OnTaskChangedListener, val tasks: ArrayList<Task>): BaseAdapter() {
     // Secondary Initializer -----------------------------------------------------------------------
-    /**
-     * Secondary Initializer
-     *
-     * Initializer Used to Handle Situations Where the Tasks are Handed Down in String Form
-     */
     constructor(activity: Activity, listener: TaskFolderHolder.OnTaskChangedListener, tasks: ArrayList<String>, @Nullable unused: String?):
             this(activity, listener, ArrayList()) {
         for (t in tasks) this.tasks.add(Task(t))

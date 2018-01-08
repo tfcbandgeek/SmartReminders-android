@@ -1,8 +1,10 @@
 <resources>
+    <string name="app_name">Smart Reminders Lite</string>
+
     <string name="about">About</string>
+    <string name="action_settings">Settings</string>
     <string name="add">Add</string>
     <string name="api">API</string>
-    <string name="app_name">Smart Reminders Lite</string>
 
     <string name="build">Build</string>
 
@@ -14,6 +16,7 @@
     <string name="con">Continue</string>
 
     <string name="day">Day</string>
+    <string name="day_shortcut">Day Shortcut</string>
     <string name="device_name">Device Name</string>
     <string name="done">Done</string>
     <string name="down">Down</string>
@@ -28,7 +31,10 @@
     <string name="low">Low</string>
 
     <string name="month">Month</string>
+    <string name="month_shortcut">Month Shortcut</string>
 
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="next">Next</string>
     <string name="no_date">No Date</string>
     <string name="no_tags">No Tags</string>
@@ -39,6 +45,7 @@
 
     <string name="prev">Prev</string>
     <string name="priority">Priority</string>
+    <string name="priority_shortcut">Priority Shortcut</string>
 
     <string name="save">Save</string>
     <string name="save_alert_message">Save the Information to the Documents Folder.   This requires an additional permission but allows the information to be shared with other apps.</string>
@@ -51,7 +58,9 @@
     <string name="saving_to_app_directory">Saving to App Directory</string>
     <string name="stared">Stared</string>
     <string name="status">Status</string>
+    <string name="status_shortcut">Status Shortcut</string>
 
+    <string name="tag_shortcut">Tag Shortcut</string>
     <string name="tags">Tags</string>
     <string name="tasks">Tasks</string>
     <string name="text">Text</string>
@@ -64,6 +73,7 @@
     <string name="version">Version</string>
 
     <string name="week">Week</string>
+    <string name="week_shortcut">Week Shortcut</string>
 
     <string name="your_name">Your Name</string>
 </resources>

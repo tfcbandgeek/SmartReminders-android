@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -56,5 +57,14 @@ abstract class FirstRunActivityInterface : Activity(), View.OnClickListener, Tex
         settings!!.setOnClickListener(this)
         tutorial!!.setOnClickListener(this)
         con!!.setOnClickListener(this)
+
+        // Hide Views
+        val parent = findViewById<LinearLayout>(R.id.list)
+        parent.removeView(findViewById(R.id.tag))
+        parent.removeView(findViewById(R.id.priority))
+        parent.removeView(findViewById(R.id.status))
+        parent.removeView(findViewById(R.id.day))
+        parent.removeView(findViewById(R.id.week))
+        parent.removeView(findViewById(R.id.month))
     }
 }

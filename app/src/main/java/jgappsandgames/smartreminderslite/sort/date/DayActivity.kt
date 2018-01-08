@@ -18,7 +18,7 @@ import jgappsandgames.smartreminderssave.MasterManager
  */
 class DayActivity: DayActivityInterface() {
     // Data
-    private var day_active: Calendar? = null
+    private var day_active: Calendar? = Calendar.getInstance()
 
     // LifeCycle Methods
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +68,10 @@ class DayActivity: DayActivityInterface() {
 
     // Private Class Methods
     override fun setTitle() {
-        title = (day_active!!.get(Calendar.MONTH) + 1).toString() + "/" + day_active!!.get(Calendar.DAY_OF_MONTH).toString()
+        try {
+            title = (day_active!!.get(Calendar.MONTH) + 1).toString() + "/" + day_active!!.get(Calendar.DAY_OF_MONTH).toString()
+        } catch (e: NullPointerException) {
+            title = "Error"
+        }
     }
 }
