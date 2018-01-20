@@ -22,7 +22,7 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  */
 class SettingsManager {
     companion object {
-        // Filepath
+        // Constants -------------------------------------------------------------------------------
         private val FILENAME = "settings.srj"
 
         // Save Data
@@ -44,7 +44,7 @@ class SettingsManager {
         private val HAS_DONE_TUTORIAL = "has_done_tutorial"
         private val LAST_VERSION_SPLASH = "last_version_splash"
 
-        // Data
+        // Data ------------------------------------------------------------------------------------
         private var version = 0
         @JvmField
         var meta = JSONObject()
@@ -75,7 +75,7 @@ class SettingsManager {
         @JvmField
         var last_version_splash = 0
 
-        // Management Methods
+        // Management Methods ----------------------------------------------------------------------
         @JvmStatic
         fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()

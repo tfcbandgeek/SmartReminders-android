@@ -120,47 +120,13 @@ class DateManager {
         }
 
         /**
-         * GetToday (Depricated)
-         *
-         * @return Today's Day
-         */
-        @Deprecated("Removal in 11.1 or 11.2")
-        @JvmStatic
-        fun getToday(): Day {
-            Exception.f("DateManager", "GetToday Depricated")
-            Log.d("DateManager", "GetToday Called")
-            return getWeek(0).getDay(Calendar.getInstance())
-        }
-
-        /**
-         * GetDay (Depricated)
-         *
-         * This Method Will Soon Return The Day Object
-         *
-         * @param date_active The Day We Want to Get
-         * @return The Tasks For This Day
-         */
-        @Deprecated("Will Soon Return the Day Object (11.1 or 11.2")
-        @JvmStatic
-        fun getDay(date_active: Calendar): ArrayList<Task> {
-            Exception.f("DateManager", "GetDay Depricated")
-            Log.d("DateManager", "GetDay Called")
-            if (date_active.before(getWeek(0).getStart())) return ArrayList()
-
-            if (weeks == null) create()
-            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
-
-            return ArrayList()
-        }
-
-        /**
          * GetDayObject
          *
          * @param date_active The Day We Want to Get
          * @return The Day we Want to Get
          */
         @JvmStatic
-        fun getDayObject(date_active: Calendar): Day {
+        fun getDay(date_active: Calendar): Day {
             Log.d("DateManager", "GetDayObject Called")
             if (date_active.before(getWeek(0).getStart())) return Day(date_active)
 

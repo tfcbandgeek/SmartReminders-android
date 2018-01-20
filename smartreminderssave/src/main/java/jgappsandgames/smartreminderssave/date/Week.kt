@@ -11,7 +11,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * Created by joshua on 12/12/2017.
  */
 class Week(start: Calendar) {
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private var sunday = Day(start.clone() as Calendar)
     private var monday: Day
     private var tuesday: Day
@@ -20,6 +20,7 @@ class Week(start: Calendar) {
     private var friday: Day
     private var saturday: Day
 
+    // Constructor(s) ------------------------------------------------------------------------------
     init {
         start.add(Calendar.DAY_OF_WEEK, 1)
         monday = Day(start.clone() as Calendar)
@@ -40,6 +41,7 @@ class Week(start: Calendar) {
         saturday = Day(start.clone() as Calendar)
     }
 
+    // Task Management Methods ---------------------------------------------------------------------
     fun addTask(task: Task): Boolean {
         if (task.getDateDue()!!.get(Calendar.YEAR) >= sunday.day.get(Calendar.YEAR)) {
             if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) >= sunday.day.get(Calendar.DAY_OF_YEAR)) {
@@ -148,6 +150,15 @@ class Week(start: Calendar) {
         return false
     }
 
+    // Getters -------------------------------------------------------------------------------------
+    fun getStart(): Calendar {
+        return sunday.day
+    }
+
+    fun getEnd(): Calendar {
+        return saturday.day
+    }
+
     fun getDay(instance: Calendar): Day {
         when (instance.get(Calendar.DAY_OF_WEEK)) {
             Calendar.SUNDAY -> return sunday
@@ -159,16 +170,7 @@ class Week(start: Calendar) {
             Calendar.SATURDAY -> return saturday
         }
 
-        // Todo: Return Specialized Day Class
         return Day(Calendar.getInstance())
-    }
-
-    fun getStart(): Calendar {
-        return sunday.day
-    }
-
-    fun getEnd(): Calendar {
-        return saturday.day
     }
 
     fun getAllTasks(): ArrayList<Task> {

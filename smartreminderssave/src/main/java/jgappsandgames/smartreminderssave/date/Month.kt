@@ -11,7 +11,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * Created by joshua on 12/12/2017.
  */
 class Month(start: Calendar) {
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private var days_in_month = start.getMaximum(Calendar.DAY_OF_MONTH)
     private var month_starts_on = start.get(Calendar.DAY_OF_WEEK)
 
@@ -21,17 +21,18 @@ class Month(start: Calendar) {
     private var days: ArrayList<Day>?
 
     init {
-
         days = ArrayList(days_in_month)
         for (i in 0 until days_in_month) {
             days!!.add(Day(start.clone() as Calendar))
             start.add(Calendar.DAY_OF_MONTH, 1)
         }
+
         end = days!![days_in_month - 1].day
         end.add(Calendar.DAY_OF_MONTH, 1)
     }
 
-    // Task Management Methods
+    // Task Management Methods ---------------------------------------------------------------------
+    // TODO: CLEAN UP AL of the if stements here
     fun addTask(task: Task): Boolean {
         if (task.getDateDue()!!.get(Calendar.YEAR) >= start.get(Calendar.YEAR)) {
             if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) >= start.get(Calendar.MONTH)) {
@@ -70,7 +71,7 @@ class Month(start: Calendar) {
         return false
     }
 
-    // Getters
+    // Getters -------------------------------------------------------------------------------------
     fun getDay(instance: Calendar): Day? {
         if (instance.get(Calendar.YEAR) >= start.get(Calendar.YEAR)) {
             if (instance.get(Calendar.DAY_OF_YEAR) >= start.get(Calendar.MONTH)) {
@@ -86,7 +87,6 @@ class Month(start: Calendar) {
             }
         }
 
-        // Todo: Return Specialized Day Class
         return null
     }
 
