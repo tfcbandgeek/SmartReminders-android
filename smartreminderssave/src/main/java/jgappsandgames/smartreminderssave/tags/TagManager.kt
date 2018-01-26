@@ -23,21 +23,21 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  */
 class TagManager {
     companion object {
-        // Constants
+        // Constants -------------------------------------------------------------------------------
         private val FILENAME = "tagmanager.srj"
 
         private val VERSION = "version"
         private val META = "meta"
         private val TAGS = "tags"
 
-        // Data
+        // Data ------------------------------------------------------------------------------------
         private var version = 0
         @JvmField
         var meta: JSONObject = JSONObject()
         @JvmField
         var tags: ArrayList<String> = ArrayList()
 
-        // Management Methods
+        // Management Methods ----------------------------------------------------------------------
         @JvmStatic
         fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
@@ -71,7 +71,7 @@ class TagManager {
             JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON())
         }
 
-        // JSON Management Methods
+        // JSON Management Methods -----------------------------------------------------------------
         @JvmStatic
         fun loadJSON(data: JSONObject?) {
             if (data == null) {
@@ -112,7 +112,7 @@ class TagManager {
             return data
         }
 
-        // TagManagement Methods
+        // Tag Management Methods ------------------------------------------------------------------
         @JvmStatic
         fun addTag(tag: String): Boolean {
             // Check to See if the Tag is equal to ""
@@ -138,7 +138,7 @@ class TagManager {
             tags.remove(tag)
 
             // Clear Tags from Tasks
-            for (t in TaskManager.tasks!!) {
+            for (t in TaskManager.tasks) {
                 val task = Task(t)
                 task.removeTag(tag).save()
             }

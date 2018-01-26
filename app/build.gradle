@@ -4,13 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
+
     defaultConfig {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 18020001
-        versionName "18.2.0 Alpha 1"
+        versionCode 18020002
+        versionName "18.2.0 Alpha 2"
     }
 
     buildTypes {

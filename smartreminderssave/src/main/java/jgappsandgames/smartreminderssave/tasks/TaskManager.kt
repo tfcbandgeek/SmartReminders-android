@@ -22,10 +22,9 @@ import me.jgappsandgames.openlog.Log
  */
 class TaskManager {
     companion object {
-        // Filepath Constant
+        // Constants -------------------------------------------------------------------------------
         private val FILENAME = "taskmanager.srj"
 
-        // Save Constants
         private val VERSION = "version"
         private val META = "meta"
         private val HOME = "home"
@@ -33,7 +32,7 @@ class TaskManager {
         private val ARCHIVED = "archived"
         private val DELETED = "deleted"
 
-        // Data
+        // Data ------------------------------------------------------------------------------------
         private var version: Int = 0
         @JvmField
         var meta: JSONObject = JSONObject()
@@ -46,7 +45,7 @@ class TaskManager {
         @JvmField
         var deleted: ArrayList<String> = ArrayList()
 
-        // Management Methods
+        // Management Methods ----------------------------------------------------------------------
         @JvmStatic
         fun create() {
             Log.d("TaskManager", "Create Called")
@@ -105,7 +104,7 @@ class TaskManager {
             archived = ArrayList()
         }
 
-        // JSONManagement Methods
+        // JSONManagement Methods ------------------------------------------------------------------
         @JvmStatic
         fun loadJSON(data: JSONObject?) {
             Log.d("TaskManager", "LoadJSON Called")
@@ -184,7 +183,7 @@ class TaskManager {
             return data
         }
 
-        // Task Methods
+        // Task Methods ----------------------------------------------------------------------------
         @JvmStatic
         fun archiveTask(task: Task) {
             Log.d("TaskManager", "ArchiveTask Called")

@@ -8,7 +8,6 @@ import android.content.Context
 
 // OpenLog
 import me.jgappsandgames.openlog.Config
-import me.jgappsandgames.openlog.FileWriter
 import me.jgappsandgames.openlog.Exception
 import me.jgappsandgames.openlog.Log
 
@@ -35,6 +34,7 @@ class MasterManager {
          * Called to Possibly load the Log System, And Create the Application Data
          * @param context The Application Context
          */
+        @Deprecated("To be Removed in 12")
         @JvmStatic
         fun create(context: Context) {
             if (!log_loaded) loadLog()
@@ -54,8 +54,45 @@ class MasterManager {
          * Called to Possibly load the Log System, And Load the Application Data
          * @param context The Application context
          */
+        @Deprecated("To be Removed in 12")
         @JvmStatic
         fun load(context: Context) {
+            if (!log_loaded) loadLog()
+
+            Log.d("MasterManager", "Load Called")
+            SettingsManager.load()
+            TaskManager.load()
+            TagManager.load()
+            ThemeManager.load()
+        }
+
+        /**
+         * Create
+         *
+         * Called to Possibly load the Log System, And Create the Application Data
+         * @param context The Application Context
+         */
+        @JvmStatic
+        fun create() {
+            if (!log_loaded) loadLog()
+
+            Log.d("MasterManager", "Create Called")
+            SettingsManager.create()
+            TaskManager.create()
+            TagManager.create()
+            ThemeManager.create()
+
+            save()
+        }
+
+        /**
+         * Load
+         *
+         * Called to Possibly load the Log System, And Load the Application Data
+         * @param context The Application context
+         */
+        @JvmStatic
+        fun load() {
             if (!log_loaded) loadLog()
 
             Log.d("MasterManager", "Load Called")

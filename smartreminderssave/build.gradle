@@ -3,13 +3,13 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 11020000
-        versionName "11.2.0 Alpha 1"
+        versionCode 11020001
+        versionName "11.2.0 Alpha 2"
     }
 
     buildTypes {

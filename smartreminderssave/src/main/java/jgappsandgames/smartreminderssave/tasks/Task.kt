@@ -1,13 +1,18 @@
 package jgappsandgames.smartreminderssave.tasks
 
-import jgappsandgames.smartreminderssave.utility.API
-import jgappsandgames.smartreminderssave.utility.FileUtility
-import jgappsandgames.smartreminderssave.utility.JSONUtility
+// Java
+import java.io.File
+import java.util.*
+
+// JSON
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.File
-import java.util.*
+
+// Save
+import jgappsandgames.smartreminderssave.utility.API
+import jgappsandgames.smartreminderssave.utility.FileUtility
+import jgappsandgames.smartreminderssave.utility.JSONUtility
 
 /**
  * Task
@@ -15,7 +20,7 @@ import java.util.*
  */
 class Task() {
     companion object {
-        // Save Constants
+        // Constants -------------------------------------------------------------------------------
         private val PARENT = "parent"
         private val VERSION = "version"
         private val META = "meta"
@@ -60,7 +65,7 @@ class Task() {
         val STATUS_DONE = 10
     }
 
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private var filename: String? = null
     private var parent: String? = null
     private var version: Int = 0
@@ -85,7 +90,7 @@ class Task() {
     private var complete_on_time: Boolean = false
     private var complete_late: Boolean = false
 
-    // Initializers
+    // Initializers --------------------------------------------------------------------------------
     constructor(filename: String): this() {
         this.filename = filename
         loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
@@ -125,7 +130,7 @@ class Task() {
         loadJSON(data)
     }
 
-    // Management Methods
+    // Management Methods --------------------------------------------------------------------------
     fun save() {
         JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
     }
@@ -135,7 +140,7 @@ class Task() {
         file.delete()
     }
 
-    // JSON Management Methods
+    // JSON Management Methods ---------------------------------------------------------------------
     fun loadJSON(data: JSONObject?) {
         if (data == null) {
             title = "Null Task Load Error"
@@ -231,7 +236,7 @@ class Task() {
         if (JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))!!.after(date_updated)) loadJSON(data)
     }
 
-    // Getters
+    // Getters -------------------------------------------------------------------------------------
     fun getFilename(): String {
         return filename!!
     }
@@ -323,15 +328,25 @@ class Task() {
         return priority
     }
 
+    @Deprecated("To be Removed in 12")
     fun onTime(): Boolean {
         return complete_on_time
     }
 
+    fun completedOnTime(): Boolean {
+        return complete_on_time
+    }
+
+    @Deprecated("To be Removed in 12")
     fun late(): Boolean {
         return complete_late
     }
 
-    // Setters
+    fun completedLate(): Boolean {
+        return complete_late
+    }
+
+    // Setters -------------------------------------------------------------------------------------
     fun setDateDue(calendar: Calendar?): Task {
         if (calendar == null) date_due = null
         else date_due = calendar.clone() as Calendar
@@ -379,12 +394,11 @@ class Task() {
         if (mark) {
             status = STATUS_DONE
 
-            if (date_due == null)
-                complete_on_time = true
-            else if (date_due!!.before(Calendar.getInstance()))
-                complete_late = true
-            else
-                complete_on_time = true
+            when {
+                date_due == null -> complete_on_time = true
+                date_due!!.before(Calendar.getInstance()) -> complete_late = true
+                else -> complete_on_time = true
+            }
         } else {
             status = 0
 
