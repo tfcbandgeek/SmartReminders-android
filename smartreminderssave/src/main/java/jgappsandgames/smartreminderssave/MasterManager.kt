@@ -12,6 +12,7 @@ import me.jgappsandgames.openlog.Exception
 import me.jgappsandgames.openlog.Log
 
 // Save Library
+import jgappsandgames.smartreminderssave.planner.PlannerManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
@@ -29,26 +30,6 @@ class MasterManager {
         var log_loaded = false
 
         /**
-         * Create
-         *
-         * Called to Possibly load the Log System, And Create the Application Data
-         * @param context The Application Context
-         */
-        @Deprecated("To be Removed in 12")
-        @JvmStatic
-        fun create(context: Context) {
-            if (!log_loaded) loadLog()
-
-            Log.d("MasterManager", "Create Called")
-            SettingsManager.create()
-            TaskManager.create()
-            TagManager.create()
-            ThemeManager.create()
-
-            save()
-        }
-
-        /**
          * Load
          *
          * Called to Possibly load the Log System, And Load the Application Data
@@ -64,6 +45,7 @@ class MasterManager {
             TaskManager.load()
             TagManager.load()
             ThemeManager.load()
+            PlannerManager.load()
         }
 
         /**
@@ -81,6 +63,7 @@ class MasterManager {
             TaskManager.create()
             TagManager.create()
             ThemeManager.create()
+            PlannerManager.load()
 
             save()
         }
@@ -100,6 +83,7 @@ class MasterManager {
             TaskManager.load()
             TagManager.load()
             ThemeManager.load()
+            PlannerManager.load()
         }
 
         /**
@@ -114,6 +98,7 @@ class MasterManager {
             TaskManager.save()
             TagManager.save()
             ThemeManager.save()
+            PlannerManager.save()
         }
 
         /**

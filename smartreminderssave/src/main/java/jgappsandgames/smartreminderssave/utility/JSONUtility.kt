@@ -11,7 +11,6 @@ import java.util.Calendar
 
 // Android OS
 import android.os.Build
-import me.jgappsandgames.openlog.Log
 
 // JSON
 import org.json.JSONException
@@ -43,8 +42,9 @@ class JSONUtility {
                     else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
                             builder.append(t).append(System.lineSeparator())
-                        else
+                        else {
                             builder.append(t).append(System.getProperty("line.separator"))
+                        }
                     }
                 }
                 return JSONObject(builder.toString())
@@ -55,7 +55,6 @@ class JSONUtility {
                 e.printStackTrace()
                 return JSONObject()
             }
-
         }
 
         // Called to Save JSON to File

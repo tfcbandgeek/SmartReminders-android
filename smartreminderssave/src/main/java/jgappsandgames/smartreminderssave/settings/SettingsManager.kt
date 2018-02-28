@@ -44,6 +44,8 @@ class SettingsManager {
         private val HAS_DONE_TUTORIAL = "has_done_tutorial"
         private val LAST_VERSION_SPLASH = "last_version_splash"
 
+        private val API_LEVEL = "API"
+
         // Data ------------------------------------------------------------------------------------
         private var version = 0
         @JvmField
@@ -75,12 +77,15 @@ class SettingsManager {
         @JvmField
         var last_version_splash = 0
 
+        @JvmField
+        var api_level: Int = 12
+
         // Management Methods ----------------------------------------------------------------------
         @JvmStatic
         fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
 
-            version = API.MANAGEMENT
+            version = API.SHRINKING
 
             user_name = ""
             device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT
@@ -99,6 +104,9 @@ class SettingsManager {
 
             // API 11
             meta = JSONObject()
+
+            // API 12
+            api_level = 12
         }
 
         @JvmStatic
@@ -122,6 +130,9 @@ class SettingsManager {
 
             // API 11
             meta = JSONObject()
+
+            // API 12
+            api_level = 12
         }
 
         @JvmStatic
@@ -161,6 +172,13 @@ class SettingsManager {
             } else {
                 meta = JSONObject()
             }
+
+            // API 12
+            if (version >= API.SHRINKING) {
+                api_level = data.optInt(API_LEVEL, 11)
+            } else {
+                api_level = 11
+            }
         }
 
         @JvmStatic
@@ -187,6 +205,7 @@ class SettingsManager {
                 data.put(LAST_VERSION_SPLASH, last_version_splash)
 
                 data.put(META, meta)
+                data.put(API_LEVEL, api_level)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
