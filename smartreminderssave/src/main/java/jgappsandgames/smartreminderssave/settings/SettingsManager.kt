@@ -26,25 +26,38 @@ class SettingsManager {
         private val FILENAME = "settings.srj"
 
         // Save Data
-        private val VERSION = "version"
-        private val META = "meta"
+        private const val VERSION = "version"
+        private const val META = "meta"
 
-        private val USER_NAME = "user_name"
-        private val DEVICE_NAME = "device_name"
+        private const val USER_NAME = "user_name"
+        private const val DEVICE_NAME = "device_name"
 
-        private val USE_EXTERNAL_FILE = "external_file"
+        private const val USE_EXTERNAL_FILE = "external_file"
 
-        private val HAS_TAG_SHORTCUT = "has_tag_shortcut"
-        private val HAS_STATUS_SHORTCUT = "has_status_shortcut"
-        private val HAS_PRIORITY_SHORTCUT = "has_priority_shortcut"
-        private val HAS_TODAY_SHORTCUT = "has_today_shortcut"
-        private val HAS_WEEK_SHORTCUT = "has_week_shortcut"
-        private val HAS_MONTH_SHORTCUT = "has_month_shortcut"
+        private const val HAS_TAG_SHORTCUT = "has_tag_shortcut"
+        private const val HAS_STATUS_SHORTCUT = "has_status_shortcut"
+        private const val HAS_PRIORITY_SHORTCUT = "has_priority_shortcut"
+        private const val HAS_TODAY_SHORTCUT = "has_today_shortcut"
+        private const val HAS_WEEK_SHORTCUT = "has_week_shortcut"
+        private const val HAS_MONTH_SHORTCUT = "has_month_shortcut"
 
-        private val HAS_DONE_TUTORIAL = "has_done_tutorial"
-        private val LAST_VERSION_SPLASH = "last_version_splash"
+        private const val HAS_DONE_TUTORIAL = "has_done_tutorial"
+        private const val LAST_VERSION_SPLASH = "last_version_splash"
 
-        private val API_LEVEL = "API"
+        private const val API_LEVEL = "API"
+        private const val HOME_SCREEN = "home_screen"
+
+        // Home Screen
+        const val NO_HOME: Int = 0
+        const val PLANNER_HOME: Int = 1
+        const val TASK_HOME: Int = 2
+        const val ALL_HOME: Int = 3
+        const val DAY_HOME: Int = 4
+        const val WEEK_HOME: Int = 5
+        const val MONTH_HOME: Int = 6
+        const val TAG_HOME: Int = 7
+        const val STATUS_HOME: Int = 8
+        const val PRIORITY_HOME: Int = 9
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0
@@ -79,6 +92,8 @@ class SettingsManager {
 
         @JvmField
         var api_level: Int = 12
+        @JvmField
+        var home_screen: Int = 0
 
         // Management Methods ----------------------------------------------------------------------
         @JvmStatic
@@ -107,6 +122,7 @@ class SettingsManager {
 
             // API 12
             api_level = 12
+            home_screen = NO_HOME
         }
 
         @JvmStatic
@@ -133,6 +149,7 @@ class SettingsManager {
 
             // API 12
             api_level = 12
+            home_screen = NO_HOME
         }
 
         @JvmStatic
@@ -176,8 +193,10 @@ class SettingsManager {
             // API 12
             if (version >= API.SHRINKING) {
                 api_level = data.optInt(API_LEVEL, 11)
+                home_screen = data.optInt(HOME_SCREEN, NO_HOME)
             } else {
                 api_level = 11
+                home_screen = NO_HOME
             }
         }
 
@@ -206,6 +225,7 @@ class SettingsManager {
 
                 data.put(META, meta)
                 data.put(API_LEVEL, api_level)
+                data.put(HOME_SCREEN, home_screen)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
