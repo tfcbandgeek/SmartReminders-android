@@ -4,7 +4,9 @@ package me.jgappsandgames.openlog;
  * Exception Class
  *
  * The Exception Class should be used to report errors within the app that do not lead to the app crashing.
+ * Version: 1.3.0
  */
+@SuppressWarnings("unused")
 public class Exception {
     // ---- ---- ---- ---- ---- ---- ---- ---- ---- Exception Levels ---- ---- ---- ---- ---- ---- ---- ---- ----
     /**

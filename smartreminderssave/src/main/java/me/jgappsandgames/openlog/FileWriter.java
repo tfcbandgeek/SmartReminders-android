@@ -8,7 +8,9 @@ import java.util.Calendar;
 
 /**
  * FileWriter Implements: Writer
+ * Version: 1.3.0
  */
+@SuppressWarnings("unused")
 public class FileWriter implements Writer {
     // ---- ---- ---- ---- ---- ---- ---- ---- ---- Writers ---- ---- ---- ---- ---- ---- ---- ---- ----
     /**
@@ -73,12 +75,15 @@ public class FileWriter implements Writer {
         switch (code) {
             // Log IInformation
             case Log.VERBOSE:
+                if (Config.getInstance().isDebug()) return;
                 text.append("VERBOSE:  ");
                 break;
             case Log.DEBUG:
+                if (Config.getInstance().isDebug()) return;
                 text.append("DEBUG:    ");
                 break;
             case Log.TRACK:
+                if (Config.getInstance().isDebug()) return;
                 text.append("TRACK:    ");
                 break;
             case Log.INFO:
@@ -90,9 +95,11 @@ public class FileWriter implements Writer {
 
             // Exception Information
             case Exception.EXPECTED:
+                if (Config.getInstance().isDebug()) return;
                 text.append("Expected: ");
                 break;
             case Exception.FIX:
+                if (Config.getInstance().isDebug()) return;
                 text.append("Fix:      ");
                 break;
             case Exception.PROBLEM:
@@ -101,6 +108,7 @@ public class FileWriter implements Writer {
 
             // Error Information
             case Error.DEBUG_ERROR:
+                if (Config.getInstance().isDebug()) return;
                 text.append("D_Error:  ");
                 break;
 

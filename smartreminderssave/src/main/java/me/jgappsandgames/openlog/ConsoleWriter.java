@@ -1,11 +1,13 @@
 package me.jgappsandgames.openlog;
 
+// Java
 import java.util.Calendar;
 
 /**
  * ConsoleWriter Implements: Writer
  *
  * Writes to the Console
+ * Version: 1.3.0
  */
 public class ConsoleWriter implements Writer {
     // ---- ---- ---- ---- ---- ---- ---- ---- ---- Visible Methods ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -44,12 +46,15 @@ public class ConsoleWriter implements Writer {
         switch (code) {
             // Log IInformation
             case Log.VERBOSE:
+                if (Config.getInstance().isDebug()) return;
                 text.append("VERBOSE:  ");
                 break;
             case Log.DEBUG:
+                if (Config.getInstance().isDebug()) return;
                 text.append("DEBUG:    ");
                 break;
             case Log.TRACK:
+                if (Config.getInstance().isDebug()) return;
                 text.append("TRACK:    ");
                 break;
             case Log.INFO:
@@ -61,9 +66,11 @@ public class ConsoleWriter implements Writer {
 
             // Exception Information
             case Exception.EXPECTED:
+                if (Config.getInstance().isDebug()) return;
                 text.append("Expected: ");
                 break;
             case Exception.FIX:
+                if (Config.getInstance().isDebug()) return;
                 text.append("Fix:      ");
                 break;
             case Exception.PROBLEM:
@@ -72,6 +79,7 @@ public class ConsoleWriter implements Writer {
 
             // Error Information
             case Error.DEBUG_ERROR:
+                if (Config.getInstance().isDebug()) return;
                 text.append("D_Error:  ");
                 break;
 
@@ -81,6 +89,7 @@ public class ConsoleWriter implements Writer {
 
             // Default
             default:
+                if (Config.getInstance().isDebug()) return;
                 text.append("NA:       ");
                 break;
         }
@@ -94,6 +103,7 @@ public class ConsoleWriter implements Writer {
         // Add The Data
         text.append(data);
 
+        // Print the Log
         System.out.println(text.toString());
     }
 

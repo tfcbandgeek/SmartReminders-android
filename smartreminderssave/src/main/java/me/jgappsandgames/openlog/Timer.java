@@ -5,7 +5,9 @@ package me.jgappsandgames.openlog;
  *
  * A generic Timer class for use with logging
  * (Please not that this class may not accurately show the programs performance)
+ * Version: 1.3.0
  */
+@SuppressWarnings("unused")
 public class Timer {
     /**
      * The Name of the Timer

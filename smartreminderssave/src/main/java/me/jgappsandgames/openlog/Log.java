@@ -4,7 +4,9 @@ package me.jgappsandgames.openlog;
  * Log Class
  *
  * This Class should always be used to monitor what is going on with the application you want to Monitor
+ * Version: 1.3.0
  */
+@SuppressWarnings("unused")
 public class Log {
     // ---- ---- ---- ---- ---- ---- ---- ---- ---- Log Levels ---- ---- ---- ---- ---- ---- ---- ---- ----
     /**
