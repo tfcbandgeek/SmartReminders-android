@@ -8,32 +8,35 @@ package jgappsandgames.smartreminderslite.utility
  */
 class ActivityUtility {
     companion object {
-        // Intent Keys
-        @JvmField
-        val TASK_NAME = "task_name"
-        @JvmField
-        val CHECKPOINT = "checkpoint"
-        @JvmField
-        val TAG_LIST = "tags"
-        @JvmField
-        val TASK_TYPE = "type"
+        // Intent Keys -----------------------------------------------------------------------------
+        const val TASK_NAME = "task_name"
+        const val CHECKPOINT = "checkpoint"
+        const val TAG_LIST = "tags"
+        const val TASK_TYPE = "type"
+        const val HOME_OPTION = "home_option"
 
-        // Request Codes
-        @JvmField
-        val REQUEST_CHECKPOINT = 1
-        @JvmField
-        val REQUEST_Management = 2
-        @JvmField
-        val REQUEST_TAGS = 3
-        @JvmField
-        val REQUEST_EXTERNAL_STORAGE_PERMISSION = 4
+        // Intent Values ---------------------------------------------------------------------------
+        const val HOME_PLANNER: Int = 1
+        const val HOME_TASK: Int = 2
+        const val HOME_ALL: Int = 3
+        const val HOME_DAY: Int = 4
+        const val HOME_WEEK: Int = 5
+        const val HOME_MONTH: Int = 6
+        const val HOME_TAG: Int = 7
+        const val HOME_STATUS: Int = 8
+        const val HOME_PRIORITY: Int = 9
 
-        // Response Codes
-        @JvmField
-        val RESPONSE_CANCEL = -1
-        @JvmField
-        val RESPONSE_NONE = 0
-        @JvmField
-        val RESPONSE_CHANGE = 1
+        // Request Codes ---------------------------------------------------------------------------
+        const val REQUEST_CHECKPOINT = 1
+        @Deprecated("To be removed Soon, Use All Caps version instead")
+        const val REQUEST_Management = 2
+        const val REQUEST_MANAGEMENT = 2
+        const val REQUEST_TAGS = 3
+        const val REQUEST_EXTERNAL_STORAGE_PERMISSION = 4
+
+        // Response Codes --------------------------------------------------------------------------
+        const val RESPONSE_CANCEL = -1
+        const val RESPONSE_NONE = 0
+        const val RESPONSE_CHANGE = 1
     }
 }
