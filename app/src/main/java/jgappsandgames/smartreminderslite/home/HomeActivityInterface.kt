@@ -14,9 +14,6 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 
-// Open Log
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.sort.date.DayActivity
@@ -53,7 +50,6 @@ abstract class HomeActivityInterface: Activity(), View.OnClickListener, View.OnL
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("HomeActivityInterface", "OnCreate Called")
 
         // Set Activity View
         setContentView(R.layout.activity_home)
@@ -76,8 +72,6 @@ abstract class HomeActivityInterface: Activity(), View.OnClickListener, View.OnL
      * Called By the Application
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("HomeActivityInterface", "OnCreateOptionsMenu Called")
-
         menuInflater.inflate(R.menu.menu_home, menu)
         return true
     }
@@ -89,8 +83,6 @@ abstract class HomeActivityInterface: Activity(), View.OnClickListener, View.OnL
      * Called By the Application
      */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.d("HomeActivityInterface", "OnOptionsItemSelected Called")
-
         when(item!!.itemId) {
             R.id.tags -> {
                 startActivity(Intent(this, TagActivity::class.java))

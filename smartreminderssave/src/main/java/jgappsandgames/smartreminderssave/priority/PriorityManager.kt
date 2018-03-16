@@ -1,8 +1,5 @@
 package jgappsandgames.smartreminderssave.priority
 
-// Open Log
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
@@ -30,7 +27,6 @@ class PriorityManager {
          * Called To Sort the Tasks Based On Their Priority
          */
         fun create() {
-            Log.d("PriorityManager", "Create Called")
             folder_list = ArrayList()
             ignored_tasks = ArrayList()
             low_tasks = ArrayList()
@@ -68,7 +64,6 @@ class PriorityManager {
          * @return The List of Folders
          */
         fun getFolder(): ArrayList<Task> {
-            Log.d("PriorityManager", "GetFolder Called")
             if (folder_list == null) create()
             return folder_list!!
         }
@@ -79,7 +74,6 @@ class PriorityManager {
          * @return The List of Ignored Tasks
          */
         fun getIgnored(): ArrayList<Task> {
-            Log.d("PriorityManager", "GetIgnored Called")
             if (ignored_tasks == null) create()
             return ignored_tasks!!
         }
@@ -90,7 +84,6 @@ class PriorityManager {
          * @return The List of Low Priority Tasks
          */
         fun getLow(): ArrayList<Task> {
-            Log.d("PriorityManager", "GetLow Called")
             if (low_tasks == null) create()
             return low_tasks!!
         }
@@ -101,7 +94,6 @@ class PriorityManager {
          * @return The List of Normal Priority Tasks
          */
         fun getNormal(): ArrayList<Task> {
-            Log.d("PriorityManager", "GtNormal Called")
             if (normal_tasks == null) create()
             return normal_tasks!!
         }
@@ -112,7 +104,6 @@ class PriorityManager {
          * @return The List of High Priority Tasks
          */
         fun getHigh(): ArrayList<Task> {
-            Log.d("PriorityManager", "GetHigh Called")
             if (high_priority == null) create()
             return high_priority!!
         }
@@ -123,7 +114,6 @@ class PriorityManager {
          * @return The List of Stared Tasks
          */
         fun getStared(): ArrayList<Task> {
-            Log.d("PriorityManager", "GetStared Called")
             if (stared_priority == null) create()
             return stared_priority!!
         }

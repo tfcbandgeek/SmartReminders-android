@@ -21,9 +21,6 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 
-// Logs
-import me.jgappsandgames.openlog.Log
-
 /**
  * TaskFolderHolder
  * Created by joshua on 12/13/2017.
@@ -46,7 +43,6 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
 
     // Initializer ---------------------------------------------------------------------------------
     init {
-        Log.d("TaskFolderHolder", "Initializer Called")
         this.task = task
         this.activity = activity
         this.onTaskChanged = taskChangedListener
@@ -74,7 +70,6 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
      * Draw Method
      */
     fun setViews() {
-        Log.d("TaskFolderHolder", "SetViews Called")
         title.text = task.getTitle()
         note.text = task.getNote()
 
@@ -88,8 +83,6 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
      * Handles What Happens When The View is Pressed
      */
     override fun onClick(view: View) {
-        Log.d("TaskFolderHolder", "OnClick Pressed")
-
         val intent = Intent(activity, TaskActivity::class.java)
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename())
         activity.startActivity(intent)
@@ -101,7 +94,6 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
      * Handles What Happens on A Long Click
      */
     override fun onLongClick(view: View): Boolean {
-        Log.d("TaskFolderHolder", "OnLongClick Pressed")
         TaskManager.archiveTask(task)
 
         val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -122,7 +114,6 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
      * Handles What Happens When the Checkpoint Changed
      */
     override fun onCheckedChanged(compoundButton: CompoundButton, b: Boolean) {
-        Log.d("TaskFolderHolder", "OnCheckedChanged Pressed")
         task.markComplete(b)
         task.save()
     }

@@ -12,9 +12,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 
-// Log
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
@@ -70,7 +67,6 @@ abstract class TaskActivityInterface:
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TaskActivityInterface", "OnCreate Called")
 
         // Find Type
         var type = intent.getIntExtra(ActivityUtility.TASK_TYPE, - 1)
@@ -128,7 +124,6 @@ abstract class TaskActivityInterface:
      * Called By The Application
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("TaskActivityInterface", "OnCreateOptionsMenu Called")
         menuInflater.inflate(R.menu.menu_task, menu)
         return true
     }
@@ -140,8 +135,6 @@ abstract class TaskActivityInterface:
      * Called By The Application
      */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.d("TaskActivityInterface", "OnOptionsItemSelected Called")
-
         when (item!!.itemId) {
             R.id.save -> {
                 save()

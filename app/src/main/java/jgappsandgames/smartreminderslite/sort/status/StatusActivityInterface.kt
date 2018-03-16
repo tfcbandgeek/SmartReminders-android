@@ -11,9 +11,6 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 
-// Open Log
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
@@ -46,7 +43,6 @@ abstract class StatusActivityInterface: Activity(), TaskFolderHolder.OnTaskChang
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("StatusActivityInterface", "OnCreate Called")
 
         // Set Content View
         setContentView(R.layout.activity_status)
@@ -68,7 +64,6 @@ abstract class StatusActivityInterface: Activity(), TaskFolderHolder.OnTaskChang
      * Called By The Application
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("StatusActivityInterface", "OnCreateOptionsMenu Called")
         menuInflater.inflate(R.menu.menu_auxilary, menu)
         return true
     }
@@ -80,8 +75,6 @@ abstract class StatusActivityInterface: Activity(), TaskFolderHolder.OnTaskChang
      * Called By The Application
      */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.d("StatusActivityInterface", "OnOptionsItemSelected Called")
-
         when (item!!.itemId) {
             R.id.save -> {
                 save()

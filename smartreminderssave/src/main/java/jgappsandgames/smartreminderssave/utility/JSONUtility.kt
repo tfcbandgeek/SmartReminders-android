@@ -11,7 +11,6 @@ import java.util.Calendar
 
 // Android OS
 import android.os.Build
-import me.jgappsandgames.openlog.Log
 
 // JSON
 import org.json.JSONException

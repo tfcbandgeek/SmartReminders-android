@@ -10,10 +10,6 @@ import kotlin.collections.ArrayList
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 
-// Log Code
-import me.jgappsandgames.openlog.Exception
-import me.jgappsandgames.openlog.Log
-
 /**
  * DateManager
  * Created by joshua on 12/12/2017.
@@ -37,7 +33,6 @@ class DateManager {
          */
         @JvmStatic
         fun create() {
-            Log.d("DateManager", "Create Called")
             val tasks = ArrayList<Task>()
             for (t in TaskManager.tasks) {
                 val task = Task(t)
@@ -115,7 +110,6 @@ class DateManager {
          */
         @JvmStatic
         fun getDayCount(): Int {
-            Log.d("DateManager", "GetDayCount Called")
             return getWeekCount() * 7
         }
 
@@ -127,8 +121,6 @@ class DateManager {
         @Deprecated("Removal in 11.1 or 11.2")
         @JvmStatic
         fun getToday(): Day {
-            Exception.f("DateManager", "GetToday Depricated")
-            Log.d("DateManager", "GetToday Called")
             return getWeek(0).getDay(Calendar.getInstance())
         }
 
@@ -143,8 +135,6 @@ class DateManager {
         @Deprecated("Will Soon Return the Day Object (11.1 or 11.2")
         @JvmStatic
         fun getDay(date_active: Calendar): ArrayList<Task> {
-            Exception.f("DateManager", "GetDay Depricated")
-            Log.d("DateManager", "GetDay Called")
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
 
             if (weeks == null) create()
@@ -161,7 +151,6 @@ class DateManager {
          */
         @JvmStatic
         fun getDayObject(date_active: Calendar): Day {
-            Log.d("DateManager", "GetDayObject Called")
             if (date_active.before(getWeek(0).getStart())) return Day(date_active)
 
             if (weeks == null) create()
@@ -178,7 +167,6 @@ class DateManager {
          */
         @JvmStatic
         fun getDayTasks(date_active: Calendar): ArrayList<Task> {
-            Log.d("DateManager", "GetDayTasks Called")
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
 
             if (weeks == null) create()
@@ -194,7 +182,6 @@ class DateManager {
          */
         @JvmStatic
         fun getWeekCount(): Int {
-            Log.d("DateManager", "GetWeekCount Called")
             return weeks!!.size
         }
 
@@ -206,7 +193,6 @@ class DateManager {
          */
         @JvmStatic
         fun getWeek(week: Int): Week {
-            Log.d("DateManager", "GetWeek Called")
             if (weeks == null) create()
             for (w in weeks!!) if (w.key == week) return w.week
 
@@ -222,7 +208,6 @@ class DateManager {
          */
         @JvmStatic
         fun getWeekTasks(week: Int): ArrayList<Task> {
-            Log.d("DateManager", "GetWeekTasks Called")
             if (weeks == null) create()
             for (w in weeks!!) if (w.key == week) return w.week.getAllTasks()
             return ArrayList()
@@ -235,7 +220,6 @@ class DateManager {
          */
         @JvmStatic
         fun getMonthCount(): Int {
-            Log.d("DateManager", "GetMonthCount Called")
             return months!!.size
         }
 
@@ -247,7 +231,6 @@ class DateManager {
          */
         @JvmStatic
         fun getMonth(month: Int): Month {
-            Log.d("DateManager", "GetMonth Called")
             if (months == null) create()
             for (m in months!!) if (m.key == month) return m.month
 
@@ -263,7 +246,6 @@ class DateManager {
          */
         @JvmStatic
         fun getMonthTasks(month: Int): ArrayList<Task> {
-            Log.d("DateManager", "GetMonthTasks Called")
             if (months == null) create()
             for (m in months!!) if (m.key == month) return m.month.getAllTasks()
             return ArrayList()

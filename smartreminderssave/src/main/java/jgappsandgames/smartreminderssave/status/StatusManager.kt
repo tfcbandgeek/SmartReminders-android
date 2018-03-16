@@ -1,8 +1,5 @@
 package jgappsandgames.smartreminderssave.status
 
-// Open Log
-import me.jgappsandgames.openlog.Log
-
 // Save Library
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
@@ -25,7 +22,6 @@ class StatusManager {
 
         // Management Methods ----------------------------------------------------------------------
         fun create() {
-            Log.d("StatusManager", "Create Called")
             folders_list = ArrayList()
             completed_list = ArrayList()
             in_progress_list = ArrayList()
@@ -56,31 +52,26 @@ class StatusManager {
 
         // Getters ---------------------------------------------------------------------------------
         fun getFolders(): ArrayList<Task> {
-            Log.d("StatusManager", "GetFolders Called")
             if (folders_list == null) create()
             return folders_list!!
         }
 
         fun getCompleted(): ArrayList<Task> {
-            Log.d("StatusManager", "GetCompleted Called")
             if (completed_list == null) create()
             return completed_list!!
         }
 
         fun getInProgress(): ArrayList<Task> {
-            Log.d("StatusManager", "GetInProgress Called")
             if (in_progress_list == null) create()
             return in_progress_list!!
         }
 
         fun getIncomplete(): ArrayList<Task> {
-            Log.d("StatusManager", "GetIncomplete Called")
             if (incomplete_list == null) create()
             return incomplete_list!!
         }
 
         fun getOverdue(): ArrayList<Task> {
-            Log.d("StatusManager", "GetOverdue Called")
             if (overdue_list == null) create()
             return overdue_list!!
         }

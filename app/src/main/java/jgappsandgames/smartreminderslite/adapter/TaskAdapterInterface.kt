@@ -9,16 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 
+// Jetbrain
+import org.jetbrains.annotations.Nullable
+
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
-
-// Log
-import me.jgappsandgames.openlog.Log
-import org.jetbrains.annotations.Nullable
 
 /**
  * TaskAdapterInterface
@@ -45,7 +44,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return The Size of the Tasks Array
      */
     override fun getCount(): Int {
-        Log.d("TaskAdapterInterface", "GetCount")
         return tasks.size
     }
 
@@ -55,7 +53,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return The Number of Different View Types
      */
     override fun getViewTypeCount(): Int {
-        Log.d("TaskAdapterInterface", "GetViewTypeCount Called")
         return 3
     }
 
@@ -65,7 +62,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return True, Tasks Have Stable Ids
      */
     override fun hasStableIds(): Boolean {
-        Log.d("TaskAdapterInterface", "HasStableIds Called")
         return true
     }
 
@@ -77,7 +73,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return The Task/Folder At That Location
      */
     override fun getItem(position: Int): Task {
-        Log.d("TaskAdapterInterface", "GetItem Called")
         return tasks[position]
     }
 
@@ -88,7 +83,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return The Id of The Item
      */
     override fun getItemId(position: Int): Long {
-        Log.d("TaskAdapterInterface", "GetItemId Called")
         return getItem(position).getID()
     }
 
@@ -99,7 +93,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return The View Type of the Item
      */
     override fun getItemViewType(position: Int): Int {
-        Log.d("TaskAdapterInterface", "GetItemViewType Called")
         return getItem(position).getType()
     }
 
@@ -112,7 +105,6 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * @return The View Based on The Task at That Position
      */
     override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
-        Log.d("TaskAdapterInterface", "GetView Called")
         if (convert_view == null) {
             val temp: View
             if (getItemViewType(position) == Task.TYPE_TASK) temp = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)

@@ -14,7 +14,6 @@ import org.json.JSONObject
 import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
-import me.jgappsandgames.openlog.Log
 
 /**
  * TaskManager
@@ -49,8 +48,6 @@ class TaskManager {
         // Management Methods
         @JvmStatic
         fun create() {
-            Log.d("TaskManager", "Create Called")
-
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
 
             home = ArrayList()
@@ -64,8 +61,6 @@ class TaskManager {
 
         @JvmStatic
         fun forceCreate() {
-            Log.d("TaskManager", "Create Called")
-
             home = ArrayList()
             tasks = ArrayList()
             archived = ArrayList()
@@ -77,8 +72,6 @@ class TaskManager {
 
         @JvmStatic
         fun load() {
-            Log.d("TaskManager", "Load Called")
-
             try {
                 loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
             } catch (i: IOException) {
@@ -93,14 +86,11 @@ class TaskManager {
 
         @JvmStatic
         fun save() {
-            Log.d("TaskManager", "Save Called")
-
             JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON())
         }
 
         @JvmStatic
         fun clearTasks() {
-            Log.d("TaskManager", "ClearTasks Called")
             for (task in archived) deleteTask(Task(task))
             archived = ArrayList()
         }
@@ -108,10 +98,7 @@ class TaskManager {
         // JSONManagement Methods
         @JvmStatic
         fun loadJSON(data: JSONObject?) {
-            Log.d("TaskManager", "LoadJSON Called")
-
             if (data == null) {
-                Log.v("TaskManager", "Creating TaskManager")
                 create()
                 return
             }
@@ -130,10 +117,7 @@ class TaskManager {
 
             if (h != null && h.length() != 0)
                 for (i in 0 until h.length())
-                    if (!home.contains(h.optString(i))) {
-                        Log.v("TaskManager", "Home: " + h.optString(i))
-                        home.add(h.optString(i))
-                    }
+                    if (!home.contains(h.optString(i))) home.add(h.optString(i))
             if (t != null && t.length() != 0)
                 for (i in 0 until t.length())
                     if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i))
@@ -154,7 +138,6 @@ class TaskManager {
 
         @JvmStatic
         fun saveJSON(): JSONObject {
-            Log.d("TaskManager", "SaveJSON Called")
             val data = JSONObject()
 
             try {
@@ -187,8 +170,6 @@ class TaskManager {
         // Task Methods
         @JvmStatic
         fun archiveTask(task: Task) {
-            Log.d("TaskManager", "ArchiveTask Called")
-
             task.markArchived()
             task.save()
 
@@ -196,7 +177,6 @@ class TaskManager {
                 home.remove(task.getFilename())
             } else if (tasks.contains(task.getParent())) {
                 val parent = Task(task.getParent())
-                Log.d("Error", parent.removeChild(task.getFilename()).toString())
                 parent.save()
             }
 
@@ -207,8 +187,6 @@ class TaskManager {
 
         @JvmStatic
         fun deleteTask(task: Task): Boolean {
-            Log.d("TaskManager", "DeleteTask Called")
-
             if (archived.contains(task.getFilename())) {
                 task.delete()
                 deleted.add(task.getFilename())

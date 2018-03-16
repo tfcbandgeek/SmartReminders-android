@@ -13,9 +13,6 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 
-// Open Log
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
@@ -53,7 +50,6 @@ abstract class PriorityActivityInterface: Activity(), View.OnClickListener, View
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("PriorityActivityInterface", "OnCreate Called")
 
         // Set Activity View
         setContentView(R.layout.activity_priority)
@@ -78,7 +74,6 @@ abstract class PriorityActivityInterface: Activity(), View.OnClickListener, View
      * Called By the Application
      */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d("PriorityActivityInterface", "OnCreateOptionsMenu Called")
         menuInflater.inflate(R.menu.menu_auxilary, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -89,8 +84,6 @@ abstract class PriorityActivityInterface: Activity(), View.OnClickListener, View
      * Called When An Options Item Is Selected
      */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.d("PriorityActivityInterface", "OnOptionsItemSelected Called")
-
         when (item!!.itemId) {
             R.id.save -> {
                 save()

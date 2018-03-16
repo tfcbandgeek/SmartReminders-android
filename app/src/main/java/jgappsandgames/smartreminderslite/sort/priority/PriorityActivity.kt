@@ -8,10 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 
-// Open Log
-import me.jgappsandgames.openlog.Exception
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.FirstRun
@@ -45,8 +41,6 @@ class PriorityActivity: PriorityActivityInterface() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("PriorityActivity", "OnCreate Called")
-
         // Load Filepath
         FileUtility.loadFilePaths(this)
 
@@ -65,7 +59,6 @@ class PriorityActivity: PriorityActivityInterface() {
      */
     override fun onResume() {
         super.onResume()
-        Log.d("PriorityActivity", "OnResume Called")
 
         // Load Priority Manager
         PriorityManager.create()
@@ -90,9 +83,6 @@ class PriorityActivity: PriorityActivityInterface() {
      */
     override fun onPause() {
         super.onPause()
-        Log.d("PriorityActivity", "OnPause Called")
-
-        // Save
         save()
     }
 
@@ -104,8 +94,6 @@ class PriorityActivity: PriorityActivityInterface() {
      * Called By The Application
      */
     override fun onClick(view: View) {
-        Log.d("PriorityActivity", "OnClick Called")
-
         // Up Button
         if (view == up) moveUp()
 
@@ -120,7 +108,6 @@ class PriorityActivity: PriorityActivityInterface() {
      * Called By The Application
      */
     override fun onLongClick(view: View): Boolean {
-        Exception.e("PriorityActivity", "OnLongClick To Be Implemented")
         return false
     }
 
@@ -131,7 +118,6 @@ class PriorityActivity: PriorityActivityInterface() {
      * Called When A Task In One Of The Adapters Changes
      */
     override fun onTaskChanged() {
-        Log.d("PriorityActivity", "OnTaskChanged Called")
         onResume()
     }
 
@@ -142,8 +128,6 @@ class PriorityActivity: PriorityActivityInterface() {
      * Called to Set The Title and The Text in The Buttons
      */
     private fun setTitle() {
-        Log.d("PriorityActivity", "SetTittle Called")
-
         when (position) {
             1 -> {
                 title = "Ignore"
@@ -187,7 +171,6 @@ class PriorityActivity: PriorityActivityInterface() {
      * Called To Set The Adapter Currently Active
      */
     private fun setAdapter() {
-        Log.d("PriorityActivity", "SetAdapter Called")
         when (position) {
             1 -> {
                 if (ignore == null) ignore = PriorityAdapter(this, PriorityManager.getIgnored())

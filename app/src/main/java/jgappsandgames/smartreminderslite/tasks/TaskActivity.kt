@@ -20,9 +20,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-// Log
-import me.jgappsandgames.openlog.Log
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.FirstRun
@@ -68,8 +65,6 @@ class TaskActivity: TaskActivityInterface() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TaskActivity", "OnCreate Called")
-
         // Load Filepaths
         FileUtility.loadFilePaths(this)
 
@@ -88,8 +83,6 @@ class TaskActivity: TaskActivityInterface() {
      */
     override fun onResume() {
         super.onResume()
-        Log.d("TaskActivity", "OnResume Called")
-
         // Load Data
         task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
 
@@ -125,8 +118,6 @@ class TaskActivity: TaskActivityInterface() {
      */
     override fun onPause() {
         super.onPause()
-        Log.d("TaskActivity", "OnPause Called")
-
        save()
     }
 
@@ -139,7 +130,6 @@ class TaskActivity: TaskActivityInterface() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("TaskActivity", "OnActivityResult Called")
 
         when (requestCode) {
         // Checkpoint Result
@@ -186,8 +176,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called By The Application
      */
     override fun onClick(button: View?) {
-        Log.d("TaskActivity", "OnClick Called")
-
         // Fab Click
         if (button == fab) {
             // Called in A Folder
@@ -253,8 +241,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called By The Application
      */
     override fun onLongClick(button: View?): Boolean {
-        Log.d("TaskActivity", "OnLongClick Called")
-
         // FAB Click
         if (button == fab) {
             if (task!!.getType() == Task.TYPE_FLDR) {
@@ -310,8 +296,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called By The Application
      */
     override fun afterTextChanged(editable: Editable?) {
-        Log.d("TaskActivity", "AfterTextChanged Called")
-
         task!!.setTitle(title!!.text.toString())
         task!!.setNote(note!!.text.toString())
     }
@@ -338,8 +322,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called By The Application
      */
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-        Log.d("TaskActivity","OnProgressChanged")
-
         task!!.setPriority(priority!!.progress)
     }
 
@@ -351,8 +333,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called By The Application
      */
     override fun onDateSet(date_picker: DatePicker?, year: Int, month: Int, day: Int) {
-        Log.d("TaskActivity", "OnDateSet Called")
-
         task!!.setDateDue(GregorianCalendar(year, month, day, 0, 0, 1))
         drawDate()
     }
@@ -364,8 +344,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Handle When A Task In This  List Changes
      */
     override fun onTaskChanged() {
-        Log.d("TaskActivity", "OnTaskChanged Called")
-
         onResume()
     }
 
@@ -376,8 +354,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Save Any Information That May of Changed
      */
     override fun save() {
-        Log.d("TaskActivity", "Save Called")
-
         MasterManager.save()
         task!!.save()
     }
@@ -389,8 +365,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Set The Status Text
      */
     fun drawStatus() {
-        Log.d("TaskActivity", "DrawStatus Called")
-
         if (task!!.getType() == Task.TYPE_TASK) {
             if (task!!.getStatus() == Task.STATUS_DONE) status!!.setText(R.string.complete)
             else status!!.setText(R.string.incomplete)
@@ -403,8 +377,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Set The Tags Text
      */
     fun drawTags() {
-        Log.d("TaskActivity", "DrawTags Called")
-
         tags!!.text = task!!.getTagString()
     }
 
@@ -414,8 +386,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Set The Date Text
      */
     fun drawDate() {
-        Log.d("TaskActivity", "DrawDate Called")
-
         date!!.text = task!!.getDateDueString()
     }
 
@@ -425,8 +395,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Handle The Checkpoint Changing
      */
     fun editCheckpoint(checkpoint: Checkpoint) {
-        Log.d("TaskActivity", "Edit Checkpoint Called")
-
         task!!.editCheckpoint(checkpoint)
         task!!.save()
         onResume()
@@ -438,8 +406,6 @@ class TaskActivity: TaskActivityInterface() {
      * Called To Handle The Deletion of A Checkpoint
      */
     fun deleteCheckpoint(checkpoint: Checkpoint) {
-        Log.d("TaskActivity", "DeleteCheckpoint")
-
         task!!.removeCheckpoint(checkpoint)
         task!!.save()
     }

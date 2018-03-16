@@ -1,16 +1,7 @@
 package jgappsandgames.smartreminderssave
 
-// Java
-import java.io.File
-
 // Android OS
 import android.content.Context
-
-// OpenLog
-import me.jgappsandgames.openlog.Config
-import me.jgappsandgames.openlog.FileWriter
-import me.jgappsandgames.openlog.Exception
-import me.jgappsandgames.openlog.Log
 
 // Save Library
 import jgappsandgames.smartreminderssave.settings.SettingsManager
@@ -39,7 +30,6 @@ class MasterManager {
         fun create(context: Context) {
             if (!log_loaded) loadLog()
 
-            Log.d("MasterManager", "Create Called")
             SettingsManager.create()
             TaskManager.create()
             TagManager.create()
@@ -58,7 +48,6 @@ class MasterManager {
         fun load(context: Context) {
             if (!log_loaded) loadLog()
 
-            Log.d("MasterManager", "Load Called")
             SettingsManager.load()
             TaskManager.load()
             TagManager.load()
@@ -72,7 +61,6 @@ class MasterManager {
          */
         @JvmStatic
         fun save() {
-            Log.d("MasterManager", "Save Called")
             SettingsManager.save()
             TaskManager.save()
             TagManager.save()
@@ -86,7 +74,7 @@ class MasterManager {
          */
         @JvmStatic
         fun cleanSave() {
-            Exception.e("MasterManager", "Clean Save Needs To Be Implemented")
+
         }
 
         /**
@@ -96,9 +84,7 @@ class MasterManager {
          */
         @JvmStatic
         fun cleanCache() {
-            Exception.e("MasterManager", "Clean Cache Needs To Be Implemented")
             FileUtility.getApplicationCacheDirectory().deleteRecursively()
-            loadLog()
         }
 
         // ---- ---- ---- ---- ---- ---- ---- Class Methods ---- ---- ---- ---- ---- ---- ----
@@ -107,15 +93,8 @@ class MasterManager {
          *
          * Called to Load the Log File
          */
+        @Deprecated("Removed ASAP")
         private fun loadLog() {
-            Config.getInstance()
-                    .setFiles(File(FileUtility.getApplicationCacheDirectory(), "openlog"))
-                    .setKeyLength(16)
-                    .setDebug(true)
-                    .setTimeStamp(true)
-                    //.setSecondaryWriter(FileWriter.getInstance())
-
-            Log.i("Smart Reminders Save", BuildConfig.VERSION_NAME)
         }
     }
 }
