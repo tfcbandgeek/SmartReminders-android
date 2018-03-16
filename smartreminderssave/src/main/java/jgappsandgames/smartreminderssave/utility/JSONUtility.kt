@@ -42,8 +42,9 @@ class JSONUtility {
                     else {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
                             builder.append(t).append(System.lineSeparator())
-                        else
+                        else {
                             builder.append(t).append(System.getProperty("line.separator"))
+                        }
                     }
                 }
                 return JSONObject(builder.toString())
@@ -54,7 +55,6 @@ class JSONUtility {
                 e.printStackTrace()
                 return JSONObject()
             }
-
         }
 
         // Called to Save JSON to File

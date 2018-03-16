@@ -19,7 +19,7 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  */
 class ThemeManager {
     companion object {
-        // File Constants
+        // Constants -------------------------------------------------------------------------------
         private val FILENAME = "thememanager.srj"
 
         // JSON Constants
@@ -46,7 +46,7 @@ class ThemeManager {
         @JvmField
         val WHITE = 3
 
-        // Data
+        // Data ------------------------------------------------------------------------------------
         private var version = 0
         @JvmField
         var meta = JSONObject()
@@ -55,6 +55,7 @@ class ThemeManager {
         @JvmField
         var light = 0
 
+        // Management Methods ----------------------------------------------------------------------
         @JvmStatic
         fun create() {
             version = API.RELEASE
@@ -65,7 +66,6 @@ class ThemeManager {
             meta = JSONObject()
         }
 
-        // Management Methods
         @JvmStatic
         fun load() {
             val data: JSONObject

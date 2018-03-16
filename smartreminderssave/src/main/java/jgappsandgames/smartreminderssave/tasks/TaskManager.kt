@@ -21,10 +21,9 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  */
 class TaskManager {
     companion object {
-        // Filepath Constant
+        // Constants -------------------------------------------------------------------------------
         private val FILENAME = "taskmanager.srj"
 
-        // Save Constants
         private val VERSION = "version"
         private val META = "meta"
         private val HOME = "home"
@@ -32,7 +31,7 @@ class TaskManager {
         private val ARCHIVED = "archived"
         private val DELETED = "deleted"
 
-        // Data
+        // Data ------------------------------------------------------------------------------------
         private var version: Int = 0
         @JvmField
         var meta: JSONObject = JSONObject()
@@ -45,7 +44,7 @@ class TaskManager {
         @JvmField
         var deleted: ArrayList<String> = ArrayList()
 
-        // Management Methods
+        // Management Methods ----------------------------------------------------------------------
         @JvmStatic
         fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
@@ -95,7 +94,7 @@ class TaskManager {
             archived = ArrayList()
         }
 
-        // JSONManagement Methods
+        // JSONManagement Methods ------------------------------------------------------------------
         @JvmStatic
         fun loadJSON(data: JSONObject?) {
             if (data == null) {
@@ -167,7 +166,7 @@ class TaskManager {
             return data
         }
 
-        // Task Methods
+        // Task Methods ----------------------------------------------------------------------------
         @JvmStatic
         fun archiveTask(task: Task) {
             task.markArchived()

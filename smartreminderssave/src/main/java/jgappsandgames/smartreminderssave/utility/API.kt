@@ -7,27 +7,19 @@ package jgappsandgames.smartreminderssave.utility
 class API {
     companion object {
         // Release (10/3/17)
-        @JvmField
-        val RELEASE = 10
-        @JvmField
-        val RELEASE_INFO = "List<> for JSONArray access Points"
+        const val RELEASE = 10
+        const val RELEASE_INFO = "List<> for JSONArray access Points"
 
         // Management (12/23/17)
-        @JvmField
-        val MANAGEMENT = 11
-        @JvmField
-        val MANAGEMENT_INFO = "ThemeManager, Universal Manager, Task Metadata, File Metadata"
+        const val MANAGEMENT = 11
+        const val MANAGEMENT_INFO = "ThemeManager, Universal Manager, Task Metadata, File Metadata"
 
         // Shrinking (6/1/18*)
-        @JvmField
-        val SHRINKING = 12
-        @JvmField
-        val SHRINKING_INFO = "Single Character Keys for Save File, Attachments, Open File Notices"
+        const val SHRINKING = 12
+        const val SHRINKING_INFO = "Single Character Keys for Save File, Attachments, Open File Notices, Planner View"
 
         // Encryption (1/1/19*)
-        @JvmField
-        val encryption = 13
-        @JvmField
-        val ENCRYPTION_INFO = "Encrypting data to make it secure"
+        const val encryption = 13
+        const val ENCRYPTION_INFO = "Encrypting data to make it secure"
     }
 }
