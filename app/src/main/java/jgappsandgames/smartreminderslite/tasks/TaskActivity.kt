@@ -72,7 +72,7 @@ class TaskActivity: TaskActivityInterface() {
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
 
         // Normal Run
-        else MasterManager.load()
+        else MasterManager.load(this)
     }
 
     /**

@@ -1,26 +1,36 @@
 package jgappsandgames.smartreminderslite.tasks.checkpoint
 
+// Android
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+
+// Views
 import android.text.Editable
 import android.view.View
-import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
-import jgappsandgames.smartreminderssave.tasks.Task
+
+// JSON
 import org.json.JSONException
 import org.json.JSONObject
 
+// App
+import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// Save
+import jgappsandgames.smartreminderssave.tasks.Task
+
 /**
- * Created by joshu on 1/19/2018.
+ * CheckpointActivity
+ * Created by joshua on 1/19/2018.
  */
 class CheckpointActivity: CheckpointActivityInterface() {
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private var position: Int = 0
     private var status: Boolean = false
     private var text: String? = null
 
-    // Lifecycle Methods
+    // Lifecycle Methods ---------------------------------------------------------------------------
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +56,11 @@ class CheckpointActivity: CheckpointActivityInterface() {
         setStatus()
     }
 
-    // TextWatcher
-    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        // Only included because it is required by the TextWatcher Interface
-    }
-
-    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        // Only included because it is required b the TextWatcher Interface
-    }
-
+    // TextWatcher ---------------------------------------------------------------------------------
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
     override fun afterTextChanged(editable: Editable) {
         text = editable.toString()
-
         setReturnIntent()
     }
 

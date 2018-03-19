@@ -5,7 +5,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.Build.*
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 
 // Views
@@ -52,8 +53,8 @@ class SettingsActivity: SettingsActivityInterface() {
     override fun onPause() {
         super.onPause()
 
-        SettingsManager.user_name = your_name!!.getText().toString()
-        SettingsManager.device_name = device_name!!.getText().toString()
+        SettingsManager.user_name = your_name!!.text.toString()
+        SettingsManager.device_name = device_name!!.text.toString()
         MasterManager.save()
     }
 

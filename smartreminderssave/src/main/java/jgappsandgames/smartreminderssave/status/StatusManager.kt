@@ -1,9 +1,11 @@
 package jgappsandgames.smartreminderssave.status
 
+// Java
+import java.util.Calendar
+
 // Save Library
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
-import java.util.*
 
 /**
  * StatusManager

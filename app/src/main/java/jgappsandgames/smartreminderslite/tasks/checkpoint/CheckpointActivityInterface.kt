@@ -1,23 +1,29 @@
 package jgappsandgames.smartreminderslite.tasks.checkpoint
 
+// Android
 import android.app.Activity
 import android.os.Bundle
+
+// Views
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 /**
- * Created by joshu on 1/19/2018.
+ * CheckpointActivityInterface
+ * Created by joshua on 1/19/2018.
  */
 abstract class CheckpointActivityInterface: Activity(), TextWatcher, View.OnClickListener, View.OnLongClickListener {
-    // Views
+    // Views ---------------------------------------------------------------------------------------
     protected var text_view: EditText? = null
     protected var status_button: Button? = null
 
-    // Lifecycle Methods
+    // Lifecycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

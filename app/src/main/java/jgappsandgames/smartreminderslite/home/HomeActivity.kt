@@ -93,12 +93,9 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
             TaskManager.tasks.add(task.getFilename())
             TaskManager.save()
 
-            // Create Intent
-            val intent = Intent(this, TaskActivity::class.java)
-            intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename())
-
             // Start Activity
-            startActivity(intent)
+            startActivity(Intent(this, TaskActivity::class.java)
+                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
         }
     }
 

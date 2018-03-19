@@ -1,16 +1,22 @@
 package jgappsandgames.smartreminderslite.tasks.checkpoint
 
+// Views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.CheckpointHolder
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Checkpoint
 
 /**
- * Created by joshu on 1/19/2018.
+ * CheckpointAdapter
+ * Created by joshua on 1/19/2018.
  */
 class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
         BaseAdapter() {

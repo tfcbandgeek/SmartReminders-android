@@ -1,37 +1,41 @@
 package jgappsandgames.smartreminderslite.tasks.tags
 
+// Java
+import java.util.ArrayList
+
+// Views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TagHolder
+
+// Save
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.Task
-import java.util.ArrayList
 
 /**
- * Created by joshu on 1/19/2018.
+ * TagUnselectedAdapter
+ * Created by joshua on 1/19/2018.
  */
 internal class TagUnselectedAdapter : BaseAdapter {
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private val activity: TagEditorActivity
     private val tags: ArrayList<String>
 
-    // Initializers
-    constructor(activity: TagEditorActivity, task: Task) : super() {
-        // Set Activity
+    // Constructors --------------------------------------------------------------------------------
+    constructor(activity: TagEditorActivity, task: Task): super() {
         this.activity = activity
 
         // Set Tags
         tags = ArrayList()
-        for (tag in TagManager.tags) {
-            if (!task.getTags().contains(tag)) tags.add(tag)
-        }
+        for (tag in TagManager.tags) if (!task.getTags().contains(tag)) tags.add(tag)
     }
 
     constructor(activity: TagEditorActivity, task: Task, search: String) {
-        // Set Activity
         this.activity = activity
 
 
@@ -44,7 +48,7 @@ internal class TagUnselectedAdapter : BaseAdapter {
         }
     }
 
-    // List Methods
+    // List Methods --------------------------------------------------------------------------------
     override fun getCount(): Int {
         return tags.size
     }
@@ -53,8 +57,7 @@ internal class TagUnselectedAdapter : BaseAdapter {
         return 1
     }
 
-    // Item Methods
-
+    // Item Methods --------------------------------------------------------------------------------
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }

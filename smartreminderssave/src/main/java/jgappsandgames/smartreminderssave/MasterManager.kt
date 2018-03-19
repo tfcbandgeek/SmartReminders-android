@@ -18,8 +18,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  */
 class MasterManager {
     companion object {
-        var log_loaded = false
-
         /**
          * Create
          *
@@ -27,9 +25,23 @@ class MasterManager {
          * @param context The Application Context
          */
         @JvmStatic
+        @Deprecated("To Be Removed in 12")
         fun create(context: Context) {
-            if (!log_loaded) loadLog()
+            SettingsManager.create()
+            TaskManager.create()
+            TagManager.create()
+            ThemeManager.create()
 
+            save()
+        }
+
+        /**
+         * Create
+         *
+         * Called to Possibly load the Log System, And Create the Application Data
+         */
+        @JvmStatic
+        fun create() {
             SettingsManager.create()
             TaskManager.create()
             TagManager.create()
@@ -45,9 +57,21 @@ class MasterManager {
          * @param context The Application context
          */
         @JvmStatic
+        @Deprecated("To Be Removed in 12")
         fun load(context: Context) {
-            if (!log_loaded) loadLog()
+            SettingsManager.load()
+            TaskManager.load()
+            TagManager.load()
+            ThemeManager.load()
+        }
 
+        /**
+         * Load
+         *
+         * Called to Possibly load the Log System, And Load the Application Data
+         */
+        @JvmStatic
+        fun load() {
             SettingsManager.load()
             TaskManager.load()
             TagManager.load()

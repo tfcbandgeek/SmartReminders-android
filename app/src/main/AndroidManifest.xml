@@ -21,7 +21,7 @@
         android:theme="@style/blue_dark">
 
         <!--Home-->
-        <activity android:name=".splashscreen.EntryActivity">
+        <activity android:name=".home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -45,6 +45,5 @@
         <activity android:name=".sort.date.DayActivity"/>
         <activity android:name=".sort.date.WeekActivity"/>
         <activity android:name=".sort.date.MonthActivity"/>
-        <activity android:name=".main.PlannerHomeActivity" />
     </application>
 </manifest>

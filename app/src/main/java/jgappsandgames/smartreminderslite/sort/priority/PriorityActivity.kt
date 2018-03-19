@@ -131,7 +131,7 @@ class PriorityActivity: PriorityActivityInterface() {
         when (position) {
             1 -> {
                 title = "Ignore"
-                down!!.setText("")
+                down!!.text = ""
                 up!!.setText(R.string.low)
                 return
             }

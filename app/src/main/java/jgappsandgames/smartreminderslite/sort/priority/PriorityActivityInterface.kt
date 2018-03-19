@@ -50,8 +50,6 @@ abstract class PriorityActivityInterface: Activity(), View.OnClickListener, View
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Set Activity View
         setContentView(R.layout.activity_priority)
 
         // Find Views

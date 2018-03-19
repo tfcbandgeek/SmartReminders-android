@@ -47,7 +47,7 @@ class WeekActivity: WeekActivityInterface() {
         super.onResume()
 
         adapter = WeekAdapter(this, week_active)
-        tasks!!.setAdapter(adapter)
+        tasks!!.adapter = adapter
     }
 
     override fun onPause() {

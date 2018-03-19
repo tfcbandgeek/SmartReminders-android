@@ -98,6 +98,7 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
 
         val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         try {
+            @Suppress("DEPRECATION")
             if (v.hasVibrator()) v.vibrate(100)
         } catch (n: NullPointerException) {
             n.printStackTrace()

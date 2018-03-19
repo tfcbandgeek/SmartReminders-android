@@ -1,21 +1,31 @@
 package jgappsandgames.smartreminderslite.tasks.tags
 
+// Android
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+
+// Views
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.holder.TagHolder
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
-import jgappsandgames.smartreminderssave.tags.TagManager
-import jgappsandgames.smartreminderssave.tasks.Task
+
+// JSON
 import org.json.JSONArray
 import org.json.JSONException
 
+// App
+import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.holder.TagHolder
+import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// Save
+import jgappsandgames.smartreminderssave.tags.TagManager
+import jgappsandgames.smartreminderssave.tasks.Task
+
 /**
- * Created by joshu on 1/19/2018.
+ * TagEditorActivity
+ * Created by joshua on 1/19/2018.
  */
 class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
     // Data
@@ -39,21 +49,15 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
     }
 
     // Text Watcher Methods
-    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        // Not Needed, Only included because it is required by the TextWatcher
-    }
-
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
     override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        selected!!.adapter = TagSelectedAdapter(this, task!!, search_text!!.getText().toString())
-        unselected!!.adapter = TagUnselectedAdapter(this, task!!, search_text!!.getText().toString())
+        selected!!.adapter = TagSelectedAdapter(this, task!!, search_text!!.text.toString())
+        unselected!!.adapter = TagUnselectedAdapter(this, task!!, search_text!!.text.toString())
 
-        if (TagManager.contains(search_text!!.getText().toString())) search_enter!!.setText(R.string.select)
+        if (TagManager.contains(search_text!!.text.toString())) search_enter!!.setText(R.string.select)
         else search_enter!!.setText(R.string.add)
     }
-
-    override fun afterTextChanged(editable: Editable) {
-        // Not Needed, OnLy included because it is required by the TextWatcher
-    }
+    override fun afterTextChanged(editable: Editable) {}
 
     // Click Listeners
     override fun onClick(view: View) {
@@ -69,15 +73,15 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
             try {
                 val tags = JSONArray()
                 for (tag in task!!.getTags()) tags.put(tag)
-                setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString(4)))
+                setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString()))
             } catch (e: JSONException) {
                 e.printStackTrace()
             } catch (e: NullPointerException) {
                 e.printStackTrace()
             }
 
-        } else if (search_text!!.getText().toString() != "") {
-            task!!.addTag(search_text!!.getText().toString())
+        } else if (search_text!!.text.toString() != "") {
+            task!!.addTag(search_text!!.text.toString())
             search_text!!.setText("")
 
             selected!!.adapter = TagSelectedAdapter(this, task!!)
@@ -87,7 +91,7 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
             try {
                 val tags = JSONArray()
                 for (tag in task!!.getTags()) tags.put(tag)
-                setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString(4)))
+                setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString()))
             } catch (e: JSONException) {
                 e.printStackTrace()
             } catch (e: NullPointerException) {
@@ -114,12 +118,11 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
         try {
             val tags = JSONArray()
             for (ta in task!!.getTags()) tags.put(ta)
-            setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString(4)))
+            setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString()))
         } catch (e: JSONException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
-
     }
 }

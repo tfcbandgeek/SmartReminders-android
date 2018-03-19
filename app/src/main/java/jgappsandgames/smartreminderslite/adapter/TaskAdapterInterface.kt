@@ -101,12 +101,11 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      */
     override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
         if (convert_view == null) {
-            val temp: View
-            if (getItemViewType(position) == Task.TYPE_TASK) temp = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
-            else temp = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
+            val temp: View = if (getItemViewType(position) == Task.TYPE_TASK) LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
+                else LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
 
             val holder = TaskFolderHolder(getItem(position), temp, activity, listener)
-            temp.setTag(holder)
+            temp.tag = holder
             holder.setViews()
             return temp
         }

@@ -29,7 +29,8 @@ import jgappsandgames.smartreminderslite.home.FirstRun
  * MonthActivityInterface
  * Created by joshua on 1/19/2018.
  */
-abstract class MonthActivityInterface: Activity(), TaskFolderHolder.OnTaskChangedListener, CalendarView.OnDateChangeListener {
+abstract class MonthActivityInterface:
+        Activity(), TaskFolderHolder.OnTaskChangedListener, CalendarView.OnDateChangeListener {
     // Data
     protected var selected: Calendar? = null
     protected var selected_tasks: ArrayList<Task>? = null
@@ -41,7 +42,6 @@ abstract class MonthActivityInterface: Activity(), TaskFolderHolder.OnTaskChange
     // LifeCycle Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_month)
 
         // Find Views

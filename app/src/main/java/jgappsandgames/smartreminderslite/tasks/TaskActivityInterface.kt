@@ -10,7 +10,13 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.BaseAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.SeekBar
+import android.widget.TextView
+import android.widget.Toast
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -73,16 +79,15 @@ abstract class TaskActivityInterface:
         if (type == -1) type = Task(intent.getStringExtra(ActivityUtility.TASK_NAME)).getType()
 
         // Set View Type
-        if (type == Task.TYPE_TASK) {
-            view = TASK_PORTRAIT
-        } else {
-            view = FOLDER_PORTRAIT
-        }
+        view = if (type == Task.TYPE_TASK) TASK_PORTRAIT
+            else FOLDER_PORTRAIT
 
         // Set Content View
-        if (view == TASK_PORTRAIT) setContentView(R.layout.activity_task)
-        else if (view == FOLDER_PORTRAIT) setContentView(R.layout.activity_folder)
-        else throw RuntimeException("Invalid View Type")
+        when (view) {
+            TASK_PORTRAIT -> setContentView(R.layout.activity_task)
+            FOLDER_PORTRAIT -> setContentView(R.layout.activity_folder)
+            else -> throw RuntimeException("Invalid View Type")
+        }
 
         // Find Generic Views
         title = findViewById(R.id.title)

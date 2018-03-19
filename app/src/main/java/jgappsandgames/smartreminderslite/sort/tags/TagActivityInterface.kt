@@ -1,21 +1,26 @@
 package jgappsandgames.smartreminderslite.sort.tags
 
+// Activity
 import android.app.Activity
 import android.os.Bundle
+
+// Views
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TagHolder
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 
 /**
  * TagActivityInterface
- * Created by joshu on 1/19/2018.
+ * Created by joshua on 1/19/2018.
  */
-abstract class TagActivityInterface : Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
+abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
     // Views
     protected var tasks_text: TextView? = null
     protected var tasks_list: ListView? = null
@@ -32,8 +37,6 @@ abstract class TagActivityInterface : Activity(), TagHolder.TagSwitcher, TaskFol
     // LifeCycle Methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Set View
         setContentView(R.layout.activity_tag)
 
         // Find Views

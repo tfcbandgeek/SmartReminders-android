@@ -1,15 +1,21 @@
 package jgappsandgames.smartreminderslite.sort.tags
 
+// Java
+import java.util.ArrayList
+
+// Android
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TagHolder
-import java.util.ArrayList
 
 /**
- * Created by joshu on 1/19/2018.
+ * SelectedAdapter
+ * Created by joshua on 1/19/2018.
  */
 class SelectedAdapter(private val activity: TagActivity, private val tags: ArrayList<String>): BaseAdapter() {
 
@@ -31,13 +37,19 @@ class SelectedAdapter(private val activity: TagActivity, private val tags: Array
         return position.toLong()
     }
 
-    override fun getView(position: Int, convert_view: View, parent: ViewGroup): View {
-        var view = convert_view
-        view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
+    override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
+        if (convert_view == null) {
+            val view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
 
-        val holder = TagHolder(getItem(position), true, activity, view)
-        view.tag = holder
+            val holder = TagHolder(getItem(position), true, activity, view)
+            view.tag = holder
 
-        return view
+            return view
+        }
+
+        val holder = TagHolder(getItem(position), true, activity, convert_view)
+        convert_view.tag = holder
+
+        return convert_view
     }
 }

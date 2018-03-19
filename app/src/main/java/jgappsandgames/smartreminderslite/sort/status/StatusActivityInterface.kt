@@ -43,8 +43,6 @@ abstract class StatusActivityInterface: Activity(), TaskFolderHolder.OnTaskChang
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Set Content View
         setContentView(R.layout.activity_status)
 
         // Find Views

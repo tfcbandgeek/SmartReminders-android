@@ -10,7 +10,6 @@ import android.widget.CalendarView
 // Save
 import jgappsandgames.smartreminderssave.date.DateManager
 
-
 /**
  * MonthActivity
  * Created by joshua on 1/19/2018.

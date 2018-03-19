@@ -21,7 +21,7 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
  * WeekActivityInterface
  * Created by joshua on 1/19/2018.
  */
-abstract class WeekActivityInterface : Activity(), View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
+abstract class WeekActivityInterface: Activity(), View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
     // Data
     protected var week_active: Int = 0
 

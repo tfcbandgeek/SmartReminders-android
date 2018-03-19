@@ -1,16 +1,24 @@
 package jgappsandgames.smartreminderslite.sort.tags
 
+// Java
+import java.util.ArrayList
+
+// Views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TagHolder
+
+// Save
 import jgappsandgames.smartreminderssave.tags.TagManager
-import java.util.ArrayList
 
 /**
- * Created by joshu on 1/19/2018.
+ * UnselectedAdapter
+ * Created by joshua on 1/19/2018.
  */
 class UnselectedAdapter(private val activity: TagActivity, selected: ArrayList<String>) : BaseAdapter() {
     private val tags: ArrayList<String> = ArrayList()
