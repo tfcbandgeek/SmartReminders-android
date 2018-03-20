@@ -24,7 +24,7 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
 class SettingsManager {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private val FILENAME = "settings.srj"
+        private const val FILENAME = "settings.srj"
 
         // Save Data
         private const val VERSION = "version"

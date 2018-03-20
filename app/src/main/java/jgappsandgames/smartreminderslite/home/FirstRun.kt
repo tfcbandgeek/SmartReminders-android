@@ -33,7 +33,7 @@ class FirstRun: FirstRunActivityInterface() {
         super.onCreate(savedInstanceState)
 
         // Create Settings Page
-        MasterManager.create(this)
+        MasterManager.create()
     }
 
     // Click Listeners
@@ -84,7 +84,7 @@ class FirstRun: FirstRunActivityInterface() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.size > 0) {
+            ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     SettingsManager.use_external_file = false
                     app_directory!!.setText(R.string.save_app)
@@ -94,14 +94,8 @@ class FirstRun: FirstRunActivityInterface() {
     }
 
     // Text Watchers
-    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-
-    }
-
-    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-
-    }
-
+    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
     override fun afterTextChanged(editable: Editable) {
         SettingsManager.user_name = your_name!!.text.toString()
         SettingsManager.device_name = device_name!!.text.toString()

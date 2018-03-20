@@ -22,18 +22,18 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
  * Created by joshua on 1/19/2018.
  */
 abstract class WeekActivityInterface: Activity(), View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
-    // Data
-    protected var week_active: Int = 0
+    // Data ----------------------------------------------------------------------------------------
+    protected var weekActive: Int = 0
 
-    // Views
+    // Views ---------------------------------------------------------------------------------------
     protected var tasks: ListView? = null
     protected var previous: Button? = null
     protected var next: Button? = null
 
-    // Adapters
+    // Adapters ------------------------------------------------------------------------------------
     protected var adapter: BaseAdapter? = null
 
-    // LifeCycle Methods
+    // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,7 +50,7 @@ abstract class WeekActivityInterface: Activity(), View.OnClickListener, TaskFold
         next!!.setOnClickListener(this)
     }
 
-    // Menu
+    // Menu ----------------------------------------------------------------------------------------
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_auxilary, menu)
         return true
@@ -69,6 +69,6 @@ abstract class WeekActivityInterface: Activity(), View.OnClickListener, TaskFold
         return super.onOptionsItemSelected(item)
     }
 
-    // Abstract Methods
+    // Abstract Methods ----------------------------------------------------------------------------
     abstract fun save()
 }

@@ -16,7 +16,6 @@ import jgappsandgames.smartreminderslite.R
 class TaskManagementActivity: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_task_management)
     }
 }

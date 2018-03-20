@@ -17,8 +17,8 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
  */
 class FileUtility {
     companion object {
-        // File Paths
-        private val path = ".smartreminders"
+        // File Paths ------------------------------------------------------------------------------
+        private const val path = ".smartreminders"
 
         private var data: File? = null
         private var external: File? = null

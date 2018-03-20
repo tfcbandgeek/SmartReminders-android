@@ -20,31 +20,24 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
 class ThemeManager {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private val FILENAME = "thememanager.srj"
+        private const val FILENAME = "thememanager.srj"
 
         // JSON Constants
-        private val VERSION = "version"
-        private val META = "meta"
-        private val COLOR = "color"
-        private val LIGHT = "light"
+        private const val VERSION = "version"
+        private const val META = "meta"
+        private const val COLOR = "color"
+        private const val LIGHT = "light"
 
         // Color Constants
-        @JvmField
-        val BLUE = 1
-        @JvmField
-        val GREEN = 2
-        @JvmField
-        val RED = 3
-        @JvmField
-        val PURPLE = 4
+        const val BLUE = 1
+        const val GREEN = 2
+        const val RED = 3
+        const val PURPLE = 4
 
         // Light Constants
-        @JvmField
-        val DARK = 1
-        @JvmField
-        val GREY = 2
-        @JvmField
-        val WHITE = 3
+        const val DARK = 1
+        const val GREY = 2
+        const val WHITE = 3
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0

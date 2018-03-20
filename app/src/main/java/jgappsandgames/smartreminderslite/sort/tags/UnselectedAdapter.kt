@@ -20,15 +20,16 @@ import jgappsandgames.smartreminderssave.tags.TagManager
  * UnselectedAdapter
  * Created by joshua on 1/19/2018.
  */
-class UnselectedAdapter(private val activity: TagActivity, selected: ArrayList<String>) : BaseAdapter() {
+class UnselectedAdapter(private val activity: TagActivity, selected: ArrayList<String>): BaseAdapter() {
+    // Data ----------------------------------------------------------------------------------------
     private val tags: ArrayList<String> = ArrayList()
 
+    // Constructor ---------------------------------------------------------------------------------
     init {
-        for (i in TagManager.tags.indices)
-            if (!selected.contains(TagManager.tags[i])) tags.add(TagManager.tags[i])
+        for (i in TagManager.tags.indices) if (!selected.contains(TagManager.tags[i])) tags.add(TagManager.tags[i])
     }
 
-    // List Methods
+    // List Methods --------------------------------------------------------------------------------
     override fun getCount(): Int {
         return tags.size
     }
@@ -37,7 +38,7 @@ class UnselectedAdapter(private val activity: TagActivity, selected: ArrayList<S
         return 1
     }
 
-    // Item Methods
+    // Item Methods --------------------------------------------------------------------------------
     override fun getItem(position: Int): String {
         return tags[position]
     }

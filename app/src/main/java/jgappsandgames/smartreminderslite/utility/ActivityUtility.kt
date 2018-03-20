@@ -28,8 +28,6 @@ class ActivityUtility {
 
         // Request Codes ---------------------------------------------------------------------------
         const val REQUEST_CHECKPOINT = 1
-        @Deprecated("To be removed Soon, Use All Caps version instead")
-        const val REQUEST_Management = 2
         const val REQUEST_MANAGEMENT = 2
         const val REQUEST_TAGS = 3
         const val REQUEST_EXTERNAL_STORAGE_PERMISSION = 4

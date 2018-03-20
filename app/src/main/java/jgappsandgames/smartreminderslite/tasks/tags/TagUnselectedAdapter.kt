@@ -21,7 +21,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * TagUnselectedAdapter
  * Created by joshua on 1/19/2018.
  */
-internal class TagUnselectedAdapter : BaseAdapter {
+internal class TagUnselectedAdapter: BaseAdapter {
     // Data ----------------------------------------------------------------------------------------
     private val activity: TagEditorActivity
     private val tags: ArrayList<String>
@@ -66,7 +66,7 @@ internal class TagUnselectedAdapter : BaseAdapter {
         return tags[position]
     }
 
-    override fun getView(position: Int, convert_view: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
         var view = convert_view
         view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
 

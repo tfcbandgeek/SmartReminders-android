@@ -29,7 +29,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  *
  * Activity That Handles the Day Sort View
  */
-abstract class DayActivityInterface : Activity(), View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
+abstract class DayActivityInterface: Activity(), View.OnClickListener, TaskFolderHolder.OnTaskChangedListener {
     // Views ---------------------------------------------------------------------------------------
     protected var tasks: ListView? = null
     protected var previous: Button? = null
@@ -49,7 +49,7 @@ abstract class DayActivityInterface : Activity(), View.OnClickListener, TaskFold
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
 
         // Normal Run
-        else MasterManager.load(this)
+        else MasterManager.load()
 
         // Set Title
         setTitle()

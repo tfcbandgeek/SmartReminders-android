@@ -59,7 +59,7 @@ class TagSelectedAdapter: BaseAdapter {
         return tags[position]
     }
 
-    override fun getView(position: Int, convert_view: View, parent: ViewGroup): View {
+    override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
         var view = convert_view
         view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
 

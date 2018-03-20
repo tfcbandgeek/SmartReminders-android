@@ -18,7 +18,6 @@ import jgappsandgames.smartreminderslite.holder.TagHolder
  * Created by joshua on 1/19/2018.
  */
 class SelectedAdapter(private val activity: TagActivity, private val tags: ArrayList<String>): BaseAdapter() {
-
     // List Methods
     override fun getCount(): Int {
         return tags.size

@@ -22,14 +22,14 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
 class TaskManager {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private val FILENAME = "taskmanager.srj"
+        private const val FILENAME = "taskmanager.srj"
 
-        private val VERSION = "version"
-        private val META = "meta"
-        private val HOME = "home"
-        private val TASKS = "tasks"
-        private val ARCHIVED = "archived"
-        private val DELETED = "deleted"
+        private const val VERSION = "version"
+        private const val META = "meta"
+        private const val HOME = "home"
+        private const val TASKS = "tasks"
+        private const val ARCHIVED = "archived"
+        private const val DELETED = "deleted"
 
         // Data ------------------------------------------------------------------------------------
         private var version: Int = 0
@@ -176,6 +176,7 @@ class TaskManager {
                 home.remove(task.getFilename())
             } else if (tasks.contains(task.getParent())) {
                 val parent = Task(task.getParent())
+                parent.removeChild(task.getFilename())
                 parent.save()
             }
 

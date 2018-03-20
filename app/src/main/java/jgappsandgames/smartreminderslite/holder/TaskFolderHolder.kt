@@ -4,6 +4,8 @@ package jgappsandgames.smartreminderslite.holder
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.VibrationEffect
 import android.os.Vibrator
 
 // Views
@@ -96,10 +98,16 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
     override fun onLongClick(view: View): Boolean {
         TaskManager.archiveTask(task)
 
-        val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         try {
-            @Suppress("DEPRECATION")
-            if (v.hasVibrator()) v.vibrate(100)
+            if (v != null && v.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                } else {
+                    @Suppress("DEPRECATION")
+                    v.vibrate(100)
+                }
+            }
         } catch (n: NullPointerException) {
             n.printStackTrace()
         }

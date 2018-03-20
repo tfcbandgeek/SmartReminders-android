@@ -31,6 +31,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
  * Created by joshua on 12/25/2017.
  */
 class SettingsActivity: SettingsActivityInterface() {
+    // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,12 +54,12 @@ class SettingsActivity: SettingsActivityInterface() {
     override fun onPause() {
         super.onPause()
 
-        SettingsManager.user_name = your_name!!.text.toString()
-        SettingsManager.device_name = device_name!!.text.toString()
+        SettingsManager.user_name = yourName!!.text.toString()
+        SettingsManager.device_name = deviceName!!.text.toString()
         MasterManager.save()
     }
 
-    // Click Listener
+    // Click Listener ------------------------------------------------------------------------------
     @SuppressLint("NewApi")
     override fun onClick(view: View) {
         // App Directory
@@ -66,7 +67,7 @@ class SettingsActivity: SettingsActivityInterface() {
             if (SettingsManager.use_external_file) {
                 SettingsManager.use_external_file = false
                 app_directory!!.setText(R.string.save_app)
-                MasterManager.load(this)
+                MasterManager.load()
             } else {
                 SettingsManager.use_external_file = true
                 app_directory!!.setText(R.string.save_external)
@@ -75,7 +76,7 @@ class SettingsActivity: SettingsActivityInterface() {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
                     if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
-                    else MasterManager.load(this)
+                    else MasterManager.load()
                 }
             }
         }
@@ -104,7 +105,7 @@ class SettingsActivity: SettingsActivityInterface() {
                     if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
                     else {
                         MoveUtility.moveToExternal()
-                        MasterManager.load(this)
+                        MasterManager.load()
                     }
                 }
             }
@@ -172,7 +173,7 @@ class SettingsActivity: SettingsActivityInterface() {
                     SettingsManager.use_external_file = false
                     app_directory!!.setText(R.string.save_app)
                 } else {
-                    MasterManager.load(this)
+                    MasterManager.load()
                 }
             }
         }

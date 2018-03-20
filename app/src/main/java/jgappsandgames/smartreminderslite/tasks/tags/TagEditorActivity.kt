@@ -28,10 +28,10 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * Created by joshua on 1/19/2018.
  */
 class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private var task: Task? = null
 
-    // LifeCycle Methods
+    // LifeCycle Methods --------------------------------------------------------------------------
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
         unselected!!.adapter = TagUnselectedAdapter(this, task!!)
     }
 
-    // Text Watcher Methods
+    // Text Watcher Methods ------------------------------------------------------------------------
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
     override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
         selected!!.adapter = TagSelectedAdapter(this, task!!, search_text!!.text.toString())
@@ -59,11 +59,11 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
     }
     override fun afterTextChanged(editable: Editable) {}
 
-    // Click Listeners
+    // Click Listeners -----------------------------------------------------------------------------
     override fun onClick(view: View) {
         // Tag is Not in the List And is addable
-        if (TagManager.addTag(search_text!!.getText().toString())) {
-            task!!.addTag(search_text!!.getText().toString())
+        if (TagManager.addTag(search_text!!.text.toString())) {
+            task!!.addTag(search_text!!.text.toString())
             search_text!!.setText("")
 
             selected!!.adapter = TagSelectedAdapter(this, task!!)
@@ -79,7 +79,6 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
             } catch (e: NullPointerException) {
                 e.printStackTrace()
             }
-
         } else if (search_text!!.text.toString() != "") {
             task!!.addTag(search_text!!.text.toString())
             search_text!!.setText("")
@@ -97,15 +96,14 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
             } catch (e: NullPointerException) {
                 e.printStackTrace()
             }
-
-        }// Tag is not addable
+        }
     }
 
     override fun onLongClick(view: View): Boolean {
         return false
     }
 
-    // TagSwitcher
+    // TagSwitcher ---------------------------------------------------------------------------------
     override fun moveTag(tag: String?, selected: Boolean) {
         if (selected) task!!.addTag(tag!!)
         else task!!.removeTag(tag!!)

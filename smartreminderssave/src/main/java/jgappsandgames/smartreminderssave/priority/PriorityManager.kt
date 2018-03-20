@@ -36,24 +36,14 @@ class PriorityManager {
 
             for (t in TaskManager.tasks) {
                 val temp = Task(t)
-
-                // Folder
-                if (temp.getType() == Task.TYPE_FLDR) folder_list!!.add(temp)
-
-                // Ignored Tasks
-                else if (temp.getPriority() == 0) ignored_tasks!!.add(temp)
-
-                // Low Tasks
-                else if (temp.getPriority() < 20) low_tasks!!.add(temp)
-
-                // Normal Tasks
-                else if (temp.getPriority() < 80) normal_tasks!!.add(temp)
-
-                // High Tasks
-                else if (temp.getPriority() < 100) high_priority!!.add(temp)
-
-                // Stared Tasks
-                else if (temp.getPriority() == 100) stared_priority!!.add(temp)
+                when {
+                    temp.getType() == Task.TYPE_FLDR -> folder_list!!.add(temp)
+                    temp.getPriority() == 0 -> ignored_tasks!!.add(temp)
+                    temp.getPriority() < 20 -> low_tasks!!.add(temp)
+                    temp.getPriority() < 80 -> normal_tasks!!.add(temp)
+                    temp.getPriority() < 100 -> high_priority!!.add(temp)
+                    temp.getPriority() == 100 -> stared_priority!!.add(temp)
+                }
             }
         }
 

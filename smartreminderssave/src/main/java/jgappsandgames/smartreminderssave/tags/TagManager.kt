@@ -24,11 +24,11 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
 class TagManager {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private val FILENAME = "tagmanager.srj"
+        private const val FILENAME = "tagmanager.srj"
 
-        private val VERSION = "version"
-        private val META = "meta"
-        private val TAGS = "tags"
+        private const val VERSION = "version"
+        private const val META = "meta"
+        private const val TAGS = "tags"
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0
@@ -42,13 +42,6 @@ class TagManager {
         fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
 
-            version = API.RELEASE
-            tags = ArrayList()
-            meta = JSONObject()
-        }
-
-        @JvmStatic
-        fun forceCreate() {
             version = API.RELEASE
             tags = ArrayList()
             meta = JSONObject()
@@ -119,7 +112,12 @@ class TagManager {
             if (tag == "") return false
 
             // Check to See if the Tag is Already there
-            if (tags.contains(tag)) return false
+            if (tags.size == 0) {
+                tags.add(tag)
+                return true
+            } else if (tags.contains(tag)) {
+                return false
+            }
 
             // Add the Tag
             tags.add(tag)

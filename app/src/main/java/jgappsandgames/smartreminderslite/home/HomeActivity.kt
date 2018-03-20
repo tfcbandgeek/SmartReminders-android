@@ -47,7 +47,7 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
 
         // Handle Loading Data
-        else MasterManager.load(this)
+        else MasterManager.load()
     }
 
     /**

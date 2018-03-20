@@ -114,7 +114,7 @@ class Task() {
         complete_late = false
     }
 
-    constructor(data: JSONObject) : this() {
+    constructor(data: JSONObject): this() {
         filename = data.optString("filename", "error.srj")
         loadJSON(data)
     }
@@ -501,6 +501,7 @@ class Task() {
         return this
     }
 
+    // To Methods ----------------------------------------------------------------------------------
     override fun toString(): String {
         return toJSON().toString()
     }

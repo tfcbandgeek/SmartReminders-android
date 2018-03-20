@@ -48,7 +48,7 @@ class PriorityActivity: PriorityActivityInterface() {
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
 
         // Normal Run
-        else MasterManager.load(this)
+        else MasterManager.load()
     }
 
     /**
@@ -160,7 +160,7 @@ class PriorityActivity: PriorityActivityInterface() {
             5 -> {
                 title = "Stared Tasks"
                 down!!.setText(R.string.high)
-                up!!.setText("")
+                up!!.text = ""
             }
         }
     }

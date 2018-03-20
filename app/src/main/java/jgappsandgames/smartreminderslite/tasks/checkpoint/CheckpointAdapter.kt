@@ -20,7 +20,7 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
  */
 class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
         BaseAdapter() {
-    // List Methods
+    // List Methods --------------------------------------------------------------------------------
     override fun getCount(): Int {
         return checkpoints.size
     }
@@ -33,7 +33,7 @@ class CheckpointAdapter(private val activity: TaskActivity, private val task: St
         return false
     }
 
-    // Item Methods
+    // Item Methods --------------------------------------------------------------------------------
     override fun getItem(position: Int): Checkpoint {
         return checkpoints[position]
     }

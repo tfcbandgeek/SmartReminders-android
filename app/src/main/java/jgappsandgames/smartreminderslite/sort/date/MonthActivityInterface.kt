@@ -55,7 +55,7 @@ abstract class MonthActivityInterface:
             startActivity(first_run)
         } else {
             // Load Data
-            MasterManager.load(this)
+            MasterManager.load()
         }
 
         // Set Listeners

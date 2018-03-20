@@ -22,6 +22,7 @@ abstract class CheckpointActivityInterface: Activity(), TextWatcher, View.OnClic
     // Views ---------------------------------------------------------------------------------------
     protected var text_view: EditText? = null
     protected var status_button: Button? = null
+    protected var continue_button: Button? = null
 
     // Lifecycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,5 +37,6 @@ abstract class CheckpointActivityInterface: Activity(), TextWatcher, View.OnClic
         // Find
         text_view = findViewById(R.id.text)
         status_button = findViewById(R.id.status)
+        continue_button = findViewById(R.id.con)
     }
 }

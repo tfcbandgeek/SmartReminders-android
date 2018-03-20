@@ -4,6 +4,8 @@ package jgappsandgames.smartreminderslite.holder
 import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
+import android.os.Build
+import android.os.VibrationEffect
 import android.os.Vibrator
 
 // Views
@@ -30,15 +32,11 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
 class CheckpointHolder(private val activity: TaskActivity, private val task: String, private val checkpoint: Checkpoint, view: View):
         View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Views ---------------------------------------------------------------------------------------
-    private val text: TextView
-    private val edit: Button
+    private val text: TextView = view.findViewById(R.id.text)
+    private val edit: Button = view.findViewById(R.id.edit)
 
-    // Constructor
+    // Constructor ---------------------------------------------------------------------------------
     init {
-        // Find Views
-        text = view.findViewById(R.id.text)
-        edit = view.findViewById(R.id.edit)
-
         // Set Click Listeners
         text.setOnClickListener(this)
         text.setOnLongClickListener(this)
@@ -49,14 +47,14 @@ class CheckpointHolder(private val activity: TaskActivity, private val task: Str
         setViews()
     }
 
-    // View Handler
+    // View Handler --------------------------------------------------------------------------------
     private fun setViews() {
         if (checkpoint.status) text.paintFlags = text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         else text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         text.text = checkpoint.text
     }
 
-    // Click Handlers
+    // Click Handlers ------------------------------------------------------------------------------
     override fun onClick(view: View) {
         if (view == edit) {
             val intent = Intent(activity, CheckpointActivity::class.java)
@@ -75,7 +73,14 @@ class CheckpointHolder(private val activity: TaskActivity, private val task: Str
 
         val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         try {
-            if (v != null && v.hasVibrator()) v.vibrate(100)
+            if (v != null && v.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                } else {
+                    @Suppress("DEPRECATION")
+                    v.vibrate(100)
+                }
+            }
         } catch (n: NullPointerException) {
             n.printStackTrace()
         }

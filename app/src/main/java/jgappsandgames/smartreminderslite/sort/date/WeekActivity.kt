@@ -29,15 +29,9 @@ class WeekActivity: WeekActivityInterface() {
 
         // First Run
         FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) {
-            val first_run = Intent(this, FirstRun::class.java)
-            startActivity(first_run)
-        } else {
-            // Load Data
-            MasterManager.load(this)
-        }
-
-        week_active = 0
+        if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
+        else MasterManager.load()
+        weekActive = 0
 
         // Set Title
         setTitle()
@@ -46,7 +40,7 @@ class WeekActivity: WeekActivityInterface() {
     override fun onResume() {
         super.onResume()
 
-        adapter = WeekAdapter(this, week_active)
+        adapter = WeekAdapter(this, weekActive)
         tasks!!.adapter = adapter
     }
 
@@ -60,10 +54,10 @@ class WeekActivity: WeekActivityInterface() {
     override fun onClick(view: View) {
         // Previous
         if (view == previous) {
-            week_active--
-            if (week_active < 0) week_active = 0
+            weekActive--
+            if (weekActive < 0) weekActive = 0
 
-            adapter = WeekAdapter(this, week_active)
+            adapter = WeekAdapter(this, weekActive)
             tasks!!.adapter = adapter
 
             setTitle()
@@ -71,9 +65,9 @@ class WeekActivity: WeekActivityInterface() {
 
         // Next
         else if (view == next) {
-            week_active++
+            weekActive++
 
-            adapter = WeekAdapter(this, week_active)
+            adapter = WeekAdapter(this, weekActive)
             tasks!!.adapter = adapter
 
             setTitle()
@@ -87,8 +81,8 @@ class WeekActivity: WeekActivityInterface() {
 
     // Private Class Methods -----------------------------------------------------------------------
     private fun setTitle() {
-        val start = DateManager.getWeek(week_active).getStart()
-        val end = DateManager.getWeek(week_active).getEnd()
+        val start = DateManager.getWeek(weekActive).getStart()
+        val end = DateManager.getWeek(weekActive).getEnd()
 
         title = (start.get(Calendar.MONTH) + 1).toString() + "/" +
                 start.get(Calendar.DAY_OF_MONTH).toString() + " - " +

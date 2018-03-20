@@ -11,9 +11,9 @@ import org.json.JSONObject
 class Checkpoint(i_id: Int, i_text: String, i_status: Boolean) {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private val ID = "position"
-        private val STATUS = "status"
-        private val TEXT = "text"
+        private const val ID = "position"
+        private const val STATUS = "status"
+        private const val TEXT = "text"
     }
 
     // Data ----------------------------------------------------------------------------------------

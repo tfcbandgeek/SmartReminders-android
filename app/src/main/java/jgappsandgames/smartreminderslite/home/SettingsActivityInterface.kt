@@ -25,8 +25,8 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
  */
 abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Views ---------------------------------------------------------------------------------------
-    protected var your_name: EditText? = null
-    protected var device_name: EditText? = null
+    protected var yourName: EditText? = null
+    protected var deviceName: EditText? = null
     protected var app_directory: Button? = null
     protected var tutorial: Button? = null
 
@@ -37,7 +37,7 @@ abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View
     protected var week: Switch? = null
     protected var month: Switch? = null
 
-    // LifeCycle Methods
+    // LifeCycle Methods ---------------------------------------------------------------------------
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +46,8 @@ abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View
         setContentView(R.layout.activity_first_run)
 
         // Find Views
-        your_name = findViewById(R.id.yourname)
-        device_name = findViewById(R.id.device_name)
+        yourName = findViewById(R.id.yourname)
+        deviceName = findViewById(R.id.device_name)
         app_directory = findViewById(R.id.app_directory)
         tutorial = findViewById(R.id.tutorial)
 
@@ -62,8 +62,8 @@ abstract class SettingsActivityInterface: Activity(), View.OnClickListener, View
         month = findViewById(R.id.month)
 
         // Set Text
-        your_name!!.setText(SettingsManager.user_name)
-        device_name!!.setText(SettingsManager.device_name)
+        yourName!!.setText(SettingsManager.user_name)
+        deviceName!!.setText(SettingsManager.device_name)
         if (SettingsManager.use_external_file) app_directory!!.setText(R.string.save_external)
         else app_directory!!.setText(R.string.save_app)
 

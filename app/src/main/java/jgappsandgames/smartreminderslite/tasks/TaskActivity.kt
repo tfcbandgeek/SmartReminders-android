@@ -1,7 +1,8 @@
 package jgappsandgames.smartreminderslite.tasks
 
 // Java
-import java.util.*
+import java.util.Calendar
+import java.util.GregorianCalendar
 
 // Android OS
 import android.annotation.SuppressLint
@@ -36,9 +37,6 @@ import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
 
-
-
-
 /**
  * TaskActivity
  * Created by joshua on 12/16/2017.
@@ -54,6 +52,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 class TaskActivity: TaskActivityInterface() {
     // Data ----------------------------------------------------------------------------------------
     var task: Task? = null
+    var load: Boolean = false
 
     // LifeCycle Methods ---------------------------------------------------------------------------
     /**
@@ -72,7 +71,7 @@ class TaskActivity: TaskActivityInterface() {
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
 
         // Normal Run
-        else MasterManager.load(this)
+        else MasterManager.load()
     }
 
     /**
@@ -84,6 +83,7 @@ class TaskActivity: TaskActivityInterface() {
     override fun onResume() {
         super.onResume()
         // Load Data
+        load = true
         task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
 
         // Set Generic Text
@@ -108,6 +108,8 @@ class TaskActivity: TaskActivityInterface() {
             adapter = ChildrenAdapter(this, task!!.getChildren())
             list!!.adapter = adapter
         }
+
+        load = false
     }
 
     /**
@@ -296,8 +298,10 @@ class TaskActivity: TaskActivityInterface() {
      * Called By The Application
      */
     override fun afterTextChanged(editable: Editable?) {
-        task!!.setTitle(title!!.text.toString())
-        task!!.setNote(note!!.text.toString())
+        if (!load) {
+            task!!.setTitle(title!!.text.toString())
+            task!!.setNote(note!!.text.toString())
+        }
     }
 
     // Seekbar Listener ----------------------------------------------------------------------------
@@ -364,7 +368,7 @@ class TaskActivity: TaskActivityInterface() {
      *
      * Called To Set The Status Text
      */
-    fun drawStatus() {
+    private fun drawStatus() {
         if (task!!.getType() == Task.TYPE_TASK) {
             if (task!!.getStatus() == Task.STATUS_DONE) status!!.setText(R.string.complete)
             else status!!.setText(R.string.incomplete)
@@ -376,7 +380,7 @@ class TaskActivity: TaskActivityInterface() {
      *
      * Called To Set The Tags Text
      */
-    fun drawTags() {
+    private fun drawTags() {
         tags!!.text = task!!.getTagString()
     }
 
@@ -385,7 +389,7 @@ class TaskActivity: TaskActivityInterface() {
      *
      * Called To Set The Date Text
      */
-    fun drawDate() {
+    private fun drawDate() {
         date!!.text = task!!.getDateDueString()
     }
 

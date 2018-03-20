@@ -41,12 +41,12 @@ class AboutActivity : Activity() {
         (findViewById<View>(R.id.api) as TextView).text = jgappsandgames.smartreminderssave.BuildConfig.VERSION_NAME
 
         // Check For Updates
-        findViewById<View>(R.id.update).setOnClickListener({ view ->
+        findViewById<View>(R.id.update).setOnClickListener({ _ ->
             val thread = Thread {
                 try {
                     val release = URL("https://www.dropbox.com/s/a0i0ieed2dpskoo/release.json?dl=1")
-                    val release_connection = release.openConnection()
-                    val reader = BufferedReader(InputStreamReader(release_connection.getInputStream()))
+                    val releaseConnection = release.openConnection()
+                    val reader = BufferedReader(InputStreamReader(releaseConnection.getInputStream()))
 
                     val s = StringBuilder()
                     while (true) {

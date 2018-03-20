@@ -22,9 +22,9 @@ import org.json.JSONObject
  */
 class JSONUtility {
     companion object {
-        // JSON Calendar Constants
-        private val ACTIVE = "active"
-        private val DATE = "date"
+        // JSON Calendar Constants -----------------------------------------------------------------
+        private const val ACTIVE = "active"
+        private const val DATE = "date"
 
         // Called to Load JSON From File
         @JvmStatic

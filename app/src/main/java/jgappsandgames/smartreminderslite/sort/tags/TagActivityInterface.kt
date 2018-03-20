@@ -21,7 +21,7 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
  * Created by joshua on 1/19/2018.
  */
 abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
-    // Views
+    // Views ---------------------------------------------------------------------------------------
     protected var tasks_text: TextView? = null
     protected var tasks_list: ListView? = null
     protected var selected_text: TextView? = null
@@ -29,12 +29,12 @@ abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFold
     protected var unselected_text: TextView? = null
     protected var unselected_list: ListView? = null
 
-    // Adapters
+    // Adapters ------------------------------------------------------------------------------------
     protected var task_adapter: TaskAdapter? = null
     protected var selected_adapter: SelectedAdapter? = null
     protected var unselected_adapter: UnselectedAdapter? = null
 
-    // LifeCycle Methods
+    // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tag)
@@ -48,7 +48,7 @@ abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFold
         unselected_list = findViewById(R.id.unselected)
     }
 
-    // Menu
+    // Menu ----------------------------------------------------------------------------------------
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_auxilary, menu)
         return true
@@ -67,6 +67,6 @@ abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFold
         return super.onOptionsItemSelected(item)
     }
 
-    // Abstract Methods
+    // Abstract Methods ----------------------------------------------------------------------------
     abstract fun save()
 }

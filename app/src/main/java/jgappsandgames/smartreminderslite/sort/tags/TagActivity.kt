@@ -17,11 +17,11 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
  * Created by joshua on 1/19/2018.
  */
 class TagActivity: TagActivityInterface() {
-    // Data
+    // Data ----------------------------------------------------------------------------------------
     private var selected_tags: ArrayList<String>? = null
     private var tasks: ArrayList<Task>? = null
 
-    // LifeCycle Methods
+    // LifeCycle Methods ---------------------------------------------------------------------------
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class TagActivity: TagActivityInterface() {
         unselected_list!!.adapter = unselected_adapter
     }
 
-    // Tag Switcher
+    // Tag Switcher --------------------------------------------------------------------------------
     override fun moveTag(tag: String?, selected: Boolean) {
         if (selected && !selected_tags!!.contains(tag)) selected_tags!!.add(tag!!)
         else if (!selected && selected_tags!!.contains(tag)) selected_tags!!.remove(tag)
@@ -64,6 +64,7 @@ class TagActivity: TagActivityInterface() {
         onResume()
     }
 
+    // Save ----------------------------------------------------------------------------------------
     override fun save() {
         MasterManager.save()
     }

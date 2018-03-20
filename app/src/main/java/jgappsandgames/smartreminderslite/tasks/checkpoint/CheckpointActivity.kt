@@ -53,6 +53,9 @@ class CheckpointActivity: CheckpointActivityInterface() {
         text_view!!.addTextChangedListener(this)
         status_button!!.setOnClickListener(this)
         status_button!!.setOnLongClickListener(this)
+        continue_button!!.setOnClickListener {
+            finish()
+        }
         setStatus()
     }
 
@@ -76,23 +79,21 @@ class CheckpointActivity: CheckpointActivityInterface() {
         return false
     }
 
-    // Class Methods
+    // Class Methods -------------------------------------------------------------------------------
     private fun setStatus() {
         if (status) status_button!!.setText(R.string.completed)
         else status_button!!.setText(R.string.incomplete)
     }
 
     private fun setReturnIntent() {
-        val r_data = JSONObject()
+        val r = JSONObject()
 
         try {
-            r_data.put(Task.CHECKPOINT_POSITION, position)
-            r_data.put(Task.CHECKPOINT_STATUS, status)
-            r_data.put(Task.CHECKPOINT_TEXT, text)
+            r.put(Task.CHECKPOINT_POSITION, position)
+            r.put(Task.CHECKPOINT_STATUS, status)
+            r.put(Task.CHECKPOINT_TEXT, text)
 
-            val intent = Intent().putExtra(ActivityUtility.CHECKPOINT, r_data.toString())
-
-            setResult(ActivityUtility.RESPONSE_CHANGE, intent)
+            setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.CHECKPOINT, r.toString()))
         } catch (e: JSONException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {

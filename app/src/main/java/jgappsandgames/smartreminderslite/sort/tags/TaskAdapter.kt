@@ -22,8 +22,10 @@ import jgappsandgames.smartreminderssave.tasks.Task
  */
 class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>, n_tasks: ArrayList<Task>):
         BaseAdapter() {
+    // Data ----------------------------------------------------------------------------------------
     private val tasks: ArrayList<Task> = ArrayList()
 
+    // Constructor ---------------------------------------------------------------------------------
     init {
         for (task in n_tasks) {
             var task_clear = true
@@ -48,7 +50,7 @@ class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>
         }
     }
 
-    // List Methods
+    // List Methods --------------------------------------------------------------------------------
     override fun getCount(): Int {
         return tasks.size
     }

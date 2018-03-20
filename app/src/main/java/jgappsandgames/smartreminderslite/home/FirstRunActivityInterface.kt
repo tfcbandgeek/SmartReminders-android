@@ -23,8 +23,8 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
  *
  * Activity Called on the First Run to Setup the App
  */
-abstract class FirstRunActivityInterface : Activity(), View.OnClickListener, TextWatcher {
-    // Views
+abstract class FirstRunActivityInterface: Activity(), View.OnClickListener, TextWatcher {
+    // Views ---------------------------------------------------------------------------------------
     protected var your_name: EditText? = null
     protected var device_name: EditText? = null
     protected var app_directory: Button? = null
@@ -32,7 +32,7 @@ abstract class FirstRunActivityInterface : Activity(), View.OnClickListener, Tex
     protected var tutorial: Button? = null
     protected var con: Button? = null
 
-    // LifeCycle Methods
+    // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
