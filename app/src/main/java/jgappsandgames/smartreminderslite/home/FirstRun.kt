@@ -20,6 +20,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
+import org.jetbrains.anko.toast
 
 /**
  * FirstRunActivity
@@ -28,7 +29,7 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
  * Activity Called on the First Run to Setup the App
  */
 class FirstRun: FirstRunActivityInterface() {
-    // LifeCycle Methods
+    // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +37,7 @@ class FirstRun: FirstRunActivityInterface() {
         MasterManager.create()
     }
 
-    // Click Listeners
+    // Click Listeners -----------------------------------------------------------------------------
     @SuppressLint("NewApi")
     override fun onClick(view: View) {
         // App Directory
@@ -49,9 +50,9 @@ class FirstRun: FirstRunActivityInterface() {
                 app_directory!!.setText(R.string.save_external)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val permision = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    val permission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                    if (permision == PackageManager.PERMISSION_DENIED) {
+                    if (permission == PackageManager.PERMISSION_DENIED) {
                         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
                     }
                 }
@@ -60,12 +61,12 @@ class FirstRun: FirstRunActivityInterface() {
 
         // Settings
         if (view == settings) {
-            Toast.makeText(this, "Coming Soon.", Toast.LENGTH_SHORT).show()
+            toast(R.string.coming_soon).show()
         }
 
         // Tutorial
         if (view == tutorial) {
-            Toast.makeText(this, "Coming Soon.", Toast.LENGTH_SHORT).show()
+            toast(R.string.coming_soon).show()
         }
 
         // Continue

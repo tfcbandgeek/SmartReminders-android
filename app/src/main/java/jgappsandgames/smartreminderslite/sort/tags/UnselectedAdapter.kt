@@ -47,8 +47,8 @@ class UnselectedAdapter(private val activity: TagActivity, selected: ArrayList<S
         return position.toLong()
     }
 
-    override fun getView(position: Int, convert_view: View, parent: ViewGroup): View {
-        var view = convert_view
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var view = convertView
         view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
 
         val holder = TagHolder(getItem(position), false, activity, view)

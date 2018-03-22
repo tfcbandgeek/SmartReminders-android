@@ -11,6 +11,7 @@ import android.view.View
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
+import jgappsandgames.smartreminderssave.date.DateManager
 
 /**
  * DayActivity
@@ -30,6 +31,7 @@ class DayActivity: DayActivityInterface() {
     override fun onResume() {
         super.onResume()
 
+        DateManager.create()
         adapter = DayAdapter(this, dateActivity)
         tasks!!.adapter = adapter
     }

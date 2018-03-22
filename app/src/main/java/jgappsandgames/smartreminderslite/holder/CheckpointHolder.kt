@@ -11,7 +11,6 @@ import android.os.Vibrator
 // Views
 import android.view.View
 import android.widget.Button
-import android.widget.CompoundButton
 import android.widget.TextView
 
 // App
@@ -30,7 +29,7 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
  * Handles the View For Drawing the Checkpoints in the Task
  */
 class CheckpointHolder(private val activity: TaskActivity, private val task: String, private val checkpoint: Checkpoint, view: View):
-        View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
+        View.OnClickListener, View.OnLongClickListener {
     // Views ---------------------------------------------------------------------------------------
     private val text: TextView = view.findViewById(R.id.text)
     private val edit: Button = view.findViewById(R.id.edit)
@@ -86,11 +85,5 @@ class CheckpointHolder(private val activity: TaskActivity, private val task: Str
         }
 
         return true
-    }
-
-    // Check Handler
-    override fun onCheckedChanged(view: CompoundButton, status: Boolean) {
-        checkpoint.status = status
-        activity.editCheckpoint(checkpoint)
     }
 }

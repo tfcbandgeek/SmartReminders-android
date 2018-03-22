@@ -40,6 +40,7 @@ class WeekActivity: WeekActivityInterface() {
     override fun onResume() {
         super.onResume()
 
+        DateManager.create()
         adapter = WeekAdapter(this, weekActive)
         tasks!!.adapter = adapter
     }

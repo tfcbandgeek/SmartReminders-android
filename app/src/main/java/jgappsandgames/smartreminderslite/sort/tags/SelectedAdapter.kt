@@ -36,8 +36,8 @@ class SelectedAdapter(private val activity: TagActivity, private val tags: Array
         return position.toLong()
     }
 
-    override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
-        if (convert_view == null) {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        if (convertView == null) {
             val view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
 
             val holder = TagHolder(getItem(position), true, activity, view)
@@ -46,9 +46,9 @@ class SelectedAdapter(private val activity: TagActivity, private val tags: Array
             return view
         }
 
-        val holder = TagHolder(getItem(position), true, activity, convert_view)
-        convert_view.tag = holder
+        val holder = TagHolder(getItem(position), true, activity, convertView)
+        convertView.tag = holder
 
-        return convert_view
+        return convertView
     }
 }

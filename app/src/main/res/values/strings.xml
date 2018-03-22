@@ -12,6 +12,7 @@
     <string name="close">Close</string>
     <string name="complete">Completed.</string>
     <string name="completed">Completed</string>
+    <string name="completed_tasks">Completed Tasks [%1$d]</string>
     <string name="coming_soon">Coming Soon.</string>
     <string name="con">Continue</string>
 
@@ -22,16 +23,22 @@
     <string name="down">Down</string>
 
     <string name="edit">Edit</string>
+    <string name="external">External</string>
 
     <string name="high">High</string>
+    <string name="high_priority">"High Priority"</string>
 
     <string name="ignore">Ignore</string>
     <string name="incomplete">Incomplete</string>
+    <string name="incomplete_tasks">Incomplete Tasks [%1$d]</string>
+    <string name="internal">Internal</string>
 
     <string name="low">Low</string>
+    <string name="low_priority_default">"Low Priority (Default)"</string>
 
     <string name="month">Month</string>
     <string name="month_shortcut">Month Shortcut</string>
+    <string name="month_view">Month View</string>
 
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -39,15 +46,18 @@
     <string name="no_date">No Date</string>
     <string name="no_tags">No Tags</string>
     <string name="normal">Normal</string>
+    <string name="normal_priority">"Normal Priority"</string>
     <string name="note">Note</string>
 
     <string name="overdue">Overdue</string>
+    <string name="overdue_tasks">Overdue Tasks [%1$d]</string>
 
     <string name="prev">Prev</string>
     <string name="priority">Priority</string>
     <string name="priority_shortcut">Priority Shortcut</string>
 
     <string name="save">Save</string>
+    <string name="saved">Saved.</string>
     <string name="save_alert_message">Save the Information to the Documents Folder.   This requires an additional permission but allows the information to be shared with other apps.</string>
     <string name="save_app">Saving to App Directory</string>
     <string name="save_external">Saving to External File</string>
@@ -57,6 +67,7 @@
     <string name="settings">Settings</string>
     <string name="saving_to_app_directory">Saving to App Directory</string>
     <string name="stared">Stared</string>
+    <string name="stared_tasks">Stared Tasks</string>
     <string name="status">Status</string>
     <string name="status_shortcut">Status Shortcut</string>
 
@@ -64,7 +75,9 @@
     <string name="tags">Tags</string>
     <string name="tasks">Tasks</string>
     <string name="text">Text</string>
+    <string name="this_month">This Month</string>
     <string name="title">Title</string>
+    <string name="today">Today</string>
     <string name="tutorial">Tutorial</string>
 
     <string name="unselected">Unselected</string>

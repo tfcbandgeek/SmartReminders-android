@@ -112,16 +112,21 @@ class TagManager {
             if (tag == "") return false
 
             // Check to See if the Tag is Already there
-            if (tags.size == 0) {
-                tags.add(tag)
-                return true
-            } else if (tags.contains(tag)) {
-                return false
-            }
+            return when {
+                tags.size == 0 -> {
+                    tags.add(tag)
+                    save()
+                    true
+                }
 
-            // Add the Tag
-            tags.add(tag)
-            return true
+                tags.contains(tag) -> false
+
+                else -> {
+                    tags.add(tag)
+                    save()
+                    true
+                }
+            }
         }
 
         @JvmStatic
@@ -134,6 +139,7 @@ class TagManager {
 
             // Remove Tag
             tags.remove(tag)
+            save()
 
             // Clear Tags from Tasks
             for (t in TaskManager.tasks) {

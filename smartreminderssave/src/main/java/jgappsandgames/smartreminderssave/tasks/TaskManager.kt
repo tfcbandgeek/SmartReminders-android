@@ -92,6 +92,7 @@ class TaskManager {
         fun clearTasks() {
             for (task in archived) deleteTask(Task(task))
             archived = ArrayList()
+            save()
         }
 
         // JSONManagement Methods ------------------------------------------------------------------

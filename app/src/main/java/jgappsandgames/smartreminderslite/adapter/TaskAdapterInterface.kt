@@ -25,7 +25,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  *
  * Class that Handles The List View Items For Tasks and Folders Throughout the Entire App
  */
-open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolderHolder.OnTaskChangedListener, val tasks: ArrayList<Task>): BaseAdapter() {
+open class TaskAdapterInterface(val activity: Activity, private val listener: TaskFolderHolder.OnTaskChangedListener, val tasks: ArrayList<Task>): BaseAdapter() {
     // Secondary Initializer -----------------------------------------------------------------------
     constructor(activity: Activity, listener: TaskFolderHolder.OnTaskChangedListener, tasks: ArrayList<String>, @Nullable unused: String?):
             this(activity, listener, ArrayList()) {
@@ -95,12 +95,12 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
      * GetView
      *
      * @param position Position of The Item
-     * @param convert_view Convert View
+     * @param convertView Convert View
      * @param parent Parent View
      * @return The View Based on The Task at That Position
      */
-    override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
-        if (convert_view == null) {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        if (convertView == null) {
             val temp: View = if (getItemViewType(position) == Task.TYPE_TASK) LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
                 else LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
 
@@ -110,9 +110,9 @@ open class TaskAdapterInterface(val activity: Activity, val listener: TaskFolder
             return temp
         }
 
-        val holder: TaskFolderHolder = convert_view.tag as TaskFolderHolder
+        val holder: TaskFolderHolder = convertView.tag as TaskFolderHolder
         holder.task = getItem(position)
         holder.setViews()
-        return convert_view
+        return convertView
     }
 }

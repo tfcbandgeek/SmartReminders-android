@@ -13,27 +13,27 @@ import jgappsandgames.smartreminderslite.R
  *
  * Class to Handle Tag Views in a list
  */
-class TagHolder(private var tag_text: String?, private var tag_selected: Boolean, private val switcher: TagSwitcher, view: View): View.OnClickListener {
+class TagHolder(private var tagText: String?, private var tagSelected: Boolean, private val switcher: TagSwitcher, view: View): View.OnClickListener {
     // Views ---------------------------------------------------------------------------------------
-    private val text_view: TextView = view.findViewById(R.id.tag)
+    private val textView: TextView = view.findViewById(R.id.tag)
 
     // Initializer ---------------------------------------------------------------------------------
     init {
-        text_view.text = tag_text
-        text_view.setOnClickListener(this)
+        textView.text = tagText
+        textView.setOnClickListener(this)
     }
 
     // Management Methods --------------------------------------------------------------------------
     fun updateView(tag: String, selected: Boolean) {
-        this.tag_selected = selected
-        this.tag_text = tag
+        this.tagSelected = selected
+        this.tagText = tag
 
-        text_view.text = tag_text
+        textView.text = tagText
     }
 
     // Click Listeners -----------------------------------------------------------------------------
     override fun onClick(view: View) {
-        switcher.moveTag(tag_text, !tag_selected)
+        switcher.moveTag(tagText, !tagSelected)
     }
 
     // Interfaces ----------------------------------------------------------------------------------

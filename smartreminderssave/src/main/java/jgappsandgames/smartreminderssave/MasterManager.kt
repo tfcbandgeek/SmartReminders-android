@@ -2,9 +2,12 @@ package jgappsandgames.smartreminderssave
 
 // Android OS
 import android.content.Context
+import jgappsandgames.smartreminderssave.date.DateManager
+import jgappsandgames.smartreminderssave.priority.PriorityManager
 
 // Save Library
 import jgappsandgames.smartreminderssave.settings.SettingsManager
+import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.theme.ThemeManager
@@ -63,6 +66,9 @@ class MasterManager {
             TaskManager.load()
             TagManager.load()
             ThemeManager.load()
+            DateManager.create()
+            PriorityManager.create()
+            StatusManager.create()
         }
 
         /**
@@ -76,6 +82,9 @@ class MasterManager {
             TaskManager.load()
             TagManager.load()
             ThemeManager.load()
+            DateManager.create()
+            PriorityManager.create()
+            StatusManager.create()
         }
 
         /**
