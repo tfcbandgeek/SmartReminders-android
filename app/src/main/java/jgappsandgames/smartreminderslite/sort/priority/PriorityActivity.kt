@@ -126,6 +126,7 @@ class PriorityActivity: PriorityActivityInterface() {
      * SetTitle
      *
      * Called to Set The Title and The Text in The Buttons
+     * TODO: Combine with SetAdapter
      */
     private fun setTitle() {
         when (position) {
@@ -169,6 +170,7 @@ class PriorityActivity: PriorityActivityInterface() {
      * SetAdapter
      *
      * Called To Set The Adapter Currently Active
+     * Todo: Combine with setTitle
      */
     private fun setAdapter() {
         when (position) {
@@ -266,7 +268,7 @@ class PriorityActivity: PriorityActivityInterface() {
 
             5 -> {
                 position = 4
-                down!!.visibility = View.VISIBLE
+                up!!.visibility = View.VISIBLE
                 setAdapter()
                 setTitle()
             }

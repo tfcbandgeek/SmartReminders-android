@@ -33,22 +33,37 @@ class StatusManager {
             for (t in TaskManager.tasks) {
                 val temp = Task(t)
 
-                // Folders
-                if (temp.getType() == Task.TYPE_FLDR) folders_list!!.add(temp)
+                when (temp.getType()) {
+                    Task.TYPE_FLDR -> {
+                        folders_list?.add(temp)
+                    }
 
-                // Completed
-                else if (temp.isCompleted()) completed_list!!.add(temp)
+                    Task.TYPE_TASK -> {
+                        when (temp.getStatus()) {
+                            Task.STATUS_DONE -> {
+                                completed_list?.add(temp)
+                            }
 
-                // Overdue
-                else if (temp.getDateDue() != null) {
-                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdue_list!!.add(temp)
+                            0 -> {
+                                if (temp.getDateDue() != null) {
+                                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdue_list?.add(temp)
+                                    else incomplete_list?.add(temp)
+                                } else {
+                                    incomplete_list?.add(temp)
+                                }
+                            }
+
+                            else -> {
+                                if (temp.getDateDue() != null) {
+                                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdue_list?.add(temp)
+                                    else in_progress_list?.add(temp)
+                                } else {
+                                    in_progress_list?.add(temp)
+                                }
+                            }
+                        }
+                    }
                 }
-
-                // Incomplete
-                else if (temp.getStatus() == 0) incomplete_list!!.add(temp)
-
-                // In Progress
-                else in_progress_list!!.add(temp)
             }
         }
 
