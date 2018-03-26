@@ -12,7 +12,7 @@ import android.os.Environment
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 /**
- * FileUtilty
+ * FileUtility
  * Created by joshua on 12/6/2017.
  */
 class FileUtility {
@@ -49,8 +49,8 @@ class FileUtility {
             if (SettingsManager.use_external_file) {
                 if (external != null) return external!!
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
-                else external = data
+                external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
+                else data
 
                 // Create Directory
                 if (!external!!.exists() || !external!!.isDirectory) external!!.mkdirs()
@@ -78,8 +78,8 @@ class FileUtility {
 
         @JvmStatic
         fun getExternalFileDirectory(): File {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
-            else external = data
+            external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
+            else data
 
             // Create Directory
             if (!external!!.exists() || !external!!.isDirectory) external!!.mkdirs()

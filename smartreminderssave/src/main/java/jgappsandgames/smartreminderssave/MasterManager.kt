@@ -119,15 +119,5 @@ class MasterManager {
         fun cleanCache() {
             FileUtility.getApplicationCacheDirectory().deleteRecursively()
         }
-
-        // ---- ---- ---- ---- ---- ---- ---- Class Methods ---- ---- ---- ---- ---- ---- ----
-        /**
-         * loadLog
-         *
-         * Called to Load the Log File
-         */
-        @Deprecated("Removed ASAP")
-        private fun loadLog() {
-        }
     }
 }
