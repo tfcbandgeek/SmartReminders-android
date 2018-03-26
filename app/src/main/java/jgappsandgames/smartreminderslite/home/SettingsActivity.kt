@@ -3,16 +3,12 @@ package jgappsandgames.smartreminderslite.home
 // Android OS
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
-
-// Views
-import android.view.View
-import android.widget.CompoundButton
-import android.widget.Toast
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -25,52 +21,44 @@ import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
+import kotlinx.android.synthetic.main.activity_first_run.*
+import org.jetbrains.anko.toast
 
 /**
  * SettingsActivity
  * Created by joshua on 12/25/2017.
  */
-class SettingsActivity: SettingsActivityInterface() {
+class SettingsActivity: Activity() {
     // LifeCycle Methods ---------------------------------------------------------------------------
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_first_run)
+        setTitle(R.string.settings)
+
+        // Set Text
+        first_run_your_name_edit_text.setText(SettingsManager.user_name)
+        first_run_device_name_edit_text.setText(SettingsManager.device_name)
+        if (SettingsManager.use_external_file) first_run_app_directory_button.setText(R.string.external)
+        else first_run_app_directory_button.setText(R.string.internal)
 
         // Set Check
-        tag!!.isChecked = SettingsManager.has_tag_shortcut
-        priority!!.isChecked = SettingsManager.has_priority_shortcut
-        status!!.isChecked = SettingsManager.has_status_shortcut
-        day!!.isChecked = SettingsManager.has_today_shortcut
-        week!!.isChecked = SettingsManager.has_week_shortcut
-        month!!.isChecked = SettingsManager.has_month_shortcut
+        first_run_tag_switch.isChecked = SettingsManager.has_tag_shortcut
+        first_run_priority_switch.isChecked = SettingsManager.has_priority_shortcut
+        first_run_status_switch.isChecked = SettingsManager.has_status_shortcut
+        first_run_day_switch.isChecked = SettingsManager.has_today_shortcut
+        first_run_week_switch.isChecked = SettingsManager.has_week_shortcut
+        first_run_month_switch.isChecked = SettingsManager.has_month_shortcut
 
         // Set Listeners
-        tag!!.setOnCheckedChangeListener(this)
-        priority!!.setOnCheckedChangeListener(this)
-        status!!.setOnCheckedChangeListener(this)
-        day!!.setOnCheckedChangeListener(this)
-        week!!.setOnCheckedChangeListener(this)
-        month!!.setOnCheckedChangeListener(this)
-    }
-    override fun onPause() {
-        super.onPause()
-
-        SettingsManager.user_name = yourName!!.text.toString()
-        SettingsManager.device_name = deviceName!!.text.toString()
-        MasterManager.save()
-    }
-
-    // Click Listener ------------------------------------------------------------------------------
-    @SuppressLint("NewApi")
-    override fun onClick(view: View) {
-        // App Directory
-        if (view == app_directory) {
+        first_run_app_directory_button.setOnClickListener {
             if (SettingsManager.use_external_file) {
                 SettingsManager.use_external_file = false
-                app_directory!!.setText(R.string.save_app)
+                first_run_app_directory_button.setText(R.string.save_app)
                 MasterManager.load()
             } else {
                 SettingsManager.use_external_file = true
-                app_directory!!.setText(R.string.save_external)
+                first_run_app_directory_button.setText(R.string.save_external)
 
                 if (VERSION.SDK_INT >= VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -81,23 +69,16 @@ class SettingsActivity: SettingsActivityInterface() {
             }
         }
 
-        // Tutorial
-        if (view == tutorial) Toast.makeText(this, R.string.coming_soon, Toast.LENGTH_SHORT).show()
-    }
-
-    @SuppressLint("NewApi")
-    override fun onLongClick(view: View): Boolean {
-        // App Directory
-        if (view == app_directory) {
+        first_run_app_directory_button.setOnLongClickListener {
             if (SettingsManager.use_external_file) {
                 SettingsManager.use_external_file = false
-                app_directory!!.setText(R.string.save_app)
+                first_run_app_directory_button.setText(R.string.save_app)
                 MoveUtility.moveToInternal()
                 TaskManager.load()
                 TagManager.load()
             } else {
                 SettingsManager.use_external_file = true
-                app_directory!!.setText(R.string.save_external)
+                first_run_app_directory_button.setText(R.string.save_external)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -110,60 +91,63 @@ class SettingsActivity: SettingsActivityInterface() {
                 }
             }
 
-            return true
+            return@setOnLongClickListener true
         }
 
-        return false
-    }
+        first_run_tutorial_button.setOnClickListener {
+            toast(R.string.coming_soon)
+        }
 
-    override fun onCheckedChanged(switch: CompoundButton?, state: Boolean) {
-        // Tag
-        if (switch == tag) {
+        first_run_tag_switch.setOnCheckedChangeListener { _, state ->
             SettingsManager.has_tag_shortcut = !SettingsManager.has_tag_shortcut
             SettingsManager.save()
             if (SettingsManager.has_tag_shortcut) ShortcutUtility.createTagShortcut(this)
             else ShortcutUtility.removeTagShortcut(this)
         }
 
-        // Priority
-        else if (switch == priority) {
+        first_run_priority_switch.setOnCheckedChangeListener { _, state ->
             SettingsManager.has_priority_shortcut = !SettingsManager.has_priority_shortcut
             SettingsManager.save()
             if (SettingsManager.has_priority_shortcut) ShortcutUtility.createPriorityShortcut(this)
             else ShortcutUtility.removePriorityShortcut(this)
         }
 
-        // Status
-        else if (switch == status) {
+        first_run_status_switch.setOnCheckedChangeListener { _, state ->
             SettingsManager.has_status_shortcut = !SettingsManager.has_status_shortcut
             SettingsManager.save()
             if (SettingsManager.has_status_shortcut) ShortcutUtility.createStatusShortcut(this)
             else ShortcutUtility.removeStatusShortcut(this)
         }
 
-        // Day
-        else if (switch == day) {
+        first_run_day_switch.setOnCheckedChangeListener { _, state ->
             SettingsManager.has_today_shortcut = !SettingsManager.has_today_shortcut
             SettingsManager.save()
             if (SettingsManager.has_today_shortcut) ShortcutUtility.createTodayShortcut(this)
             else ShortcutUtility.removeTodayShortcut(this)
         }
 
-        // Week
-        else if (switch == week) {
+        first_run_week_switch.setOnCheckedChangeListener { _, state ->
             SettingsManager.has_week_shortcut = !SettingsManager.has_week_shortcut
             SettingsManager.save()
             if (SettingsManager.has_week_shortcut) ShortcutUtility.createWeekShortcut(this)
             else ShortcutUtility.removeWeekShortcut(this)
         }
 
-        // Month
-        else if (switch == month) {
+        first_run_month_switch.setOnCheckedChangeListener { _, state ->
             SettingsManager.has_month_shortcut = !SettingsManager.has_month_shortcut
             SettingsManager.save()
             if (SettingsManager.has_month_shortcut) ShortcutUtility.createMonthShortcut(this)
             else ShortcutUtility.removeMonthShortcut(this)
         }
+
+        list.removeView(first_run_continue_button)
+    }
+    override fun onPause() {
+        super.onPause()
+
+        SettingsManager.user_name = first_run_your_name_edit_text.text.toString()
+        SettingsManager.device_name = first_run_device_name_edit_text.text.toString()
+        MasterManager.save()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -171,7 +155,7 @@ class SettingsActivity: SettingsActivityInterface() {
             ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     SettingsManager.use_external_file = false
-                    app_directory!!.setText(R.string.save_app)
+                    first_run_app_directory_button.setText(R.string.save_app)
                 } else {
                     MasterManager.load()
                 }

@@ -1,16 +1,22 @@
 package jgappsandgames.smartreminderslite.home
 
 // Android OS
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 
 // Views
-import android.view.View
+import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 
 // App
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_home.home_fab
+import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
@@ -21,15 +27,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 /**
  * HomeActivity
  * Created by joshua on 12/13/2017.
- *
- * Home[HomeActivityInterface, HomeActivity]
- * The Main Entrypoint for the Application.  It serves as the Primary Test to see if it is the First
- *     run and Direct the User Where they Need To Go.
- *
- *     HomeActivityInterface: View and Application Focus
- *     HomeActivity: Data and User Input
  */
-class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListener {
+class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
     /**
      * OnCreate
@@ -39,6 +38,8 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
+        setTitle(R.string.app_name)
 
         // Load the FilePaths
         FileUtility.loadFilePaths(this)
@@ -48,6 +49,36 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
 
         // Handle Loading Data
         else MasterManager.load()
+
+        // Set Click Listeners
+        home_fab.setOnClickListener {
+            val task = Task("home", Task.TYPE_TASK)
+            // TODO: Save  returns task and combine with previous statement
+            task.save()
+
+            TaskManager.home.add(task.getFilename())
+            TaskManager.tasks.add(task.getFilename())
+            TaskManager.save()
+
+            // Start Activity
+            startActivity(Intent(this, TaskActivity::class.java)
+                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
+        }
+
+        home_fab.setOnLongClickListener {
+            val task = Task("home", Task.TYPE_FLDR)
+            // TODO: Save  returns task and combine with previous statement
+            task.save()
+
+            TaskManager.home.add(task.getFilename())
+            TaskManager.tasks.add(task.getFilename())
+            TaskManager.save()
+
+            // Start Activity
+            startActivity(Intent(this, TaskActivity::class.java)
+                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
+            return@setOnLongClickListener true
+        }
     }
 
     /**
@@ -58,10 +89,7 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
      */
     override fun onResume() {
         super.onResume()
-
-        // Set Adapters
-        adapter = HomeAdapter(this)
-        list!!.adapter = adapter
+        home_tasks_list.adapter = HomeAdapter(this)
     }
 
     /**
@@ -74,58 +102,6 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
         super.onPause()
 
         save()
-    }
-
-    // Click Listeners -----------------------------------------------------------------------------
-    /**
-     * OnClick
-     *
-     * The Click Listener For This Class
-     *     [FAB] Called to Create a Task
-     */
-    override fun onClick(view: View) {
-        // FAB
-        if (view == fab) {
-            val task = Task("home", Task.TYPE_TASK)
-            task.save()
-
-            TaskManager.home.add(task.getFilename())
-            TaskManager.tasks.add(task.getFilename())
-            TaskManager.save()
-
-            // Start Activity
-            startActivity(Intent(this, TaskActivity::class.java)
-                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
-        }
-    }
-
-    /**
-     * OnLongClick
-     *
-     * The Long Click Listener For This Class
-     *     [FAB] Called to Create a Folder
-     */
-    override fun onLongClick(view: View): Boolean {
-        // FAB
-        if (view == fab) {
-            val task = Task("home", Task.TYPE_FLDR)
-            task.save()
-
-            TaskManager.home.add(task.getFilename())
-            TaskManager.tasks.add(task.getFilename())
-            TaskManager.save()
-
-            // Create Intent
-            val intent = Intent(this, TaskActivity::class.java)
-            intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename())
-
-            // Start Activity
-            startActivity(intent)
-            return true
-        }
-
-        // Default
-        return false
     }
 
     // Task Listener -------------------------------------------------------------------------------
@@ -144,7 +120,10 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
      *
      * Method That Handles Any and All Data That May Have Changed
      */
-    override fun save() {
+    fun save() {
         MasterManager.save()
     }
+
+    // Internal Classes ----------------------------------------------------------------------------
+    class HomeAdapter(activity: HomeActivity): TaskAdapterInterface(activity, activity, TaskManager.home, null)
 }
