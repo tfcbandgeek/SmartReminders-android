@@ -30,7 +30,8 @@
                     android:id="@+id/first_run_your_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/your_name" />
+                    android:hint="@string/your_name"
+                    android:inputType="text" />
             </LinearLayout>
 
             <!--Device Name-->
@@ -43,7 +44,8 @@
                     android:id="@+id/first_run_device_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/device_name" />
+                    android:hint="@string/device_name"
+                    android:inputType="text" />
             </LinearLayout>
 
             <!--Save Location-->

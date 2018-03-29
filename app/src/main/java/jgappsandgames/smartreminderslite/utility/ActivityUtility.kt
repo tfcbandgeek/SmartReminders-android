@@ -1,5 +1,6 @@
 package jgappsandgames.smartreminderslite.utility
 
+@Suppress("unused")
 /**
  * ActivityUtility
  * Created by joshua on 12/26/2017.

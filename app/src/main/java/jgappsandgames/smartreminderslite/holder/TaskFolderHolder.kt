@@ -33,7 +33,6 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
 class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedListener: OnTaskChangedListener):
         View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
     // Data ----------------------------------------------------------------------------------------
-    @JvmField
     var task: Task
     private val activity: Activity
     private val onTaskChanged: OnTaskChangedListener?

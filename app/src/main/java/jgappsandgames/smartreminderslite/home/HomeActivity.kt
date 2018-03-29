@@ -4,13 +4,24 @@ package jgappsandgames.smartreminderslite.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 
 // Views
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 
+// Anko
+import org.jetbrains.anko.toast
+
 // App
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.sort.date.DayActivity
+import jgappsandgames.smartreminderslite.sort.date.MonthActivity
+import jgappsandgames.smartreminderslite.sort.date.WeekActivity
+import jgappsandgames.smartreminderslite.sort.priority.PriorityActivity
+import jgappsandgames.smartreminderslite.sort.status.StatusActivity
+import jgappsandgames.smartreminderslite.sort.tags.TagActivity
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
@@ -30,12 +41,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  */
 class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
-    /**
-     * OnCreate
-     *
-     * Called to Create the View
-     * Called by the Application
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -102,6 +107,69 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         super.onPause()
 
         save()
+    }
+
+    // Menu Methods --------------------------------------------------------------------------------
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.tags -> {
+                startActivity(Intent(this, TagActivity::class.java))
+                return true
+            }
+
+            R.id.status -> {
+                startActivity(Intent(this, StatusActivity::class.java))
+                return true
+            }
+
+            R.id.priority -> {
+                startActivity(Intent(this, PriorityActivity::class.java))
+                return true
+            }
+
+            R.id.day -> {
+                startActivity(Intent(this, DayActivity::class.java))
+                return true
+            }
+
+            R.id.week -> {
+                startActivity(Intent(this, WeekActivity::class.java))
+                return true
+            }
+
+            R.id.month -> {
+                startActivity(Intent(this, MonthActivity::class.java))
+                return true
+            }
+
+            R.id.settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                return true
+            }
+
+           R.id.about -> {
+                startActivity(Intent (this, AboutActivity::class.java))
+                return true
+            }
+
+            R.id.save -> {
+                save ()
+                toast(R.string.saved).show()
+                return true
+            }
+
+            R.id.close -> {
+                finish()
+                return true
+            }
+        }
+
+        return false
     }
 
     // Task Listener -------------------------------------------------------------------------------

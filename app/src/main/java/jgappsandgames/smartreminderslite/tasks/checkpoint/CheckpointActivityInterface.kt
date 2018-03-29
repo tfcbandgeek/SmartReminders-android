@@ -20,9 +20,9 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
  */
 abstract class CheckpointActivityInterface: Activity(), TextWatcher, View.OnClickListener, View.OnLongClickListener {
     // Views ---------------------------------------------------------------------------------------
-    protected var text_view: EditText? = null
-    protected var status_button: Button? = null
-    protected var continue_button: Button? = null
+    protected var textView: EditText? = null
+    protected var statusButton: Button? = null
+    protected var continueButton: Button? = null
 
     // Lifecycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +35,8 @@ abstract class CheckpointActivityInterface: Activity(), TextWatcher, View.OnClic
         setResult(ActivityUtility.RESPONSE_NONE)
 
         // Find
-        text_view = findViewById(R.id.text)
-        status_button = findViewById(R.id.status)
-        continue_button = findViewById(R.id.con)
+        textView = findViewById(R.id.text)
+        statusButton = findViewById(R.id.status)
+        continueButton = findViewById(R.id.con)
     }
 }

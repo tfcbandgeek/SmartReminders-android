@@ -33,10 +33,10 @@ abstract class MonthActivityInterface:
         Activity(), TaskFolderHolder.OnTaskChangedListener, CalendarView.OnDateChangeListener {
     // Data
     protected var selected: Calendar? = null
-    protected var selected_tasks: ArrayList<Task>? = null
+    protected var selectedTasks: ArrayList<Task>? = null
 
     // Views
-    protected var calendar: CalendarView? = null
+    private var calendar: CalendarView? = null
     protected var tasks: ListView? = null
 
     // LifeCycle Methods
@@ -51,8 +51,7 @@ abstract class MonthActivityInterface:
         // First Run
         FileUtility.loadFilePaths(this)
         if (FileUtility.isFirstRun()) {
-            val first_run = Intent(this, FirstRun::class.java)
-            startActivity(first_run)
+            startActivity(Intent(this, FirstRun::class.java))
         } else {
             // Load Data
             MasterManager.load()

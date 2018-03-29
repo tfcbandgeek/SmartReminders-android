@@ -42,12 +42,15 @@ abstract class TaskActivityInterface:
         Activity(), View.OnClickListener, View.OnLongClickListener, TextWatcher,
         SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskFolderHolder.OnTaskChangedListener {
     // View Orientation ----------------------------------------------------------------------------
-    protected val TASK_PORTRAIT = 1
-    protected val TASK_LANDSCAPE = 2
-    protected val TASK_MULTI = 3
-    protected val FOLDER_PORTRAIT = 11
-    protected val FOLDER_LANDSCAPE = 12
-    protected val FOLDER_MULTI = 13
+    @Suppress("unused")
+    companion object {
+        protected const val TASK_PORTRAIT = 1
+        protected const val TASK_LANDSCAPE = 2
+        protected const val TASK_MULTI = 3
+        protected const val FOLDER_PORTRAIT = 11
+        protected const val FOLDER_LANDSCAPE = 12
+        protected const val FOLDER_MULTI = 13
+    }
 
     protected var view = 0
 

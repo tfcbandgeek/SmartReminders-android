@@ -10,19 +10,34 @@ import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 
+// Anko
+import org.jetbrains.anko.toast
+
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 import jgappsandgames.smartreminderslite.utility.MoveUtility
 import jgappsandgames.smartreminderslite.utility.ShortcutUtility
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_first_run.first_run_app_directory_button
+import kotlinx.android.synthetic.main.activity_first_run.first_run_continue_button
+import kotlinx.android.synthetic.main.activity_first_run.first_run_day_switch
+import kotlinx.android.synthetic.main.activity_first_run.first_run_device_name_edit_text
+import kotlinx.android.synthetic.main.activity_first_run.first_run_month_switch
+import kotlinx.android.synthetic.main.activity_first_run.first_run_priority_switch
+import kotlinx.android.synthetic.main.activity_first_run.first_run_status_switch
+import kotlinx.android.synthetic.main.activity_first_run.first_run_tag_switch
+import kotlinx.android.synthetic.main.activity_first_run.first_run_tutorial_button
+import kotlinx.android.synthetic.main.activity_first_run.first_run_week_switch
+import kotlinx.android.synthetic.main.activity_first_run.first_run_your_name_edit_text
+import kotlinx.android.synthetic.main.activity_first_run.list
+
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
-import kotlinx.android.synthetic.main.activity_first_run.*
-import org.jetbrains.anko.toast
 
 /**
  * SettingsActivity

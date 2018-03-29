@@ -20,7 +20,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/down"
-        android:id="@+id/down"/>
+        android:id="@+id/down"
+        tools:ignore="RtlHardcoded" />
 
     <Button
         android:layout_width="wrap_content"
@@ -29,5 +30,5 @@
         android:layout_alignParentRight="true"
         android:text="@string/up"
         android:id="@+id/up"
-        tools:ignore="RelativeOverlap" />
+        tools:ignore="RelativeOverlap,RtlHardcoded" />
 </RelativeLayout>

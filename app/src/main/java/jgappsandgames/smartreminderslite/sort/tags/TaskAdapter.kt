@@ -28,25 +28,25 @@ class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>
     // Constructor ---------------------------------------------------------------------------------
     init {
         for (task in n_tasks) {
-            var task_clear = true
+            var taskClear = true
 
             for (t in selected) {
-                var tag_clear = false
+                var tagClear = false
 
                 for (i in 0 until task.getTags().size) {
                     if (task.getTags()[i] == t) {
-                        tag_clear = true
+                        tagClear = true
                         break
                     }
                 }
 
-                if (!tag_clear) {
-                    task_clear = false
+                if (!tagClear) {
+                    taskClear = false
                     break
                 }
             }
 
-            if (task_clear) tasks.add(task)
+            if (taskClear) tasks.add(task)
         }
     }
 
@@ -72,21 +72,21 @@ class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>
     }
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
-        var convert_view = view
+        var convertView = view
         val holder: TaskFolderHolder
-        if (convert_view == null) {
-            convert_view = if (getItem(position).getType() == Task.TYPE_FLDR) LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
+        if (convertView == null) {
+            convertView = if (getItem(position).getType() == Task.TYPE_FLDR) LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
                 else LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
 
-            holder = TaskFolderHolder(getItem(position), convert_view!!, activity, activity)
-            convert_view.tag = holder
+            holder = TaskFolderHolder(getItem(position), convertView!!, activity, activity)
+            convertView.tag = holder
         } else {
-            holder = convert_view.tag as TaskFolderHolder
+            holder = convertView.tag as TaskFolderHolder
             holder.task = getItem(position)
         }
 
         holder.setViews()
 
-        return convert_view
+        return convertView
     }
 }

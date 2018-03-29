@@ -9,7 +9,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
+
+// Anko
+import org.jetbrains.anko.toast
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -27,56 +29,38 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
  */
 abstract class StatusActivityInterface: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // Views ---------------------------------------------------------------------------------------
-    protected var overdue_text: TextView? = null
-    protected var overdue_list: ListView? = null
-    protected var incomplete_text: TextView? = null
-    protected var incomplete_list: ListView? = null
-    protected var done_text: TextView? = null
-    protected var done_list: ListView? = null
+    protected var overdueText: TextView? = null
+    protected var overdueList: ListView? = null
+    protected var incompleteText: TextView? = null
+    protected var incompleteList: ListView? = null
+    protected var completeText: TextView? = null
+    protected var completeList: ListView? = null
 
     // LifeCycle Methods ---------------------------------------------------------------------------
-    /**
-     * OnCreate
-     *
-     * Called To Create the View
-     * Called By the Application
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_status)
 
         // Find Views
-        overdue_text = findViewById(R.id.overdue_text)
-        overdue_list = findViewById(R.id.overdue_list)
-        incomplete_text = findViewById(R.id.incomplete_text)
-        incomplete_list = findViewById(R.id.incomplete_list)
-        done_text = findViewById(R.id.done_text)
-        done_list = findViewById(R.id.done_list)
+        overdueText = findViewById(R.id.overdue_text)
+        overdueList = findViewById(R.id.overdue_list)
+        incompleteText = findViewById(R.id.incomplete_text)
+        incompleteList = findViewById(R.id.incomplete_list)
+        completeText = findViewById(R.id.done_text)
+        completeList = findViewById(R.id.done_list)
     }
 
     // Menu Methods --------------------------------------------------------------------------------
-    /**
-     * OnCreateOptionsMenu
-     *
-     * Called To Create the Options Menu
-     * Called By The Application
-     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_auxilary, menu)
         return true
     }
 
-    /**
-     * OnOptionsItemSelected
-     *
-     * Called When An Options Item Is Selected
-     * Called By The Application
-     */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.save -> {
                 save()
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show()
+                toast(R.string.saved).show()
                 return true
             }
 
