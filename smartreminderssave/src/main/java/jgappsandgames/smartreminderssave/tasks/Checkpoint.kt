@@ -8,7 +8,7 @@ import org.json.JSONObject
  * Checkpoint
  * Created by joshua on 12/12/2017.
  */
-class Checkpoint(i_id: Int, i_text: String, i_status: Boolean) {
+class Checkpoint(var id: Int, var text: String, var status: Boolean) {
     companion object {
         // Constants -------------------------------------------------------------------------------
         private const val ID = "position"
@@ -16,18 +16,7 @@ class Checkpoint(i_id: Int, i_text: String, i_status: Boolean) {
         private const val TEXT = "text"
     }
 
-    // Data ----------------------------------------------------------------------------------------
-    var id: Int = 0
-    var status: Boolean = false
-    var text: String
-
     // Constructors --------------------------------------------------------------------------------
-    init {
-        id = i_id
-        text = i_text
-        status = i_status
-    }
-
     constructor(): this(0, "", false)
     constructor(c_id: Int): this(c_id, "", false)
     constructor(c_id: Int, c_text: String): this(c_id, c_text, false)
@@ -35,16 +24,16 @@ class Checkpoint(i_id: Int, i_text: String, i_status: Boolean) {
 
     // Json Methods --------------------------------------------------------------------------------
     fun toJSON(): JSONObject? {
-        try {
+        return try {
             val data = JSONObject()
             data.put(ID, id)
             data.put(STATUS, status)
             data.put(TEXT, text)
 
-            return data
+            data
         } catch (j: JSONException) {
             j.printStackTrace()
-            return null
+            null
         }
 
     }

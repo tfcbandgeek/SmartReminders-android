@@ -65,13 +65,13 @@ class Task() {
     private var version: Int = 0
     private var meta: JSONObject? = null
     private var type: Int = 0
-    private var task_id: Long = 0
+    private var taskID: Long = 0
 
-    private var date_create: Calendar? = null
-    private var date_due: Calendar? = null
-    private var date_updated: Calendar? = null
-    private var date_deleted: Calendar? = null
-    private var date_archived: Calendar? = null
+    private var dateCreate: Calendar? = null
+    private var dateDue: Calendar? = null
+    private var dateUpdated: Calendar? = null
+    private var dateDeleted: Calendar? = null
+    private var dateArchived: Calendar? = null
 
     private var title: String? = null
     private var note: String? = null
@@ -81,8 +81,8 @@ class Task() {
     private var status: Int = 0
     private var priority: Int = 0
 
-    private var complete_on_time: Boolean = false
-    private var complete_late: Boolean = false
+    private var completeOnTime: Boolean = false
+    private var completeLate: Boolean = false
 
     // Constructors --------------------------------------------------------------------------------
     constructor(filename: String) : this() {
@@ -97,12 +97,12 @@ class Task() {
         version = API.MANAGEMENT
         meta = JSONObject()
         this.type = type
-        task_id = calendar.timeInMillis
-        date_create = calendar.clone() as Calendar
-        date_due = null
-        date_updated = calendar.clone() as Calendar
-        date_archived = null
-        date_deleted = null
+        taskID = calendar.timeInMillis
+        dateCreate = calendar.clone() as Calendar
+        dateDue = null
+        dateUpdated = calendar.clone() as Calendar
+        dateArchived = null
+        dateDeleted = null
         title = ""
         note = ""
         tags = ArrayList()
@@ -110,8 +110,8 @@ class Task() {
         checkpoints = ArrayList()
         status = 0
         priority = 20
-        complete_on_time = false
-        complete_late = false
+        completeOnTime = false
+        completeLate = false
     }
 
     constructor(data: JSONObject): this() {
@@ -120,8 +120,9 @@ class Task() {
     }
 
     // Management Methods --------------------------------------------------------------------------
-    fun save() {
+    fun save(): Task {
         JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
+        return this
     }
 
     fun delete() {
@@ -140,18 +141,18 @@ class Task() {
         version = data.optInt(VERSION, API.RELEASE)
         parent = data.optString(PARENT, "home")
         type = data.optInt(TYPE, TYPE_NONE)
-        task_id = data.optLong(TASK_ID, Calendar.getInstance().timeInMillis)
-        date_create = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE))
-        date_due = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE))
-        date_updated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))
-        date_archived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED))
-        date_deleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED))
+        taskID = data.optLong(TASK_ID, Calendar.getInstance().timeInMillis)
+        dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE))
+        dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE))
+        dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))
+        dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED))
+        dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED))
         title = data.optString(TITLE, "")
         note = data.optString(NOTE, "")
         status = data.optInt(STATUS, 0)
         priority = data.optInt(PRIORITY, 20)
-        complete_on_time = data.optBoolean(COMPLETED_ON_TIME, false)
-        complete_late = data.optBoolean(COMPLETED_LATE, false)
+        completeOnTime = data.optBoolean(COMPLETED_ON_TIME, false)
+        completeLate = data.optBoolean(COMPLETED_LATE, false)
 
         val t = data.optJSONArray(TAGS)
         tags = ArrayList()
@@ -176,18 +177,18 @@ class Task() {
             data.put(PARENT, parent)
             data.put(VERSION, API.MANAGEMENT)
             data.put(TYPE, type)
-            data.put(TASK_ID, task_id)
-            data.put(CAL_CREATE, JSONUtility.saveCalendar(date_create))
-            data.put(CAL_DUE, JSONUtility.saveCalendar(date_due))
-            data.put(CAL_UPDATE, JSONUtility.saveCalendar(date_updated))
-            data.put(CAL_ARCHIVED, JSONUtility.saveCalendar(date_archived))
-            data.put(CAL_DELETED, JSONUtility.saveCalendar(date_deleted))
+            data.put(TASK_ID, taskID)
+            data.put(CAL_CREATE, JSONUtility.saveCalendar(dateCreate))
+            data.put(CAL_DUE, JSONUtility.saveCalendar(dateDue))
+            data.put(CAL_UPDATE, JSONUtility.saveCalendar(dateUpdated))
+            data.put(CAL_ARCHIVED, JSONUtility.saveCalendar(dateArchived))
+            data.put(CAL_DELETED, JSONUtility.saveCalendar(dateDeleted))
             data.put(TITLE, title)
             data.put(NOTE, note)
             data.put(STATUS, status)
             data.put(PRIORITY, priority)
-            data.put(COMPLETED_ON_TIME, complete_on_time)
-            data.put(COMPLETED_LATE, complete_late)
+            data.put(COMPLETED_ON_TIME, completeOnTime)
+            data.put(COMPLETED_LATE, completeLate)
 
             val t = JSONArray()
             if (tags != null && tags!!.size != 0) for (tag in tags!!) t.put(tag)
@@ -213,7 +214,7 @@ class Task() {
     }
 
     fun updateTask(data: JSONObject) {
-        if (JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))!!.after(date_updated)) loadJSON(data)
+        if (JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))!!.after(dateUpdated)) loadJSON(data)
     }
 
     // Getters -------------------------------------------------------------------------------------
@@ -234,33 +235,33 @@ class Task() {
     }
 
     fun getID(): Long {
-        return task_id
+        return taskID
     }
 
     fun getDateCreated(): Calendar {
-        return date_create!!
+        return dateCreate!!
     }
 
     fun getDateDue(): Calendar? {
-        return date_due
+        return dateDue
     }
 
     fun getDateDueString(): String {
-        return if (date_due == null) "No Date" else (date_due!!.get(Calendar.MONTH) + 1).toString() + "/" +
-                date_due!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-                date_due!!.get(Calendar.YEAR).toString()
+        return if (dateDue == null) "No Date" else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
+                dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+                dateDue!!.get(Calendar.YEAR).toString()
     }
 
     fun getDateUpdated(): Calendar {
-        return date_updated!!
+        return dateUpdated!!
     }
 
     fun getDateArchived(): Calendar? {
-        return date_archived
+        return dateArchived
     }
 
     fun getDateDeleted(): Calendar? {
-        return date_deleted
+        return dateDeleted
     }
 
     fun getTitle(): String {
@@ -308,54 +309,54 @@ class Task() {
     }
 
     fun onTime(): Boolean {
-        return complete_on_time
+        return completeOnTime
     }
 
     fun late(): Boolean {
-        return complete_late
+        return completeLate
     }
 
     // Setters -------------------------------------------------------------------------------------
     fun setDateDue(calendar: Calendar?): Task {
-        if (calendar == null) date_due = null
-        else date_due = calendar.clone() as Calendar
-        date_updated = Calendar.getInstance()
+        if (calendar == null) dateDue = null
+        else dateDue = calendar.clone() as Calendar
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setTitle(title: String): Task {
         this.title = title
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setNote(note: String): Task {
         this.note = note
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setTags(tags: ArrayList<String>): Task {
         this.tags = tags
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setChildren(children: ArrayList<String>): Task {
         this.children = children
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setCheckpoints(checkpoints: ArrayList<Checkpoint>): Task {
         this.checkpoints = checkpoints
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setPriority(priority: Int): Task {
         this.priority = priority
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
@@ -363,29 +364,29 @@ class Task() {
         if (mark) {
             status = STATUS_DONE
             when {
-                date_due == null -> complete_on_time = true
-                date_due!!.before(Calendar.getInstance()) -> complete_late = true
-                else -> complete_on_time = true
+                dateDue == null -> completeOnTime = true
+                dateDue!!.before(Calendar.getInstance()) -> completeLate = true
+                else -> completeOnTime = true
             }
         } else {
             status = 0
-            complete_late = false
-            complete_on_time = false
+            completeLate = false
+            completeOnTime = false
         }
 
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun markArchived(): Task {
-        date_archived = Calendar.getInstance()
-        date_updated = Calendar.getInstance()
+        dateArchived = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun markDeleted(): Task {
-        date_deleted = Calendar.getInstance()
-        date_updated = Calendar.getInstance()
+        dateDeleted = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
@@ -432,7 +433,7 @@ class Task() {
     fun addTag(tag: String): Task {
         if (!tags!!.contains(tag)) {
             tags!!.add(tag)
-            date_updated = Calendar.getInstance()
+            dateUpdated = Calendar.getInstance()
             return this
         }
 
@@ -442,7 +443,7 @@ class Task() {
     fun removeTag(tag: String): Task {
         if (tags!!.contains(tag)) {
             tags!!.remove(tag)
-            date_updated = Calendar.getInstance()
+            dateUpdated = Calendar.getInstance()
             return this
         }
 
@@ -452,7 +453,7 @@ class Task() {
     fun addChild(child: String): Task {
         if (!children!!.contains(child)) {
             children!!.add(child)
-            date_updated = Calendar.getInstance()
+            dateUpdated = Calendar.getInstance()
             return this
         }
 
@@ -462,7 +463,7 @@ class Task() {
     fun removeChild(child: String): Task {
         if (children!!.contains(child)) {
             children!!.remove(child)
-            date_updated = Calendar.getInstance()
+            dateUpdated = Calendar.getInstance()
             return this
         }
 
@@ -472,7 +473,7 @@ class Task() {
     fun addCheckpoint(checkpoint: Checkpoint): Task {
         for (c in checkpoints!!) if (c.id == checkpoint.id) return this
         checkpoints!!.add(checkpoint)
-        date_updated = Calendar.getInstance()
+        dateUpdated = Calendar.getInstance()
         return this
     }
 
@@ -481,7 +482,7 @@ class Task() {
             if (c.id == checkpoint.id) {
                 c.status = checkpoint.status
                 c.text = checkpoint.text
-                date_updated = Calendar.getInstance()
+                dateUpdated = Calendar.getInstance()
                 return this
             }
         }
@@ -493,7 +494,7 @@ class Task() {
         for (c in checkpoints!!) {
             if (c.id == checkpoint.id) {
                 checkpoints!!.remove(c)
-                date_updated = Calendar.getInstance()
+                dateUpdated = Calendar.getInstance()
                 return this
             }
         }

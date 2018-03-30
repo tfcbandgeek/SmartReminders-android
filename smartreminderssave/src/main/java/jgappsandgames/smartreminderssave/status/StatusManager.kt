@@ -16,49 +16,49 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
 class StatusManager {
     companion object {
         // Data ------------------------------------------------------------------------------------
-        private var folders_list: ArrayList<Task>? = null
-        private var completed_list: ArrayList<Task>? = null
-        private var in_progress_list: ArrayList<Task>? = null
-        private var incomplete_list: ArrayList<Task>? = null
-        private var overdue_list: ArrayList<Task>? = null
+        private var foldersList: ArrayList<Task>? = null
+        private var completedList: ArrayList<Task>? = null
+        private var inProgressList: ArrayList<Task>? = null
+        private var incompleteList: ArrayList<Task>? = null
+        private var overdueList: ArrayList<Task>? = null
 
         // Management Methods ----------------------------------------------------------------------
         fun create() {
-            folders_list = ArrayList()
-            completed_list = ArrayList()
-            in_progress_list = ArrayList()
-            incomplete_list = ArrayList()
-            overdue_list = ArrayList()
+            foldersList = ArrayList()
+            completedList = ArrayList()
+            inProgressList = ArrayList()
+            incompleteList = ArrayList()
+            overdueList = ArrayList()
 
             for (t in TaskManager.tasks) {
                 val temp = Task(t)
 
                 when (temp.getType()) {
                     Task.TYPE_FLDR -> {
-                        folders_list?.add(temp)
+                        foldersList?.add(temp)
                     }
 
                     Task.TYPE_TASK -> {
                         when (temp.getStatus()) {
                             Task.STATUS_DONE -> {
-                                completed_list?.add(temp)
+                                completedList?.add(temp)
                             }
 
                             0 -> {
                                 if (temp.getDateDue() != null) {
-                                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdue_list?.add(temp)
-                                    else incomplete_list?.add(temp)
+                                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdueList?.add(temp)
+                                    else incompleteList?.add(temp)
                                 } else {
-                                    incomplete_list?.add(temp)
+                                    incompleteList?.add(temp)
                                 }
                             }
 
                             else -> {
                                 if (temp.getDateDue() != null) {
-                                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdue_list?.add(temp)
-                                    else in_progress_list?.add(temp)
+                                    if (temp.getDateDue()!!.before(Calendar.getInstance())) overdueList?.add(temp)
+                                    else inProgressList?.add(temp)
                                 } else {
-                                    in_progress_list?.add(temp)
+                                    inProgressList?.add(temp)
                                 }
                             }
                         }
@@ -69,28 +69,28 @@ class StatusManager {
 
         // Getters ---------------------------------------------------------------------------------
         fun getFolders(): ArrayList<Task> {
-            if (folders_list == null) create()
-            return folders_list!!
+            if (foldersList == null) create()
+            return foldersList!!
         }
 
         fun getCompleted(): ArrayList<Task> {
-            if (completed_list == null) create()
-            return completed_list!!
+            if (completedList == null) create()
+            return completedList!!
         }
 
         fun getInProgress(): ArrayList<Task> {
-            if (in_progress_list == null) create()
-            return in_progress_list!!
+            if (inProgressList == null) create()
+            return inProgressList!!
         }
 
         fun getIncomplete(): ArrayList<Task> {
-            if (incomplete_list == null) create()
-            return incomplete_list!!
+            if (incompleteList == null) create()
+            return incompleteList!!
         }
 
         fun getOverdue(): ArrayList<Task> {
-            if (overdue_list == null) create()
-            return overdue_list!!
+            if (overdueList == null) create()
+            return overdueList!!
         }
     }
 }
