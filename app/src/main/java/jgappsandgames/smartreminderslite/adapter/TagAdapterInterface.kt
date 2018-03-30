@@ -25,10 +25,7 @@ open class TagAdapterInterface(): BaseAdapter() {
 
     // Constructor ---------------------------------------------------------------------------------
     // Main
-    constructor(_activity: Activity,
-                _switcher: TagHolder.TagSwitcher,
-                _tags: ArrayList<String>,
-                _selected: Boolean): this() {
+    constructor(_activity: Activity, _switcher: TagHolder.TagSwitcher, _tags: ArrayList<String>, _selected: Boolean): this() {
         selected = _selected
         switcher = _switcher
         activity = _activity
@@ -41,23 +38,19 @@ open class TagAdapterInterface(): BaseAdapter() {
     }
 
     // Search
-    constructor(_activity: Activity,
-                _switcher: TagHolder.TagSwitcher,
-                _tags: ArrayList<String>,
-                _selected: Boolean,
-                _search: String): this() {
+    constructor(_activity: Activity, _switcher: TagHolder.TagSwitcher, _tags: ArrayList<String>, _selected: Boolean, _search: String): this() {
         selected = _selected
         switcher = _switcher
         activity = _activity
 
         if (selected) {
             tags = ArrayList()
-            for (tag in TagManager.tags) if (tag.toLowerCase().contains(_search.toLowerCase())) tags?.add(tag)
+            for (tag in _tags) if (tag.toLowerCase().contains(_search.toLowerCase())) tags?.add(tag)
         } else {
             tags = ArrayList()
             for (tag in _tags) {
                 if (tag.toLowerCase().contains(_search.toLowerCase())) {
-                    if (!_tags.contains(tag)) tags?.add(tag)
+                    if (!TagManager.tags.contains(tag)) tags?.add(tag)
                 }
             }
         }
@@ -94,11 +87,11 @@ open class TagAdapterInterface(): BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return if (convertView == null) {
             val view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
-            val holder = TagHolder(getItem(position), false, switcher!!, view)
+            val holder = TagHolder(getItem(position), selected, switcher!!, view)
             view.tag = holder
             view
         } else {
-            val holder: TagHolder = convertView.tag as TagHolder
+            val holder = convertView.tag as TagHolder
             holder.updateView(getItem(position), selected)
             convertView
         }

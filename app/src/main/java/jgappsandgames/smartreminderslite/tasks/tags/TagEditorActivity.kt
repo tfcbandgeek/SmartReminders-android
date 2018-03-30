@@ -52,8 +52,13 @@ class TagEditorActivity: TagEditorActivityInterface(), TextWatcher, View.OnClick
     // Text Watcher Methods ------------------------------------------------------------------------
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
     override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-        selected!!.adapter = TagAdapterInterface(this, this, task!!.getTags(), true, searchText!!.text.toString())
-        unselected!!.adapter = TagAdapterInterface(this, this, task!!.getTags(), false, searchText!!.text.toString())
+        if (searchText!!.text.toString().length == 0) {
+            selected!!.adapter = TagAdapterInterface(this, this, task!!.getTags(), true)
+            unselected!!.adapter = TagAdapterInterface(this, this, task!!.getTags(), false)
+        } else {
+            selected!!.adapter = TagAdapterInterface(this, this, task!!.getTags(), true, searchText!!.text.toString())
+            unselected!!.adapter = TagAdapterInterface(this, this, task!!.getTags(), false, searchText!!.text.toString())
+        }
 
         if (TagManager.contains(searchText!!.text.toString())) searchEnter!!.setText(R.string.select)
         else searchEnter!!.setText(R.string.add)
