@@ -85,12 +85,29 @@ class Task() {
     private var completeLate: Boolean = false
 
     // Constructors --------------------------------------------------------------------------------
-    constructor(filename: String) : this() {
+    constructor(filename: String): this() {
         this.filename = filename
         loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
+
+        if (!TaskManager.tasks.contains(filename)) {
+            if (!TaskManager.archived.contains(filename)) {
+                if (!TaskManager.deleted.contains(filename)) {
+                    TaskManager.tasks.add(filename)
+                    addMeta("Error", "Task was not in the main list at some point.")
+                    note = note + System.getProperty("line.separator") +
+                            System.getProperty("line.separator") +
+                            "Save Error Experienced." +
+                            System.getProperty("line.separator") +
+                            "This Message can be Ignored"
+
+                    save()
+                    TaskManager.save()
+                }
+            }
+        }
     }
 
-    constructor(parent: String, type: Int) : this() {
+    constructor(parent: String, type: Int): this() {
         val calendar = Calendar.getInstance()
         this.filename = calendar.timeInMillis.toString() + ".srj"
         this.parent = parent
