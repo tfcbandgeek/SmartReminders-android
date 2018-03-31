@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
+import android.util.Log
 import java.io.File
 import java.io.IOException
 import java.util.ArrayList
@@ -179,6 +180,15 @@ class TaskManager {
                 val parent = Task(task.getParent())
                 parent.removeChild(task.getFilename())
                 parent.save()
+            } else {
+                try {
+                    Log.v("TaskManager", "Archive Task Parent is NOT in the database")
+                    val parent = Task(task.getParent())
+                    parent.removeChild(task.getFilename())
+                    parent.save()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
 
             tasks.remove(task.getFilename())
