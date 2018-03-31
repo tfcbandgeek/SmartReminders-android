@@ -49,11 +49,11 @@ class CheckpointActivity: CheckpointActivityInterface() {
         }
 
         // Set Views
-        text_view!!.setText(text)
-        text_view!!.addTextChangedListener(this)
-        status_button!!.setOnClickListener(this)
-        status_button!!.setOnLongClickListener(this)
-        continue_button!!.setOnClickListener {
+        textView!!.setText(text)
+        textView!!.addTextChangedListener(this)
+        statusButton!!.setOnClickListener(this)
+        statusButton!!.setOnLongClickListener(this)
+        continueButton!!.setOnClickListener {
             finish()
         }
         setStatus()
@@ -81,8 +81,8 @@ class CheckpointActivity: CheckpointActivityInterface() {
 
     // Class Methods -------------------------------------------------------------------------------
     private fun setStatus() {
-        if (status) status_button!!.setText(R.string.completed)
-        else status_button!!.setText(R.string.incomplete)
+        if (status) statusButton!!.setText(R.string.completed)
+        else statusButton!!.setText(R.string.incomplete)
     }
 
     private fun setReturnIntent() {

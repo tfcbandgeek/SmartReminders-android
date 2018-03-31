@@ -13,10 +13,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 
-// Views
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+// Anko
+import org.jetbrains.anko.toast
 
 // JSON
 import org.json.JSONException
@@ -26,22 +24,29 @@ import org.json.JSONObject
 import jgappsandgames.smartreminderslite.BuildConfig
 import jgappsandgames.smartreminderslite.R
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_about.api
+import kotlinx.android.synthetic.main.activity_about.build
+import kotlinx.android.synthetic.main.activity_about.update
+import kotlinx.android.synthetic.main.activity_about.version
+
 /**
  * AboutActivity
  * Created by joshua on 12/30/2017.
  */
-class AboutActivity : Activity() {
+class AboutActivity: Activity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
+        setTitle(R.string.app_name)
 
         // Set Text
-        (findViewById<View>(R.id.version) as TextView).text = BuildConfig.VERSION_NAME
-        (findViewById<View>(R.id.build) as TextView).text = BuildConfig.VERSION_CODE.toString()
-        (findViewById<View>(R.id.api) as TextView).text = jgappsandgames.smartreminderssave.BuildConfig.VERSION_NAME
+        version.text = BuildConfig.VERSION_NAME
+        build.text = BuildConfig.VERSION_CODE.toString()
+        api.text = jgappsandgames.smartreminderssave.BuildConfig.VERSION_NAME
 
         // Check For Updates
-        findViewById<View>(R.id.update).setOnClickListener({ _ ->
+        update.setOnClickListener {
             val thread = Thread {
                 try {
                     val release = URL("https://www.dropbox.com/s/a0i0ieed2dpskoo/release.json?dl=1")
@@ -58,11 +63,11 @@ class AboutActivity : Activity() {
                     val data = JSONObject(s.toString())
                     if (data.optInt("stable", 0) > BuildConfig.VERSION_CODE) {
                         runOnUiThread {
-                            Toast.makeText(this, "Update Found", Toast.LENGTH_LONG).show()
+                            toast("Update Found").show()
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/tfcbandgeek/SmartReminders-android/releases")))
                         }
                     } else {
-                        runOnUiThread { Toast.makeText(this, "No Update Found", Toast.LENGTH_LONG).show() }
+                        runOnUiThread { toast("No Update Found").show() }
                     }
                 } catch (e: MalformedURLException) {
                     e.printStackTrace()
@@ -78,6 +83,6 @@ class AboutActivity : Activity() {
             }
 
             thread.start()
-        })
+        }
     }
 }

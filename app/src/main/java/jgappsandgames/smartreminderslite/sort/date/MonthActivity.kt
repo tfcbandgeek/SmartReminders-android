@@ -23,8 +23,8 @@ class MonthActivity: MonthActivityInterface() {
         super.onResume()
         // Set List
         DateManager.create()
-        selected_tasks = DateManager.getDayTasks(selected!!)
-        adapter = MonthAdapter(this, selected_tasks!!)
+        selectedTasks = DateManager.getDayTasks(selected!!)
+        adapter = MonthAdapter(this, selectedTasks!!)
         tasks!!.adapter = adapter
     }
 
@@ -33,8 +33,8 @@ class MonthActivity: MonthActivityInterface() {
         selected!!.set(Calendar.YEAR, year)
         selected!!.set(Calendar.MONTH, month)
         selected!!.set(Calendar.DAY_OF_MONTH, day)
-        selected_tasks = DateManager.getDayTasks(selected!!)
-        adapter = MonthAdapter(this, selected_tasks!!)
+        selectedTasks = DateManager.getDayTasks(selected!!)
+        adapter = MonthAdapter(this, selectedTasks!!)
         tasks!!.adapter = adapter
     }
 }

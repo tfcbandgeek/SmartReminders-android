@@ -4,6 +4,7 @@ package jgappsandgames.smartreminderslite.sort.status
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import jgappsandgames.smartreminderslite.R
 
 // App
 import jgappsandgames.smartreminderslite.home.FirstRun
@@ -18,11 +19,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  * StatusActivity
  * Created by joshua on 12/14/2017.
  *
- * Status View[StatusActivityInterface, StatusActivity]
- * A View for Viewing Tasks Based on Their Status
- *
- *     StatusActivityInterface: View and Application Focus
- *     StatusActivity: Data and User Input
+ * StatusActivity
  */
 class StatusActivity: StatusActivityInterface() {
     // LifeCycle Methods ---------------------------------------------------------------------------
@@ -36,7 +33,7 @@ class StatusActivity: StatusActivityInterface() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Load Filepaths
+        // Load Filepath
         FileUtility.loadFilePaths(this)
 
         // First Run
@@ -63,14 +60,14 @@ class StatusActivity: StatusActivityInterface() {
         i.addAll(StatusManager.getIncomplete())
 
         // Set Adapters
-        overdue_list!!.adapter = StatusAdapter(this, StatusManager.getOverdue())
-        incomplete_list!!.adapter = StatusAdapter(this, i)
-        done_list!!.adapter = StatusAdapter(this, StatusManager.getCompleted())
+        overdueList!!.adapter = StatusAdapter(this, StatusManager.getOverdue())
+        incompleteList!!.adapter = StatusAdapter(this, i)
+        completeList!!.adapter = StatusAdapter(this, StatusManager.getCompleted())
 
         // Set Text
-        overdue_text!!.text = "Overdue Tasks [${StatusManager.getOverdue().size}]"
-        incomplete_text!!.text = "Incomplete Tasks [${i.size}]"
-        done_text!!.text = "Completed Tasks [${StatusManager.getCompleted().size}]"
+        overdueText!!.text = getString(R.string.overdue_tasks, StatusManager.getOverdue().size)
+        incompleteText!!.text = getString(R.string.incomplete_tasks, i.size)
+        completeText!!.text = getString(R.string.completed_tasks, StatusManager.getCompleted().size)
     }
 
     // Task Change Listeners -----------------------------------------------------------------------

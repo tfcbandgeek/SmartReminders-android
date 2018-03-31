@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SmartReminders-android.iml" filepath="$PROJECT_DIR$/SmartReminders-android.iml" />
-      <module fileurl="file://C:\Users\joshu\Documents\SmartReminders-android\SmartRemindersLite.iml" filepath="C:\Users\joshu\Documents\SmartReminders-android\SmartRemindersLite.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/smartreminders/smartreminders.iml" filepath="$PROJECT_DIR$/smartreminders/smartreminders.iml" />
       <module fileurl="file://$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" filepath="$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" />

@@ -13,6 +13,7 @@ import android.widget.Toast
 
 // App
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TagAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TagHolder
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 
@@ -22,17 +23,17 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
  */
 abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
     // Views ---------------------------------------------------------------------------------------
-    protected var tasks_text: TextView? = null
-    protected var tasks_list: ListView? = null
-    protected var selected_text: TextView? = null
-    protected var selected_list: ListView? = null
-    protected var unselected_text: TextView? = null
-    protected var unselected_list: ListView? = null
+    private var tasksText: TextView? = null
+    protected var tasksList: ListView? = null
+    private var selectedText: TextView? = null
+    protected var selectedList: ListView? = null
+    private var unselectedText: TextView? = null
+    protected var unselectedList: ListView? = null
 
     // Adapters ------------------------------------------------------------------------------------
-    protected var task_adapter: TaskAdapter? = null
-    protected var selected_adapter: SelectedAdapter? = null
-    protected var unselected_adapter: UnselectedAdapter? = null
+    protected var taskAdapter: TaskAdapter? = null
+    protected var selectedAdapter: TagAdapterInterface? = null
+    protected var unselectedAdapter: TagAdapterInterface? = null
 
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,12 +41,12 @@ abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFold
         setContentView(R.layout.activity_tag)
 
         // Find Views
-        tasks_text = findViewById(R.id.tasks_title)
-        tasks_list = findViewById(R.id.tasks)
-        selected_text = findViewById(R.id.selected_text)
-        selected_list = findViewById(R.id.selected)
-        unselected_text = findViewById(R.id.unselected_text)
-        unselected_list = findViewById(R.id.unselected)
+        tasksText = findViewById(R.id.tasks_title)
+        tasksList = findViewById(R.id.tasks)
+        selectedText = findViewById(R.id.selected_text)
+        selectedList = findViewById(R.id.selected)
+        unselectedText = findViewById(R.id.unselected_text)
+        unselectedList = findViewById(R.id.unselected)
     }
 
     // Menu ----------------------------------------------------------------------------------------

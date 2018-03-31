@@ -12,23 +12,23 @@ import jgappsandgames.smartreminderssave.tasks.Task
  */
 class Month(start: Calendar) {
     // Data ----------------------------------------------------------------------------------------
-    private var days_in_month = start.getMaximum(Calendar.DAY_OF_MONTH)
-    private var month_starts_on = start.get(Calendar.DAY_OF_WEEK)
+    private var daysInMonth = start.getMaximum(Calendar.DAY_OF_MONTH)
+    private var monthStartsOn = start.get(Calendar.DAY_OF_WEEK)
 
     private val start = start.clone() as Calendar
     private var end: Calendar
 
     private var days: ArrayList<Day>
 
-    // Constructers --------------------------------------------------------------------------------
+    // Constructors --------------------------------------------------------------------------------
     init {
-        days = ArrayList(days_in_month)
-        for (i in 0 until days_in_month) {
+        days = ArrayList(daysInMonth)
+        for (i in 0 until daysInMonth) {
             days.add(Day(start.clone() as Calendar))
             start.add(Calendar.DAY_OF_MONTH, 1)
         }
 
-        end = days[days_in_month - 1].day
+        end = days[daysInMonth - 1].day
         end.add(Calendar.DAY_OF_MONTH, 1)
     }
 

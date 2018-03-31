@@ -64,7 +64,7 @@ class TaskActivity: TaskActivityInterface() {
     @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Load Filepaths
+        // Load Filepath
         FileUtility.loadFilePaths(this)
 
         // First Run
@@ -192,25 +192,20 @@ class TaskActivity: TaskActivityInterface() {
                 TaskManager.tasks.add(t.getFilename())
                 TaskManager.save()
 
-                // Create Intent
-                val task_intent = Intent(this, TaskActivity::class.java)
-                task_intent.putExtra(ActivityUtility.TASK_NAME, t.getFilename())
+                startActivity(Intent(this, TaskActivity::class.java).putExtra(ActivityUtility.TASK_NAME, t.getFilename()))
+            }
 
-                startActivity(task_intent)
-            } else {
-                val checkpoint: Checkpoint
-
-                if (task!!.getCheckpoints().size == 0) checkpoint = Checkpoint(1, "")
-                else checkpoint = Checkpoint(task!!.getCheckpoints()[task!!.getCheckpoints().size - 1].id + 1, "")
+            // Called in a Task
+            else {
+                val checkpoint: Checkpoint = if (task!!.getCheckpoints().size == 0) Checkpoint(1, "")
+                else Checkpoint(task!!.getCheckpoints()[task!!.getCheckpoints().size - 1].id + 1, "")
 
                 task!!.addCheckpoint(checkpoint)
                 task!!.save()
-
-                val check_intent = Intent(this, CheckpointActivity::class.java)
-                check_intent.putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString())
-
-                startActivityForResult(check_intent, ActivityUtility.REQUEST_CHECKPOINT)
-            }// Called in A Task
+                startActivityForResult(
+                        Intent(this, CheckpointActivity::class.java).putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString()),
+                        ActivityUtility.REQUEST_CHECKPOINT)
+            }
         }
 
         // Date Click
@@ -230,9 +225,9 @@ class TaskActivity: TaskActivityInterface() {
 
         // Tags
         else if (button == tags) {
-            val tag_intent = Intent(this, TagEditorActivity::class.java)
-            tag_intent.putExtra(ActivityUtility.TASK_NAME, task!!.getFilename())
-            startActivityForResult(tag_intent, ActivityUtility.REQUEST_TAGS)
+            startActivityForResult(
+                    Intent(this, TagEditorActivity::class.java).putExtra(ActivityUtility.TASK_NAME, task!!.getFilename()),
+                    ActivityUtility.REQUEST_TAGS)
         }
     }
 
@@ -278,14 +273,14 @@ class TaskActivity: TaskActivityInterface() {
 
     // Text Watcher --------------------------------------------------------------------------------
     /**
-     * BeforeTextedChanged
+     * BeforeTextChanged
      *
      * Ignore
      */
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
     /**
-     * OnTextedChanged
+     * OnTextChanged
      *
      * Ignore
      */

@@ -1,8 +1,9 @@
+@file:Suppress("unused")
+
 package jgappsandgames.smartreminderslite.utility
 
 // Java
 import android.annotation.SuppressLint
-import java.util.Arrays
 
 // Android OS
 import android.app.Activity
@@ -24,6 +25,7 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
+import java.util.*
 
 /**
  * ShortcutUtility
@@ -156,7 +158,7 @@ class ShortcutUtility {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 val manager = activity.getSystemService(ShortcutManager::class.java)
 
-                val task_object = Task(task)
+                val taskObject = Task(task)
 
                 val intent = Intent(activity, TaskActivity::class.java)
                         .setAction(Intent.ACTION_DEFAULT)
@@ -164,14 +166,12 @@ class ShortcutUtility {
                         .putExtra("shortcut", true)
                         .putExtra(ActivityUtility.TASK_NAME, task)
 
-                val s_t: String
-                if (task_object.getTitle().length > 8)
-                    s_t = task_object.getTitle().substring(0, 8)
-                else
-                    s_t = task_object.getTitle()
+                val sT: String = if (taskObject.getTitle().length > 8) taskObject.getTitle().substring(0, 8)
+                    else taskObject.getTitle()
+
                 val shortcut = ShortcutInfo.Builder(activity, task)
-                        .setShortLabel(s_t)
-                        .setLongLabel(task_object.getTitle())
+                        .setShortLabel(sT)
+                        .setLongLabel(taskObject.getTitle())
                         .setIcon(Icon.createWithResource(activity, android.R.drawable.ic_menu_agenda))
                         .setIntent(intent)
                         .build()

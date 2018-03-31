@@ -22,8 +22,8 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
  */
 abstract class TagEditorActivityInterface: Activity(), TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
     // Views ---------------------------------------------------------------------------------------
-    protected var search_text: EditText? = null
-    protected var search_enter: Button? = null
+    protected var searchText: EditText? = null
+    protected var searchEnter: Button? = null
     protected var selected: ListView? = null
     protected var unselected: ListView? = null
 
@@ -35,8 +35,8 @@ abstract class TagEditorActivityInterface: Activity(), TextWatcher, View.OnClick
         setContentView(R.layout.activity_tag_editpr)
 
         // Find Views
-        search_text = findViewById(R.id.search_text)
-        search_enter = findViewById(R.id.search_enter)
+        searchText = findViewById(R.id.search_text)
+        searchEnter = findViewById(R.id.search_enter)
         selected = findViewById(R.id.selected)
         unselected = findViewById(R.id.unselected)
 

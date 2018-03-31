@@ -66,6 +66,7 @@
     <string name="selected">Selected</string>
     <string name="settings">Settings</string>
     <string name="saving_to_app_directory">Saving to App Directory</string>
+    <string name="sort">Sort</string>
     <string name="stared">Stared</string>
     <string name="stared_tasks">Stared Tasks</string>
     <string name="status">Status</string>

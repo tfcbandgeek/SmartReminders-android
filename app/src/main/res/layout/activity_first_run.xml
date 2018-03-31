@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1">
 
         <LinearLayout
@@ -28,10 +27,11 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/yourname"
+                    android:id="@+id/first_run_your_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/your_name" />
+                    android:hint="@string/your_name"
+                    android:inputType="text" />
             </LinearLayout>
 
             <!--Device Name-->
@@ -41,10 +41,11 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/device_name"
+                    android:id="@+id/first_run_device_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/device_name" />
+                    android:hint="@string/device_name"
+                    android:inputType="text" />
             </LinearLayout>
 
             <!--Save Location-->
@@ -59,7 +60,7 @@
                     android:text="@string/save_alert_message" />
 
                 <Button
-                    android:id="@+id/app_directory"
+                    android:id="@+id/first_run_app_directory_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/saving_to_app_directory" />
@@ -67,51 +68,51 @@
 
             <!--Settings-->
             <Button
-                android:id="@+id/settings"
+                android:id="@+id/first_run_settings_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/settings" />
 
             <!--Tutorial-->
             <Button
-                android:id="@+id/tutorial"
+                android:id="@+id/first_run_tutorial_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tutorial" />
 
             <!--Shortcuts-->
             <Switch
-                android:id="@+id/tag"
+                android:id="@+id/first_run_tag_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tag_shortcut" />
 
             <Switch
-                android:id="@+id/priority"
+                android:id="@+id/first_run_priority_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/priority_shortcut" />
 
             <Switch
-                android:id="@+id/status"
+                android:id="@+id/first_run_status_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/status_shortcut" />
 
             <Switch
-                android:id="@+id/day"
+                android:id="@+id/first_run_day_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/day_shortcut" />
 
             <Switch
-                android:id="@+id/week"
+                android:id="@+id/first_run_week_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/week_shortcut" />
 
             <Switch
-                android:id="@+id/month"
+                android:id="@+id/first_run_month_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/month_shortcut" />
@@ -123,5 +124,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/con"
-        android:id="@+id/con"/>
+        android:id="@+id/first_run_continue_button"/>
 </LinearLayout>

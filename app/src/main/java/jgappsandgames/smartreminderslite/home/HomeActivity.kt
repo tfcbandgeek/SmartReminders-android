@@ -1,16 +1,33 @@
 package jgappsandgames.smartreminderslite.home
 
 // Android OS
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 
 // Views
-import android.view.View
+import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
+
+// Anko
+import org.jetbrains.anko.toast
 
 // App
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.sort.date.DayActivity
+import jgappsandgames.smartreminderslite.sort.date.MonthActivity
+import jgappsandgames.smartreminderslite.sort.date.WeekActivity
+import jgappsandgames.smartreminderslite.sort.priority.PriorityActivity
+import jgappsandgames.smartreminderslite.sort.status.StatusActivity
+import jgappsandgames.smartreminderslite.sort.tags.TagActivity
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_home.home_fab
+import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
@@ -21,24 +38,13 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 /**
  * HomeActivity
  * Created by joshua on 12/13/2017.
- *
- * Home[HomeActivityInterface, HomeActivity]
- * The Main Entrypoint for the Application.  It serves as the Primary Test to see if it is the First
- *     run and Direct the User Where they Need To Go.
- *
- *     HomeActivityInterface: View and Application Focus
- *     HomeActivity: Data and User Input
  */
-class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListener {
+class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
-    /**
-     * OnCreate
-     *
-     * Called to Create the View
-     * Called by the Application
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_home)
+        setTitle(R.string.app_name)
 
         // Load the FilePaths
         FileUtility.loadFilePaths(this)
@@ -48,6 +54,36 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
 
         // Handle Loading Data
         else MasterManager.load()
+
+        // Set Click Listeners
+        home_fab.setOnClickListener {
+            val task = Task("home", Task.TYPE_TASK)
+            // TODO: Save  returns task and combine with previous statement
+            task.save()
+
+            TaskManager.home.add(task.getFilename())
+            TaskManager.tasks.add(task.getFilename())
+            TaskManager.save()
+
+            // Start Activity
+            startActivity(Intent(this, TaskActivity::class.java)
+                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
+        }
+
+        home_fab.setOnLongClickListener {
+            val task = Task("home", Task.TYPE_FLDR)
+            // TODO: Save  returns task and combine with previous statement
+            task.save()
+
+            TaskManager.home.add(task.getFilename())
+            TaskManager.tasks.add(task.getFilename())
+            TaskManager.save()
+
+            // Start Activity
+            startActivity(Intent(this, TaskActivity::class.java)
+                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
+            return@setOnLongClickListener true
+        }
     }
 
     /**
@@ -58,10 +94,7 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
      */
     override fun onResume() {
         super.onResume()
-
-        // Set Adapters
-        adapter = HomeAdapter(this)
-        list!!.adapter = adapter
+        home_tasks_list.adapter = HomeAdapter(this)
     }
 
     /**
@@ -76,55 +109,66 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
         save()
     }
 
-    // Click Listeners -----------------------------------------------------------------------------
-    /**
-     * OnClick
-     *
-     * The Click Listener For This Class
-     *     [FAB] Called to Create a Task
-     */
-    override fun onClick(view: View) {
-        // FAB
-        if (view == fab) {
-            val task = Task("home", Task.TYPE_TASK)
-            task.save()
-
-            TaskManager.home.add(task.getFilename())
-            TaskManager.tasks.add(task.getFilename())
-            TaskManager.save()
-
-            // Start Activity
-            startActivity(Intent(this, TaskActivity::class.java)
-                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename()))
-        }
+    // Menu Methods --------------------------------------------------------------------------------
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return true
     }
 
-    /**
-     * OnLongClick
-     *
-     * The Long Click Listener For This Class
-     *     [FAB] Called to Create a Folder
-     */
-    override fun onLongClick(view: View): Boolean {
-        // FAB
-        if (view == fab) {
-            val task = Task("home", Task.TYPE_FLDR)
-            task.save()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.tags -> {
+                startActivity(Intent(this, TagActivity::class.java))
+                return true
+            }
 
-            TaskManager.home.add(task.getFilename())
-            TaskManager.tasks.add(task.getFilename())
-            TaskManager.save()
+            R.id.status -> {
+                startActivity(Intent(this, StatusActivity::class.java))
+                return true
+            }
 
-            // Create Intent
-            val intent = Intent(this, TaskActivity::class.java)
-            intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename())
+            R.id.priority -> {
+                startActivity(Intent(this, PriorityActivity::class.java))
+                return true
+            }
 
-            // Start Activity
-            startActivity(intent)
-            return true
+            R.id.day -> {
+                startActivity(Intent(this, DayActivity::class.java))
+                return true
+            }
+
+            R.id.week -> {
+                startActivity(Intent(this, WeekActivity::class.java))
+                return true
+            }
+
+            R.id.month -> {
+                startActivity(Intent(this, MonthActivity::class.java))
+                return true
+            }
+
+            R.id.settings -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                return true
+            }
+
+           R.id.about -> {
+                startActivity(Intent (this, AboutActivity::class.java))
+                return true
+            }
+
+            R.id.save -> {
+                save ()
+                toast(R.string.saved).show()
+                return true
+            }
+
+            R.id.close -> {
+                finish()
+                return true
+            }
         }
 
-        // Default
         return false
     }
 
@@ -144,7 +188,10 @@ class HomeActivity: HomeActivityInterface(), TaskFolderHolder.OnTaskChangedListe
      *
      * Method That Handles Any and All Data That May Have Changed
      */
-    override fun save() {
+    fun save() {
         MasterManager.save()
     }
+
+    // Internal Classes ----------------------------------------------------------------------------
+    class HomeAdapter(activity: HomeActivity): TaskAdapterInterface(activity, activity, TaskManager.home, null)
 }
