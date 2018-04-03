@@ -10,7 +10,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 18040104
-        versionName "18.4.1 Alpha 1"
+        versionName "18.4.1 Alpha 2"
     }
 
     buildTypes {

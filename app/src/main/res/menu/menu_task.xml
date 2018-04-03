@@ -6,6 +6,11 @@
         android:id="@+id/save"/>
 
     <item
+        android:id="@+id/home"
+        android:title="@string/home"
+        android:showAsAction="never"/>
+
+    <item
         android:title="@string/close"
         android:showAsAction="ifRoom"
         android:id="@+id/close"/>

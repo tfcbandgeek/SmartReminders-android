@@ -3,6 +3,7 @@ package jgappsandgames.smartreminderslite.tasks
 // Activity
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextWatcher
 
@@ -21,6 +22,7 @@ import android.widget.Toast
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.home.HomeActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 // Save
@@ -148,6 +150,12 @@ abstract class TaskActivityInterface:
                 save()
                 Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show()
                 return true
+            }
+
+            R.id.home -> {
+                startActivity(Intent(this, HomeActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             }
 
             R.id.close -> {
