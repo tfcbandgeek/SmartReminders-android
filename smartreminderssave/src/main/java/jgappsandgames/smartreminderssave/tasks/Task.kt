@@ -134,11 +134,13 @@ class Task() {
     constructor(data: JSONObject): this() {
         filename = data.optString("filename", "error.srj")
         loadJSON(data)
+        tags?.sort()
     }
 
     // Management Methods --------------------------------------------------------------------------
     fun save(): Task {
         JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
+        tags?.sort()
         return this
     }
 
@@ -449,6 +451,7 @@ class Task() {
 
     fun addTag(tag: String): Task {
         if (!tags!!.contains(tag)) {
+            tags!!.sort()
             tags!!.add(tag)
             dateUpdated = Calendar.getInstance()
             return this

@@ -49,6 +49,7 @@ class TagManager {
 
         @JvmStatic
         fun load() {
+            tags.sort()
             try {
                 loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
             } catch (i: IOException) {
@@ -61,6 +62,7 @@ class TagManager {
 
         @JvmStatic
         fun save() {
+            tags.sort()
             JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON())
         }
 
@@ -115,6 +117,7 @@ class TagManager {
             return when {
                 tags.size == 0 -> {
                     tags.add(tag)
+                    tags.sort()
                     save()
                     true
                 }
@@ -123,6 +126,7 @@ class TagManager {
 
                 else -> {
                     tags.add(tag)
+                    tags.sort()
                     save()
                     true
                 }
