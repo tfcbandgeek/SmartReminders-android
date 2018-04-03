@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Smart Reminders Lite</string>
+    <string name="version_string">18.04.1 Alpha 1</string>
 
     <string name="about">About</string>
     <string name="action_settings">Settings</string>
@@ -11,10 +12,14 @@
     <string name="check_for_updates">Check for Updates</string>
     <string name="close">Close</string>
     <string name="complete">Completed.</string>
-    <string name="completed">Completed</string>
+    <string name="completed">Completed.</string>
     <string name="completed_tasks">Completed Tasks [%1$d]</string>
     <string name="coming_soon">Coming Soon.</string>
     <string name="con">Continue</string>
+    <string name="_continue">Continue</string>
+    <string name="copy">Copy</string>
+    <string name="create_a_shortcut_for_this_folder">Create a shortcut for this Folder.</string>
+    <string name="create_a_shortcut_for_this_task">Create a shortcut for this Task.</string>
 
     <string name="day">Day</string>
     <string name="day_shortcut">Day Shortcut</string>
@@ -27,8 +32,10 @@
 
     <string name="high">High</string>
     <string name="high_priority">"High Priority"</string>
+    <string name="home">Home</string>
 
     <string name="ignore">Ignore</string>
+    <string name="_import">Import</string>
     <string name="incomplete">Incomplete</string>
     <string name="incomplete_tasks">Incomplete Tasks [%1$d]</string>
     <string name="internal">Internal</string>
@@ -39,6 +46,7 @@
     <string name="month">Month</string>
     <string name="month_shortcut">Month Shortcut</string>
     <string name="month_view">Month View</string>
+    <string name="more">More</string>
 
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
