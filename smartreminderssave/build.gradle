@@ -9,7 +9,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 11030000
-        versionName "11.3.0 Alpha 1"
+        versionName "11.3.0"
     }
 
     buildTypes {
