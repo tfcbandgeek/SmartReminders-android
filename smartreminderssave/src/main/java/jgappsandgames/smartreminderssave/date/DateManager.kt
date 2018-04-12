@@ -118,7 +118,7 @@ class DateManager {
          *
          * @return Today's Day
          */
-        @Deprecated("Removal in 11.1 or 11.2")
+        @Deprecated("Soon to be Removed")
         @JvmStatic
         fun getToday(): Day {
             return getWeek(0).getDay(Calendar.getInstance())
@@ -132,7 +132,7 @@ class DateManager {
          * @param date_active The Day We Want to Get
          * @return The Tasks For This Day
          */
-        @Deprecated("Will Soon Return the Day Object (11.1 or 11.2")
+        @Deprecated("Will Soon Return the Day Object (12)")
         @JvmStatic
         fun getDay(date_active: Calendar): ArrayList<Task> {
             if (date_active.before(getWeek(0).getStart())) return ArrayList()

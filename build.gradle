@@ -3,14 +3,16 @@
 buildscript {
     ext.kotlin_version = '1.2.31'
     ext.anko_version = '0.10.4'
-    ext.compat_version = '27.1.0'
+    ext.compat_version = '27.1.1'
+    ext.multidex_version = '1.0.3'
+    ext.zxingembeded_version = '3.6.0'
 
     repositories {
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-alpha08'
+        classpath 'com.android.tools.build:gradle:3.2.0-alpha09'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

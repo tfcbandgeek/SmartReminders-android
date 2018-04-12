@@ -2,10 +2,10 @@ package jgappsandgames.smartreminderssave
 
 // Android OS
 import android.content.Context
-import jgappsandgames.smartreminderssave.date.DateManager
-import jgappsandgames.smartreminderssave.priority.PriorityManager
 
 // Save Library
+import jgappsandgames.smartreminderssave.date.DateManager
+import jgappsandgames.smartreminderssave.priority.PriorityManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tags.TagManager
@@ -16,6 +16,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 /**
  * MasterManager
  * Created by joshua on 12/10/2017.
+ * Last Updated 4/11/2018.
  *
  * Manager Class For the Entire Save System
  */
@@ -118,16 +119,6 @@ class MasterManager {
         @JvmStatic
         fun cleanCache() {
             FileUtility.getApplicationCacheDirectory().deleteRecursively()
-        }
-
-        // ---- ---- ---- ---- ---- ---- ---- Class Methods ---- ---- ---- ---- ---- ---- ----
-        /**
-         * loadLog
-         *
-         * Called to Load the Log File
-         */
-        @Deprecated("Removed ASAP")
-        private fun loadLog() {
         }
     }
 }

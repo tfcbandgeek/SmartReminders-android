@@ -85,9 +85,10 @@ class Task() {
     private var completeLate: Boolean = false
 
     // Constructors --------------------------------------------------------------------------------
-    constructor(filename: String): this() {
+    constructor(filename: String, sort: Boolean = false): this() {
         this.filename = filename
         loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
+        tags?.sort()
 
         if (!TaskManager.tasks.contains(filename)) {
             if (!TaskManager.archived.contains(filename)) {
@@ -104,6 +105,10 @@ class Task() {
                     TaskManager.save()
                 }
             }
+        }
+
+        if (sort) {
+            if (type == TYPE_FLDR) sortTasks()
         }
     }
 
@@ -131,10 +136,14 @@ class Task() {
         completeLate = false
     }
 
-    constructor(data: JSONObject): this() {
+    constructor(data: JSONObject, sort: Boolean = false): this() {
         filename = data.optString("filename", "error.srj")
         loadJSON(data)
         tags?.sort()
+
+        if (sort) {
+            if (type == TYPE_FLDR) sortTasks()
+        }
     }
 
     // Management Methods --------------------------------------------------------------------------
@@ -525,5 +534,59 @@ class Task() {
     // To Methods ----------------------------------------------------------------------------------
     override fun toString(): String {
         return toJSON().toString()
+    }
+
+    // Private Class Methods -----------------------------------------------------------------------
+    private fun sortTasks() {
+        val folder = ArrayList<Task>()
+        val main = ArrayList<Task>()
+        val dated = ArrayList<Task>()
+        val completed = ArrayList<Task>()
+
+        for (t in children!!) {
+            val task = Task(t)
+
+            when (task.getType()) {
+                Task.TYPE_FLDR -> folder.add(task)
+
+                Task.TYPE_TASK -> {
+                    if (task.isCompleted()) completed.add(task)
+
+                    else if (task.getDateDue() == null) main.add(task)
+
+                    else {
+                        if (dated.size == 0) dated.add(task)
+
+                        else if (dated.size == 1) {
+                            if (dated[0].getDateDue()!!.after(task.getDateDue()!!)) {
+                                dated.add(0, task)
+                            } else {
+                                dated.add(task)
+                            }
+                        }
+
+                        else {
+                            var added = true
+
+                            for (i in 0 until dated.size) {
+                                if (dated[i].getDateDue()!!.after(task.getDateDue()!!)) {
+                                    dated.add(i, task)
+                                    added = false
+                                    break
+                                }
+                            }
+
+                            if (added) dated.add(task)
+                        }
+                    }
+                }
+            }
+        }
+
+        children = ArrayList()
+        for (f in folder) children!!.add(f.getFilename())
+        for (m in main) children!!.add(m.getFilename())
+        for (d in dated) children!!.add(d.getFilename())
+        for (c in completed) children!!.add(c.getFilename())
     }
 }

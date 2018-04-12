@@ -81,7 +81,7 @@ abstract class TaskActivityInterface:
 
         // Find Type
         var type = intent.getIntExtra(ActivityUtility.TASK_TYPE, - 1)
-        if (type == -1) type = Task(intent.getStringExtra(ActivityUtility.TASK_NAME)).getType()
+        if (type == -1) type = Task(intent.getStringExtra(ActivityUtility.TASK_NAME), true).getType()
 
         // Set View Type
         view = if (type == Task.TYPE_TASK) TASK_PORTRAIT
