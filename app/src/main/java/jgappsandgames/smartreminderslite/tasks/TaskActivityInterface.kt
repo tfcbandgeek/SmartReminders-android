@@ -17,7 +17,6 @@ import android.widget.EditText
 import android.widget.ListView
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -27,6 +26,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
+import org.jetbrains.anko.toast
 
 /**
  * TaskActivity
@@ -148,7 +148,7 @@ abstract class TaskActivityInterface:
         when (item!!.itemId) {
             R.id.save -> {
                 save()
-                Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show()
+                toast("Saved.").show()
                 return true
             }
 

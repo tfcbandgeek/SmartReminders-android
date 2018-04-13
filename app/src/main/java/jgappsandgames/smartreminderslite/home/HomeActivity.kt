@@ -57,9 +57,7 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
 
         // Set Click Listeners
         home_fab.setOnClickListener {
-            val task = Task("home", Task.TYPE_TASK)
-            // TODO: Save  returns task and combine with previous statement
-            task.save()
+            val task = Task("home", Task.TYPE_TASK).save()
 
             TaskManager.home.add(task.getFilename())
             TaskManager.tasks.add(task.getFilename())
@@ -71,9 +69,7 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         }
 
         home_fab.setOnLongClickListener {
-            val task = Task("home", Task.TYPE_FLDR)
-            // TODO: Save  returns task and combine with previous statement
-            task.save()
+            val task = Task("home", Task.TYPE_FLDR).save()
 
             TaskManager.home.add(task.getFilename())
             TaskManager.tasks.add(task.getFilename())

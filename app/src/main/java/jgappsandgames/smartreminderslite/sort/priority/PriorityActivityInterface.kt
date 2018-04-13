@@ -11,12 +11,11 @@ import android.view.View
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.ListView
-import android.widget.Toast
 
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
-
+import org.jetbrains.anko.toast
 
 /**
  * PriorityActivityInterface
@@ -85,7 +84,7 @@ abstract class PriorityActivityInterface: Activity(), View.OnClickListener, View
         when (item!!.itemId) {
             R.id.save -> {
                 save()
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show()
+                toast("Saved.").show()
                 return true
             }
 

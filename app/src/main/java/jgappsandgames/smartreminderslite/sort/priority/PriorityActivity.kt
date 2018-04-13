@@ -72,7 +72,6 @@ class PriorityActivity: PriorityActivityInterface() {
 
         // Set View
         setTitle()
-        setAdapter()
     }
 
     /**
@@ -126,79 +125,49 @@ class PriorityActivity: PriorityActivityInterface() {
      * SetTitle
      *
      * Called to Set The Title and The Text in The Buttons
-     * TODO: Combine with SetAdapter
      */
     private fun setTitle() {
         when (position) {
             1 -> {
-                title = "Ignore"
+                title = getString(R.string.ignore)
                 down!!.text = ""
                 up!!.setText(R.string.low)
-                return
-            }
-
-            2 -> {
-                title = "Low Priority (Default)"
-                down!!.setText(R.string.ignore)
-                up!!.setText(R.string.normal)
-                return
-            }
-
-            3 -> {
-                title = "Normal Priority"
-                down!!.setText(R.string.low)
-                up!!.setText(R.string.high)
-                return
-            }
-
-            4 -> {
-                title = "High Priority"
-                down!!.setText(R.string.normal)
-                up!!.setText(R.string.stared)
-                return
-            }
-
-            5 -> {
-                title = "Stared Tasks"
-                down!!.setText(R.string.high)
-                up!!.text = ""
-            }
-        }
-    }
-
-    /**
-     * SetAdapter
-     *
-     * Called To Set The Adapter Currently Active
-     * Todo: Combine with setTitle
-     */
-    private fun setAdapter() {
-        when (position) {
-            1 -> {
                 if (ignore == null) ignore = PriorityAdapter(this, PriorityManager.getIgnored())
                 list!!.adapter = ignore
                 return
             }
 
             2 -> {
+                title = getString(R.string.low_priority_default)
+                down!!.setText(R.string.ignore)
+                up!!.setText(R.string.normal)
                 if (low == null) low = PriorityAdapter(this, PriorityManager.getLow())
                 list!!.adapter = low
                 return
             }
 
             3 -> {
+                title = getString(R.string.normal_priority)
+                down!!.setText(R.string.low)
+                up!!.setText(R.string.high)
                 if (normal == null) normal = PriorityAdapter(this, PriorityManager.getNormal())
                 list!!.adapter = normal
                 return
             }
 
             4 -> {
+                title = getString(R.string.high_priority)
+                down!!.setText(R.string.normal)
+                up!!.setText(R.string.stared)
                 if (high == null) high = PriorityAdapter(this, PriorityManager.getHigh())
                 list!!.adapter = high
                 return
             }
 
             5 -> {
+                title = getString(R.string.stared_tasks)
+                down!!.setText(R.string.high)
+                up!!.text = ""
                 if (stared == null) stared = PriorityAdapter(this, PriorityManager.getStared())
                 list!!.adapter = stared
             }
@@ -215,26 +184,22 @@ class PriorityActivity: PriorityActivityInterface() {
             1 -> {
                 position = 2
                 down!!.visibility = View.VISIBLE
-                setAdapter()
                 setTitle()
             }
 
             2 -> {
                 position = 3
-                setAdapter()
                 setTitle()
             }
 
             3 -> {
                 position = 4
-                setAdapter()
                 setTitle()
             }
 
             4 -> {
                 position = 5
                 up!!.visibility = View.INVISIBLE
-                setAdapter()
                 setTitle()
             }
         }
@@ -250,26 +215,22 @@ class PriorityActivity: PriorityActivityInterface() {
             2 -> {
                 position = 1
                 down!!.visibility = View.INVISIBLE
-                setAdapter()
                 setTitle()
             }
 
             3 -> {
                 position = 2
-                setAdapter()
                 setTitle()
             }
 
             4 -> {
                 position = 3
-                setAdapter()
                 setTitle()
             }
 
             5 -> {
                 position = 4
                 up!!.visibility = View.VISIBLE
-                setAdapter()
                 setTitle()
             }
         }

@@ -110,7 +110,7 @@ class SettingsActivity: Activity() {
         }
 
         first_run_tutorial_button.setOnClickListener {
-            toast(R.string.coming_soon)
+            toast(R.string.coming_soon).show()
         }
 
         first_run_tag_switch.setOnCheckedChangeListener { _, state ->

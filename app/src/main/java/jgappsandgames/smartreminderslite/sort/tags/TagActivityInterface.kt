@@ -9,7 +9,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
+
+// Anko
+import org.jetbrains.anko.toast
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -59,7 +61,7 @@ abstract class TagActivityInterface: Activity(), TagHolder.TagSwitcher, TaskFold
         when (item.itemId) {
             R.id.save -> {
                 save()
-                Toast.makeText(this, "Saved.", Toast.LENGTH_LONG).show()
+                toast("Saved.").show()
             }
 
             R.id.close -> finish()
