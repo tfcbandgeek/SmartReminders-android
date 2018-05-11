@@ -9,8 +9,8 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 18040109
-        versionName "18.4.1"
+        versionCode 18050000
+        versionName "18.5.0 Alpha 1"
     }
 
     buildTypes {

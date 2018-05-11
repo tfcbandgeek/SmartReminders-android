@@ -131,7 +131,7 @@ class TaskManager {
 
             // API 11
             if (version >= API.MANAGEMENT) {
-                meta = data.optJSONObject(META)
+                meta = data.optJSONObject(META) ?: JSONObject()
             } else {
                 meta = JSONObject()
             }

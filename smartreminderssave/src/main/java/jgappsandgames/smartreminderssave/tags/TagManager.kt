@@ -75,13 +75,13 @@ class TagManager {
             }
 
             version = data.optInt(VERSION, API.RELEASE)
-            val t = data.optJSONArray(TAGS)
+            val t = data.optJSONArray(TAGS) ?: JSONArray()
             tags = ArrayList(t.length())
             for (i in 0 until t.length()) tags.add(t.optString(i))
 
             // API 11
             if (version >= API.MANAGEMENT) {
-                meta = data.optJSONObject(META)
+                meta = data.optJSONObject(META) ?: JSONObject()
             } else {
                 meta = JSONObject()
             }

@@ -79,7 +79,7 @@ class ThemeManager {
 
             // API 11
             if (version >= API.RELEASE) {
-                meta = data.optJSONObject(META)
+                meta = data.optJSONObject(META) ?: JSONObject()
             } else {
                 meta = JSONObject()
             }

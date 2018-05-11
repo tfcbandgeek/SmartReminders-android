@@ -117,21 +117,21 @@ class SettingsManager {
 
             version = data.optInt(VERSION, API.RELEASE)
             if (version < API.RELEASE) version = API.RELEASE
-            user_name = data.optString(USER_NAME)
-            device_name = data.optString(DEVICE_NAME)
-            use_external_file = data.optBoolean(USE_EXTERNAL_FILE)
-            has_tag_shortcut = data.optBoolean(HAS_TAG_SHORTCUT)
+            user_name = data.optString(USER_NAME, "")
+            device_name = data.optString(DEVICE_NAME, "")
+            use_external_file = data.optBoolean(USE_EXTERNAL_FILE, false)
+            has_tag_shortcut = data.optBoolean(HAS_TAG_SHORTCUT, false)
             has_status_shortcut = data.optBoolean(HAS_STATUS_SHORTCUT, false)
             has_today_shortcut = data.optBoolean(HAS_TODAY_SHORTCUT, false)
             has_week_shortcut = data.optBoolean(HAS_WEEK_SHORTCUT, false)
             has_month_shortcut = data.optBoolean(HAS_MONTH_SHORTCUT, false)
             has_priority_shortcut = data.optBoolean(HAS_PRIORITY_SHORTCUT, false)
-            has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL)
-            last_version_splash = data.optInt(LAST_VERSION_SPLASH)
+            has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL, false)
+            last_version_splash = data.optInt(LAST_VERSION_SPLASH, -1)
 
             // API 11
             if (version >= API.MANAGEMENT) {
-                meta = data.optJSONObject(META)
+                meta = data.optJSONObject(META) ?: JSONObject()
             } else {
                 meta = JSONObject()
             }
