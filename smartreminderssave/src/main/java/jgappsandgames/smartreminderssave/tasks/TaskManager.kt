@@ -4,7 +4,6 @@ package jgappsandgames.smartreminderssave.tasks
 import android.util.Log
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 // JSONObject
 import org.json.JSONArray
@@ -211,6 +210,41 @@ class TaskManager {
             }
 
             return false
+        }
+
+        // Task Getters ----------------------------------------------------------------------------
+        fun getTasks(tasks: ArrayList<String>): ArrayList<Task> {
+            val r = ArrayList<Task>(tasks.size)
+            for (i in 0 until tasks.size) r.add(Task(filename = tasks[i]))
+            return r
+        }
+
+        fun getHome(): ArrayList<String> {
+            return home
+        }
+
+        fun getHomeTasks(): ArrayList<Task> {
+            return getTasks(home)
+        }
+
+        fun getAll(): ArrayList<String> {
+            return tasks
+        }
+
+        fun getAllTasks(): ArrayList<Task> {
+            return getTasks(tasks)
+        }
+
+        fun getArchived(): ArrayList<String> {
+            return archived
+        }
+
+        fun getArchivedTasks(): ArrayList<Task> {
+            return getTasks(archived)
+        }
+
+        fun getDeleted(): ArrayList<String> {
+            return deleted
         }
     }
 }
