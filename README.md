@@ -17,4 +17,4 @@ Smart Reminders is designed to be a versital Tasks app that is Focused on User P
 
 # Contributing:
 If you see a problem with the app or want to see a feature added feel free to contact me <josh.garner94@gmail.com>, open an issue, or submit a pull request.
-Ensure All Pull Requests Work with the latest version of the Master Branch
+Ensure All Pull Requests Work with the latest version of the Main Branch
