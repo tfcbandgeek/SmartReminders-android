@@ -26,20 +26,29 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_home.home_fab
-import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import kotlinx.android.synthetic.main.activity_home.*
 
 /**
  * HomeActivity
  * Created by joshua on 12/13/2017.
  */
 class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
+    companion object {
+        // Constants -------------------------------------------------------------------------------
+        private val HOME: Int = 0
+        private val ALL: Int = 1
+        private val ARCHIVED: Int = 2
+    }
+
+    // Data ----------------------------------------------------------------------------------------
+    private var view: Int = HOME
+
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +65,21 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         else MasterManager.load()
 
         // Set Click Listeners
+        home.setOnClickListener {
+            view = HOME
+            setList()
+        }
+
+        all.setOnClickListener {
+            view = ALL
+            setList()
+        }
+
+        archived.setOnClickListener {
+            view = ARCHIVED
+            setList()
+        }
+
         home_fab.setOnClickListener {
             val task = Task("home", Task.TYPE_TASK).save()
 
@@ -90,7 +114,7 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
      */
     override fun onResume() {
         super.onResume()
-        home_tasks_list.adapter = HomeAdapter(this)
+        setList()
     }
 
     /**
@@ -188,6 +212,28 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         MasterManager.save()
     }
 
-    // Internal Classes ----------------------------------------------------------------------------
-    class HomeAdapter(activity: HomeActivity): TaskAdapterInterface(activity, activity, TaskManager.getHomeTasks())
+    private fun setList() {
+        when (view) {
+            HOME -> {
+                home.setText(R.string.home_selected)
+                all.setText(R.string.all)
+                archived.setText(R.string.archived)
+                home_tasks_list.adapter = TaskAdapterInterface(this, this, TaskManager.getHomeTasks())
+            }
+
+            ALL -> {
+                home.setText(R.string.home)
+                all.setText(R.string.all_selected)
+                archived.setText(R.string.archived)
+                home_tasks_list.adapter = TaskAdapterInterface(this, this, TaskManager.getAllTasks())
+            }
+
+            ARCHIVED -> {
+                home.setText(R.string.home)
+                all.setText(R.string.all)
+                archived.setText(R.string.archived_selected)
+                home_tasks_list.adapter = TaskAdapterInterface(this, this, TaskManager.getArchivedTasks())
+            }
+        }
+    }
 }
