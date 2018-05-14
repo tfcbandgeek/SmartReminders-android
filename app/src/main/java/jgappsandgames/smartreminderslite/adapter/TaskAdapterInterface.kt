@@ -9,9 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 
-// Jetbrain
-import org.jetbrains.annotations.Nullable
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
@@ -25,11 +22,11 @@ import jgappsandgames.smartreminderssave.tasks.Task
  *
  * Class that Handles The List View Items For Tasks and Folders Throughout the Entire App
  */
-open class TaskAdapterInterface(val activity: Activity, private val listener: TaskFolderHolder.OnTaskChangedListener, val tasks: ArrayList<Task>): BaseAdapter() {
-    // Secondary Initializer -----------------------------------------------------------------------
-    constructor(activity: Activity, listener: TaskFolderHolder.OnTaskChangedListener, tasks: ArrayList<String>, @Nullable unused: String?):
-            this(activity, listener, ArrayList()) {
-        for (t in tasks) this.tasks.add(Task(t))
+open class TaskAdapterInterface(private val activity: Activity, private val listener: TaskFolderHolder.OnTaskChangedListener,
+                                private val tasks: ArrayList<Task>, private val delete: Boolean = false): BaseAdapter() {
+    companion object {
+        // Constants -------------------------------------------------------------------------------
+        const val TASK_TYPE_COUNT: Int = 3
     }
 
     // List Methods --------------------------------------------------------------------------------
@@ -48,7 +45,7 @@ open class TaskAdapterInterface(val activity: Activity, private val listener: Ta
      * @return The Number of Different View Types
      */
     override fun getViewTypeCount(): Int {
-        return 3
+        return TASK_TYPE_COUNT
     }
 
     /**
@@ -104,15 +101,14 @@ open class TaskAdapterInterface(val activity: Activity, private val listener: Ta
             val temp: View = if (getItemViewType(position) == Task.TYPE_TASK) LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
                 else LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
 
-            val holder = TaskFolderHolder(getItem(position), temp, activity, listener)
+            val holder = TaskFolderHolder(activity, temp, getItem(position), listener, delete)
             temp.tag = holder
             holder.setViews()
             return temp
         }
 
         val holder: TaskFolderHolder = convertView.tag as TaskFolderHolder
-        holder.task = getItem(position)
-        holder.setViews()
+        holder.update(getItem(position))
         return convertView
     }
 }

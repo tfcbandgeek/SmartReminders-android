@@ -12,5 +12,4 @@ import jgappsandgames.smartreminderssave.tasks.Task
  *
  * Adapter for The Status View Lists
  */
-class StatusAdapter(activity: StatusActivity, tasks: ArrayList<Task>):
-        TaskAdapterInterface(activity, activity, tasks)
+class StatusAdapter(activity: StatusActivity, tasks: ArrayList<Task>): TaskAdapterInterface(activity, activity, tasks)

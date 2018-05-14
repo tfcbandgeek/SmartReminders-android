@@ -12,5 +12,4 @@ import jgappsandgames.smartreminderssave.tasks.Task
  *
  * Task Adapter for the Priority Lists
  */
-class PriorityAdapter(activity: PriorityActivity, tasks: ArrayList<Task>):
-        TaskAdapterInterface(activity, activity, tasks)
+class PriorityAdapter(activity: PriorityActivity, tasks: ArrayList<Task>): TaskAdapterInterface(activity, activity, tasks)

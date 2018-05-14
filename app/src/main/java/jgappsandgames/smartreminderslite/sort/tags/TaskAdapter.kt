@@ -11,6 +11,7 @@ import android.widget.BaseAdapter
 
 // App
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 
 // Save
@@ -56,7 +57,11 @@ class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>
     }
 
     override fun getViewTypeCount(): Int {
-        return 3
+        return TaskAdapterInterface.TASK_TYPE_COUNT
+    }
+
+    override fun hasStableIds(): Boolean {
+        return true
     }
 
     override fun getItem(position: Int): Task {
@@ -64,7 +69,7 @@ class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return getItem(position).getID()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -78,14 +83,13 @@ class TaskAdapter(private val activity: TagActivity, selected: ArrayList<String>
             convertView = if (getItem(position).getType() == Task.TYPE_FLDR) LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
                 else LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
 
-            holder = TaskFolderHolder(getItem(position), convertView!!, activity, activity)
+            holder = TaskFolderHolder(activity, convertView!!, getItem(position), activity)
             convertView.tag = holder
+            holder.setViews()
         } else {
             holder = convertView.tag as TaskFolderHolder
-            holder.task = getItem(position)
+            holder.update(getItem(position))
         }
-
-        holder.setViews()
 
         return convertView
     }

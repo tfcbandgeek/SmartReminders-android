@@ -13,5 +13,4 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
  * MonthAdapter
  * Created by joshua on 1/19/2018.
  */
-class MonthAdapter(activity: MonthActivity, tasks: ArrayList<Task>):
-        TaskAdapterInterface(activity, activity, tasks)
+class MonthAdapter(activity: MonthActivity, tasks: ArrayList<Task>): TaskAdapterInterface(activity, activity, tasks)

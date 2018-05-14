@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderslite.tasks
 
 // App
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
+import jgappsandgames.smartreminderssave.tasks.TaskManager
 
 /**
  * ChildrenAdapter
@@ -9,5 +10,4 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
  *
  * Displays the Tasks in the Folder View
  */
-class ChildrenAdapter(activity: TaskActivity, tasks: ArrayList<String>):
-        TaskAdapterInterface(activity, activity, tasks, null)
+class ChildrenAdapter(activity: TaskActivity, tasks: ArrayList<String>): TaskAdapterInterface(activity, activity, TaskManager.getTasks(tasks))

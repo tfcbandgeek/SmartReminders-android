@@ -189,5 +189,5 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     }
 
     // Internal Classes ----------------------------------------------------------------------------
-    class HomeAdapter(activity: HomeActivity): TaskAdapterInterface(activity, activity, TaskManager.home, null)
+    class HomeAdapter(activity: HomeActivity): TaskAdapterInterface(activity, activity, TaskManager.getHomeTasks())
 }

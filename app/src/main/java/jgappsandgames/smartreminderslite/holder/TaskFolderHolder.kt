@@ -29,30 +29,19 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
  *
  * Task/Folder Holder for The TaskAdapter
  */
-@Suppress("JoinDeclarationAndAssignment")
-class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedListener: OnTaskChangedListener):
+class TaskFolderHolder(private val activity: Activity, view: View,
+        private var task: Task, private val onTaskChanged: OnTaskChangedListener, private val delete: Boolean = false):
         View.OnClickListener, View.OnLongClickListener, CompoundButton.OnCheckedChangeListener {
-    // Data ----------------------------------------------------------------------------------------
-    var task: Task
-    private val activity: Activity
-    private val onTaskChanged: OnTaskChangedListener?
-
     // Views ---------------------------------------------------------------------------------------
     private var status: CheckBox? = null
-    private var title: TextView
-    private var note: TextView
+    private var title: TextView = view.findViewById(R.id.title)
+    private var note: TextView = view.findViewById(R.id.note)
 
     // Initializer ---------------------------------------------------------------------------------
     init {
-        this.task = task
-        this.activity = activity
-        this.onTaskChanged = taskChangedListener
-
-        title = view.findViewById(R.id.title)
         title.setOnClickListener(this)
         title.setOnLongClickListener(this)
 
-        note = view.findViewById(R.id.note)
         note.setOnClickListener(this)
         note.setOnLongClickListener(this)
 
@@ -77,6 +66,11 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
         if (task.getType() == Task.TYPE_TASK) status!!.isChecked = task.isCompleted()
     }
 
+    fun update(_task: Task) {
+        task = _task
+        setViews()
+    }
+
     // Click Handlers ------------------------------------------------------------------------------
     /**
      * OnClick
@@ -95,7 +89,8 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
      * Handles What Happens on A Long Click
      */
     override fun onLongClick(view: View): Boolean {
-        TaskManager.archiveTask(task)
+        if (delete) TaskManager.deleteTask(task)
+        else TaskManager.archiveTask(task)
 
         val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         try {
@@ -111,7 +106,7 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
             n.printStackTrace()
         }
 
-        onTaskChanged?.onTaskChanged()
+        onTaskChanged.onTaskChanged()
         return true
     }
 
