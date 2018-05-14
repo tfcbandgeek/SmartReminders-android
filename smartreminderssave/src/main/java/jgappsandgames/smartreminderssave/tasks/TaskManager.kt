@@ -194,6 +194,10 @@ class TaskManager {
                 }
             }
 
+            if (task.getType() == Task.TYPE_FLDR) {
+                for (i in 0 until task.getChildren().size) archiveTask(Task(task.getChildren()[i]))
+            }
+
             tasks.remove(task.getFilename())
             archived.add(task.getFilename())
             save()

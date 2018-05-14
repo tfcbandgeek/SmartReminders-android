@@ -232,7 +232,7 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
                 home.setText(R.string.home)
                 all.setText(R.string.all)
                 archived.setText(R.string.archived_selected)
-                home_tasks_list.adapter = TaskAdapterInterface(this, this, TaskManager.getArchivedTasks())
+                home_tasks_list.adapter = TaskAdapterInterface(this, this, TaskManager.getArchivedTasks(), true)
             }
         }
     }
