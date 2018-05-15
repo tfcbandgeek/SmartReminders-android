@@ -26,13 +26,17 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 // KotlinX
+import kotlinx.android.synthetic.main.activity_home.all
+import kotlinx.android.synthetic.main.activity_home.archived
+import kotlinx.android.synthetic.main.activity_home.home
+import kotlinx.android.synthetic.main.activity_home.home_fab
+import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_home.*
 
 /**
  * HomeActivity
@@ -41,9 +45,9 @@ import kotlinx.android.synthetic.main.activity_home.*
 class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private val HOME: Int = 0
-        private val ALL: Int = 1
-        private val ARCHIVED: Int = 2
+        private const val HOME: Int = 0
+        private const val ALL: Int = 1
+        private const val ARCHIVED: Int = 2
     }
 
     // Data ----------------------------------------------------------------------------------------
@@ -63,6 +67,7 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
 
         // Handle Loading Data
         else MasterManager.load()
+        view = intent.getIntExtra(ActivityUtility.HOME_POSITION, HOME)
 
         // Set Click Listeners
         home.setOnClickListener {
@@ -215,6 +220,8 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     private fun setList() {
         when (view) {
             HOME -> {
+                setTitle(R.string.app_name)
+                intent.putExtra(ActivityUtility.HOME_POSITION, HOME)
                 home.setText(R.string.home_selected)
                 all.setText(R.string.all)
                 archived.setText(R.string.archived)
@@ -222,6 +229,8 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
             }
 
             ALL -> {
+                setTitle(R.string.all)
+                intent.putExtra(ActivityUtility.HOME_POSITION, ALL)
                 home.setText(R.string.home)
                 all.setText(R.string.all_selected)
                 archived.setText(R.string.archived)
@@ -229,6 +238,8 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
             }
 
             ARCHIVED -> {
+                setTitle(R.string.archived)
+                intent.putExtra(ActivityUtility.HOME_POSITION, ARCHIVED)
                 home.setText(R.string.home)
                 all.setText(R.string.all)
                 archived.setText(R.string.archived_selected)

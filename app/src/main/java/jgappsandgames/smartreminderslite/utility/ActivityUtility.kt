@@ -10,11 +10,13 @@ package jgappsandgames.smartreminderslite.utility
 class ActivityUtility {
     companion object {
         // Intent Keys -----------------------------------------------------------------------------
+        const val FILENAME = "filename"
         const val TASK_NAME = "task_name"
         const val CHECKPOINT = "checkpoint"
         const val TAG_LIST = "tags"
         const val TASK_TYPE = "type"
         const val HOME_OPTION = "home_option"
+        const val HOME_POSITION = "home_position"
 
         // Intent Values ---------------------------------------------------------------------------
         const val HOME_PLANNER: Int = 1
