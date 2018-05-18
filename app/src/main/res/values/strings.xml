@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Smart Reminders Lite</string>
-    <string name="version_string">18.05.0 Beta 1</string>
-    <string name="api_string">11.4.1 Beta 1</string>
+    <string name="version_string">18.05.0</string>
+    <string name="api_string">11.4.1</string>
+    <string name="anko_version">Anko 0.10.5</string>
+    <string name="anko_github">https://github.com/Kotlin/anko/releases/tag/v0.10.5</string>
+    <string name="kotlin_version">Kotlin 1.2.41</string>
+    <string name="kotlin_github">https://github.com/JetBrains/kotlin/releases/tag/v1.2.41</string>
 
     <string name="about">About</string>
     <string name="action_settings">Settings</string>
@@ -90,6 +94,7 @@
     <string name="tags">Tags</string>
     <string name="tasks">Tasks</string>
     <string name="text">Text</string>
+    <string name="third_party_libraries">3rd Party Libraries Used in this App</string>
     <string name="this_month">This Month</string>
     <string name="title">Title</string>
     <string name="today">Today</string>

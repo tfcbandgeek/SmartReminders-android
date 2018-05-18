@@ -2,11 +2,9 @@ package jgappsandgames.smartreminderslite.holder
 
 // Android OS
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.VibrationEffect
-import android.os.Vibrator
 
 // Views
 import android.view.View
@@ -22,6 +20,7 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
+import org.jetbrains.anko.vibrator
 
 /**
  * TaskFolderHolder
@@ -92,14 +91,13 @@ class TaskFolderHolder(private val activity: Activity, view: View,
         if (delete) TaskManager.deleteTask(task)
         else TaskManager.archiveTask(task)
 
-        val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
         try {
-            if (v != null && v.hasVibrator()) {
+            if (activity.vibrator.hasVibrator()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                    activity.vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
                 } else {
                     @Suppress("DEPRECATION")
-                    v.vibrate(100)
+                    activity.vibrator.vibrate(100)
                 }
             }
         } catch (n: NullPointerException) {

@@ -9,8 +9,8 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 18050003
-        versionName "18.5.0 Beta 1"
+        versionCode 18050005
+        versionName "18.5.0"
     }
 
     buildTypes {
@@ -31,7 +31,7 @@ dependencies {
     implementation project(':smartreminderssave')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko:$anko_version"
 }
 repositories {
     mavenCentral()
