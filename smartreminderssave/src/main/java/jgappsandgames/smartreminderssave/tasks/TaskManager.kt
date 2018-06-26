@@ -170,6 +170,23 @@ class TaskManager {
 
         // Task Methods ----------------------------------------------------------------------------
         @JvmStatic
+        fun addTask(task: Task, home: Boolean): Task {
+            if (home) {
+                TaskManager.home.add(task.getFilename())
+                TaskManager.tasks.add(task.getFilename())
+                TaskManager.save()
+            } else {
+                val p = Task(task.getParent())
+                p.addChild(task.getFilename())
+                TaskManager.tasks.add(task.getFilename())
+                p.save()
+                TaskManager.save()
+            }
+
+            return task
+        }
+
+        @JvmStatic
         fun archiveTask(task: Task) {
             task.markArchived()
             task.save()

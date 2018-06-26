@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/fab_020001" />
             <option value="$PROJECT_DIR$/smartreminders" />
             <option value="$PROJECT_DIR$/smartreminderssave" />
           </set>
