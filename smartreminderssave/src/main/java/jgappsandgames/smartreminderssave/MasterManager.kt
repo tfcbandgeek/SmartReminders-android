@@ -1,8 +1,5 @@
 package jgappsandgames.smartreminderssave
 
-// Android OS
-import android.content.Context
-
 // Save Library
 import jgappsandgames.smartreminderssave.date.DateManager
 import jgappsandgames.smartreminderssave.priority.PriorityManager
@@ -26,23 +23,6 @@ class MasterManager {
          * Create
          *
          * Called to Possibly load the Log System, And Create the Application Data
-         * @param context The Application Context
-         */
-        @JvmStatic
-        @Deprecated("To Be Removed in 12")
-        fun create(context: Context) {
-            SettingsManager.create()
-            TaskManager.create()
-            TagManager.create()
-            ThemeManager.create()
-
-            save()
-        }
-
-        /**
-         * Create
-         *
-         * Called to Possibly load the Log System, And Create the Application Data
          */
         @JvmStatic
         fun create() {
@@ -52,24 +32,6 @@ class MasterManager {
             ThemeManager.create()
 
             save()
-        }
-
-        /**
-         * Load
-         *
-         * Called to Possibly load the Log System, And Load the Application Data
-         * @param context The Application context
-         */
-        @JvmStatic
-        @Deprecated("To Be Removed in 12")
-        fun load(context: Context) {
-            SettingsManager.load()
-            TaskManager.load()
-            TagManager.load()
-            ThemeManager.load()
-            DateManager.create()
-            PriorityManager.create()
-            StatusManager.create()
         }
 
         /**

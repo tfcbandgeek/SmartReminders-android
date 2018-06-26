@@ -17,8 +17,6 @@ class Checkpoint(var id: Int, var text: String, var status: Boolean) {
     }
 
     // Constructors --------------------------------------------------------------------------------
-    constructor(): this(0, "", false)
-    constructor(c_id: Int): this(c_id, "", false)
     constructor(c_id: Int, c_text: String): this(c_id, c_text, false)
     constructor(data: JSONObject): this(data.optInt(ID, 0), data.optString(TEXT, ""), data.optBoolean(STATUS, false))
 

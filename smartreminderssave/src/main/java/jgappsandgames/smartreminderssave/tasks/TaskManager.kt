@@ -202,7 +202,6 @@ class TaskManager {
 
                 else -> {
                     try {
-                        Log.v("TaskManager", "Archive Task Parent is NOT in the database")
                         val parent = Task(task.getParent())
                         parent.removeChild(task.getFilename())
                         parent.save()

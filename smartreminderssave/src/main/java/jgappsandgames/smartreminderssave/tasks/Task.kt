@@ -18,7 +18,6 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  * Task
  * Created by joshua on 12/12/2017.
  */
-
 class Task() {
     companion object {
         // Constants -------------------------------------------------------------------------------

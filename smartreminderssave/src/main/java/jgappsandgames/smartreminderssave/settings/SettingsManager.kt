@@ -20,13 +20,12 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  * SettingsManager
  * Created by joshua on 12/12/2017.
  */
-
 class SettingsManager {
     companion object {
         // Constants -------------------------------------------------------------------------------
         private const val FILENAME = "settings.srj"
 
-        // Save Data
+        // Save Data -------------------------------------------------------------------------------
         private const val VERSION = "version"
         private const val META = "meta"
         private const val USER_NAME = "user_name"
@@ -40,20 +39,6 @@ class SettingsManager {
         private const val HAS_MONTH_SHORTCUT = "has_month_shortcut"
         private const val HAS_DONE_TUTORIAL = "has_done_tutorial"
         private const val LAST_VERSION_SPLASH = "last_version_splash"
-        private const val API_LEVEL = "API"
-        private const val HOME_SCREEN = "home_screen"
-
-        // Home Screen
-        const val NO_HOME: Int = 0
-        const val PLANNER_HOME: Int = 1
-        const val TASK_HOME: Int = 2
-        const val ALL_HOME: Int = 3
-        const val DAY_HOME: Int = 4
-        const val WEEK_HOME: Int = 5
-        const val MONTH_HOME: Int = 6
-        const val TAG_HOME: Int = 7
-        const val STATUS_HOME: Int = 8
-        const val PRIORITY_HOME: Int = 9
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0

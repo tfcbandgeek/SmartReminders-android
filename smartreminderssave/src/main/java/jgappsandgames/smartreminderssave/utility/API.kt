@@ -15,7 +15,7 @@ class API {
         const val MANAGEMENT_INFO = "ThemeManager, Universal Manager, Task Metadata, File Metadata"
 
         // Shrinking (6/1/18*)
-//        const val SHRINKING = 12
+        const val SHRINKING = 12
         const val SHRINKING_INFO = "Single Character Keys for Save File, Attachments, Open File Notices, Planner View"
 
         // Encryption (1/1/19*)
