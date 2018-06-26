@@ -9,9 +9,7 @@ import jgappsandgames.smartreminderslite.R
 
 /**
  * TaskManagementActivity
- * Created by joshua on 12/16/2017.
- *
- * Class That will Eventually Hold the Advanced Data for Tasks
+ * Created by joshua on 12/16/2017.\
  */
 class TaskManagementActivity: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {

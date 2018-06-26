@@ -63,11 +63,11 @@ class AboutActivity: Activity() {
                     val data = JSONObject(s.toString())
                     if (data.optInt("stable", 0) > BuildConfig.VERSION_CODE) {
                         runOnUiThread {
-                            toast("Update Found").show()
+                            toast(R.string.update_found).show()
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/tfcbandgeek/SmartReminders-android/releases")))
                         }
                     } else {
-                        runOnUiThread { toast("No Update Found").show() }
+                        runOnUiThread { toast(R.string.no_update_found).show() }
                     }
                 } catch (e: MalformedURLException) {
                     e.printStackTrace()

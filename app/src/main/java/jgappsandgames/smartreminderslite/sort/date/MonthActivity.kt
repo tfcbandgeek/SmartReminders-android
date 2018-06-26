@@ -1,27 +1,34 @@
 package jgappsandgames.smartreminderslite.sort.date
 
 // Java
+import java.util.Calendar
+
+// Android
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import java.util.Calendar
 
 // Views
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.CalendarView
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
-import jgappsandgames.smartreminderssave.MasterManager
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_month.month_calendar
+import kotlinx.android.synthetic.main.activity_month.month_tasks
 
 // Save
+import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.date.DateManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_month.*
 
 /**
  * MonthActivity

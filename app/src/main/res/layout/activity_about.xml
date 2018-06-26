@@ -76,27 +76,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="Kotlin 1.2.31"/>
+        android:text="Kotlin 1.2.50"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textSize="12sp"
-        android:text="    https://github.com/JetBrains/kotlin/releases/tag/v1.2.31"/>
+        android:text="    https://github.com/JetBrains/kotlin/releases/tag/v1.2.50"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="Anko 0.10.4"/>
+        android:text="Anko 0.10.5"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textSize="12sp"
-        android:text="    https://github.com/Kotlin/anko/releases/tag/v0.10.4"/>
+        android:text="    https://github.com/Kotlin/anko/releases/tag/v0.10.5"/>
 
     <LinearLayout
         android:layout_width="match_parent"

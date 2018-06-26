@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Smart Reminders Lite</string>
-    <string name="version_string">18.04.1 18.04.1 Release Candidate</string>
-    <string name="api_string">11.4.0 18.04.1 Release Candidate</string>
+    <string name="version_string">18.06.0</string>
+    <string name="api_string">11.4.1</string>
 
     <string name="about">About</string>
     <string name="action_settings">Settings</string>
@@ -54,6 +54,7 @@
     <string name="next">Next</string>
     <string name="no_date">No Date</string>
     <string name="no_tags">No Tags</string>
+    <string name="no_update_found">No Update Found</string>
     <string name="normal">Normal</string>
     <string name="normal_priority">"Normal Priority"</string>
     <string name="note">Note</string>
@@ -92,6 +93,7 @@
 
     <string name="unselected">Unselected</string>
     <string name="up">Up</string>
+    <string name="update_found">Update Found</string>
 
     <string name="version">Version</string>
 

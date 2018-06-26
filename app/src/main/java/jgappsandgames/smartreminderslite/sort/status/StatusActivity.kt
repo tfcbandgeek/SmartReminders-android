@@ -4,28 +4,35 @@ package jgappsandgames.smartreminderslite.sort.status
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+
+// Views
 import android.view.Menu
 import android.view.MenuItem
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
-
-// App
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_status.status_done_list
+import kotlinx.android.synthetic.main.activity_status.status_done_text
+import kotlinx.android.synthetic.main.activity_status.status_incomplete_list
+import kotlinx.android.synthetic.main.activity_status.status_incomplete_text
+import kotlinx.android.synthetic.main.activity_status.status_overdue_list
+import kotlinx.android.synthetic.main.activity_status.status_overdue_text
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_status.*
 
 /**
  * StatusActivity
  * Created by joshua on 12/14/2017.
- *
- * StatusActivity
  */
 class StatusActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------

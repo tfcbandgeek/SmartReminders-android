@@ -7,21 +7,27 @@ import java.util.Calendar
 
 // Android OS
 import android.os.Bundle
+
+// Views
 import android.view.Menu
 import android.view.MenuItem
 
-// View
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_date.date_next
+import kotlinx.android.synthetic.main.activity_date.date_previous
+import kotlinx.android.synthetic.main.activity_date.date_tasks
+
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.date.DateManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_date.*
 
 /**
  * DayActivity

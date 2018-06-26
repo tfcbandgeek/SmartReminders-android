@@ -18,9 +18,9 @@ import jgappsandgames.smartreminderssave.tags.TagManager
 
 open class TagAdapterInterface(): BaseAdapter() {
     // Data ----------------------------------------------------------------------------------------
-    private var activity: Activity? = null
-    private var switcher: TagHolder.TagSwitcher? = null
-    private var tags: ArrayList<String>? = null
+    private lateinit var activity: Activity
+    private lateinit var switcher: TagHolder.TagSwitcher
+    private lateinit var tags: ArrayList<String>
     private var selected: Boolean = false
 
     // Constructor ---------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ open class TagAdapterInterface(): BaseAdapter() {
         if (selected) tags = _tags
         else {
             tags = ArrayList()
-            for (tag in TagManager.tags) if (!_tags.contains(tag)) tags?.add(tag)
+            for (tag in TagManager.tags) if (!_tags.contains(tag)) tags.add(tag)
         }
     }
 
@@ -45,12 +45,12 @@ open class TagAdapterInterface(): BaseAdapter() {
 
         if (selected) {
             tags = ArrayList()
-            for (tag in _tags) if (tag.toLowerCase().contains(_search.toLowerCase())) tags?.add(tag)
+            for (tag in _tags) if (tag.toLowerCase().contains(_search.toLowerCase())) tags.add(tag)
         } else {
             tags = ArrayList()
             for (tag in _tags) {
                 if (tag.toLowerCase().contains(_search.toLowerCase())) {
-                    if (!TagManager.tags.contains(tag)) tags?.add(tag)
+                    if (!TagManager.tags.contains(tag)) tags.add(tag)
                 }
             }
         }
@@ -58,8 +58,7 @@ open class TagAdapterInterface(): BaseAdapter() {
 
     // List Methods --------------------------------------------------------------------------------
     override fun getCount(): Int {
-        return if (tags != null) tags!!.size
-            else 0
+        return tags.size
     }
 
     override fun getViewTypeCount(): Int {
@@ -72,8 +71,7 @@ open class TagAdapterInterface(): BaseAdapter() {
 
     // Item Methods --------------------------------------------------------------------------------
     override fun getItem(position: Int): String {
-        return if (tags != null) tags!![position]
-            else ""
+        return tags[position]
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -87,7 +85,7 @@ open class TagAdapterInterface(): BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return if (convertView == null) {
             val view = LayoutInflater.from(activity).inflate(R.layout.list_tag, parent, false)
-            val holder = TagHolder(getItem(position), selected, switcher!!, view)
+            val holder = TagHolder(getItem(position), selected, switcher, view)
             view.tag = holder
             view
         } else {

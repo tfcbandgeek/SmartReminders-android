@@ -65,11 +65,6 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
     }
 
     // View Handler --------------------------------------------------------------------------------
-    /**
-     * SetViews
-     *
-     * Draw Method
-     */
     fun setViews() {
         title.text = task.getTitle()
         note.text = task.getNote()
@@ -78,22 +73,12 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
     }
 
     // Click Handlers ------------------------------------------------------------------------------
-    /**
-     * OnClick
-     *
-     * Handles What Happens When The View is Pressed
-     */
     override fun onClick(view: View) {
         val intent = Intent(activity, TaskActivity::class.java)
         intent.putExtra(ActivityUtility.TASK_NAME, task.getFilename())
         activity.startActivity(intent)
     }
 
-    /**
-     * OnLongClick
-     *
-     * Handles What Happens on A Long Click
-     */
     override fun onLongClick(view: View): Boolean {
         TaskManager.archiveTask(task)
 
@@ -116,22 +101,12 @@ class TaskFolderHolder(task: Task, view: View, activity: Activity, taskChangedLi
     }
 
     // Check Listeners -----------------------------------------------------------------------------
-    /**
-     * OnCheckedChanged
-     *
-     * Handles What Happens When the Checkpoint Changed
-     */
     override fun onCheckedChanged(compoundButton: CompoundButton, b: Boolean) {
         task.markComplete(b)
         task.save()
     }
 
     // Task Change Listener ------------------------------------------------------------------------
-    /**
-     * TaskChangeListener
-     *
-     * Listener For Handling Task Changing
-     */
     interface OnTaskChangedListener {
         fun onTaskChanged()
     }

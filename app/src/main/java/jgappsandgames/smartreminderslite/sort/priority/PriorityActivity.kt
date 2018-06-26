@@ -3,9 +3,9 @@ package jgappsandgames.smartreminderslite.sort.priority
 // Android OS
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 
 // Views
-import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,22 +18,20 @@ import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_priority.priority_down
+import kotlinx.android.synthetic.main.activity_priority.priority_tasks
+import kotlinx.android.synthetic.main.activity_priority.priority_up
+
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.priority.PriorityManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_priority.*
 
 /**
  * PriorityActivity
  * Created by joshua on 12/14/2017.
- *
- * Priority[PriorityActivityInterface, PriorityActivity]
- * A View for Viewing Tasks Based on Their Priority
- *
- *     PriorityActivityInterface: View and Application Focus
- *     PriorityActivity: Data and User Input
  */
 class PriorityActivity:
         Activity(), TaskFolderHolder.OnTaskChangedListener {

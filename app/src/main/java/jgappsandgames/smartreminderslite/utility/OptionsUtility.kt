@@ -1,8 +1,16 @@
 package jgappsandgames.smartreminderslite.utility
 
+// Android OS
 import android.app.Activity
 import android.content.Intent
+
+// Views
 import android.view.MenuItem
+
+// Anko
+import org.jetbrains.anko.toast
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.AboutActivity
 import jgappsandgames.smartreminderslite.home.HomeActivity
@@ -13,7 +21,6 @@ import jgappsandgames.smartreminderslite.sort.date.WeekActivity
 import jgappsandgames.smartreminderslite.sort.priority.PriorityActivity
 import jgappsandgames.smartreminderslite.sort.status.StatusActivity
 import jgappsandgames.smartreminderslite.sort.tags.TagActivity
-import org.jetbrains.anko.toast
 
 /**
  * OptionsUtility

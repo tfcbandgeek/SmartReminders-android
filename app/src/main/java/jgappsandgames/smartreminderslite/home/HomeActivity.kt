@@ -6,13 +6,12 @@ import android.content.Intent
 import android.os.Bundle
 
 // Views
-
 import android.view.Menu
 import android.view.MenuItem
-import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 
 // App
+import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility

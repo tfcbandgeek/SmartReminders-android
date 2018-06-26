@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.home
 
 // Android OS
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -47,7 +46,6 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
  */
 class FirstRun: Activity() {
     // LifeCycle Methods ---------------------------------------------------------------------------
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_run)

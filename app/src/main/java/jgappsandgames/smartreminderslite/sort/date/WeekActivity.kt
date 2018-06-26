@@ -1,14 +1,18 @@
 package jgappsandgames.smartreminderslite.sort.date
 
 // Java
-import android.app.Activity
 import java.util.Calendar
 
 // Android OS
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+
+// View
 import android.view.Menu
 import android.view.MenuItem
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
@@ -18,10 +22,14 @@ import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.date.DateManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_date.date_next
+import kotlinx.android.synthetic.main.activity_date.date_previous
+import kotlinx.android.synthetic.main.activity_date.date_tasks
+
 // App
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
-import kotlinx.android.synthetic.main.activity_date.*
 
 /**
  * WeekActivity
@@ -29,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_date.*
  */
 class WeekActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
-    protected var weekActive: Int = 0
+    private var weekActive: Int = 0
 
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {

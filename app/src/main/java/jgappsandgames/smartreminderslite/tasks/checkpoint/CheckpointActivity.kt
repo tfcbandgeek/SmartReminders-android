@@ -17,9 +17,13 @@ import org.json.JSONObject
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_continue
+import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_status
+import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_text
+
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
-import kotlinx.android.synthetic.main.activity_checkpoint.*
 
 /**
  * CheckpointActivity
@@ -34,8 +38,6 @@ class CheckpointActivity:  Activity(), TextWatcher {
     // Lifecycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Set Content View
         setContentView(R.layout.activity_checkpoint)
 
         // Set Empty Return Intent

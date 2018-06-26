@@ -113,42 +113,42 @@ class SettingsActivity: Activity() {
             toast(R.string.coming_soon).show()
         }
 
-        first_run_tag_switch.setOnCheckedChangeListener { _, state ->
+        first_run_tag_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_tag_shortcut = !SettingsManager.has_tag_shortcut
             SettingsManager.save()
             if (SettingsManager.has_tag_shortcut) ShortcutUtility.createTagShortcut(this)
             else ShortcutUtility.removeTagShortcut(this)
         }
 
-        first_run_priority_switch.setOnCheckedChangeListener { _, state ->
+        first_run_priority_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_priority_shortcut = !SettingsManager.has_priority_shortcut
             SettingsManager.save()
             if (SettingsManager.has_priority_shortcut) ShortcutUtility.createPriorityShortcut(this)
             else ShortcutUtility.removePriorityShortcut(this)
         }
 
-        first_run_status_switch.setOnCheckedChangeListener { _, state ->
+        first_run_status_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_status_shortcut = !SettingsManager.has_status_shortcut
             SettingsManager.save()
             if (SettingsManager.has_status_shortcut) ShortcutUtility.createStatusShortcut(this)
             else ShortcutUtility.removeStatusShortcut(this)
         }
 
-        first_run_day_switch.setOnCheckedChangeListener { _, state ->
+        first_run_day_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_today_shortcut = !SettingsManager.has_today_shortcut
             SettingsManager.save()
             if (SettingsManager.has_today_shortcut) ShortcutUtility.createTodayShortcut(this)
             else ShortcutUtility.removeTodayShortcut(this)
         }
 
-        first_run_week_switch.setOnCheckedChangeListener { _, state ->
+        first_run_week_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_week_shortcut = !SettingsManager.has_week_shortcut
             SettingsManager.save()
             if (SettingsManager.has_week_shortcut) ShortcutUtility.createWeekShortcut(this)
             else ShortcutUtility.removeWeekShortcut(this)
         }
 
-        first_run_month_switch.setOnCheckedChangeListener { _, state ->
+        first_run_month_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_month_shortcut = !SettingsManager.has_month_shortcut
             SettingsManager.save()
             if (SettingsManager.has_month_shortcut) ShortcutUtility.createMonthShortcut(this)

@@ -4,6 +4,7 @@ package jgappsandgames.smartreminderslite.utility
 
 // Java
 import android.annotation.SuppressLint
+import java.util.Arrays
 
 // Android OS
 import android.app.Activity
@@ -25,7 +26,6 @@ import jgappsandgames.smartreminderslite.tasks.TaskActivity
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
-import java.util.*
 
 /**
  * ShortcutUtility

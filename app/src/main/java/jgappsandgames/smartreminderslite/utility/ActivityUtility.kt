@@ -1,6 +1,5 @@
 package jgappsandgames.smartreminderslite.utility
 
-@Suppress("unused")
 /**
  * ActivityUtility
  * Created by joshua on 12/26/2017.
@@ -14,18 +13,6 @@ class ActivityUtility {
         const val CHECKPOINT = "checkpoint"
         const val TAG_LIST = "tags"
         const val TASK_TYPE = "type"
-        const val HOME_OPTION = "home_option"
-
-        // Intent Values ---------------------------------------------------------------------------
-        const val HOME_PLANNER: Int = 1
-        const val HOME_TASK: Int = 2
-        const val HOME_ALL: Int = 3
-        const val HOME_DAY: Int = 4
-        const val HOME_WEEK: Int = 5
-        const val HOME_MONTH: Int = 6
-        const val HOME_TAG: Int = 7
-        const val HOME_STATUS: Int = 8
-        const val HOME_PRIORITY: Int = 9
 
         // Request Codes ---------------------------------------------------------------------------
         const val REQUEST_CHECKPOINT = 1

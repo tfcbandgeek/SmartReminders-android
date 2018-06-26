@@ -20,10 +20,15 @@ import jgappsandgames.smartreminderslite.adapter.TagAdapterInterface
 import jgappsandgames.smartreminderslite.holder.TagHolder
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
+// KotlinX
+import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_search_enter
+import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_search_text
+import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_selected
+import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_unselected
+
 // Save
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.Task
-import kotlinx.android.synthetic.main.activity_tag_editpr.*
 
 /**
  * TagEditorActivity
@@ -36,8 +41,6 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
     // LifeCycle Methods --------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Set Content View
         setContentView(R.layout.activity_tag_editpr)
 
         // Set Result Intent

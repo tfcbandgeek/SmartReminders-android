@@ -11,10 +11,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+
 
 // Views
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.SeekBar
+import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 
 // JSON
@@ -44,14 +55,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 /**
  * TaskActivity
  * Created by joshua on 12/16/2017.
- *
- * Task View[TaskActivityInterface, TaskActivity]
- * The Task View is Likely the Most Important View in the Entire Application.  It Displays and Allows
- *     for the Editing of Both Tasks and Folders.  Because of this it should be checked for stability
- *     with every build.
- *
- *     TaskActivityInterface: Manages the Orientation, Building Views and the Menu
- *     TaskActivity: Handles the Data
  */
 class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, TextWatcher,
         SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskFolderHolder.OnTaskChangedListener {
