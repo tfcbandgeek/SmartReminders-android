@@ -12,7 +12,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tasks"/>
+        android:id="@+id/date_tasks"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/prev"
-        android:id="@+id/previous"
+        android:id="@+id/date_previous"
         tools:ignore="RtlHardcoded" />
 
     <Button
@@ -29,6 +29,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/next"
-        android:id="@+id/next"
+        android:id="@+id/date_next"
         tools:ignore="RelativeOverlap,RtlHardcoded" />
 </RelativeLayout>

@@ -1,21 +1,29 @@
 package jgappsandgames.smartreminderslite.sort.priority
 
 // Android OS
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 
 // Views
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.BaseAdapter
 
 // App
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
+import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.priority.PriorityManager
+import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import kotlinx.android.synthetic.main.activity_priority.*
 
 /**
  * PriorityActivity
@@ -27,36 +35,38 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  *     PriorityActivityInterface: View and Application Focus
  *     PriorityActivity: Data and User Input
  */
-class PriorityActivity: PriorityActivityInterface() {
+class PriorityActivity:
+        Activity(), TaskFolderHolder.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var position: Int = 3
 
+    // Adapters ------------------------------------------------------------------------------------
+    private var ignore: BaseAdapter? = null
+    private var low: BaseAdapter? = null
+    private var normal: BaseAdapter? = null
+    private var high: BaseAdapter? = null
+    private var stared: BaseAdapter? = null
+
     // LifeCycle Methods ---------------------------------------------------------------------------
-    /**
-     * OnCreate
-     *
-     * Called to Create The Activity
-     * Called By the Application
-     */
-    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Load Filepath
+        setContentView(R.layout.activity_priority)
+
+        // Handle Data
         FileUtility.loadFilePaths(this)
-
-        // First Run
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
-
-        // Normal Run
         else MasterManager.load()
+
+        // Click Listeners
+        priority_down.setOnClickListener {
+            moveDown()
+        }
+
+        priority_up.setOnClickListener {
+            moveUp()
+        }
     }
 
-    /**
-     * OnResume
-     *
-     * Called To Reset the Adapters Before Displaying the Data
-     * Called By The Application
-     */
     override fun onResume() {
         super.onResume()
 
@@ -74,116 +84,84 @@ class PriorityActivity: PriorityActivityInterface() {
         setTitle()
     }
 
-    /**
-     * OnPause
-     *
-     * Called To Save and Pause the Activity
-     * Called By The Application
-     */
     override fun onPause() {
         super.onPause()
         save()
     }
 
-    // Click Listeners -----------------------------------------------------------------------------
-    /**
-     * OnClick
-     *
-     * Called When A Click Event Happens
-     * Called By The Application
-     */
-    override fun onClick(view: View) {
-        // Up Button
-        if (view == up) moveUp()
-
-        // Down Button
-        else if (view == down) moveDown()
+    // Menu Methods --------------------------------------------------------------------------------
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_auxilary, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    /**
-     * OnLongClick
-     *
-     * Called When A Long Click Event Happens
-     * Called By The Application
-     */
-    override fun onLongClick(view: View): Boolean {
-        return false
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return OptionsUtility.onOptionsItemSelected(this, item, object: OptionsUtility.Save {
+            override fun save() {
+                this@PriorityActivity.save()
+            }
+        })
     }
 
     // Task Listeners ------------------------------------------------------------------------------
-    /**
-     * OnTaskChanged
-     *
-     * Called When A Task In One Of The Adapters Changes
-     */
     override fun onTaskChanged() {
         onResume()
     }
 
     // Private Class Methods -----------------------------------------------------------------------
-    /**
-     * SetTitle
-     *
-     * Called to Set The Title and The Text in The Buttons
-     */
     private fun setTitle() {
         when (position) {
             1 -> {
                 title = getString(R.string.ignore)
-                down!!.text = ""
-                up!!.setText(R.string.low)
+                priority_down.text = ""
+                priority_up.setText(R.string.low)
                 if (ignore == null) ignore = PriorityAdapter(this, PriorityManager.getIgnored())
-                list!!.adapter = ignore
+                priority_tasks.adapter = ignore
                 return
             }
 
             2 -> {
                 title = getString(R.string.low_priority_default)
-                down!!.setText(R.string.ignore)
-                up!!.setText(R.string.normal)
+                priority_down.setText(R.string.ignore)
+                priority_up.setText(R.string.normal)
                 if (low == null) low = PriorityAdapter(this, PriorityManager.getLow())
-                list!!.adapter = low
+                priority_tasks.adapter = low
                 return
             }
 
             3 -> {
                 title = getString(R.string.normal_priority)
-                down!!.setText(R.string.low)
-                up!!.setText(R.string.high)
+                priority_down.setText(R.string.low)
+                priority_up.setText(R.string.high)
                 if (normal == null) normal = PriorityAdapter(this, PriorityManager.getNormal())
-                list!!.adapter = normal
+                priority_tasks.adapter = normal
                 return
             }
 
             4 -> {
                 title = getString(R.string.high_priority)
-                down!!.setText(R.string.normal)
-                up!!.setText(R.string.stared)
+                priority_down.setText(R.string.normal)
+                priority_up.setText(R.string.stared)
                 if (high == null) high = PriorityAdapter(this, PriorityManager.getHigh())
-                list!!.adapter = high
+                priority_tasks.adapter = high
                 return
             }
 
             5 -> {
                 title = getString(R.string.stared_tasks)
-                down!!.setText(R.string.high)
-                up!!.text = ""
+                priority_down.setText(R.string.high)
+                priority_up.text = ""
                 if (stared == null) stared = PriorityAdapter(this, PriorityManager.getStared())
-                list!!.adapter = stared
+                priority_tasks.adapter = stared
             }
         }
     }
 
-    /**
-     * MoveUp
-     *
-     * Called To Move The Current Selection Up By One
-     */
     private fun moveUp() {
         when (position) {
             1 -> {
                 position = 2
-                down!!.visibility = View.VISIBLE
+                priority_down.visibility = View.VISIBLE
                 setTitle()
             }
 
@@ -199,7 +177,7 @@ class PriorityActivity: PriorityActivityInterface() {
 
             4 -> {
                 position = 5
-                up!!.visibility = View.INVISIBLE
+                priority_up.visibility = View.INVISIBLE
                 setTitle()
             }
         }
@@ -214,7 +192,7 @@ class PriorityActivity: PriorityActivityInterface() {
         when (position) {
             2 -> {
                 position = 1
-                down!!.visibility = View.INVISIBLE
+                priority_down.visibility = View.INVISIBLE
                 setTitle()
             }
 
@@ -230,19 +208,18 @@ class PriorityActivity: PriorityActivityInterface() {
 
             5 -> {
                 position = 4
-                up!!.visibility = View.VISIBLE
+                priority_up.visibility = View.VISIBLE
                 setTitle()
             }
         }
     }
 
     // Parent Overrides ----------------------------------------------------------------------------
-    /**
-     * Save
-     *
-     * Called To Save The Application Data
-     */
-    override fun save() {
+    fun save() {
         MasterManager.save()
     }
+
+    // Internal Classes ----------------------------------------------------------------------------
+    class PriorityAdapter(activity: PriorityActivity, tasks: ArrayList<Task>):
+            TaskAdapterInterface(activity, activity, tasks)
 }

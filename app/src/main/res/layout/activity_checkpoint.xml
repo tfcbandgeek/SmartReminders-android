@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/text"
-            android:id="@+id/text"
+            android:id="@+id/checkpoint_text"
             android:inputType="text" />
     </LinearLayout>
 
@@ -33,7 +33,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/status"
+            android:id="@+id/checkpoint_status"
             android:text="@string/status"/>
     </LinearLayout>
 
@@ -48,6 +48,6 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/con"
+        android:id="@+id/checkpoint_continue"
         android:text="@string/con"/>
 </LinearLayout>

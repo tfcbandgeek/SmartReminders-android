@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.MenuItem
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.AboutActivity
+import jgappsandgames.smartreminderslite.home.HomeActivity
 import jgappsandgames.smartreminderslite.home.SettingsActivity
 import jgappsandgames.smartreminderslite.sort.date.DayActivity
 import jgappsandgames.smartreminderslite.sort.date.MonthActivity
@@ -14,10 +15,20 @@ import jgappsandgames.smartreminderslite.sort.status.StatusActivity
 import jgappsandgames.smartreminderslite.sort.tags.TagActivity
 import org.jetbrains.anko.toast
 
+/**
+ * OptionsUtility
+ * Created by Joshua Garner on 6/25/2018.
+ */
 class OptionsUtility {
     companion object {
         fun onOptionsItemSelected(context: Activity, item: MenuItem, save: Save? = null): Boolean {
             when(item.itemId) {
+                R.id.home -> {
+                    context.startActivity(Intent(context, HomeActivity::class.java)
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                }
+
                 R.id.tags -> {
                     context.startActivity(Intent(context, TagActivity::class.java))
                     return true

@@ -21,14 +21,14 @@
             android:layout_height="wrap_content"
             android:text="@string/tasks"
             android:textAlignment="center"
-            android:id="@+id/tasks_title"
+            android:id="@+id/tag_tasks_title"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/tasks"/>
+            android:id="@+id/tag_tasks"/>
     </LinearLayout>
 
     <!--Tags-->
@@ -53,14 +53,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/selected"
                 android:textAlignment="center"
-                android:id="@+id/selected_text"
+                android:id="@+id/tag_selected_text"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/selected"/>
+                android:id="@+id/tag_selected"/>
         </LinearLayout>
 
         <!--Unselected-->
@@ -77,14 +77,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/unselected"
                 android:textAlignment="center"
-                android:id="@+id/unselected_text"
+                android:id="@+id/tag_unselected_text"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/unselected"/>
+                android:id="@+id/tag_unselected"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

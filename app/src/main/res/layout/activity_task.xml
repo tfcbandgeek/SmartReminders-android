@@ -97,13 +97,12 @@
             android:layout_height="match_parent"
             android:id="@+id/tasks"/>
 
-        <Button
+        <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:foreground="@android:drawable/ic_menu_add"
-            android:id="@+id/fab"
-            tools:ignore="RtlHardcoded" />
+            android:src="@android:drawable/ic_menu_add"
+            android:id="@+id/task_add_checkpoint"/>
     </RelativeLayout>
 </LinearLayout>

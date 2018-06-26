@@ -21,14 +21,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/search"
-            android:id="@+id/search_text"
+            android:id="@+id/tag_editor_search_text"
             android:inputType="text" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add"
-            android:id="@+id/search_enter"/>
+            android:id="@+id/tag_editor_search_enter"/>
     </LinearLayout>
 
     <!--Tag List-->
@@ -57,7 +57,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/selected"/>
+                android:id="@+id/tag_editor_selected"/>
         </LinearLayout>
 
         <!--Unselected-->
@@ -79,7 +79,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/unselected"/>
+                android:id="@+id/tag_editor_unselected"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

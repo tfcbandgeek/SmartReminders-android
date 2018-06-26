@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -68,13 +67,25 @@
             android:layout_height="match_parent"
             android:id="@+id/tasks"/>
 
-        <Button
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:foreground="@android:drawable/ic_menu_add"
-            android:id="@+id/fab"
-            tools:ignore="RtlHardcoded" />
+            android:src="@android:drawable/ic_menu_add"
+            android:id="@+id/folder_fab">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_dialog_dialer"
+                android:id="@+id/folder_add_folder"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_agenda"
+                android:id="@+id/folder_add_task"/>
+        </com.github.clans.fab.FloatingActionMenu>
     </RelativeLayout>
 </LinearLayout>

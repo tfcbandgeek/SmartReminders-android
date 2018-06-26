@@ -5,16 +5,17 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 
 // Android OS
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
 
 // Views
-import android.view.View
-import android.widget.DatePicker
-import android.widget.SeekBar
+import android.widget.*
+import com.github.clans.fab.FloatingActionButton
 
 // JSON
 import org.json.JSONArray
@@ -23,11 +24,14 @@ import org.json.JSONObject
 
 // App
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
+import jgappsandgames.smartreminderslite.holder.CheckpointHolder
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity
-import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointAdapter
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
+import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
@@ -49,37 +53,138 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  *     TaskActivityInterface: Manages the Orientation, Building Views and the Menu
  *     TaskActivity: Handles the Data
  */
-class TaskActivity: TaskActivityInterface() {
+class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, TextWatcher,
+        SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskFolderHolder.OnTaskChangedListener {
+    // View Orientation ----------------------------------------------------------------------------
+    companion object {
+        private const val TASK_PORTRAIT = 1
+        private const val TASK_LANDSCAPE = 2
+        private const val TASK_MULTI = 3
+        private const val FOLDER_PORTRAIT = 11
+        private const val FOLDER_LANDSCAPE = 12
+        private const val FOLDER_MULTI = 13
+    }
+
+    private var view = 0
+
+    // Views ---------------------------------------------------------------------------------------
+    private lateinit var title: EditText
+    private lateinit var note: EditText
+    private lateinit var tags: TextView
+    private var date: Button? = null
+    private var status: Button? = null
+    private var priority: SeekBar? = null
+    private lateinit var list: ListView
+    private var fab: FloatingActionButton? = null
+    private var faf: FloatingActionButton? = null
+    private var fat: FloatingActionButton? = null
+
     // Data ----------------------------------------------------------------------------------------
-    var task: Task? = null
+    lateinit var task: Task
     var load: Boolean = false
 
     // LifeCycle Methods ---------------------------------------------------------------------------
-    /**
-     * OnCreate
-     *
-     * Called to Create the Activity
-     * Called By the Application
-     */
-    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Load Filepath
+
+        // Handle Data
         FileUtility.loadFilePaths(this)
-
-        // First Run
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
-
-        // Normal Run
         else MasterManager.load()
+
+        // Find Type
+        var type = intent.getIntExtra(ActivityUtility.TASK_TYPE, - 1)
+        if (type == -1) type = Task(intent.getStringExtra(ActivityUtility.TASK_NAME), true).getType()
+
+        // Set View Type
+        view = if (type == Task.TYPE_TASK) TASK_PORTRAIT
+        else FOLDER_PORTRAIT
+
+        // Set Content View
+        when (view) {
+            TASK_PORTRAIT -> setContentView(R.layout.activity_task)
+            FOLDER_PORTRAIT -> setContentView(R.layout.activity_folder)
+            else -> throw RuntimeException("Invalid View Type")
+        }
+
+        // Find Generic Views
+        title = findViewById(R.id.title)
+        note = findViewById(R.id.note)
+        tags = findViewById(R.id.tags)
+        list = findViewById(R.id.tasks)
+
+        // Set TextWatcher
+        title.addTextChangedListener(this)
+        note.addTextChangedListener(this)
+
+        // Set Click Listener
+        tags.setOnClickListener(this)
+        tags.setOnLongClickListener(this)
+
+        // Task Specific Views
+        if (type == Task.TYPE_TASK) {
+            date = findViewById(R.id.date)
+            date!!.setOnClickListener(this)
+            date!!.setOnLongClickListener(this)
+
+            status = findViewById(R.id.status)
+            status!!.setOnClickListener(this)
+
+            priority = findViewById(R.id.priority)
+            priority!!.setOnSeekBarChangeListener(this)
+
+            fab = findViewById(R.id.task_add_checkpoint)
+            fab!!.setOnClickListener {
+                val checkpoint: Checkpoint = if (task.getCheckpoints().size == 0) Checkpoint(1, "")
+                else Checkpoint(task.getCheckpoints()[task.getCheckpoints().size - 1].id + 1, "")
+
+                task.addCheckpoint(checkpoint)
+                task.save()
+                startActivityForResult(
+                        Intent(this, CheckpointActivity::class.java).putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString()),
+                        ActivityUtility.REQUEST_CHECKPOINT)
+            }
+        }
+
+        // Folder Specific Views -------------------------------------------------------------------
+        else if (type == Task.TYPE_FLDR) {
+            faf = findViewById(R.id.folder_add_folder)
+            faf!!.setOnClickListener {
+                // Create Task
+                val t = Task(task.getFilename(), Task.TYPE_FLDR)
+                t.save()
+
+                task.addChild(t.getFilename())
+                task.save()
+
+                TaskManager.tasks.add(t.getFilename())
+                TaskManager.save()
+
+                // Create Intent
+                val intent = Intent(this, TaskActivity::class.java)
+                intent.putExtra(ActivityUtility.TASK_NAME, t.getFilename())
+
+                // Start Activity
+                startActivity(intent)
+            }
+
+            fat = findViewById(R.id.folder_add_task)
+            fat!!.setOnClickListener {
+                // Create Task
+                val t = Task(task.getFilename(), Task.TYPE_TASK)
+                t.save()
+
+                task.addChild(t.getFilename())
+                task.save()
+
+                TaskManager.tasks.add(t.getFilename())
+                TaskManager.save()
+
+                startActivity(Intent(this, TaskActivity::class.java).putExtra(ActivityUtility.TASK_NAME, t.getFilename()))
+            }
+        }
     }
 
-    /**
-     * OnResume
-     *
-     * Called To Set the Data for All Of The Views
-     * Called By The Application
-     */
     override fun onResume() {
         super.onResume()
         // Load Data
@@ -87,49 +192,35 @@ class TaskActivity: TaskActivityInterface() {
         task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
 
         // Set Generic Text
-        setTitle(task!!.getTitle())
-        title!!.setText(task!!.getTitle())
-        note!!.setText(task!!.getNote())
+        setTitle(task.getTitle())
+        title.setText(task.getTitle())
+        note.setText(task.getNote())
         drawTags()
 
         // Set Task Text and Adapter
-        if (task!!.getType() == Task.TYPE_TASK) {
+        if (task.getType() == Task.TYPE_TASK) {
             drawStatus()
             drawDate()
             priority!!.max = 100
-            priority!!.progress = task!!.getPriority()
+            priority!!.progress = task.getPriority()
 
-            adapter = CheckpointAdapter(this, task!!.getFilename(), task!!.getCheckpoints())
-            list!!.adapter = adapter
+            list.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
         }
 
         // Set Folder Adapter
-        if (task!!.getType() == Task.TYPE_FLDR) {
-            adapter = ChildrenAdapter(this, task!!.getChildren())
-            list!!.adapter = adapter
+        if (task.getType() == Task.TYPE_FLDR) {
+            list.adapter = ChildrenAdapter(this, task.getChildren())
         }
 
         load = false
     }
 
-    /**
-     * OnPause
-     *
-     * Called to Handle The View Moving Out Of Focus
-     * Called By The Application
-     */
     override fun onPause() {
         super.onPause()
        save()
     }
 
     // Activity Result -----------------------------------------------------------------------------
-    /**
-     * OnActivityResult
-     *
-     * Called To Handle Activity Results From Activity Started From Here
-     * Called By The Application
-     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -155,7 +246,7 @@ class TaskActivity: TaskActivityInterface() {
                         t.add(temp.optString(i))
                     }
 
-                    task!!.setTags(t)
+                    task.setTags(t)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 } catch (e: NullPointerException) {
@@ -163,107 +254,68 @@ class TaskActivity: TaskActivityInterface() {
                 }
 
                 TagManager.save()
-                task!!.save()
+                task.save()
 
                 drawTags()
             }
         }
     }
 
-    // Click Listeners -----------------------------------------------------------------------------
+    // Menu Methods --------------------------------------------------------------------------------
     /**
-     * OnClick
+     * OnCreateOptionsMenu
      *
-     * Listener For On Click Events In This Activity
+     * Called To Create The Options Menu
      * Called By The Application
      */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_task, menu)
+        return true
+    }
+
+    /**
+     * OnOptionsItemSelected
+     *
+     * Called When an Options Item Is Press
+     * Called By The Application
+     */
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return OptionsUtility.onOptionsItemSelected(this, item!!, object: OptionsUtility.Save {
+            override fun save() {
+                this@TaskActivity.save()
+            }
+        })
+    }
+
+    // Click Listeners -----------------------------------------------------------------------------
     override fun onClick(button: View?) {
-        // Fab Click
-        if (button == fab) {
-            // Called in A Folder
-            if (task!!.getType() == Task.TYPE_FLDR) {
-                // Create Task
-                val t = Task(task!!.getFilename(), Task.TYPE_TASK)
-                t.save()
-
-                task!!.addChild(t.getFilename())
-                task!!.save()
-
-                TaskManager.tasks.add(t.getFilename())
-                TaskManager.save()
-
-                startActivity(Intent(this, TaskActivity::class.java).putExtra(ActivityUtility.TASK_NAME, t.getFilename()))
-            }
-
-            // Called in a Task
-            else {
-                val checkpoint: Checkpoint = if (task!!.getCheckpoints().size == 0) Checkpoint(1, "")
-                else Checkpoint(task!!.getCheckpoints()[task!!.getCheckpoints().size - 1].id + 1, "")
-
-                task!!.addCheckpoint(checkpoint)
-                task!!.save()
-                startActivityForResult(
-                        Intent(this, CheckpointActivity::class.java).putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString()),
-                        ActivityUtility.REQUEST_CHECKPOINT)
-            }
-        }
-
         // Date Click
-        else if (button == date) {
-            if (task!!.getDateDue() == null) DatePickerDialog(this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show()
-            else DatePickerDialog(this, this, task!!.getDateDue()!!.get(Calendar.YEAR), task!!.getDateDue()!!.get(Calendar.MONTH), task!!.getDateDue()!!.get(Calendar.DAY_OF_MONTH)).show()
+        if (button == date) {
+            if (task.getDateDue() == null) DatePickerDialog(this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show()
+            else DatePickerDialog(this, this, task.getDateDue()!!.get(Calendar.YEAR), task.getDateDue()!!.get(Calendar.MONTH), task.getDateDue()!!.get(Calendar.DAY_OF_MONTH)).show()
         }
 
         // Status Click
         else if (button == status) {
-            if (task!!.getStatus() == Task.STATUS_DONE) task!!.markComplete(false)
-            else task!!.markComplete(true)
+            if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false)
+            else task.markComplete(true)
 
-            task!!.save()
+            task.save()
             drawStatus()
         }
 
         // Tags
         else if (button == tags) {
             startActivityForResult(
-                    Intent(this, TagEditorActivity::class.java).putExtra(ActivityUtility.TASK_NAME, task!!.getFilename()),
+                    Intent(this, TagEditorActivity::class.java).putExtra(ActivityUtility.TASK_NAME, task.getFilename()),
                     ActivityUtility.REQUEST_TAGS)
         }
     }
 
-    /**
-     * OnLongClick
-     *
-     * Listener For The Long Click Events In This Activity
-     * Called By The Application
-     */
     override fun onLongClick(button: View?): Boolean {
-        // FAB Click
-        if (button == fab) {
-            if (task!!.getType() == Task.TYPE_FLDR) {
-                // Create Task
-                val t = Task(task!!.getFilename(), Task.TYPE_FLDR)
-                t.save()
-
-                task!!.addChild(t.getFilename())
-                task!!.save()
-
-                TaskManager.tasks.add(t.getFilename())
-                TaskManager.save()
-
-                // Create Intent
-                val intent = Intent(this, TaskActivity::class.java)
-                intent.putExtra(ActivityUtility.TASK_NAME, t.getFilename())
-
-                // Start Activity
-                startActivity(intent)
-                return true
-            }
-        }
-
         // Date Click
-        else if (button == date) {
-            task!!.setDateDue(null)
+        if (button == date) {
+            task.setDateDue(null)
             drawDate()
             return true
         }
@@ -272,140 +324,108 @@ class TaskActivity: TaskActivityInterface() {
     }
 
     // Text Watcher --------------------------------------------------------------------------------
-    /**
-     * BeforeTextChanged
-     *
-     * Ignore
-     */
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-    /**
-     * OnTextChanged
-     *
-     * Ignore
-     */
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-    /**
-     * AfterTextChanged
-     *
-     * Called To Handle Text Views In This Activity Changing
-     * Called By The Application
-     */
     override fun afterTextChanged(editable: Editable?) {
         if (!load) {
-            task!!.setTitle(title!!.text.toString())
-            task!!.setNote(note!!.text.toString())
+            task.setTitle(title.text.toString())
+            task.setNote(note.text.toString())
         }
     }
 
     // Seekbar Listener ----------------------------------------------------------------------------
-    /**
-     * OnStartTrackingTouch
-     *
-     * Ignore
-     */
     override fun onStartTrackingTouch(p0: SeekBar?) {}
-
-    /**
-     * OnStopTrackingTouch
-     *
-     * Ignore
-     */
     override fun onStopTrackingTouch(p0: SeekBar?) {}
-
-    /**
-     * OnProgressChanged
-     *
-     * Called To Handle The Changing of the Priority
-     * Called By The Application
-     */
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-        task!!.setPriority(priority!!.progress)
+        task.setPriority(priority!!.progress)
     }
 
     // Date Listener -------------------------------------------------------------------------------
-    /**
-     * OnDateSet
-     *
-     * Called To Handle The Due Date Being Set
-     * Called By The Application
-     */
     override fun onDateSet(date_picker: DatePicker?, year: Int, month: Int, day: Int) {
-        task!!.setDateDue(GregorianCalendar(year, month, day, 0, 0, 1))
+        task.setDateDue(GregorianCalendar(year, month, day, 0, 0, 1))
         drawDate()
     }
 
     // Task Listener -------------------------------------------------------------------------------
-    /**
-     * OnTaskChanged
-     *
-     * Called To Handle When A Task In This  List Changes
-     */
     override fun onTaskChanged() {
         onResume()
     }
 
     // Parent Methods ------------------------------------------------------------------------------
-    /**
-     * Save
-     *
-     * Called To Save Any Information That May of Changed
-     */
-    override fun save() {
+    fun save() {
         MasterManager.save()
-        task!!.save()
+        task.save()
     }
 
     // Class Methods -------------------------------------------------------------------------------
-    /**
-     * DrawStatus
-     *
-     * Called To Set The Status Text
-     */
     private fun drawStatus() {
-        if (task!!.getType() == Task.TYPE_TASK) {
-            if (task!!.getStatus() == Task.STATUS_DONE) status!!.setText(R.string.complete)
+        if (task.getType() == Task.TYPE_TASK) {
+            if (task.getStatus() == Task.STATUS_DONE) status!!.setText(R.string.complete)
             else status!!.setText(R.string.incomplete)
         }
     }
 
-    /**
-     * DrawTags
-     *
-     * Called To Set The Tags Text
-     */
     private fun drawTags() {
-        tags!!.text = task!!.getTagString()
+        tags.text = task.getTagString()
     }
 
-    /**
-     * DrawDate
-     *
-     * Called To Set The Date Text
-     */
     private fun drawDate() {
-        date!!.text = task!!.getDateDueString()
+        date!!.text = task.getDateDueString()
     }
 
-    /**
-     * EditCheckpoint
-     *
-     * Called To Handle The Checkpoint Changing
-     */
     fun editCheckpoint(checkpoint: Checkpoint) {
-        task!!.editCheckpoint(checkpoint)
-        task!!.save()
+        task.editCheckpoint(checkpoint)
+        task.save()
         onResume()
     }
 
-    /**
-     * DeleteCheckpoint
-     *
-     * Called To Handle The Deletion of A Checkpoint
-     */
     fun deleteCheckpoint(checkpoint: Checkpoint) {
-        task!!.removeCheckpoint(checkpoint)
-        task!!.save()
+        task.removeCheckpoint(checkpoint)
+        task.save()
+    }
+
+
+    // Internal Classes ----------------------------------------------------------------------------
+    class ChildrenAdapter(activity: TaskActivity, tasks: ArrayList<String>):
+            TaskAdapterInterface(activity, activity, tasks, null)
+
+    class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
+            BaseAdapter() {
+        // List Methods --------------------------------------------------------------------------------
+        override fun getCount(): Int {
+            return checkpoints.size
+        }
+
+        override fun getViewTypeCount(): Int {
+            return 1
+        }
+
+        override fun hasStableIds(): Boolean {
+            return false
+        }
+
+        // Item Methods --------------------------------------------------------------------------------
+        override fun getItem(position: Int): Checkpoint {
+            return checkpoints[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+
+        override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
+            var view = convert_view
+            if (view == null) {
+                view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false)
+
+                val holder = CheckpointHolder(activity, task, getItem(position), view!!)
+                view.tag = holder
+            } else {
+                val holder = CheckpointHolder(activity, task, getItem(position), view)
+                view.tag = holder
+            }
+
+            return view
+        }
     }
 }

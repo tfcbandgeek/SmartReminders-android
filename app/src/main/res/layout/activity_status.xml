@@ -20,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/overdue"
-            android:id="@+id/overdue_text"
+            android:id="@+id/status_overdue_text"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/overdue_list"/>
+            android:id="@+id/status_overdue_list"/>
     </LinearLayout>
 
     <!--Incomplete-->
@@ -41,14 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/incomplete"
-            android:id="@+id/incomplete_text"
+            android:id="@+id/status_incomplete_text"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/incomplete_list"/>
+            android:id="@+id/status_incomplete_list"/>
     </LinearLayout>
 
     <!--Done-->
@@ -62,13 +62,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/done"
-            android:id="@+id/done_text"
+            android:id="@+id/status_done_text"
             android:textSize="16sp"
             android:textStyle="bold"/>
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/done_list"/>
+            android:id="@+id/status_done_list"/>
     </LinearLayout>
 </LinearLayout>

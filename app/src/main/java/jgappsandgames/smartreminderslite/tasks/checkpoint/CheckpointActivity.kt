@@ -1,13 +1,13 @@
 package jgappsandgames.smartreminderslite.tasks.checkpoint
 
 // Android
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 
 // Views
 import android.text.Editable
-import android.view.View
+import android.text.TextWatcher
 
 // JSON
 import org.json.JSONException
@@ -19,21 +19,27 @@ import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
+import kotlinx.android.synthetic.main.activity_checkpoint.*
 
 /**
  * CheckpointActivity
  * Created by joshua on 1/19/2018.
  */
-class CheckpointActivity: CheckpointActivityInterface() {
+class CheckpointActivity:  Activity(), TextWatcher {
     // Data ----------------------------------------------------------------------------------------
     private var position: Int = 0
     private var status: Boolean = false
     private var text: String? = null
 
     // Lifecycle Methods ---------------------------------------------------------------------------
-    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Set Content View
+        setContentView(R.layout.activity_checkpoint)
+
+        // Set Empty Return Intent
+        setResult(ActivityUtility.RESPONSE_NONE)
 
         // Load Data
         try {
@@ -49,13 +55,19 @@ class CheckpointActivity: CheckpointActivityInterface() {
         }
 
         // Set Views
-        textView!!.setText(text)
-        textView!!.addTextChangedListener(this)
-        statusButton!!.setOnClickListener(this)
-        statusButton!!.setOnLongClickListener(this)
-        continueButton!!.setOnClickListener {
+        checkpoint_text.setText(text)
+        checkpoint_text.addTextChangedListener(this)
+
+        checkpoint_status.setOnClickListener {
+            status = !status
+            setStatus()
+            setReturnIntent()
+        }
+
+        checkpoint_continue.setOnClickListener {
             finish()
         }
+
         setStatus()
     }
 
@@ -67,22 +79,10 @@ class CheckpointActivity: CheckpointActivityInterface() {
         setReturnIntent()
     }
 
-    // Click Listeners
-    override fun onClick(view: View) {
-        status = !status
-
-        setStatus()
-        setReturnIntent()
-    }
-
-    override fun onLongClick(view: View): Boolean {
-        return false
-    }
-
     // Class Methods -------------------------------------------------------------------------------
     private fun setStatus() {
-        if (status) statusButton!!.setText(R.string.completed)
-        else statusButton!!.setText(R.string.incomplete)
+        if (status) checkpoint_status.setText(R.string.completed)
+        else checkpoint_status.setText(R.string.incomplete)
     }
 
     private fun setReturnIntent() {

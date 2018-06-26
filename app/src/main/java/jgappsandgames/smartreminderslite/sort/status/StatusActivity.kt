@@ -1,19 +1,25 @@
 package jgappsandgames.smartreminderslite.sort.status
 
 // Android OS
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
+import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 
 // App
 import jgappsandgames.smartreminderslite.home.FirstRun
+import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import kotlinx.android.synthetic.main.activity_status.*
 
 /**
  * StatusActivity
@@ -21,34 +27,18 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  *
  * StatusActivity
  */
-class StatusActivity: StatusActivityInterface() {
+class StatusActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
-    /**
-     * OnCreate
-     *
-     * Called To Create The View
-     * Called By The Application
-     */
-    @SuppressLint("MissingSuperCall")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_status)
 
-        // Load Filepath
+        // Handle Data
         FileUtility.loadFilePaths(this)
-
-        // First Run
         if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
-
-        // Normal Run
         else MasterManager.load()
     }
 
-    /**
-     * OnResume
-     *
-     * Called To Reset The Adapters and Draw The View
-     * Called By The Application
-     */
     override fun onResume() {
         super.onResume()
 
@@ -60,33 +50,41 @@ class StatusActivity: StatusActivityInterface() {
         i.addAll(StatusManager.getIncomplete())
 
         // Set Adapters
-        overdueList!!.adapter = StatusAdapter(this, StatusManager.getOverdue())
-        incompleteList!!.adapter = StatusAdapter(this, i)
-        completeList!!.adapter = StatusAdapter(this, StatusManager.getCompleted())
+        status_overdue_list.adapter = StatusAdapter(this, StatusManager.getOverdue())
+        status_incomplete_list.adapter = StatusAdapter(this, i)
+        status_done_list.adapter = StatusAdapter(this, StatusManager.getCompleted())
 
         // Set Text
-        overdueText!!.text = getString(R.string.overdue_tasks, StatusManager.getOverdue().size)
-        incompleteText!!.text = getString(R.string.incomplete_tasks, i.size)
-        completeText!!.text = getString(R.string.completed_tasks, StatusManager.getCompleted().size)
+        status_overdue_text.text = getString(R.string.overdue_tasks, StatusManager.getOverdue().size)
+        status_incomplete_text.text = getString(R.string.incomplete_tasks, i.size)
+        status_done_text.text = getString(R.string.completed_tasks, StatusManager.getCompleted().size)
+    }
+
+    // Menu Methods --------------------------------------------------------------------------------
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_auxilary, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return OptionsUtility.onOptionsItemSelected(this, item, object: OptionsUtility.Save {
+            override fun save() {
+                this@StatusActivity.save()
+            }
+        })
     }
 
     // Task Change Listeners -----------------------------------------------------------------------
-    /**
-     * OnTaskChanged
-     *
-     * Called When a Task in This Activity is Changed
-     */
     override fun onTaskChanged() {
         onResume()
     }
 
     // Parent Methods ------------------------------------------------------------------------------
-    /**
-     * Save
-     *
-     * Called to Save Any Information That May of Changed
-     */
-    override fun save() {
+    fun save() {
         MasterManager.save()
     }
+
+    // Internal Classes ----------------------------------------------------------------------------
+    class StatusAdapter(activity: StatusActivity, tasks: ArrayList<Task>):
+            TaskAdapterInterface(activity, activity, tasks)
 }
