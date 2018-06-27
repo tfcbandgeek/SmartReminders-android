@@ -9,7 +9,7 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 18060006
+        versionCode 18060009
         versionName "18.6.0"
     }
 
@@ -40,4 +40,10 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

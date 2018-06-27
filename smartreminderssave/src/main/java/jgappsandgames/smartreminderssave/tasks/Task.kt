@@ -46,7 +46,9 @@ class Task() {
 
         // Type Constants
         const val TYPE_NONE = 0
+        @Deprecated("To be removed in API 12, Replace with TYPE_FOLDER constant")
         const val TYPE_FLDR = 1
+        const val TYPE_FOLDER = 1
         const val TYPE_TASK = 2
 
         // Checkpoint Constants
@@ -107,7 +109,7 @@ class Task() {
         }
 
         if (sort) {
-            if (type == TYPE_FLDR) sortTasks()
+            if (type == TYPE_FOLDER) sortTasks()
         }
     }
 
@@ -141,7 +143,7 @@ class Task() {
         tags?.sort()
 
         if (sort) {
-            if (type == TYPE_FLDR) sortTasks()
+            if (type == TYPE_FOLDER) sortTasks()
         }
     }
 
@@ -155,6 +157,15 @@ class Task() {
     fun delete() {
         val file = File(FileUtility.getApplicationDataDirectory(), filename)
         file.delete()
+    }
+
+    fun search(search: String): Boolean {
+        return when {
+            getTitle().toLowerCase().contains(search.toLowerCase()) -> true
+            getTags().isEmpty() -> false
+            getTagString().toLowerCase().contains(search.toLowerCase()) -> true
+            else -> false
+        }
     }
 
     // JSON Management Methods ---------------------------------------------------------------------
@@ -238,10 +249,6 @@ class Task() {
         }
 
         return data
-    }
-
-    fun updateTask(data: JSONObject) {
-        if (JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))!!.after(dateUpdated)) loadJSON(data)
     }
 
     // Getters -------------------------------------------------------------------------------------
@@ -546,7 +553,7 @@ class Task() {
             val task = Task(t)
 
             when (task.getType()) {
-                Task.TYPE_FLDR -> folder.add(task)
+                Task.TYPE_FOLDER -> folder.add(task)
 
                 Task.TYPE_TASK -> {
                     if (task.isCompleted()) completed.add(task)
