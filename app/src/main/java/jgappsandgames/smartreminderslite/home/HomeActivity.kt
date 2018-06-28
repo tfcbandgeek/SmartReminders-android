@@ -71,7 +71,7 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         home_add_folder.setOnClickListener {
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(ActivityUtility.TASK_NAME,
-                            TaskManager.addTask(Task("home", Task.TYPE_FLDR).save(), true).getFilename()))
+                            TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
         }
 
         home_bottom_bar_search.setOnClickListener {

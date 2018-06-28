@@ -51,6 +51,8 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import kotlinx.android.synthetic.main.activity_folder.*
+import kotlinx.android.synthetic.main.activity_task.*
 
 /**
  * TaskActivity
@@ -147,14 +149,27 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                         Intent(this, CheckpointActivity::class.java).putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString()),
                         ActivityUtility.REQUEST_CHECKPOINT)
             }
+
+            task_bottom_bar_search.setOnClickListener {
+                if (task_bottom_bar_search_text.visibility == View.VISIBLE) searchTaskVisibility(false)
+                else searchTaskVisibility()
+            }
+
+            task_bottom_bar_search_text.addTextChangedListener(object: TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    if (task_bottom_bar_search_text.visibility == View.VISIBLE) list.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_bottom_bar_search_text.text.toString(), task.getCheckpoints())
+                }
+            })
         }
 
         // Folder Specific Views -------------------------------------------------------------------
-        else if (type == Task.TYPE_FLDR) {
+        else if (type == Task.TYPE_FOLDER) {
             faf = findViewById(R.id.folder_add_folder)
             faf!!.setOnClickListener {
                 // Create Task
-                val t = Task(task.getFilename(), Task.TYPE_FLDR)
+                val t = Task(task.getFilename(), Task.TYPE_FOLDER)
                 t.save()
 
                 task.addChild(t.getFilename())
@@ -185,6 +200,19 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
                 startActivity(Intent(this, TaskActivity::class.java).putExtra(ActivityUtility.TASK_NAME, t.getFilename()))
             }
+
+            folder_bottom_bar_search.setOnClickListener {
+                if (folder_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
+                else searchFolderVisibility()
+            }
+
+            folder_bottom_bar_search_text.addTextChangedListener(object: TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) list.adapter = ChildrenSearchAdapter(this@TaskActivity, folder_bottom_bar_search_text.text.toString(), task.getChildren())
+                }
+            })
         }
     }
 
@@ -265,23 +293,11 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
     }
 
     // Menu Methods --------------------------------------------------------------------------------
-    /**
-     * OnCreateOptionsMenu
-     *
-     * Called To Create The Options Menu
-     * Called By The Application
-     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_task, menu)
         return true
     }
 
-    /**
-     * OnOptionsItemSelected
-     *
-     * Called When an Options Item Is Press
-     * Called By The Application
-     */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return OptionsUtility.onOptionsItemSelected(this, item!!, object: OptionsUtility.Save {
             override fun save() {
@@ -387,10 +403,50 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         task.save()
     }
 
+    // Search Methods ------------------------------------------------------------------------------
+    private fun searchTaskVisibility(visible: Boolean = true) {
+        if (visible) {
+            task_bottom_bar_search_text.visibility = View.VISIBLE
+            task_bottom_bar_search_text.setText("")
+            list.adapter = CheckpointSearchAdapter(this, task.getFilename(), "", task.getCheckpoints())
+        } else {
+            task_bottom_bar_search_text.visibility = View.INVISIBLE
+            task_bottom_bar_search_text.setText("")
+            list.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
+        }
+    }
+
+    private fun searchFolderVisibility(visible: Boolean = true) {
+        if (visible) {
+            folder_bottom_bar_search_text.visibility = View.VISIBLE
+            folder_bottom_bar_search_text.setText("")
+            list.adapter = ChildrenSearchAdapter(this, "", task.getChildren())
+        } else {
+            folder_bottom_bar_search_text.visibility = View.INVISIBLE
+            folder_bottom_bar_search_text.setText("")
+            list.adapter = ChildrenAdapter(this, task.getChildren())
+        }
+    }
 
     // Internal Classes ----------------------------------------------------------------------------
     class ChildrenAdapter(activity: TaskActivity, tasks: ArrayList<String>):
             TaskAdapterInterface(activity, activity, tasks, null)
+
+    class ChildrenSearchAdapter(activity: TaskActivity, search: String, tasks: ArrayList<String>):
+            TaskAdapterInterface(activity, activity, getTask(search, tasks), null){
+        companion object {
+            fun getTask(search: String, tasks: ArrayList<String>): ArrayList<String> {
+                val list = ArrayList<String>()
+
+                for (i in 0 until tasks.size) {
+                    val t = Task(tasks[i])
+                    if (t.search(search)) list.add(t.getFilename())
+                }
+
+                return list
+            }
+        }
+    }
 
     class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
             BaseAdapter() {
@@ -408,6 +464,56 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         }
 
         // Item Methods --------------------------------------------------------------------------------
+        override fun getItem(position: Int): Checkpoint {
+            return checkpoints[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+
+        override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
+            var view = convert_view
+            if (view == null) {
+                view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false)
+
+                val holder = CheckpointHolder(activity, task, getItem(position), view!!)
+                view.tag = holder
+            } else {
+                val holder = CheckpointHolder(activity, task, getItem(position), view)
+                view.tag = holder
+            }
+
+            return view
+        }
+    }
+
+    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, private val checkpoints: ArrayList<Checkpoint>):
+            BaseAdapter() {
+        // Constructor -----------------------------------------------------------------------------
+        init {
+            val temp = ArrayList<Checkpoint>()
+            for (i in 0 until checkpoints.size) {
+                if (!checkpoints[i].text.toLowerCase().contains(search.toLowerCase())) temp.add(checkpoints[i])
+            }
+
+            checkpoints.removeAll(temp)
+        }
+
+        // List Methods ----------------------------------------------------------------------------
+        override fun getCount(): Int {
+            return checkpoints.size
+        }
+
+        override fun getViewTypeCount(): Int {
+            return 1
+        }
+
+        override fun hasStableIds(): Boolean {
+            return false
+        }
+
+        // Item Methods ----------------------------------------------------------------------------
         override fun getItem(position: Int): Checkpoint {
             return checkpoints[position]
         }
