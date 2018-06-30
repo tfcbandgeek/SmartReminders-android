@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -29,7 +31,7 @@
             android:layout_marginEnd="4sp"
             android:layout_marginTop="4sp"
             android:layout_marginBottom="4sp"
-            android:contentDescription="Search"
+            android:contentDescription="@string/search"
             android:src="@android:drawable/ic_menu_search" />
 
         <ImageView
@@ -40,35 +42,48 @@
             android:layout_marginEnd="4sp"
             android:layout_marginTop="4sp"
             android:layout_marginBottom="4sp"
-            android:contentDescription="More"
+            android:contentDescription="@string/more"
             android:src="@android:drawable/ic_menu_more" />
 
         <EditText
+            android:id="@+id/home_bottom_bar_search_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/home_bottom_bar_search_text"
             android:hint="@string/search"
-            android:visibility="invisible"/>
+            android:inputType="text"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <com.github.clans.fab.FloatingActionMenu
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:menu_colorNormal="@android:color/holo_blue_dark"
+        app:menu_colorRipple="@android:color/holo_blue_light"
+        app:menu_colorPressed="@android:color/holo_blue_light"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:src="@android:drawable/ic_menu_add"
-        android:id="@+id/home_fab">
+        android:id="@+id/home_fab"
+        tools:ignore="RelativeOverlap">
 
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@android:color/holo_blue_dark"
+            app:fab_colorPressed="@android:color/holo_blue_light"
+            app:fab_colorRipple="@android:color/holo_blue_light"
             android:src="@android:drawable/ic_dialog_dialer"
+            app:fab_label="@string/add_folder"
             android:id="@+id/home_add_folder"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@android:color/holo_blue_dark"
+            app:fab_colorPressed="@android:color/holo_blue_light"
+            app:fab_colorRipple="@android:color/holo_blue_light"
             android:src="@android:drawable/ic_menu_agenda"
+            app:fab_label="@string/add_task"
             android:id="@+id/home_add_task"/>
     </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

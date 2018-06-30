@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -121,34 +121,28 @@
                 android:layout_marginEnd="4sp"
                 android:layout_marginTop="4sp"
                 android:layout_marginBottom="4sp"
-                android:contentDescription="Search"
+                android:contentDescription="@string/search"
                 android:src="@android:drawable/ic_menu_search" />
-
-            <!--ImageView
-                android:id="@+id/task_bottom_bar_more"
-                android:layout_width="32sp"
-                android:layout_height="32sp"
-                android:layout_marginBottom="4sp"
-                android:layout_marginEnd="4sp"
-                android:layout_marginStart="4sp"
-                android:layout_marginTop="4sp"
-                android:contentDescription="Settings"
-                android:src="@android:drawable/ic_menu_manage" /-->
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/task_bottom_bar_search_text"
                 android:hint="@string/search"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                android:inputType="text" />
         </LinearLayout>
 
         <com.github.clans.fab.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:fab_colorNormal="@android:color/holo_blue_dark"
+            app:fab_colorPressed="@android:color/holo_blue_light"
+            app:fab_colorRipple="@android:color/holo_blue_light"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:src="@android:drawable/ic_menu_add"
-            android:id="@+id/task_add_checkpoint"/>
+            android:id="@+id/task_add_checkpoint"
+            tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 </LinearLayout>

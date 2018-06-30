@@ -11,31 +11,19 @@
     android:paddingBottom="4sp">
 
     <!--Title Bar-->
-    <LinearLayout
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/text"
-            android:id="@+id/checkpoint_text"
-            android:inputType="text" />
-    </LinearLayout>
+        android:hint="@string/text"
+        android:id="@+id/checkpoint_text"
+        android:inputType="text" />
 
     <!--Status Bar-->
-    <LinearLayout
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkpoint_status"
-            android:text="@string/status"/>
-    </LinearLayout>
+        android:id="@+id/checkpoint_status"
+        android:text="@string/status"/>
 
     <!--Spacer-->
     <LinearLayout

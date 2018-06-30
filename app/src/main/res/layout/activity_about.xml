@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -62,7 +63,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        tools:ignore="UselessLeaf" />
 
     <TextView
         android:layout_width="match_parent"
@@ -70,36 +72,50 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:text="3rd Party Libraries Used in this App"/>
+        android:text="@string/_3rd_party_libraries_used_in_this_app"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="Kotlin 1.2.50"/>
+        android:text="@string/anko"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textSize="12sp"
-        android:text="    https://github.com/JetBrains/kotlin/releases/tag/v1.2.50"/>
+        android:text="@string/anko_path"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="Anko 0.10.5"/>
+        android:text="@string/kotlin"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textSize="12sp"
-        android:text="    https://github.com/Kotlin/anko/releases/tag/v0.10.5"/>
+        android:text="@string/kotlin_path"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="@string/zxing_embedded"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textSize="12sp"
+        android:text="@string/zxing_embedded_path"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"/>
+        android:layout_weight="3"
+        tools:ignore="UselessLeaf" />
 </LinearLayout>
