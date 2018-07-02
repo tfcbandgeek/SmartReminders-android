@@ -1,10 +1,9 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
-import android.util.Log
+import jgappsandgames.me.poolutilitykotlin.Pool
 import java.io.File
 import java.io.IOException
-import java.util.ArrayList
 
 // JSONObject
 import org.json.JSONArray
@@ -32,9 +31,12 @@ class TaskManager {
         private const val ARCHIVED = "archived"
         private const val DELETED = "deleted"
 
+        // Pools -----------------------------------------------------------------------------------
+        val taskPool = Pool(maxSize = 100, minSize = 20, generator = TaskCreator())
+
         // Data ------------------------------------------------------------------------------------
         private var version: Int = 0
-        @JvmField
+
         var meta: JSONObject = JSONObject()
         @JvmField
         var home: ArrayList<String> = ArrayList()
@@ -49,22 +51,15 @@ class TaskManager {
         @JvmStatic
         fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
-
-            home = ArrayList()
-            tasks = ArrayList()
-            archived = ArrayList()
-            deleted = ArrayList()
-
-            // API 11
-            meta = JSONObject()
+            else forceCreate()
         }
 
         @JvmStatic
         fun forceCreate() {
-            home = ArrayList()
-            tasks = ArrayList()
-            archived = ArrayList()
-            deleted = ArrayList()
+            home.clear()
+            tasks.clear()
+            archived.clear()
+            deleted.clear()
 
             // API 11
             meta = JSONObject()
@@ -106,10 +101,10 @@ class TaskManager {
 
             version = data.optInt(VERSION, API.RELEASE)
 
-            home = ArrayList()
-            tasks = ArrayList()
-            archived = ArrayList()
-            deleted = ArrayList()
+            home.clear()
+            tasks.clear()
+            archived.clear()
+            deleted.clear()
 
             val h = data.optJSONArray(HOME)
             val t = data.optJSONArray(TASKS)
@@ -130,11 +125,8 @@ class TaskManager {
                     if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i))
 
             // API 11
-            if (version >= API.MANAGEMENT) {
-                meta = data.optJSONObject(META)
-            } else {
-                meta = JSONObject()
-            }
+            meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+                else JSONObject()
         }
 
         @JvmStatic
@@ -195,16 +187,18 @@ class TaskManager {
                 task.getParent() == "home" -> home.remove(task.getFilename())
 
                 tasks.contains(task.getParent()) -> {
-                    val parent = Task(task.getParent())
+                    val parent = taskPool.getPoolObject().load(task.getParent())
                     parent.removeChild(task.getFilename())
                     parent.save()
+                    taskPool.returnPoolObject(parent)
                 }
 
                 else -> {
                     try {
-                        val parent = Task(task.getParent())
+                        val parent = taskPool.getPoolObject().load(task.getParent())
                         parent.removeChild(task.getFilename())
                         parent.save()
+                        taskPool.returnPoolObject(parent)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -227,6 +221,47 @@ class TaskManager {
             }
 
             return false
+        }
+
+        // Getters ---------------------------------------------------------------------------------
+        fun getHome(): ArrayList<String> {
+            return home
+        }
+
+        fun getHomeTasks(): ArrayList<Task> {
+            val t = ArrayList<Task>()
+            for (i in 0 until home.size) t.add(taskPool.getPoolObject().load(home[i]))
+            return t
+        }
+
+        fun getAll(): ArrayList<String> {
+            return tasks
+        }
+
+        fun getAllTasks(): ArrayList<Task> {
+            val t = ArrayList<Task>()
+            for (i in 0 until tasks.size) t.add(taskPool.getPoolObject().load(tasks[i]))
+            return t
+        }
+
+        fun getArchived(): ArrayList<String> {
+            return archived
+        }
+
+        fun getArchivedTasks(): ArrayList<Task> {
+            val t = ArrayList<Task>()
+            for (i in 0 until archived.size) t.add(taskPool.getPoolObject().load(archived[i]))
+            return t
+        }
+
+        fun getDeleted(): ArrayList<String> {
+            return deleted
+        }
+
+        fun getDeletedTasks(): ArrayList<Task> {
+            val t = ArrayList<Task>()
+            for (i in 0 until deleted.size) t.add(taskPool.getPoolObject().load(deleted[i]))
+            return t
         }
     }
 }

@@ -1,6 +1,8 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
+import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
+import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
 import java.io.File
 import java.util.Calendar
 
@@ -18,7 +20,7 @@ import jgappsandgames.smartreminderssave.utility.JSONUtility
  * Task
  * Created by joshua on 12/12/2017.
  */
-class Task() {
+class Task(): PoolObjectInterface {
     companion object {
         // Constants -------------------------------------------------------------------------------
         private const val PARENT = "parent"
@@ -51,6 +53,9 @@ class Task() {
         const val TYPE_FOLDER = 1
         const val TYPE_TASK = 2
 
+        // Priority Constants ----------------------------------------------------------------------
+        const val default = 20
+
         // Checkpoint Constants
         const val CHECKPOINT_POSITION = "position"
         const val CHECKPOINT_STATUS = "status"
@@ -61,8 +66,8 @@ class Task() {
     }
 
     // Data ----------------------------------------------------------------------------------------
-    private var filename: String? = null
-    private var parent: String? = null
+    private var filename: String = ""
+    private var parent: String = ""
     private var version: Int = 0
     private var meta: JSONObject? = null
     private var type: Int = 0
@@ -74,8 +79,8 @@ class Task() {
     private var dateDeleted: Calendar? = null
     private var dateArchived: Calendar? = null
 
-    private var title: String? = null
-    private var note: String? = null
+    private var title: String = ""
+    private var note: String = ""
     private var tags: ArrayList<String>? = null
     private var children: ArrayList<String>? = null
     private var checkpoints: ArrayList<Checkpoint>? = null
@@ -148,6 +153,73 @@ class Task() {
     }
 
     // Management Methods --------------------------------------------------------------------------
+    fun load(filename: String, sort: Boolean = false): Task {
+        this.filename = filename
+        loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
+        tags?.sort()
+
+        if (!TaskManager.tasks.contains(filename)) {
+            if (!TaskManager.archived.contains(filename)) {
+                if (!TaskManager.deleted.contains(filename)) {
+                    TaskManager.tasks.add(filename)
+                    addMeta("Error", "Task was not in the main list at some point.")
+                    note = note + System.getProperty("line.separator") +
+                            System.getProperty("line.separator") +
+                            "Save Error Experienced." +
+                            System.getProperty("line.separator") +
+                            "This Message can be Ignored"
+
+                    save()
+                    TaskManager.save()
+                }
+            }
+        }
+
+        if (sort) {
+            if (type == TYPE_FOLDER) sortTasks()
+        }
+
+        return this
+    }
+
+    fun load(parent: String, type: Int): Task {
+        val calendar = Calendar.getInstance()
+        this.filename = calendar.timeInMillis.toString() + ".srj"
+        this.parent = parent
+        version = API.MANAGEMENT
+        meta = JSONObject()
+        this.type = type
+        taskID = calendar.timeInMillis
+        dateCreate = calendar.clone() as Calendar
+        dateDue = null
+        dateUpdated = calendar.clone() as Calendar
+        dateArchived = null
+        dateDeleted = null
+        title = ""
+        note = ""
+        tags = ArrayList()
+        children = ArrayList()
+        checkpoints = ArrayList()
+        status = 0
+        priority = 20
+        completeOnTime = false
+        completeLate = false
+
+        return this
+    }
+
+    fun load(data: JSONObject, sort: Boolean = false): Task {
+        filename = data.optString("filename", "error.srj")
+        loadJSON(data)
+        tags?.sort()
+
+        if (sort) {
+            if (type == TYPE_FOLDER) sortTasks()
+        }
+
+        return this
+    }
+
     fun save(): Task {
         JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
         tags?.sort()
@@ -166,6 +238,10 @@ class Task() {
             getTagString().toLowerCase().contains(search.toLowerCase()) -> true
             else -> false
         }
+    }
+
+    override fun deconstruct() {
+
     }
 
     // JSON Management Methods ---------------------------------------------------------------------
@@ -253,11 +329,11 @@ class Task() {
 
     // Getters -------------------------------------------------------------------------------------
     fun getFilename(): String {
-        return filename!!
+        return filename
     }
 
     fun getParent(): String {
-        return parent!!
+        return parent
     }
 
     fun getMeta(): JSONObject {
@@ -268,8 +344,8 @@ class Task() {
         return type
     }
 
-    fun getID(): Long {
-        return taskID
+    override fun getID(): Int {
+        return taskID.toInt()
     }
 
     fun getDateCreated(): Calendar {
@@ -299,11 +375,11 @@ class Task() {
     }
 
     fun getTitle(): String {
-        return title!!
+        return title
     }
 
     fun getNote(): String {
-        return note!!
+        return note
     }
 
     fun getTags(): ArrayList<String> {
@@ -352,8 +428,8 @@ class Task() {
 
     // Setters -------------------------------------------------------------------------------------
     fun setDateDue(calendar: Calendar?): Task {
-        if (calendar == null) dateDue = null
-        else dateDue = calendar.clone() as Calendar
+        dateDue = if (calendar == null) null
+            else calendar.clone() as Calendar
         dateUpdated = Calendar.getInstance()
         return this
     }
@@ -595,4 +671,11 @@ class Task() {
         for (d in dated) children!!.add(d.getFilename())
         for (c in completed) children!!.add(c.getFilename())
     }
+}
+
+class TaskCreator: PoolObjectCreator<Task> {
+    override fun generatePoolObject(): Task {
+        return Task()
+    }
+
 }

@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.0'
     defaultConfig {
-        applicationId "jgappsandgames.smartreminderslite"
-        minSdkVersion 17
-        targetSdkVersion 27
-        versionCode 18060016
-        versionName "18.6.0"
+        applicationId "jgappsandgames.smartreminderslite.alpha"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 18070000
+        versionName "18.7.0"
     }
 
     buildTypes {
@@ -36,7 +36,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
 
     implementation project(':smartreminderssave')
-    implementation project(':fab_020001')
+    implementation project(":poolutilitykotlin")
+    implementation project(':fab-020002')
 }
 repositories {
     mavenCentral()

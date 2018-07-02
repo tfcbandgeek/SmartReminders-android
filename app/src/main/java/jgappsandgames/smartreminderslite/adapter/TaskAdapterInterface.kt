@@ -51,7 +51,7 @@ open class TaskAdapterInterface(val activity: Activity, private val listener: Ta
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position).getID()
+        return getItem(position).getID().toLong()
     }
 
     override fun getItemViewType(position: Int): Int {
