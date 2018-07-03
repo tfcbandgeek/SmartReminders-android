@@ -13,8 +13,7 @@ import android.widget.BaseAdapter
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
@@ -26,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_priority.priority_up
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.priority.PriorityManager
-import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.utility.FileUtility
 
 /**
@@ -34,7 +32,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  * Created by joshua on 12/14/2017.
  */
 class PriorityActivity:
-        Activity(), TaskFolderHolder.OnTaskChangedListener {
+        Activity(), TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var position: Int = 3
 
@@ -113,7 +111,7 @@ class PriorityActivity:
                 title = getString(R.string.ignore)
                 priority_down.text = ""
                 priority_up.setText(R.string.low)
-                if (ignore == null) ignore = PriorityAdapter(this, PriorityManager.getIgnored())
+                if (ignore == null) ignore = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getIgnored()), "")
                 priority_tasks.adapter = ignore
                 return
             }
@@ -122,7 +120,7 @@ class PriorityActivity:
                 title = getString(R.string.low_priority_default)
                 priority_down.setText(R.string.ignore)
                 priority_up.setText(R.string.normal)
-                if (low == null) low = PriorityAdapter(this, PriorityManager.getLow())
+                if (low == null) low = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getLow()), "")
                 priority_tasks.adapter = low
                 return
             }
@@ -131,7 +129,7 @@ class PriorityActivity:
                 title = getString(R.string.normal_priority)
                 priority_down.setText(R.string.low)
                 priority_up.setText(R.string.high)
-                if (normal == null) normal = PriorityAdapter(this, PriorityManager.getNormal())
+                if (normal == null) normal = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getNormal()), "")
                 priority_tasks.adapter = normal
                 return
             }
@@ -140,7 +138,7 @@ class PriorityActivity:
                 title = getString(R.string.high_priority)
                 priority_down.setText(R.string.normal)
                 priority_up.setText(R.string.stared)
-                if (high == null) high = PriorityAdapter(this, PriorityManager.getHigh())
+                if (high == null) high = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getHigh()), "")
                 priority_tasks.adapter = high
                 return
             }
@@ -149,7 +147,7 @@ class PriorityActivity:
                 title = getString(R.string.stared_tasks)
                 priority_down.setText(R.string.high)
                 priority_up.text = ""
-                if (stared == null) stared = PriorityAdapter(this, PriorityManager.getStared())
+                if (stared == null) stared = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getStared()), "")
                 priority_tasks.adapter = stared
             }
         }
@@ -216,8 +214,4 @@ class PriorityActivity:
     fun save() {
         MasterManager.save()
     }
-
-    // Internal Classes ----------------------------------------------------------------------------
-    class PriorityAdapter(activity: PriorityActivity, tasks: ArrayList<Task>):
-            TaskAdapterInterface(activity, activity, tasks)
 }

@@ -35,9 +35,8 @@ import org.json.JSONObject
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.holder.CheckpointHolder
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity
 import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity
@@ -59,7 +58,7 @@ import kotlinx.android.synthetic.main.activity_task.*
  * Created by joshua on 12/16/2017.
  */
 class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, TextWatcher,
-        SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskFolderHolder.OnTaskChangedListener {
+        SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskAdapter.OnTaskChangedListener {
     // View Orientation ----------------------------------------------------------------------------
     companion object {
         private const val TASK_PORTRAIT = 1
@@ -210,7 +209,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) list.adapter = ChildrenSearchAdapter(this@TaskActivity, folder_bottom_bar_search_text.text.toString(), task.getChildren())
+                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) list.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), folder_bottom_bar_search_text.text.toString())
                 }
             })
         }
@@ -239,8 +238,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         }
 
         // Set Folder Adapter
-        if (task.getType() == Task.TYPE_FLDR) {
-            list.adapter = ChildrenAdapter(this, task.getChildren())
+        if (task.getType() == Task.TYPE_FOLDER) {
+            list.adapter = TaskAdapter(this, this, task.getChildren(), "")
         }
 
         load = false
@@ -420,33 +419,15 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         if (visible) {
             folder_bottom_bar_search_text.visibility = View.VISIBLE
             folder_bottom_bar_search_text.setText("")
-            list.adapter = ChildrenSearchAdapter(this, "", task.getChildren())
+            list.adapter = TaskAdapter(this, this, task.getChildren(), "")
         } else {
             folder_bottom_bar_search_text.visibility = View.INVISIBLE
             folder_bottom_bar_search_text.setText("")
-            list.adapter = ChildrenAdapter(this, task.getChildren())
+            list.adapter = TaskAdapter(this, this, task.getChildren(), "")
         }
     }
 
     // Internal Classes ----------------------------------------------------------------------------
-    class ChildrenAdapter(activity: TaskActivity, tasks: ArrayList<String>):
-            TaskAdapterInterface(activity, activity, tasks, null)
-
-    class ChildrenSearchAdapter(activity: TaskActivity, search: String, tasks: ArrayList<String>):
-            TaskAdapterInterface(activity, activity, getTask(search, tasks), null){
-        companion object {
-            fun getTask(search: String, tasks: ArrayList<String>): ArrayList<String> {
-                val list = ArrayList<String>()
-
-                for (i in 0 until tasks.size) {
-                    val t = Task(tasks[i])
-                    if (t.search(search)) list.add(t.getFilename())
-                }
-
-                return list
-            }
-        }
-    }
 
     class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
             BaseAdapter() {

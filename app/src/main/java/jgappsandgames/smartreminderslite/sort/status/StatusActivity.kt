@@ -11,8 +11,7 @@ import android.view.MenuItem
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
@@ -34,7 +33,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  * StatusActivity
  * Created by joshua on 12/14/2017.
  */
-class StatusActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
+class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,9 +56,9 @@ class StatusActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         i.addAll(StatusManager.getIncomplete())
 
         // Set Adapters
-        status_overdue_list.adapter = StatusAdapter(this, StatusManager.getOverdue())
-        status_incomplete_list.adapter = StatusAdapter(this, i)
-        status_done_list.adapter = StatusAdapter(this, StatusManager.getCompleted())
+        status_overdue_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(StatusManager.getOverdue()), "")
+        status_incomplete_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(i), "")
+        status_done_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(StatusManager.getCompleted()), "")
 
         // Set Text
         status_overdue_text.text = getString(R.string.overdue_tasks, StatusManager.getOverdue().size)
@@ -90,8 +89,4 @@ class StatusActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     fun save() {
         MasterManager.save()
     }
-
-    // Internal Classes ----------------------------------------------------------------------------
-    class StatusAdapter(activity: StatusActivity, tasks: ArrayList<Task>):
-            TaskAdapterInterface(activity, activity, tasks)
 }

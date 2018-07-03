@@ -15,8 +15,7 @@ import android.widget.CalendarView
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
 
@@ -34,7 +33,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  * MonthActivity
  * Created by joshua on 1/19/2018.
  */
-class MonthActivity: Activity(), TaskFolderHolder.OnTaskChangedListener, CalendarView.OnDateChangeListener {
+class MonthActivity: Activity(), TaskAdapter.OnTaskChangedListener, CalendarView.OnDateChangeListener {
     // Data ----------------------------------------------------------------------------------------
     private var selected: Calendar = Calendar.getInstance()
     private var selectedTasks: ArrayList<Task> = DateManager.getDayTasks(selected)
@@ -59,7 +58,7 @@ class MonthActivity: Activity(), TaskFolderHolder.OnTaskChangedListener, Calenda
         // Set List
         DateManager.create()
         selectedTasks = DateManager.getDayTasks(selected)
-        month_tasks.adapter = MonthAdapter(this, selectedTasks)
+        month_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(selectedTasks), "")
     }
 
     // Menu ----------------------------------------------------------------------------------------
@@ -82,15 +81,11 @@ class MonthActivity: Activity(), TaskFolderHolder.OnTaskChangedListener, Calenda
         selected.set(Calendar.MONTH, month)
         selected.set(Calendar.DAY_OF_MONTH, day)
         selectedTasks = DateManager.getDayTasks(selected)
-        month_tasks.adapter = MonthAdapter(this, selectedTasks)
+        month_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(selectedTasks), "")
     }
 
     // Task Changed Listener -----------------------------------------------------------------------
     override fun onTaskChanged() {
         onResume()
     }
-
-    // Internal Classes ----------------------------------------------------------------------------
-    class MonthAdapter(activity: MonthActivity, tasks: java.util.ArrayList<Task>):
-            TaskAdapterInterface(activity, activity, tasks)
 }

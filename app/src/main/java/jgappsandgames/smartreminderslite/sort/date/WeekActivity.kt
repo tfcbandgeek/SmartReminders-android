@@ -14,8 +14,7 @@ import android.view.MenuItem
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
@@ -35,7 +34,7 @@ import jgappsandgames.smartreminderslite.utility.OptionsUtility
  * WeekActivity
  * Created by joshua on 1/19/2018.
  */
-class WeekActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
+class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var weekActive: Int = 0
 
@@ -57,13 +56,13 @@ class WeekActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         date_previous.setOnClickListener {
             weekActive--
             if (weekActive < 0) weekActive = 0
-            date_tasks.adapter = WeekAdapter(this, weekActive)
+            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
             setTitle()
         }
 
         date_next.setOnClickListener {
             weekActive++
-            date_tasks.adapter = WeekAdapter(this, weekActive)
+            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
             setTitle()
         }
     }
@@ -72,7 +71,7 @@ class WeekActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         super.onResume()
 
         DateManager.create()
-        date_tasks.adapter = WeekAdapter(this, weekActive)
+        date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
     }
 
     override fun onPause() {
@@ -114,8 +113,4 @@ class WeekActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
     fun save() {
         MasterManager.save()
     }
-
-    // Internal Classes ----------------------------------------------------------------------------
-    class WeekAdapter(activity: WeekActivity, date_active: Int):
-            TaskAdapterInterface(activity, activity, DateManager.getWeek(date_active).getAllTasks())
 }

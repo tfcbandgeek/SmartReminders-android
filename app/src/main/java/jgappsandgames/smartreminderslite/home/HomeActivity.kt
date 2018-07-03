@@ -14,18 +14,12 @@ import android.view.View
 import android.view.ViewGroup
 
 // Anko
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.button
-import org.jetbrains.anko.customView
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.wrapContent
-import org.jetbrains.anko.verticalLayout
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TaskAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
+
 import jgappsandgames.smartreminderslite.sort.date.DayActivity
 import jgappsandgames.smartreminderslite.sort.date.MonthActivity
 import jgappsandgames.smartreminderslite.sort.date.WeekActivity
@@ -44,12 +38,13 @@ import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import org.jetbrains.anko.*
 
 /**
  * HomeActivity
  * Created by joshua on 12/13/2017.
  */
-class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
+class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,14 +130,15 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                if (home_bottom_bar_search_text.visibility == View.VISIBLE) home_tasks_list.adapter = HomeSearchAdapter(this@HomeActivity, home_bottom_bar_search_text.text.toString())
+                if (home_bottom_bar_search_text.visibility == View.VISIBLE) home_tasks_list.adapter =
+                        TaskAdapter(this@HomeActivity, this@HomeActivity, TaskManager.getHome(), home_bottom_bar_search_text.text.toString())
             }
         })
     }
 
     override fun onResume() {
         super.onResume()
-        home_tasks_list.adapter = HomeAdapter(this)
+        home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
     }
 
     override fun onPause() {
@@ -179,29 +175,11 @@ class HomeActivity: Activity(), TaskFolderHolder.OnTaskChangedListener {
         if (visible) {
             home_bottom_bar_search_text.visibility = View.VISIBLE
             home_bottom_bar_search_text.setText("")
-            home_tasks_list.adapter = HomeSearchAdapter(this, "")
+            home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
         } else {
             home_bottom_bar_search_text.visibility = View.INVISIBLE
             home_bottom_bar_search_text.setText("")
-            home_tasks_list.adapter = HomeAdapter(this)
-        }
-    }
-
-    // Internal Classes ----------------------------------------------------------------------------
-    class HomeAdapter(activity: HomeActivity): TaskAdapterInterface(activity, activity, TaskManager.home, null)
-
-    class HomeSearchAdapter(activity: HomeActivity, search: String): TaskAdapterInterface(activity, activity, getTask(search), null) {
-        companion object {
-            fun getTask(search: String): ArrayList<String> {
-                val list: ArrayList<String> = ArrayList()
-
-                for (i in 0 until TaskManager.home.size) {
-                    val t = Task(TaskManager.home[i])
-                    if (t.search(search)) list.add(t.getFilename())
-                }
-
-                return list
-            }
+            home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
         }
     }
 }
