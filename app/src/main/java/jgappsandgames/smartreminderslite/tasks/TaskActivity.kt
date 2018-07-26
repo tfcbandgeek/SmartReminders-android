@@ -348,6 +348,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         if (!load) {
             task.setTitle(title.text.toString())
             task.setNote(note.text.toString())
+            setTitle(task.getTitle())
         }
     }
 
@@ -428,7 +429,6 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
     }
 
     // Internal Classes ----------------------------------------------------------------------------
-
     class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
             BaseAdapter() {
         // List Methods --------------------------------------------------------------------------------

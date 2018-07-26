@@ -1,17 +1,26 @@
 package jgappsandgames.smartreminderslite.adapter
 
+// Android OS
 import android.app.Activity
+
+// Views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderssave.tags.TagManager
+
+// Anko
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
+// App
+import jgappsandgames.smartreminderslite.R
+
+// Save
+import jgappsandgames.smartreminderssave.tags.TagManager
+
 class TagAdapter(private var activity: Activity, private var switcher: TagSwitcher, _tags: ArrayList<String>,
-                 private var selected: Boolean = false, private var search: String = ""): BaseAdapter() {
+                 private var selected: Boolean = false, search: String = ""): BaseAdapter() {
     // Data ----------------------------------------------------------------------------------------
     private var tags: ArrayList<String> = ArrayList()
 

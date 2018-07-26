@@ -34,7 +34,7 @@ class StatusManager {
                 val temp = Task(t)
 
                 when (temp.getType()) {
-                    Task.TYPE_FLDR -> {
+                    Task.TYPE_FOLDER -> {
                         foldersList?.add(temp)
                     }
 

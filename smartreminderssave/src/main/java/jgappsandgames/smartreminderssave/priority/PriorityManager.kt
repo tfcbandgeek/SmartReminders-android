@@ -37,7 +37,7 @@ class PriorityManager {
             for (t in TaskManager.tasks) {
                 val temp = Task(t)
                 when {
-                    temp.getType() == Task.TYPE_FLDR -> folder_list!!.add(temp)
+                    temp.getType() == Task.TYPE_FOLDER -> folder_list!!.add(temp)
                     temp.getPriority() == 0 -> ignored_tasks!!.add(temp)
                     temp.getPriority() < 20 -> low_tasks!!.add(temp)
                     temp.getPriority() < 80 -> normal_tasks!!.add(temp)

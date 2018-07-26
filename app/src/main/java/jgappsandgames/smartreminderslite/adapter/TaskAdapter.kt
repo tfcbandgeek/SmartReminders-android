@@ -1,9 +1,12 @@
 package jgappsandgames.smartreminderslite.adapter
 
+// Android OS
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.VibrationEffect
+
+// Views
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +14,18 @@ import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
+
+// Anko
+import org.jetbrains.anko.vibrator
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
+
+// Save
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
-import org.jetbrains.anko.vibrator
 
 class TaskAdapter(private val activity: Activity, private val listener: OnTaskChangedListener,
                   var tasks: ArrayList<String>, search: String): BaseAdapter() {
