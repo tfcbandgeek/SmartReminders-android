@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.BaseAdapter
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderslite.adapter.TagAdapter
+import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 
 // Save
-import jgappsandgames.smartreminderslite.adapter.TagAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TagHolder
-import jgappsandgames.smartreminderslite.holder.TaskFolderHolder
 import jgappsandgames.smartreminderslite.utility.OptionsUtility
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_tag.*
  * TagActivity
  * Created by joshua on 1/19/2018.
  */
-class TagActivity: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskChangedListener {
+class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var selectedTags: ArrayList<String> = ArrayList()
     private var tasks: ArrayList<Task> = ArrayList()
@@ -39,8 +38,8 @@ class TagActivity: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskCha
         for (i in TaskManager.tasks.indices) tasks.add(Task(TaskManager.tasks[i]))
 
         tag_tasks.adapter = TaskAdapter(this, selectedTags, tasks)
-        tag_selected.adapter = TagAdapterInterface(this, this, selectedTags, true)
-        tag_unselected.adapter = TagAdapterInterface(this, this, selectedTags, false)
+        tag_selected.adapter = TagAdapter(this, this, selectedTags, true)
+        tag_unselected.adapter = TagAdapter(this, this, selectedTags, false)
     }
 
     // Menu ----------------------------------------------------------------------------------------
@@ -63,8 +62,8 @@ class TagActivity: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskCha
         else if (!selected && selectedTags.contains(tag)) selectedTags.remove(tag)
 
         tag_tasks.adapter = TaskAdapter(this, selectedTags, tasks)
-        tag_selected.adapter = TagAdapterInterface(this, this, selectedTags, true)
-        tag_unselected.adapter = TagAdapterInterface(this, this, selectedTags, false)
+        tag_selected.adapter = TagAdapter(this, this, selectedTags, true)
+        tag_unselected.adapter = TagAdapter(this, this, selectedTags, false)
     }
 
     override fun onTaskChanged() {
@@ -129,23 +128,34 @@ class TagActivity: Activity(), TagHolder.TagSwitcher, TaskFolderHolder.OnTaskCha
         }
 
         override fun getView(position: Int, view: View?, parent: ViewGroup): View {
+            val item = getItem(position)
             var convertView = view
-            val holder: TaskFolderHolder
+            val task: jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
+            val folder: jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
 
-            if (convertView == null) {
-                convertView = if (getItem(position).getType() == Task.TYPE_FLDR) LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
-                else LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
+            if (item.getType() == Task.TYPE_FOLDER) {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
+                    folder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, convertView, item)
+                    convertView.tag = folder
+                } else {
+                    folder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
+                    folder.updateViews(item)
+                }
 
-                holder = TaskFolderHolder(getItem(position), convertView!!, activity, activity)
-                convertView.tag = holder
+                return convertView!!
             } else {
-                holder = convertView.tag as TaskFolderHolder
-                holder.task = getItem(position)
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
+                    task = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, convertView, item)
+                    convertView.tag = task
+                } else {
+                    task = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
+                    task.updateViews(item)
+                }
+
+                return convertView!!
             }
-
-            holder.setViews()
-
-            return convertView
         }
     }
 }

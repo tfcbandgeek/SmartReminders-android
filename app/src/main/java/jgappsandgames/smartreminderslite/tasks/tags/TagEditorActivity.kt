@@ -16,8 +16,7 @@ import org.json.JSONException
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TagAdapterInterface
-import jgappsandgames.smartreminderslite.holder.TagHolder
+import jgappsandgames.smartreminderslite.adapter.TagAdapter
 import jgappsandgames.smartreminderslite.utility.ActivityUtility
 
 // KotlinX
@@ -34,7 +33,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * TagEditorActivity
  * Created by joshua on 1/19/2018.
  */
-class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnLongClickListener, TagHolder.TagSwitcher {
+class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnLongClickListener, TagAdapter.TagSwitcher {
     // Data ----------------------------------------------------------------------------------------
     private lateinit var task: Task
 
@@ -55,19 +54,19 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
         tag_editor_search_text.addTextChangedListener(this)
 
         // Set Adapters
-        tag_editor_selected.adapter = TagAdapterInterface(this, this, task.getTags(), true)
-        tag_editor_unselected.adapter = TagAdapterInterface(this, this, task.getTags(), false)
+        tag_editor_selected.adapter = TagAdapter(this, this, task.getTags(), true)
+        tag_editor_unselected.adapter = TagAdapter(this, this, task.getTags(), false)
     }
 
     // Text Watcher Methods ------------------------------------------------------------------------
     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
     override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
         if (tag_editor_search_text.text.toString().isEmpty()) {
-            tag_editor_selected!!.adapter = TagAdapterInterface(this, this, task.getTags(), true)
-            tag_editor_unselected!!.adapter = TagAdapterInterface(this, this, task.getTags(), false)
+            tag_editor_selected!!.adapter = TagAdapter(this, this, task.getTags(), true)
+            tag_editor_unselected!!.adapter = TagAdapter(this, this, task.getTags(), false)
         } else {
-            tag_editor_selected!!.adapter = TagAdapterInterface(this, this, task.getTags(), true, tag_editor_search_text.text.toString())
-            tag_editor_unselected!!.adapter = TagAdapterInterface(this, this, task.getTags(), false, tag_editor_search_text.text.toString())
+            tag_editor_selected!!.adapter = TagAdapter(this, this, task.getTags(), true, tag_editor_search_text.text.toString())
+            tag_editor_unselected!!.adapter = TagAdapter(this, this, task.getTags(), false, tag_editor_search_text.text.toString())
         }
 
         if (TagManager.contains(tag_editor_search_text.text.toString())) tag_editor_search_enter.setText(R.string.select)
@@ -82,8 +81,8 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
             task.addTag(tag_editor_search_text.text.toString())
             tag_editor_search_text.setText("")
 
-            tag_editor_selected!!.adapter = TagAdapterInterface(this, this, task.getTags(), true)
-            tag_editor_unselected!!.adapter = TagAdapterInterface(this, this, task.getTags(), false)
+            tag_editor_selected!!.adapter = TagAdapter(this, this, task.getTags(), true)
+            tag_editor_unselected!!.adapter = TagAdapter(this, this, task.getTags(), false)
 
             // Set new Result Intent
             try {
@@ -99,8 +98,8 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
             task.addTag(tag_editor_search_text.text.toString())
             tag_editor_search_text.setText("")
 
-            tag_editor_selected!!.adapter = TagAdapterInterface(this, this, task.getTags(), true)
-            tag_editor_unselected!!.adapter = TagAdapterInterface(this, this, task.getTags(), false)
+            tag_editor_selected!!.adapter = TagAdapter(this, this, task.getTags(), true)
+            tag_editor_unselected!!.adapter = TagAdapter(this, this, task.getTags(), false)
 
             // Set new Result Intent
             try {
@@ -125,8 +124,8 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
         else task.removeTag(tag!!)
 
         // Set Adapters
-        this.tag_editor_selected!!.adapter = TagAdapterInterface(this, this, task.getTags(), true)
-        this.tag_editor_unselected!!.adapter = TagAdapterInterface(this, this, task.getTags(), false)
+        this.tag_editor_selected!!.adapter = TagAdapter(this, this, task.getTags(), true)
+        this.tag_editor_unselected!!.adapter = TagAdapter(this, this, task.getTags(), false)
 
         // Set New Result Intent
         try {
