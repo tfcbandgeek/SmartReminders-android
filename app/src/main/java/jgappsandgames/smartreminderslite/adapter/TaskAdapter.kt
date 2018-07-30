@@ -31,7 +31,7 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
                   var tasks: ArrayList<String>, search: String): BaseAdapter() {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private const val TASK_TYPE_COUNT = 3
+        const val TASK_TYPE_COUNT = 3
 
         // Static Class Methods --------------------------------------------------------------------
         fun swapTasks(tasks: ArrayList<Task>): ArrayList<String> {

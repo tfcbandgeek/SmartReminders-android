@@ -41,33 +41,6 @@ class TagAdapter(private var activity: Activity, private var switcher: TagSwitch
         }
     }
 
-    // Interfaces ----------------------------------------------------------------------------------
-    interface TagSwitcher {
-        fun moveTag(tag: String?, selected: Boolean)
-    }
-
-    // Internal Classes ----------------------------------------------------------------------------
-    class TagHolder(private var tagText: String, private var tagSelected: Boolean,
-                    private val switcher: TagSwitcher, view: View) {
-        private val textView: TextView = view.findViewById(R.id.tags)
-
-        // Initializer -----------------------------------------------------------------------------
-        init {
-            textView.text = tagText
-            textView.onClick {
-                switcher.moveTag(tagText, !tagSelected)
-            }
-        }
-
-        // Management Methods ----------------------------------------------------------------------
-        fun updateView(tag: String, selected: Boolean) {
-            this.tagSelected = selected
-            this.tagText = tag
-
-            textView.text = tagText
-        }
-    }
-
     // List Methods --------------------------------------------------------------------------------
     override fun getCount(): Int {
         return tags.size
@@ -104,6 +77,33 @@ class TagAdapter(private var activity: Activity, private var switcher: TagSwitch
             val holder = convertView.tag as TagHolder
             holder.updateView(getItem(position), selected)
             convertView
+        }
+    }
+
+    // Interfaces ----------------------------------------------------------------------------------
+    interface TagSwitcher {
+        fun moveTag(tag: String, selected: Boolean)
+    }
+
+    // Internal Classes ----------------------------------------------------------------------------
+    class TagHolder(private var tagText: String, private var tagSelected: Boolean,
+                    private val switcher: TagSwitcher, view: View) {
+        private val textView: TextView = view.findViewById(R.id.tags)
+
+        // Initializer -----------------------------------------------------------------------------
+        init {
+            textView.text = tagText
+            textView.onClick {
+                switcher.moveTag(tagText, !tagSelected)
+            }
+        }
+
+        // Management Methods ----------------------------------------------------------------------
+        fun updateView(tag: String, selected: Boolean) {
+            this.tagSelected = selected
+            this.tagText = tag
+
+            textView.text = tagText
         }
     }
 }
