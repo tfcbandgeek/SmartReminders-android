@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/SmartReminders-android.iml" filepath="$PROJECT_DIR$/SmartReminders-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/fab-020002/fab-020002.iml" filepath="$PROJECT_DIR$/fab-020002/fab-020002.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fab_020001/fab_020001.iml" filepath="$PROJECT_DIR$/fab_020001/fab_020001.iml" />
       <module fileurl="file://$PROJECT_DIR$/poolutilitykotlin/poolutilitykotlin.iml" filepath="$PROJECT_DIR$/poolutilitykotlin/poolutilitykotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" filepath="$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" />
     </modules>

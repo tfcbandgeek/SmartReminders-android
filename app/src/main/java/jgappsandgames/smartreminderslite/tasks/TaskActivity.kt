@@ -38,10 +38,21 @@ import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.holder.CheckpointHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
-import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity
-import jgappsandgames.smartreminderslite.tasks.tags.TagEditorActivity
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
-import jgappsandgames.smartreminderslite.utility.OptionsUtility
+import jgappsandgames.smartreminderslite.utility.CHECKPOINT
+import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+import jgappsandgames.smartreminderslite.utility.REQUEST_CHECKPOINT
+import jgappsandgames.smartreminderslite.utility.REQUEST_TAGS
+import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
+import jgappsandgames.smartreminderslite.utility.Save
+import jgappsandgames.smartreminderslite.utility.TAG_LIST
+import jgappsandgames.smartreminderslite.utility.TASK_NAME
+import jgappsandgames.smartreminderslite.utility.TASK_TYPE
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_folder.folder_bottom_bar_search
+import kotlinx.android.synthetic.main.activity_folder.folder_bottom_bar_search_text
+import kotlinx.android.synthetic.main.activity_task.task_bottom_bar_search
+import kotlinx.android.synthetic.main.activity_task.task_bottom_bar_search_text
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
@@ -50,8 +61,6 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_folder.*
-import kotlinx.android.synthetic.main.activity_task.*
 
 /**
  * TaskActivity
@@ -97,8 +106,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         else MasterManager.load()
 
         // Find Type
-        var type = intent.getIntExtra(ActivityUtility.TASK_TYPE, - 1)
-        if (type == -1) type = Task(intent.getStringExtra(ActivityUtility.TASK_NAME), true).getType()
+        var type = intent.getIntExtra(TASK_TYPE, - 1)
+        if (type == -1) type = Task(intent.getStringExtra(TASK_NAME), true).getType()
 
         // Set View Type
         view = if (type == Task.TYPE_TASK) TASK_PORTRAIT
@@ -145,8 +154,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 task.addCheckpoint(checkpoint)
                 task.save()
                 startActivityForResult(
-                        Intent(this, CheckpointActivity::class.java).putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString()),
-                        ActivityUtility.REQUEST_CHECKPOINT)
+                        Intent(this, CheckpointActivity::class.java).putExtra(CHECKPOINT, checkpoint.toString()), REQUEST_CHECKPOINT)
             }
 
             task_bottom_bar_search.setOnClickListener {
@@ -179,7 +187,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
                 // Create Intent
                 val intent = Intent(this, TaskActivity::class.java)
-                intent.putExtra(ActivityUtility.TASK_NAME, t.getFilename())
+                intent.putExtra(TASK_NAME, t.getFilename())
 
                 // Start Activity
                 startActivity(intent)
@@ -197,7 +205,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 TaskManager.tasks.add(t.getFilename())
                 TaskManager.save()
 
-                startActivity(Intent(this, TaskActivity::class.java).putExtra(ActivityUtility.TASK_NAME, t.getFilename()))
+                startActivity(Intent(this, TaskActivity::class.java).putExtra(TASK_NAME, t.getFilename()))
             }
 
             folder_bottom_bar_search.setOnClickListener {
@@ -219,7 +227,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         super.onResume()
         // Load Data
         load = true
-        task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
+        task = Task(intent.getStringExtra(TASK_NAME))
 
         // Set Generic Text
         setTitle(task.getTitle())
@@ -256,9 +264,9 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         when (requestCode) {
         // Checkpoint Result
-            ActivityUtility.REQUEST_CHECKPOINT -> if (resultCode == ActivityUtility.RESPONSE_CHANGE) {
+            REQUEST_CHECKPOINT -> if (resultCode == RESPONSE_CHANGE) {
                 try {
-                    editCheckpoint(Checkpoint(JSONObject(data!!.getStringExtra(ActivityUtility.CHECKPOINT))))
+                    editCheckpoint(Checkpoint(JSONObject(data!!.getStringExtra(CHECKPOINT))))
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 } catch (e: NullPointerException) {
@@ -267,9 +275,9 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
             }
 
-            ActivityUtility.REQUEST_TAGS -> if (resultCode == ActivityUtility.RESPONSE_CHANGE) {
+            REQUEST_TAGS -> if (resultCode == RESPONSE_CHANGE) {
                 try {
-                    val temp = JSONArray(data!!.getStringExtra(ActivityUtility.TAG_LIST))
+                    val temp = JSONArray(data!!.getStringExtra(TAG_LIST))
                     val t = ArrayList<String>()
 
                     for (i in 0 until temp.length()) {
@@ -298,7 +306,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return OptionsUtility.onOptionsItemSelected(this, item!!, object: OptionsUtility.Save {
+        return onOptionsItemSelected(this, item!!, object: Save {
             override fun save() {
                 this@TaskActivity.save()
             }
@@ -325,8 +333,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         // Tags
         else if (button == tags) {
             startActivityForResult(
-                    Intent(this, TagEditorActivity::class.java).putExtra(ActivityUtility.TASK_NAME, task.getFilename()),
-                    ActivityUtility.REQUEST_TAGS)
+                    Intent(this, TagEditorActivity::class.java).putExtra(TASK_NAME, task.getFilename()), REQUEST_TAGS)
         }
     }
 

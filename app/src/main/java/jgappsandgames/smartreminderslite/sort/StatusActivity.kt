@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.sort.status
+package jgappsandgames.smartreminderslite.sort
 
 // Android OS
 import android.app.Activity
@@ -13,7 +13,8 @@ import android.view.MenuItem
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.home.FirstRun
-import jgappsandgames.smartreminderslite.utility.OptionsUtility
+import jgappsandgames.smartreminderslite.utility.Save
+import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_status.status_done_list
@@ -73,7 +74,7 @@ class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return OptionsUtility.onOptionsItemSelected(this, item, object: OptionsUtility.Save {
+        return onOptionsItemSelected(this, item, object: Save {
             override fun save() {
                 this@StatusActivity.save()
             }

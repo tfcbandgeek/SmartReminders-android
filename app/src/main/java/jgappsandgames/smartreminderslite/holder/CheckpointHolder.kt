@@ -16,8 +16,10 @@ import android.widget.TextView
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
-import jgappsandgames.smartreminderslite.tasks.checkpoint.CheckpointActivity
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
+import jgappsandgames.smartreminderslite.tasks.CheckpointActivity
+import jgappsandgames.smartreminderslite.utility.CHECKPOINT
+import jgappsandgames.smartreminderslite.utility.REQUEST_CHECKPOINT
+import jgappsandgames.smartreminderslite.utility.TASK_NAME
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Checkpoint
@@ -57,9 +59,9 @@ class CheckpointHolder(private val activity: TaskActivity, private val task: Str
     override fun onClick(view: View) {
         if (view == edit) {
             val intent = Intent(activity, CheckpointActivity::class.java)
-            intent.putExtra(ActivityUtility.CHECKPOINT, checkpoint.toString())
-            intent.putExtra(ActivityUtility.TASK_NAME, task)
-            activity.startActivityForResult(intent, ActivityUtility.REQUEST_CHECKPOINT)
+            intent.putExtra(CHECKPOINT, checkpoint.toString())
+            intent.putExtra(TASK_NAME, task)
+            activity.startActivityForResult(intent, REQUEST_CHECKPOINT)
         } else if (view == text) {
             checkpoint.status = !checkpoint.status
             setViews()

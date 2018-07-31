@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.tasks.checkpoint
+package jgappsandgames.smartreminderslite.tasks
 
 // Android
 import android.app.Activity
@@ -15,7 +15,9 @@ import org.json.JSONObject
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
+import jgappsandgames.smartreminderslite.utility.CHECKPOINT
+import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
+import jgappsandgames.smartreminderslite.utility.RESPONSE_NONE
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_continue
@@ -41,11 +43,11 @@ class CheckpointActivity:  Activity(), TextWatcher {
         setContentView(R.layout.activity_checkpoint)
 
         // Set Empty Return Intent
-        setResult(ActivityUtility.RESPONSE_NONE)
+        setResult(RESPONSE_NONE)
 
         // Load Data
         try {
-            val data = JSONObject(intent.getStringExtra(ActivityUtility.CHECKPOINT))
+            val data = JSONObject(intent.getStringExtra(CHECKPOINT))
 
             position = data.getInt(Task.CHECKPOINT_POSITION)
             status = data.getBoolean(Task.CHECKPOINT_STATUS)
@@ -95,7 +97,7 @@ class CheckpointActivity:  Activity(), TextWatcher {
             r.put(Task.CHECKPOINT_STATUS, status)
             r.put(Task.CHECKPOINT_TEXT, text)
 
-            setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.CHECKPOINT, r.toString()))
+            setResult(RESPONSE_CHANGE, Intent().putExtra(CHECKPOINT, r.toString()))
         } catch (e: JSONException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {

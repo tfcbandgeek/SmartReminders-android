@@ -21,7 +21,8 @@ import org.jetbrains.anko.vibrator
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
+import jgappsandgames.smartreminderslite.utility.TASK_NAME
+import jgappsandgames.smartreminderslite.utility.TASK_TYPE
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
@@ -94,27 +95,27 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         val t = getItem(position)
 
         if (convertView == null) {
-            if (t.getType() == Task.TYPE_FOLDER) {
+            return if (t.getType() == Task.TYPE_FOLDER) {
                 val view = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
                 val holder = FolderHolder(activity, listener, view, t)
                 view.tag = holder
-                return view
+                view
             } else {
                 val view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
                 val holder = TaskHolder(activity, listener, view, t)
                 view.tag = holder
-                return view
+                view
             }
         }
 
-        if (t.getType() == Task.TYPE_FOLDER) {
+        return if (t.getType() == Task.TYPE_FOLDER) {
             val holder: FolderHolder = convertView.tag as FolderHolder
             holder.updateViews(t)
-            return convertView
+            convertView
         } else {
             val holder: TaskHolder = convertView.tag as TaskHolder
             holder.updateViews(t)
-            return convertView
+            convertView
         }
     }
 
@@ -155,8 +156,8 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         // Click Listeners -------------------------------------------------------------------------
         override fun onClick(p0: View?) {
             activity.startActivity(Intent(activity, TaskActivity::class.java)
-                    .putExtra(ActivityUtility.TASK_NAME, folder.getFilename())
-                    .putExtra(ActivityUtility.TASK_TYPE, folder.getType()))
+                    .putExtra(TASK_NAME, folder.getFilename())
+                    .putExtra(TASK_TYPE, folder.getType()))
         }
 
         override fun onLongClick(p0: View?): Boolean {
@@ -211,8 +212,8 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         // Click Listeners -------------------------------------------------------------------------
         override fun onClick(p0: View?) {
             activity.startActivity(Intent(activity, TaskActivity::class.java)
-                    .putExtra(ActivityUtility.TASK_NAME, task.getFilename())
-                    .putExtra(ActivityUtility.TASK_TYPE, task.getType()))
+                    .putExtra(TASK_NAME, task.getFilename())
+                    .putExtra(TASK_TYPE, task.getType()))
         }
 
         override fun onLongClick(p0: View?): Boolean {

@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.sort.priority
+package jgappsandgames.smartreminderslite.sort
 
 // Android OS
 import android.app.Activity
@@ -15,7 +15,8 @@ import android.widget.BaseAdapter
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.home.FirstRun
-import jgappsandgames.smartreminderslite.utility.OptionsUtility
+import jgappsandgames.smartreminderslite.utility.Save
+import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_priority.priority_down
@@ -92,7 +93,7 @@ class PriorityActivity:
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return OptionsUtility.onOptionsItemSelected(this, item, object: OptionsUtility.Save {
+        return onOptionsItemSelected(this, item, object: Save {
             override fun save() {
                 this@PriorityActivity.save()
             }

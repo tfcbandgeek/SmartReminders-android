@@ -17,7 +17,7 @@ import org.jetbrains.anko.toast
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
+import jgappsandgames.smartreminderslite.utility.REQUEST_EXTERNAL_STORAGE_PERMISSION
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_first_run.first_run_app_directory_button
@@ -88,7 +88,7 @@ class FirstRun: Activity() {
                     val permission = this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
                     if (permission == PackageManager.PERMISSION_DENIED) {
-                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
+                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_PERMISSION)
                     }
                 }
             }
@@ -126,7 +126,7 @@ class FirstRun: Activity() {
     // Activity Result -----------------------------------------------------------------------------
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
+            REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     SettingsManager.use_external_file = false
                     first_run_app_directory_button.setText(R.string.save_app)

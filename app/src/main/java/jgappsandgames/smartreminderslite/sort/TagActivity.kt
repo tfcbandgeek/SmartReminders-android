@@ -1,20 +1,33 @@
-package jgappsandgames.smartreminderslite.sort.tags
+package jgappsandgames.smartreminderslite.sort
 
 // Android
 import android.app.Activity
 import android.os.Bundle
-import android.view.*
+
+// View
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.BaseAdapter
+import android.view.View
+import android.view.ViewGroup
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TagAdapter
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
+import jgappsandgames.smartreminderslite.utility.Save
+import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_tag.tag_selected
+import kotlinx.android.synthetic.main.activity_tag.tag_tasks
+import kotlinx.android.synthetic.main.activity_tag.tag_unselected
 
 // Save
-import jgappsandgames.smartreminderslite.utility.OptionsUtility
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
-import kotlinx.android.synthetic.main.activity_tag.*
 
 /**
  * TagActivity
@@ -49,7 +62,7 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return OptionsUtility.onOptionsItemSelected(this, item, object: OptionsUtility.Save {
+        return onOptionsItemSelected(this, item, object: Save {
             override fun save() {
                 this@TagActivity.save()
             }
@@ -57,8 +70,8 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
     }
 
     // Tag Switcher --------------------------------------------------------------------------------
-    override fun moveTag(tag: String?, selected: Boolean) {
-        if (selected && !selectedTags.contains(tag)) selectedTags.add(tag!!)
+    override fun moveTag(tag: String, selected: Boolean) {
+        if (selected && !selectedTags.contains(tag)) selectedTags.add(tag)
         else if (!selected && selectedTags.contains(tag)) selectedTags.remove(tag)
 
         tag_tasks.adapter = TaskAdapter(this, selectedTags, tasks)

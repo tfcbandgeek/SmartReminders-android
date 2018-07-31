@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.tasks.tags
+package jgappsandgames.smartreminderslite.tasks
 
 // Android
 import android.app.Activity
@@ -17,7 +17,10 @@ import org.json.JSONException
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TagAdapter
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
+import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
+import jgappsandgames.smartreminderslite.utility.RESPONSE_NONE
+import jgappsandgames.smartreminderslite.utility.TAG_LIST
+import jgappsandgames.smartreminderslite.utility.TASK_NAME
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_search_enter
@@ -43,10 +46,10 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
         setContentView(R.layout.activity_tag_editpr)
 
         // Set Result Intent
-        setResult(ActivityUtility.RESPONSE_NONE)
+        setResult(RESPONSE_NONE)
 
         // Load Data
-        task = Task(intent.getStringExtra(ActivityUtility.TASK_NAME))
+        task = Task(intent.getStringExtra(TASK_NAME))
 
         // Set Listeners
         tag_editor_search_enter.setOnClickListener(this)
@@ -88,7 +91,7 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
             try {
                 val tags = JSONArray()
                 for (tag in task.getTags()) tags.put(tag)
-                setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString()))
+                setResult(RESPONSE_CHANGE, Intent().putExtra(TAG_LIST, tags.toString()))
             } catch (e: JSONException) {
                 e.printStackTrace()
             } catch (e: NullPointerException) {
@@ -105,7 +108,7 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
             try {
                 val tags = JSONArray()
                 for (tag in task.getTags()) tags.put(tag)
-                setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString()))
+                setResult(RESPONSE_CHANGE, Intent().putExtra(TAG_LIST, tags.toString()))
             } catch (e: JSONException) {
                 e.printStackTrace()
             } catch (e: NullPointerException) {
@@ -119,9 +122,9 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
     }
 
     // TagSwitcher ---------------------------------------------------------------------------------
-    override fun moveTag(tag: String?, selected: Boolean) {
-        if (selected) task.addTag(tag!!)
-        else task.removeTag(tag!!)
+    override fun moveTag(tag: String, selected: Boolean) {
+        if (selected) task.addTag(tag)
+        else task.removeTag(tag)
 
         // Set Adapters
         this.tag_editor_selected!!.adapter = TagAdapter(this, this, task.getTags(), true)
@@ -131,7 +134,7 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
         try {
             val tags = JSONArray()
             for (ta in task.getTags()) tags.put(ta)
-            setResult(ActivityUtility.RESPONSE_CHANGE, Intent().putExtra(ActivityUtility.TAG_LIST, tags.toString()))
+            setResult(RESPONSE_CHANGE, Intent().putExtra(TAG_LIST, tags.toString()))
         } catch (e: JSONException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {

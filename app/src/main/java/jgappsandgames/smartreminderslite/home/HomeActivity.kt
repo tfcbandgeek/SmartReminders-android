@@ -14,31 +14,43 @@ import android.view.View
 import android.view.ViewGroup
 
 // Anko
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.button
+import org.jetbrains.anko.customView
+import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.verticalLayout
+import org.jetbrains.anko.wrapContent
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 
-import jgappsandgames.smartreminderslite.sort.date.DayActivity
-import jgappsandgames.smartreminderslite.sort.date.MonthActivity
-import jgappsandgames.smartreminderslite.sort.date.WeekActivity
-import jgappsandgames.smartreminderslite.sort.priority.PriorityActivity
-import jgappsandgames.smartreminderslite.sort.status.StatusActivity
-import jgappsandgames.smartreminderslite.sort.tags.TagActivity
+import jgappsandgames.smartreminderslite.sort.DayActivity
+import jgappsandgames.smartreminderslite.sort.MonthActivity
+import jgappsandgames.smartreminderslite.sort.WeekActivity
+import jgappsandgames.smartreminderslite.sort.PriorityActivity
+import jgappsandgames.smartreminderslite.sort.StatusActivity
+import jgappsandgames.smartreminderslite.sort.TagActivity
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
-import jgappsandgames.smartreminderslite.utility.OptionsUtility
+import jgappsandgames.smartreminderslite.utility.Save
+import jgappsandgames.smartreminderslite.utility.TASK_NAME
+import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_home.home_add_folder
+import kotlinx.android.synthetic.main.activity_home.home_add_task
+import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_more
+import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_search
+import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_search_text
+import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import org.jetbrains.anko.*
+
 
 /**
  * HomeActivity
@@ -59,14 +71,12 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         // Set Click Listeners
         home_add_task.setOnClickListener {
             startActivity(Intent(this, TaskActivity::class.java)
-                    .putExtra(ActivityUtility.TASK_NAME,
-                            TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true).getFilename()))
+                    .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true).getFilename()))
         }
 
         home_add_folder.setOnClickListener {
             startActivity(Intent(this, TaskActivity::class.java)
-                    .putExtra(ActivityUtility.TASK_NAME,
-                            TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
+                    .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
         }
 
         home_bottom_bar_search.setOnClickListener {
@@ -153,7 +163,7 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return OptionsUtility.onOptionsItemSelected(this, item!!, object: OptionsUtility.Save {
+        return onOptionsItemSelected(this, item!!, object: Save {
             override fun save() {
                 this@HomeActivity.save()
             }

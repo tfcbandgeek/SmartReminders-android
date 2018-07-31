@@ -12,6 +12,6 @@
 
     <item
         android:title="@string/close"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:id="@+id/close"/>
 </menu>

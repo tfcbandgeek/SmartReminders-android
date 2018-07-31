@@ -15,9 +15,7 @@ import org.jetbrains.anko.toast
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.utility.ActivityUtility
-import jgappsandgames.smartreminderslite.utility.MoveUtility
-import jgappsandgames.smartreminderslite.utility.ShortcutUtility
+import jgappsandgames.smartreminderslite.utility.*
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_first_run.first_run_app_directory_button
@@ -78,7 +76,7 @@ class SettingsActivity: Activity() {
                 if (VERSION.SDK_INT >= VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                    if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
+                    if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_PERMISSION)
                     else MasterManager.load()
                 }
             }
@@ -88,7 +86,7 @@ class SettingsActivity: Activity() {
             if (SettingsManager.use_external_file) {
                 SettingsManager.use_external_file = false
                 first_run_app_directory_button.setText(R.string.save_app)
-                MoveUtility.moveToInternal()
+                moveToInternal()
                 TaskManager.load()
                 TagManager.load()
             } else {
@@ -98,9 +96,9 @@ class SettingsActivity: Activity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                    if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION)
+                    if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_PERMISSION)
                     else {
-                        MoveUtility.moveToExternal()
+                        moveToExternal()
                         MasterManager.load()
                     }
                 }
@@ -116,43 +114,43 @@ class SettingsActivity: Activity() {
         first_run_tag_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_tag_shortcut = !SettingsManager.has_tag_shortcut
             SettingsManager.save()
-            if (SettingsManager.has_tag_shortcut) ShortcutUtility.createTagShortcut(this)
-            else ShortcutUtility.removeTagShortcut(this)
+            if (SettingsManager.has_tag_shortcut) createTagShortcut(this)
+            else removeTagShortcut(this)
         }
 
         first_run_priority_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_priority_shortcut = !SettingsManager.has_priority_shortcut
             SettingsManager.save()
-            if (SettingsManager.has_priority_shortcut) ShortcutUtility.createPriorityShortcut(this)
-            else ShortcutUtility.removePriorityShortcut(this)
+            if (SettingsManager.has_priority_shortcut) createPriorityShortcut(this)
+            else removePriorityShortcut(this)
         }
 
         first_run_status_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_status_shortcut = !SettingsManager.has_status_shortcut
             SettingsManager.save()
-            if (SettingsManager.has_status_shortcut) ShortcutUtility.createStatusShortcut(this)
-            else ShortcutUtility.removeStatusShortcut(this)
+            if (SettingsManager.has_status_shortcut) createStatusShortcut(this)
+            else removeStatusShortcut(this)
         }
 
         first_run_day_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_today_shortcut = !SettingsManager.has_today_shortcut
             SettingsManager.save()
-            if (SettingsManager.has_today_shortcut) ShortcutUtility.createTodayShortcut(this)
-            else ShortcutUtility.removeTodayShortcut(this)
+            if (SettingsManager.has_today_shortcut) createTodayShortcut(this)
+            else removeTodayShortcut(this)
         }
 
         first_run_week_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_week_shortcut = !SettingsManager.has_week_shortcut
             SettingsManager.save()
-            if (SettingsManager.has_week_shortcut) ShortcutUtility.createWeekShortcut(this)
-            else ShortcutUtility.removeWeekShortcut(this)
+            if (SettingsManager.has_week_shortcut) createWeekShortcut(this)
+            else removeWeekShortcut(this)
         }
 
         first_run_month_switch.setOnCheckedChangeListener { _, _ ->
             SettingsManager.has_month_shortcut = !SettingsManager.has_month_shortcut
             SettingsManager.save()
-            if (SettingsManager.has_month_shortcut) ShortcutUtility.createMonthShortcut(this)
-            else ShortcutUtility.removeMonthShortcut(this)
+            if (SettingsManager.has_month_shortcut) createMonthShortcut(this)
+            else removeMonthShortcut(this)
         }
 
         list.removeView(first_run_continue_button)
@@ -167,7 +165,7 @@ class SettingsActivity: Activity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            ActivityUtility.REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
+            REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     SettingsManager.use_external_file = false
                     first_run_app_directory_button.setText(R.string.save_app)

@@ -1,4 +1,4 @@
-package jgappsandgames.smartreminderslite.sort.date
+package jgappsandgames.smartreminderslite.sort
 
 // Java
 import java.util.Calendar
@@ -17,7 +17,8 @@ import android.widget.CalendarView
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.home.FirstRun
-import jgappsandgames.smartreminderslite.utility.OptionsUtility
+import jgappsandgames.smartreminderslite.utility.Save
+import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_month.month_calendar
@@ -68,7 +69,7 @@ class MonthActivity: Activity(), TaskAdapter.OnTaskChangedListener, CalendarView
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return OptionsUtility.onOptionsItemSelected(this, item, object: OptionsUtility.Save {
+        return onOptionsItemSelected(this, item, object: Save {
             override fun save() {
                 MasterManager.save()
             }
