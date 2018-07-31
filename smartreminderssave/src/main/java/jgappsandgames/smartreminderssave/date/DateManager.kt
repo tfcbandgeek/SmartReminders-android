@@ -3,9 +3,6 @@ package jgappsandgames.smartreminderssave.date
 // Java
 import java.util.Calendar
 
-// Kotlin
-import kotlin.collections.ArrayList
-
 // Save Code
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
@@ -22,18 +19,14 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
 class DateManager {
     companion object {
         // Data ------------------------------------------------------------------------------------
-        private var weeks: ArrayList<KeyWeek>? = null
-        private var months: ArrayList<KeyMonth>? = null
+        private var weeks = ArrayList<KeyWeek>()
+        private var months = ArrayList<KeyMonth>()
 
         // Management Methods ----------------------------------------------------------------------
-        /**
-         * Create
-         *
-         * Called to Sort All of the Tasks
-         */
         @JvmStatic
         fun create() {
             val tasks = ArrayList<Task>()
+
             for (t in TaskManager.tasks) {
                 val task = Task(t)
                 if (task.getDateDue() != null) tasks.add(task)
@@ -46,23 +39,23 @@ class DateManager {
             calendar.set(Calendar.MINUTE, 0)
 
             weeks = ArrayList()
-            for (i in 0..9) {
-                weeks!!.add(KeyWeek(i, Week(calendar.clone() as Calendar)))
+            for (i in 0 .. 9) {
+                weeks.add(KeyWeek(i, Week(calendar.clone() as Calendar)))
                 calendar.add(Calendar.WEEK_OF_YEAR, 1)
             }
 
             for (task in tasks) {
-                if (task.getDateDue()!!.before(weeks!![0].week.getStart())) continue
+                if (task.getDateDue()!!.before(weeks[0].week.getStart())) continue
                 var i = 0
                 var b = true
 
                 while (b) {
-                    if (weeks!![i].week.addTask(task)) b = false
+                    if (weeks[i].week.addTask(task)) b = false
 
-                    if (i > weeks!!.size - 10) {
+                    if (i > weeks.size - 10) {
                         val t = Calendar.getInstance()
-                        t.add(Calendar.WEEK_OF_YEAR, weeks!!.size)
-                        weeks!!.add(KeyWeek(weeks!!.size, Week(t)))
+                        t.add(Calendar.WEEK_OF_YEAR, weeks.size)
+                        weeks.add(KeyWeek(weeks.size, Week(t)))
                     }
 
                     if (i >= 52) b = false
@@ -78,22 +71,22 @@ class DateManager {
 
             months = ArrayList()
             for (i in 0..11) {
-                months!!.add(KeyMonth(i, Month(marker.clone() as Calendar)))
+                months.add(KeyMonth(i, Month(marker.clone() as Calendar)))
                 marker.add(Calendar.MONTH, 1)
             }
 
             for (task in tasks) {
-                if (task.getDateDue()!!.before(months!![0].month.getStart())) continue
+                if (task.getDateDue()!!.before(months[0].month.getStart())) continue
                 var i = 0
                 var b = true
 
                 while (b) {
-                    if (months!![i].month.addTask(task)) b = false
+                    if (months[i].month.addTask(task)) b = false
 
-                    if (i > months!!.size - 2) {
+                    if (i > months.size - 2) {
                         val t = Calendar.getInstance()
-                        t.add(Calendar.MONTH, months!!.size)
-                        months!!.add(KeyMonth(months!!.size, Month(t)))
+                        t.add(Calendar.MONTH, months.size)
+                        months.add(KeyMonth(months.size, Month(t)))
                     }
 
                     if (i >= 24) b = false
@@ -103,151 +96,77 @@ class DateManager {
         }
 
         // Getters ---------------------------------------------------------------------------------
-        /**
-         * GetDayCount
-         *
-         * @return The number of Days loaded (As seen from the Week View)
-         */
         @JvmStatic
         fun getDayCount(): Int {
             return getWeekCount() * 7
         }
 
-        /**
-         * GetToday (Depricated)
-         *
-         * @return Today's Day
-         */
         @Deprecated("Soon to be Removed")
         @JvmStatic
         fun getToday(): Day {
             return getWeek(0).getDay(Calendar.getInstance())
         }
 
-        /**
-         * GetDay (Depricated)
-         *
-         * This Method Will Soon Return The Day Object
-         *
-         * @param date_active The Day We Want to Get
-         * @return The Tasks For This Day
-         */
         @Deprecated("Will Soon Return the Day Object (12)")
         @JvmStatic
         fun getDay(date_active: Calendar): ArrayList<Task> {
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
-
-            if (weeks == null) create()
-            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
+            for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
 
             return ArrayList()
         }
 
-        /**
-         * GetDayObject
-         *
-         * @param date_active The Day We Want to Get
-         * @return The Day we Want to Get
-         */
         @JvmStatic
         fun getDayObject(date_active: Calendar): Day {
             if (date_active.before(getWeek(0).getStart())) return Day(date_active)
-
-            if (weeks == null) create()
-            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
+            for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
 
             return Day(date_active)
         }
 
-        /**
-         * GetDayTasks
-         *
-         * @param date_active The Day We Want to Get
-         * @return The Tasks For This Day
-         */
         @JvmStatic
         fun getDayTasks(date_active: Calendar): ArrayList<Task> {
             if (date_active.before(getWeek(0).getStart())) return ArrayList()
-
-            if (weeks == null) create()
-            for (week in weeks!!) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
+            for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
 
             return ArrayList()
         }
 
-        /**
-         * GetWeekCount
-         *
-         * @return The Number of Weeks Loaded
-         */
         @JvmStatic
         fun getWeekCount(): Int {
-            return weeks!!.size
+            return weeks.size
         }
 
-        /**
-         * GetWeek(int)
-         *
-         * @param week The Week We Want to Get
-         * @return The Week we Wanted
-         */
         @JvmStatic
         fun getWeek(week: Int): Week {
-            if (weeks == null) create()
-            for (w in weeks!!) if (w.key == week) return w.week
+            for (w in weeks) if (w.key == week) return w.week
 
             // Todo: Return Special Case
             return Week(Calendar.getInstance())
         }
 
-        /**
-         * GetWeekTaasks(int)
-         *
-         * @param week The Week We Want to Get
-         * @return The WTasks for this Week
-         */
         @JvmStatic
         fun getWeekTasks(week: Int): ArrayList<Task> {
-            if (weeks == null) create()
-            for (w in weeks!!) if (w.key == week) return w.week.getAllTasks()
+            for (w in weeks) if (w.key == week) return w.week.getAllTasks()
             return ArrayList()
         }
 
-        /**
-         * GetMonthCount
-         *
-         * @return The Number of Months Loaded
-         */
         @JvmStatic
         fun getMonthCount(): Int {
-            return months!!.size
+            return months.size
         }
 
-        /**
-         * GetMonth(int)
-         *
-         * @param month The Month We Want to Get
-         * @return The Month we Wanted
-         */
         @JvmStatic
         fun getMonth(month: Int): Month {
-            if (months == null) create()
-            for (m in months!!) if (m.key == month) return m.month
+            for (m in months) if (m.key == month) return m.month
 
             // Todo: Return Special Case
             return Month(Calendar.getInstance())
         }
 
-        /**
-         * GetMonthTasks(int)
-         *
-         * @param month The Month We Want to Get
-         * @return The Tasks of the Month
-         */
         @JvmStatic
         fun getMonthTasks(month: Int): ArrayList<Task> {
-            if (months == null) create()
-            for (m in months!!) if (m.key == month) return m.month.getAllTasks()
+            for (m in months) if (m.key == month) return m.month.getAllTasks()
             return ArrayList()
         }
 

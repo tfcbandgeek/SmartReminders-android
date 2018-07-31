@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
-import jgappsandgames.me.poolutilitykotlin.Pool
 import java.io.File
 import java.io.IOException
 
@@ -9,6 +8,9 @@ import java.io.IOException
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+
+// Pool Utility
+import jgappsandgames.me.poolutilitykotlin.Pool
 
 // Save Library
 import jgappsandgames.smartreminderssave.utility.API

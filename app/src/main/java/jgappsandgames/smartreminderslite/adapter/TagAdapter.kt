@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.adapter
 
 // Android OS
 import android.app.Activity
-import android.util.Log
 
 // Views
 import android.view.LayoutInflater

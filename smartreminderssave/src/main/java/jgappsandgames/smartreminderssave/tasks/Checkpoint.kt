@@ -8,6 +8,7 @@ import org.json.JSONObject
  * Checkpoint
  * Created by joshua on 12/12/2017.
  */
+// TODO: Move into the Task File
 class Checkpoint(var id: Int, var text: String, var status: Boolean) {
     companion object {
         // Constants -------------------------------------------------------------------------------

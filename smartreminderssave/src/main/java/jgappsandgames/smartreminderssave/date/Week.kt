@@ -96,60 +96,6 @@ class Week(start: Calendar) {
         return false
     }
 
-    fun removeTask(task: Task): Boolean {
-        if (task.getDateDue()!!.get(Calendar.YEAR) >= sunday.day.get(Calendar.YEAR)) {
-            if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) >= sunday.day.get(Calendar.DAY_OF_YEAR)) {
-                if (task.getDateDue()!!.get(Calendar.YEAR) <= saturday.day.get(Calendar.YEAR)) {
-                    if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) <= saturday.day.get(Calendar.DAY_OF_YEAR)) {
-                        // Sunday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == sunday.day.get(Calendar.DAY_OF_YEAR)) {
-                            sunday.removeTask(task)
-                            return true
-                        }
-
-                        // Monday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == monday.day.get(Calendar.DAY_OF_YEAR)) {
-                            monday.removeTask(task)
-                            return true
-                        }
-
-                        // Tuesday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == tuesday.day.get(Calendar.DAY_OF_YEAR)) {
-                            tuesday.removeTask(task)
-                            return true
-                        }
-
-                        // Wednesday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == wednesday.day.get(Calendar.DAY_OF_YEAR)) {
-                            wednesday.removeTask(task)
-                            return true
-                        }
-
-                        // Thursday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == thursday.day.get(Calendar.DAY_OF_YEAR)) {
-                            thursday.removeTask(task)
-                            return true
-                        }
-
-                        // Friday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == friday.day.get(Calendar.DAY_OF_YEAR)) {
-                            friday.removeTask(task)
-                            return true
-                        }
-
-                        // Saturday
-                        if (task.getDateDue()!!.get(Calendar.DAY_OF_YEAR) == saturday.day.get(Calendar.DAY_OF_YEAR)) {
-                            saturday.removeTask(task)
-                            return true
-                        }
-                    }
-                }
-            }
-        }
-
-        return false
-    }
-
     // Getters -------------------------------------------------------------------------------------
     fun getStart(): Calendar {
         return sunday.day

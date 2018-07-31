@@ -25,7 +25,6 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-
 import jgappsandgames.smartreminderslite.sort.DayActivity
 import jgappsandgames.smartreminderslite.sort.MonthActivity
 import jgappsandgames.smartreminderslite.sort.WeekActivity
@@ -50,7 +49,6 @@ import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-
 
 /**
  * HomeActivity

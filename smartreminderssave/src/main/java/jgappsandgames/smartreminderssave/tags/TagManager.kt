@@ -51,7 +51,7 @@ class TagManager {
         fun load() {
             tags.sort()
             try {
-                loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
+                loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
             } catch (i: IOException) {
                 i.printStackTrace()
                 create()

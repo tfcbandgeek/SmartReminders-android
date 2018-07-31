@@ -1,8 +1,6 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
-import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
-import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
 import java.io.File
 import java.util.Calendar
 
@@ -10,6 +8,10 @@ import java.util.Calendar
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+
+// PoolUtility
+import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
+import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
 
 // Save
 import jgappsandgames.smartreminderssave.utility.API
@@ -52,9 +54,12 @@ class Task(): PoolObjectInterface {
         const val TYPE_FLDR = 1
         const val TYPE_FOLDER = 1
         const val TYPE_TASK = 2
+        const val TYPE_NOTE = 3
+        const val TYPE_SHOPPING_LIST = 4
 
         // Priority Constants ----------------------------------------------------------------------
         const val default = 20
+        const val DEFAULT_PRIORITY = 33
 
         // Checkpoint Constants
         const val CHECKPOINT_POSITION = "position"
@@ -66,11 +71,11 @@ class Task(): PoolObjectInterface {
     }
 
     // Data ----------------------------------------------------------------------------------------
-    private var filename: String = ""
-    private var parent: String = ""
-    private var version: Int = 0
+    private var filename = ""
+    private var parent = ""
+    private var version = 0
     private var meta: JSONObject? = null
-    private var type: Int = 0
+    private var type = 0
     private var taskID: Long = 0
 
     private var dateCreate: Calendar? = null
@@ -81,11 +86,11 @@ class Task(): PoolObjectInterface {
 
     private var title: String = ""
     private var note: String = ""
-    private var tags: ArrayList<String>? = null
-    private var children: ArrayList<String>? = null
-    private var checkpoints: ArrayList<Checkpoint>? = null
-    private var status: Int = 0
-    private var priority: Int = 0
+    private var tags = ArrayList<String>()
+    private var children = ArrayList<String>()
+    private var checkpoints = ArrayList<Checkpoint>()
+    private var status = 0
+    private var priority = DEFAULT_PRIORITY
 
     private var completeOnTime: Boolean = false
     private var completeLate: Boolean = false
@@ -93,8 +98,8 @@ class Task(): PoolObjectInterface {
     // Constructors --------------------------------------------------------------------------------
     constructor(filename: String, sort: Boolean = false): this() {
         this.filename = filename
-        loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
-        tags?.sort()
+        loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
+        tags.sort()
 
         if (!TaskManager.tasks.contains(filename)) {
             if (!TaskManager.archived.contains(filename)) {
@@ -145,7 +150,7 @@ class Task(): PoolObjectInterface {
     constructor(data: JSONObject, sort: Boolean = false): this() {
         filename = data.optString("filename", "error.srj")
         loadJSON(data)
-        tags?.sort()
+        tags.sort()
 
         if (sort) {
             if (type == TYPE_FOLDER) sortTasks()
@@ -155,8 +160,8 @@ class Task(): PoolObjectInterface {
     // Management Methods --------------------------------------------------------------------------
     fun load(filename: String, sort: Boolean = false): Task {
         this.filename = filename
-        loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), filename)))
-        tags?.sort()
+        loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
+        tags.sort()
 
         if (!TaskManager.tasks.contains(filename)) {
             if (!TaskManager.archived.contains(filename)) {
@@ -211,7 +216,7 @@ class Task(): PoolObjectInterface {
     fun load(data: JSONObject, sort: Boolean = false): Task {
         filename = data.optString("filename", "error.srj")
         loadJSON(data)
-        tags?.sort()
+        tags.sort()
 
         if (sort) {
             if (type == TYPE_FOLDER) sortTasks()
@@ -222,7 +227,7 @@ class Task(): PoolObjectInterface {
 
     fun save(): Task {
         JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
-        tags?.sort()
+        tags.sort()
         return this
     }
 
@@ -270,15 +275,15 @@ class Task(): PoolObjectInterface {
 
         val t = data.optJSONArray(TAGS)
         tags = ArrayList()
-        if (t != null && t.length() != 0) for (i in 0 until t.length()) tags!!.add(t.optString(i))
+        if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
 
         val c = data.optJSONArray(CHILDREN)
         children = ArrayList()
-        if (c != null && c.length() != 0) for (i in 0 until c.length()) children!!.add(c.optString(i))
+        if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
 
         val p = data.optJSONArray(CHECKPOINTS)
         checkpoints = ArrayList()
-        if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints!!.add(Checkpoint(p.optJSONObject(i)))
+        if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
 
         // API 11
         meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
@@ -305,15 +310,15 @@ class Task(): PoolObjectInterface {
             data.put(COMPLETED_LATE, completeLate)
 
             val t = JSONArray()
-            if (tags != null && tags!!.size != 0) for (tag in tags!!) t.put(tag)
+            if (tags.size != 0) for (tag in tags) t.put(tag)
             data.put(TAGS, t)
 
             val c = JSONArray()
-            if (children != null && children!!.size != 0) for (child in children!!) c.put(child)
+            if (children.size != 0) for (child in children) c.put(child)
             data.put(CHILDREN, c)
 
             val p = JSONArray()
-            if (checkpoints != null && checkpoints!!.size != 0) for (checkpoint in checkpoints!!) p.put(checkpoint.toJSON())
+            if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
             data.put(CHECKPOINTS, p)
 
             // API 11
@@ -383,23 +388,23 @@ class Task(): PoolObjectInterface {
     }
 
     fun getTags(): ArrayList<String> {
-        return tags!!
+        return tags
     }
 
     fun getTagString(): String {
-        if (tags == null || tags!!.size == 0) return "No Tags Selected"
+        if (tags.isEmpty()) return "No Tags Selected"
         val builder = StringBuilder()
-        for (tag in tags!!) builder.append(tag).append(", ")
+        for (tag in tags) builder.append(tag).append(", ")
         if (builder.length >= 2) builder.setLength(builder.length - 2)
         return builder.toString()
     }
 
     fun getChildren(): ArrayList<String> {
-        return children!!
+        return children
     }
 
     fun getCheckpoints(): ArrayList<Checkpoint> {
-        return checkpoints!!
+        return checkpoints
     }
 
     fun getStatus(): Int {
@@ -541,9 +546,9 @@ class Task(): PoolObjectInterface {
     }
 
     fun addTag(tag: String): Task {
-        if (!tags!!.contains(tag)) {
-            tags!!.sort()
-            tags!!.add(tag)
+        if (!tags.contains(tag)) {
+            tags.add(tag)
+            tags.sort()
             dateUpdated = Calendar.getInstance()
             return this
         }
@@ -552,8 +557,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun removeTag(tag: String): Task {
-        if (tags!!.contains(tag)) {
-            tags!!.remove(tag)
+        if (tags.contains(tag)) {
+            tags.remove(tag)
             dateUpdated = Calendar.getInstance()
             return this
         }
@@ -562,8 +567,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun addChild(child: String): Task {
-        if (!children!!.contains(child)) {
-            children!!.add(child)
+        if (!children.contains(child)) {
+            children.add(child)
             dateUpdated = Calendar.getInstance()
             return this
         }
@@ -572,8 +577,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun removeChild(child: String): Task {
-        if (children!!.contains(child)) {
-            children!!.remove(child)
+        if (children.contains(child)) {
+            children.remove(child)
             dateUpdated = Calendar.getInstance()
             return this
         }
@@ -582,14 +587,14 @@ class Task(): PoolObjectInterface {
     }
 
     fun addCheckpoint(checkpoint: Checkpoint): Task {
-        for (c in checkpoints!!) if (c.id == checkpoint.id) return this
-        checkpoints!!.add(checkpoint)
+        for (c in checkpoints) if (c.id == checkpoint.id) return this
+        checkpoints.add(checkpoint)
         dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun editCheckpoint(checkpoint: Checkpoint): Task {
-        for (c in checkpoints!!) {
+        for (c in checkpoints) {
             if (c.id == checkpoint.id) {
                 c.status = checkpoint.status
                 c.text = checkpoint.text
@@ -602,9 +607,9 @@ class Task(): PoolObjectInterface {
     }
 
     fun removeCheckpoint(checkpoint: Checkpoint): Task {
-        for (c in checkpoints!!) {
+        for (c in checkpoints) {
             if (c.id == checkpoint.id) {
-                checkpoints!!.remove(c)
+                checkpoints.remove(c)
                 dateUpdated = Calendar.getInstance()
                 return this
             }
@@ -625,7 +630,7 @@ class Task(): PoolObjectInterface {
         val dated = ArrayList<Task>()
         val completed = ArrayList<Task>()
 
-        for (t in children!!) {
+        for (t in children) {
             val task = Task(t)
 
             when (task.getType()) {
@@ -633,9 +638,7 @@ class Task(): PoolObjectInterface {
 
                 Task.TYPE_TASK -> {
                     if (task.isCompleted()) completed.add(task)
-
                     else if (task.getDateDue() == null) main.add(task)
-
                     else {
                         if (dated.size == 0) dated.add(task)
 
@@ -666,10 +669,10 @@ class Task(): PoolObjectInterface {
         }
 
         children = ArrayList()
-        for (f in folder) children!!.add(f.getFilename())
-        for (m in main) children!!.add(m.getFilename())
-        for (d in dated) children!!.add(d.getFilename())
-        for (c in completed) children!!.add(c.getFilename())
+        for (f in folder) children.add(f.getFilename())
+        for (m in main) children.add(m.getFilename())
+        for (d in dated) children.add(d.getFilename())
+        for (c in completed) children.add(c.getFilename())
     }
 }
 
@@ -677,5 +680,4 @@ class TaskCreator: PoolObjectCreator<Task> {
     override fun generatePoolObject(): Task {
         return Task()
     }
-
 }

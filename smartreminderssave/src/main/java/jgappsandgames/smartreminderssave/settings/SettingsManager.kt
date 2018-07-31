@@ -93,7 +93,7 @@ class SettingsManager {
         fun load() {
             val data: JSONObject
             try {
-                data = JSONUtility.loadJSON(File(FileUtility.getInternalFileDirectory(), FILENAME))
+                data = JSONUtility.loadJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME))
             } catch (e: IOException) {
                 create()
                 save()
