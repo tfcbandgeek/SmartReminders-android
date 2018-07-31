@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderslite.adapter
 
 // Android OS
 import android.app.Activity
+import android.util.Log
 
 // Views
 import android.view.LayoutInflater
@@ -33,9 +34,11 @@ class TagAdapter(private var activity: Activity, private var switcher: TagSwitch
                 }
             }
         } else {
-            for (tag in _tags) {
+            for (tag in TagManager.tags) {
                 if (tag.toLowerCase().contains(search.toLowerCase())) {
-                    if (!TagManager.tags.contains(tag)) tags.add(tag)
+                    if (!_tags.contains(tag)) {
+                        tags.add(tag)
+                    }
                 }
             }
         }
@@ -88,7 +91,7 @@ class TagAdapter(private var activity: Activity, private var switcher: TagSwitch
     // Internal Classes ----------------------------------------------------------------------------
     class TagHolder(private var tagText: String, private var tagSelected: Boolean,
                     private val switcher: TagSwitcher, view: View) {
-        private val textView: TextView = view.findViewById(R.id.tags)
+        private val textView: TextView = view.findViewById(R.id.tag)
 
         // Initializer -----------------------------------------------------------------------------
         init {
