@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 
-
 // Views
 import android.view.LayoutInflater
 import android.view.Menu
@@ -27,6 +26,7 @@ import android.widget.ListView
 import android.widget.SeekBar
 import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
+import com.github.clans.fab.FloatingActionMenu
 
 // JSON
 import org.json.JSONArray
@@ -89,12 +89,13 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
     private var priority: SeekBar? = null
     private lateinit var list: ListView
     private var fab: FloatingActionButton? = null
+    private var fam: FloatingActionMenu? = null
     private var faf: FloatingActionButton? = null
     private var fat: FloatingActionButton? = null
 
     // Data ----------------------------------------------------------------------------------------
     lateinit var task: Task
-    var load: Boolean = false
+    var load = false
 
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,8 +174,12 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         // Folder Specific Views -------------------------------------------------------------------
         else if (type == Task.TYPE_FOLDER) {
+            fam = findViewById(R.id.folder_fab)
+
             faf = findViewById(R.id.folder_add_folder)
             faf!!.setOnClickListener {
+                fam?.close(true)
+
                 // Create Task
                 val t = Task(task.getFilename(), Task.TYPE_FOLDER)
                 t.save()
@@ -195,6 +200,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
             fat = findViewById(R.id.folder_add_task)
             fat!!.setOnClickListener {
+                fam?.close(true)
+
                 // Create Task
                 val t = Task(task.getFilename(), Task.TYPE_TASK)
                 t.save()

@@ -2,6 +2,7 @@ package jgappsandgames.smartreminderslite.home
 
 // Android OS
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -42,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_home.home_add_task
 import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_more
 import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_search
 import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_search_text
+import kotlinx.android.synthetic.main.activity_home.home_fab
 import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
@@ -55,6 +57,8 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  * Created by joshua on 12/13/2017.
  */
 class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
+    var fuckYou: DialogInterface? = null
+
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +72,13 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
         // Set Click Listeners
         home_add_task.setOnClickListener {
+            home_fab.close(true)
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true).getFilename()))
         }
 
         home_add_folder.setOnClickListener {
+            home_fab.close(true)
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
         }
@@ -147,6 +153,11 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     override fun onResume() {
         super.onResume()
         home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
+
+        try {
+            fuckYou?.dismiss()
+        } catch(e: Exception) {
+        }
     }
 
     override fun onPause() {
