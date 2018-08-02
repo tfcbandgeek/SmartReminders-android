@@ -192,7 +192,7 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
             title.setOnLongClickListener(this)
             note.setOnLongClickListener(this)
 
-            status.setOnClickListener(this)
+            status.setOnCheckedChangeListener(this)
 
             setViews()
         }
