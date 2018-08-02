@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('poolutilitykotlin-1_1_1.aar'))

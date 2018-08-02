@@ -74,44 +74,40 @@
         android:textAlignment="center"
         android:text="@string/_3rd_party_libraries_used_in_this_app"/>
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/anko_button"
         android:text="@string/anko"/>
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textSize="12sp"
-        android:text="@string/anko_path"/>
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/fab_button"
+        android:text="@string/fab"/>
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/kotlin_button"
         android:text="@string/kotlin"/>
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textSize="12sp"
-        android:text="@string/kotlin_path"/>
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/pool_button"
+        android:text="@string/pool_utility"/>
 
-    <TextView
-        android:layout_width="match_parent"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/zxing_button"
         android:text="@string/zxing_embedded"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textSize="12sp"
-        android:text="@string/zxing_embedded_path"/>
 
     <LinearLayout
         android:layout_width="match_parent"

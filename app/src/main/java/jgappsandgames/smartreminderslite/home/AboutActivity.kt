@@ -23,12 +23,9 @@ import org.json.JSONObject
 // App
 import jgappsandgames.smartreminderslite.BuildConfig
 import jgappsandgames.smartreminderslite.R
+import kotlinx.android.synthetic.main.activity_about.*
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_about.api
-import kotlinx.android.synthetic.main.activity_about.build
-import kotlinx.android.synthetic.main.activity_about.update
-import kotlinx.android.synthetic.main.activity_about.version
 
 /**
  * AboutActivity
@@ -83,6 +80,27 @@ class AboutActivity: Activity() {
             }
 
             thread.start()
+        }
+
+        // External Libraries
+        anko_button.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.anko_path))))
+        }
+
+        fab_button.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.fab_path))))
+        }
+
+        kotlin_button.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.kotlin_path))))
+        }
+
+        pool_button.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.pool_utility_path))))
+        }
+
+        zxing_button.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.zxing_embedded_path))))
         }
     }
 }
