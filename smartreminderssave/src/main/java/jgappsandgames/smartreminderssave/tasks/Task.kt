@@ -674,6 +674,20 @@ class Task(): PoolObjectInterface {
         for (d in dated) children.add(d.getFilename())
         for (c in completed) children.add(c.getFilename())
     }
+
+    fun sortTags() {
+        val c = ArrayList<Checkpoint>()
+        val i = ArrayList<Checkpoint>()
+
+        for (j in 0 until checkpoints.size) {
+            if (checkpoints[j].status) c.add(checkpoints[j])
+            else i.add(checkpoints[j])
+        }
+
+        checkpoints.clear()
+        checkpoints.addAll(i)
+        checkpoints.addAll(c)
+    }
 }
 
 class TaskCreator: PoolObjectCreator<Task> {

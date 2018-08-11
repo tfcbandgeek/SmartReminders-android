@@ -7,8 +7,13 @@ import java.util.GregorianCalendar
 // Android OS
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.Editable
 import android.text.TextWatcher
 
@@ -36,7 +41,6 @@ import org.json.JSONObject
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.holder.CheckpointHolder
 import jgappsandgames.smartreminderslite.home.FirstRun
 import jgappsandgames.smartreminderslite.utility.CHECKPOINT
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
@@ -249,6 +253,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
             priority!!.max = 100
             priority!!.progress = task.getPriority()
 
+            task.sortTags()
             list.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
         }
 
@@ -485,19 +490,17 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
     class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, private val checkpoints: ArrayList<Checkpoint>):
             BaseAdapter() {
+        val temp = ArrayList<Checkpoint>()
         // Constructor -----------------------------------------------------------------------------
         init {
-            val temp = ArrayList<Checkpoint>()
             for (i in 0 until checkpoints.size) {
-                if (!checkpoints[i].text.toLowerCase().contains(search.toLowerCase())) temp.add(checkpoints[i])
+                if (checkpoints[i].text.toLowerCase().contains(search.toLowerCase())) temp.add(checkpoints[i])
             }
-
-            checkpoints.removeAll(temp)
         }
 
         // List Methods ----------------------------------------------------------------------------
         override fun getCount(): Int {
-            return checkpoints.size
+            return temp.size
         }
 
         override fun getViewTypeCount(): Int {
@@ -510,7 +513,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         // Item Methods ----------------------------------------------------------------------------
         override fun getItem(position: Int): Checkpoint {
-            return checkpoints[position]
+            return temp[position]
         }
 
         override fun getItemId(position: Int): Long {
@@ -531,5 +534,66 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
             return view
         }
+    }
+}
+
+// Checkpoint Holder Class ---------------------------------------------------------------------------------------------------------------------------
+class CheckpointHolder(private val activity: TaskActivity, private val task: String, private val checkpoint: Checkpoint, view: View):
+        View.OnClickListener, View.OnLongClickListener {
+    // Views ---------------------------------------------------------------------------------------
+    private val text: TextView = view.findViewById(R.id.text)
+    private val edit: Button = view.findViewById(R.id.edit)
+
+    // Constructor ---------------------------------------------------------------------------------
+    init {
+        // Set Click Listeners
+        text.setOnClickListener(this)
+        text.setOnLongClickListener(this)
+        edit.setOnClickListener(this)
+        edit.setOnLongClickListener(this)
+
+        // Set Views
+        setViews()
+    }
+
+    // View Handler --------------------------------------------------------------------------------
+    private fun setViews() {
+        if (checkpoint.status) text.paintFlags = text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        else text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        text.text = checkpoint.text
+    }
+
+    // Click Handlers ------------------------------------------------------------------------------
+    override fun onClick(view: View) {
+        if (view == edit) {
+            val intent = Intent(activity, CheckpointActivity::class.java)
+            intent.putExtra(CHECKPOINT, checkpoint.toString())
+            intent.putExtra(TASK_NAME, task)
+            activity.startActivityForResult(intent, REQUEST_CHECKPOINT)
+        } else if (view == text) {
+            checkpoint.status = !checkpoint.status
+            setViews()
+            activity.editCheckpoint(checkpoint)
+        }
+    }
+
+    override fun onLongClick(view: View): Boolean {
+        activity.deleteCheckpoint(checkpoint)
+
+        val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
+        try {
+            if (v != null && v.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                } else {
+                    @Suppress("DEPRECATION")
+                    v.vibrate(100)
+                }
+            }
+        } catch (n: NullPointerException) {
+            n.printStackTrace()
+        }
+
+        return true
     }
 }

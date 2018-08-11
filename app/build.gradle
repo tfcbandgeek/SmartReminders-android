@@ -6,11 +6,11 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.1'
     defaultConfig {
-        applicationId "jgappsandgames.smartreminderslite"
+        applicationId "jgappsandgames.smartreminderslite.alpha"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 18080109
-        versionName "18.08.1"
+        versionCode 18080210
+        versionName "18.08.2"
     }
 
     buildTypes {

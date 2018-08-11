@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Smart Reminders Lite</string>
-    <string name="version_string">18.08.1</string>
-    <string name="api_string">11.6.0</string>
+    <string name="app_name">Smart Reminders Lite Alpha</string>
+    <string name="version_string">18.08.2</string>
+    <string name="api_string">11.6.1</string>
 
     <string name="_3rd_party_libraries_used_in_this_app">3rd Party Libraries Used in this App</string>
 
