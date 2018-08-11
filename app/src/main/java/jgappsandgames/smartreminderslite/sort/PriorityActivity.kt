@@ -32,8 +32,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  * PriorityActivity
  * Created by joshua on 12/14/2017.
  */
-class PriorityActivity:
-        Activity(), TaskAdapter.OnTaskChangedListener {
+class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var position: Int = 3
 

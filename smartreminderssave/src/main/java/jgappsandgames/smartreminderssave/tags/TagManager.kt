@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.tags
 
 // Java
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 import java.io.File
 import java.io.IOException
 import java.util.ArrayList
@@ -30,6 +31,10 @@ class TagManager {
         private const val META = "meta"
         private const val TAGS = "tags"
 
+        private const val VERSION_12 = "a"
+        private const val META_12 = "b"
+        private const val TAGS_12 = "c"
+
         // Data ------------------------------------------------------------------------------------
         private var version = 0
         @JvmField
@@ -49,42 +54,36 @@ class TagManager {
 
         @JvmStatic
         fun load() {
-            tags.sort()
-            try {
-                loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
-            } catch (i: IOException) {
-                i.printStackTrace()
-                create()
-                save()
+            val data = JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME))
+            version = data.optInt(VERSION, API.RELEASE)
+
+            if (version <= 11) {
+                val t = data.optJSONArray(TAGS)
+                tags = ArrayList(t.length())
+                for (i in 0 until t.length()) tags.add(t.optString(i))
+
+                // API 11
+                if (version >= API.MANAGEMENT) {
+                    meta = data.optJSONObject(META)
+                } else {
+                    meta = JSONObject()
+                }
             }
 
+            else {
+                val t = data.optJSONArray(TAGS)
+                tags = ArrayList(t.length())
+                for (i in 0 until t.length()) tags.add(t.optString(i))
+                meta = data.optJSONObject(META)
+            }
+
+            tags.sort()
         }
 
         @JvmStatic
         fun save() {
             tags.sort()
             JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON())
-        }
-
-        // JSON Management Methods -----------------------------------------------------------------
-        @JvmStatic
-        fun loadJSON(data: JSONObject?) {
-            if (data == null) {
-                create()
-                return
-            }
-
-            version = data.optInt(VERSION, API.RELEASE)
-            val t = data.optJSONArray(TAGS)
-            tags = ArrayList(t.length())
-            for (i in 0 until t.length()) tags.add(t.optString(i))
-
-            // API 11
-            if (version >= API.MANAGEMENT) {
-                meta = data.optJSONObject(META)
-            } else {
-                meta = JSONObject()
-            }
         }
 
         @JvmStatic
