@@ -191,7 +191,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 task.addChild(t.getFilename())
                 task.save()
 
-                TaskManager.tasks.add(t.getFilename())
+                TaskManager.getAll().add(t.getFilename())
                 TaskManager.save()
 
                 // Create Intent
@@ -213,7 +213,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 task.addChild(t.getFilename())
                 task.save()
 
-                TaskManager.tasks.add(t.getFilename())
+                TaskManager.getAll().add(t.getFilename())
                 TaskManager.save()
 
                 startActivity(Intent(this, TaskActivity::class.java).putExtra(TASK_NAME, t.getFilename()))

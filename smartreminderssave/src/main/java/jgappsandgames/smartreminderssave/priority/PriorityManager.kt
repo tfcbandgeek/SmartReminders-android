@@ -29,8 +29,8 @@ class PriorityManager {
             high_priority = ArrayList()
             stared_priority = ArrayList()
 
-            for (t in TaskManager.tasks) {
-                val temp = Task(t)
+            val all = TaskManager.getAllTasks()
+            for (temp in all) {
                 when {
                     temp.getType() == Task.TYPE_FOLDER -> folder_list.add(temp)
                     temp.getPriority() == 0 -> ignored_tasks.add(temp)
@@ -39,6 +39,8 @@ class PriorityManager {
                     temp.getPriority() < 100 -> high_priority.add(temp)
                     temp.getPriority() == 100 -> stared_priority.add(temp)
                 }
+
+                TaskManager.taskPool.returnPoolObject(temp)
             }
         }
 

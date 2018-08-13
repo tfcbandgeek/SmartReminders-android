@@ -30,9 +30,8 @@ class StatusManager {
             incompleteList.clear()
             overdueList.clear()
 
-            for (t in TaskManager.tasks) {
-                val temp = Task(t)
-
+            val all = TaskManager.getAllTasks()
+            for (temp in all) {
                 when (temp.getType()) {
                     Task.TYPE_FOLDER -> {
                         foldersList.add(temp)
@@ -64,6 +63,8 @@ class StatusManager {
                         }
                     }
                 }
+
+                TaskManager.taskPool.returnPoolObject(temp)
             }
         }
 

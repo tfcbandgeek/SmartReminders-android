@@ -19,6 +19,7 @@ class FileUtility {
     companion object {
         // File Paths ------------------------------------------------------------------------------
         private const val path = ".smartreminders"
+        private const val FIRST_RUN = "firstrun"
 
         private var data: File? = null
         private var external: File? = null
@@ -46,7 +47,7 @@ class FileUtility {
         @JvmStatic
         fun getApplicationDataDirectory(): File {
             // Create File Object
-            if (SettingsManager.use_external_file) {
+            if (SettingsManager.getUseExternal()) {
                 if (external != null) return external!!
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
@@ -78,8 +79,8 @@ class FileUtility {
 
         @JvmStatic
         fun getExternalFileDirectory(): File {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
-            else external = data
+            external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
+                       else data
 
             // Create Directory
             if (!external!!.exists() || !external!!.isDirectory) external!!.mkdirs()
@@ -100,7 +101,7 @@ class FileUtility {
         @JvmStatic
         fun moveFolder(input: File, out: File) {
             out.deleteRecursively()
-            File(data, "firstrun")
+            File(data, FIRST_RUN)
             input.copyTo(out, true)
             input.deleteRecursively()
         }
@@ -108,7 +109,7 @@ class FileUtility {
         @JvmStatic
         fun copyFolder(input: File, out: File) {
             out.deleteRecursively()
-            File(data, "firstrun")
+            File(data, FIRST_RUN)
             input.copyRecursively(out, true)
         }
     }

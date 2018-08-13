@@ -50,27 +50,27 @@ class SettingsActivity: Activity() {
         setTitle(R.string.settings)
 
         // Set Text
-        first_run_your_name_edit_text.setText(SettingsManager.user_name)
-        first_run_device_name_edit_text.setText(SettingsManager.device_name)
-        if (SettingsManager.use_external_file) first_run_app_directory_button.setText(R.string.external)
+        first_run_your_name_edit_text.setText(SettingsManager.getUserName())
+        first_run_device_name_edit_text.setText(SettingsManager.getDeviceName())
+        if (SettingsManager.getUseExternal()) first_run_app_directory_button.setText(R.string.external)
         else first_run_app_directory_button.setText(R.string.internal)
 
         // Set Check
-        first_run_tag_switch.isChecked = SettingsManager.has_tag_shortcut
-        first_run_priority_switch.isChecked = SettingsManager.has_priority_shortcut
-        first_run_status_switch.isChecked = SettingsManager.has_status_shortcut
-        first_run_day_switch.isChecked = SettingsManager.has_today_shortcut
-        first_run_week_switch.isChecked = SettingsManager.has_week_shortcut
-        first_run_month_switch.isChecked = SettingsManager.has_month_shortcut
+        first_run_tag_switch.isChecked = SettingsManager.hasTagShorcut()
+        first_run_priority_switch.isChecked = SettingsManager.hasPriorityShortcut()
+        first_run_status_switch.isChecked = SettingsManager.hasStatusShortcut()
+        first_run_day_switch.isChecked = SettingsManager.hasDayShortcut()
+        first_run_week_switch.isChecked = SettingsManager.hasWeekShortcut()
+        first_run_month_switch.isChecked = SettingsManager.hasMonthShortcut()
 
         // Set Listeners
         first_run_app_directory_button.setOnClickListener {
-            if (SettingsManager.use_external_file) {
-                SettingsManager.use_external_file = false
+            if (SettingsManager.getUseExternal()) {
+                SettingsManager.setUseExternal(false)
                 first_run_app_directory_button.setText(R.string.save_app)
                 MasterManager.load()
             } else {
-                SettingsManager.use_external_file = true
+                SettingsManager.setUseExternal(true)
                 first_run_app_directory_button.setText(R.string.save_external)
 
                 if (VERSION.SDK_INT >= VERSION_CODES.M) {
@@ -83,14 +83,14 @@ class SettingsActivity: Activity() {
         }
 
         first_run_app_directory_button.setOnLongClickListener {
-            if (SettingsManager.use_external_file) {
-                SettingsManager.use_external_file = false
+            if (SettingsManager.getUseExternal()) {
+                SettingsManager.setUseExternal(false)
                 first_run_app_directory_button.setText(R.string.save_app)
                 moveToInternal()
                 TaskManager.load()
                 TagManager.load()
             } else {
-                SettingsManager.use_external_file = true
+                SettingsManager.setUseExternal(true)
                 first_run_app_directory_button.setText(R.string.save_external)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -112,44 +112,44 @@ class SettingsActivity: Activity() {
         }
 
         first_run_tag_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.has_tag_shortcut = !SettingsManager.has_tag_shortcut
+            SettingsManager.setTagShortcut(!SettingsManager.hasTagShorcut())
             SettingsManager.save()
-            if (SettingsManager.has_tag_shortcut) createTagShortcut(this)
+            if (SettingsManager.hasTagShorcut()) createTagShortcut(this)
             else removeTagShortcut(this)
         }
 
         first_run_priority_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.has_priority_shortcut = !SettingsManager.has_priority_shortcut
+            SettingsManager.setPriorityShortcut(!SettingsManager.hasPriorityShortcut())
             SettingsManager.save()
-            if (SettingsManager.has_priority_shortcut) createPriorityShortcut(this)
+            if (SettingsManager.hasPriorityShortcut()) createPriorityShortcut(this)
             else removePriorityShortcut(this)
         }
 
         first_run_status_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.has_status_shortcut = !SettingsManager.has_status_shortcut
+            SettingsManager.setStatusShortcut(!SettingsManager.hasStatusShortcut())
             SettingsManager.save()
-            if (SettingsManager.has_status_shortcut) createStatusShortcut(this)
+            if (SettingsManager.hasStatusShortcut()) createStatusShortcut(this)
             else removeStatusShortcut(this)
         }
 
         first_run_day_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.has_today_shortcut = !SettingsManager.has_today_shortcut
+            SettingsManager.setDayShortcut(!SettingsManager.hasDayShortcut())
             SettingsManager.save()
-            if (SettingsManager.has_today_shortcut) createTodayShortcut(this)
+            if (SettingsManager.hasDayShortcut()) createTodayShortcut(this)
             else removeTodayShortcut(this)
         }
 
         first_run_week_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.has_week_shortcut = !SettingsManager.has_week_shortcut
+            SettingsManager.setWeekShorcut(!SettingsManager.hasWeekShortcut())
             SettingsManager.save()
-            if (SettingsManager.has_week_shortcut) createWeekShortcut(this)
+            if (SettingsManager.hasWeekShortcut()) createWeekShortcut(this)
             else removeWeekShortcut(this)
         }
 
         first_run_month_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.has_month_shortcut = !SettingsManager.has_month_shortcut
+            SettingsManager.setMonthShortcut(!SettingsManager.hasMonthShortcut())
             SettingsManager.save()
-            if (SettingsManager.has_month_shortcut) createMonthShortcut(this)
+            if (SettingsManager.hasMonthShortcut()) createMonthShortcut(this)
             else removeMonthShortcut(this)
         }
 
@@ -158,8 +158,8 @@ class SettingsActivity: Activity() {
     override fun onPause() {
         super.onPause()
 
-        SettingsManager.user_name = first_run_your_name_edit_text.text.toString()
-        SettingsManager.device_name = first_run_device_name_edit_text.text.toString()
+        SettingsManager.setUserName(first_run_your_name_edit_text.text.toString())
+        SettingsManager.setDeviceName(first_run_device_name_edit_text.text.toString())
         MasterManager.save()
     }
 
@@ -167,7 +167,7 @@ class SettingsActivity: Activity() {
         when (requestCode) {
             REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    SettingsManager.use_external_file = false
+                    SettingsManager.setUseExternal(false)
                     first_run_app_directory_button.setText(R.string.save_app)
                 } else {
                     MasterManager.load()

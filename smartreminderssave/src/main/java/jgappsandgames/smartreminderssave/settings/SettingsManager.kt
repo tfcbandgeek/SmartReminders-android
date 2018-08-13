@@ -63,21 +63,20 @@ class SettingsManager {
         // Data ------------------------------------------------------------------------------------
         private var version = 0
         private var use_version = 11
-        @JvmField
-        var meta = JSONObject()
+        private var meta = JSONObject()
 
-        var user_name =""
-        var device_name = ""
-        var use_external_file = false
+        private var user_name =""
+        private var device_name = ""
+        private var use_external_file = false
 
-        var has_tag_shortcut = false
-        var has_status_shortcut = false
-        var has_priority_shortcut = false
-        var has_today_shortcut = false
-        var has_week_shortcut = false
-        var has_month_shortcut = false
-        var has_done_tutorial = false
-        var last_version_splash = 0
+        private var has_tag_shortcut = false
+        private var has_status_shortcut = false
+        private var has_priority_shortcut = false
+        private var has_today_shortcut = false
+        private var has_week_shortcut = false
+        private var has_month_shortcut = false
+        private var has_done_tutorial = false
+        private var last_version_splash = 0
 
        // Management Methods ----------------------------------------------------------------------
         @JvmStatic
@@ -344,7 +343,7 @@ class SettingsManager {
         }
 
         @JvmStatic
-        fun hasMonthShortcut(_useMonthShortcut: Boolean) {
+        fun setMonthShortcut(_useMonthShortcut: Boolean) {
             has_month_shortcut = _useMonthShortcut
             save()
         }

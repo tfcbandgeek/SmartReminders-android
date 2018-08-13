@@ -27,8 +27,7 @@ class DateManager {
         fun create() {
             val tasks = ArrayList<Task>()
 
-            for (t in TaskManager.tasks) {
-                val task = Task(t)
+            for (task in TaskManager.getAllTasks()) {
                 if (task.getDateDue() != null) tasks.add(task)
             }
 

@@ -16,7 +16,7 @@ class API {
 
         // Shrinking (6/1/18*)
         const val SHRINKING = 12
-        const val SHRINKING_INFO = "Single Character Keys for Save File, Attachments, Open File Notices, Planner View"
+        const val SHRINKING_INFO = "Single Character Keys for Save File"
 
         // Encryption (1/1/19*)
         const val encryption = 13

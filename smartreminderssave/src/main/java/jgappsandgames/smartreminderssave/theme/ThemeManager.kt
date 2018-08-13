@@ -41,12 +41,9 @@ class ThemeManager {
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0
-        @JvmField
-        var meta = JSONObject()
-        @JvmField
-        var color = 0
-        @JvmField
-        var light = 0
+        private var meta = JSONObject()
+        private var color = 0
+        private var light = 0
 
         // Management Methods ----------------------------------------------------------------------
         @JvmStatic
@@ -63,7 +60,7 @@ class ThemeManager {
         fun load() {
             val data: JSONObject
             try {
-                data = JSONUtility.loadJSON(File(FileUtility.getInternalFileDirectory(), FILENAME))
+                data = JSONUtility.loadJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME))
             } catch (e: IOException) {
                 e.printStackTrace()
 
@@ -100,5 +97,34 @@ class ThemeManager {
 
             JSONUtility.saveJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME), data)
         }
+    }
+
+    // Getters -------------------------------------------------------------------------------------
+    fun getMeta(): JSONObject {
+        return meta
+    }
+
+    fun getColor(): Int {
+        return color
+    }
+
+    fun getLight(): Int {
+        return light
+    }
+
+    // Setters -------------------------------------------------------------------------------------
+    fun setMeta(_meta: JSONObject) {
+        meta = _meta
+        save()
+    }
+
+    fun setColor(_color: Int) {
+        color = _color
+        save()
+    }
+
+    fun setLight(_light: Int) {
+        light = _light
+        save()
     }
 }

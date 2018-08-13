@@ -27,38 +27,6 @@ class JSONUtility {
         private const val ACTIVE = "active"
         private const val DATE = "date"
 
-        // Called to Load JSON From File
-        @JvmStatic
-        @Throws(IOException::class)
-        @Deprecated("To be removed in API 12, use loadJSONObject instead")
-        fun loadJSON(file: File): JSONObject {
-            try {
-                val reader = BufferedReader(FileReader(file))
-                val builder = StringBuilder()
-
-                while (true) {
-                    val t = reader.readLine()
-
-                    if (t == null)
-                        break
-                    else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                            builder.append(t).append(System.lineSeparator())
-                        else {
-                            builder.append(t).append(System.getProperty("line.separator"))
-                        }
-                    }
-                }
-                return JSONObject(builder.toString())
-            } catch (e: NullPointerException) {
-                e.printStackTrace()
-                return JSONObject()
-            } catch (e: JSONException) {
-                e.printStackTrace()
-                return JSONObject()
-            }
-        }
-
         // Called to Load a JSONObject from a File -------------------------------------------------
         @JvmStatic
         @Throws(IOException::class)

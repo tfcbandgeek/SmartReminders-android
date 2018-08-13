@@ -74,6 +74,7 @@ class Task(): PoolObjectInterface {
 
         private const val BACKGROUND_COLOR_12 = "t"
         private const val FOREGROUND_COLOR_12 = "u"
+        private const val FILENAME_12 = "v"
 
         // Type Constants
         const val TYPE_NONE = 0
@@ -132,10 +133,10 @@ class Task(): PoolObjectInterface {
         loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
         tags.sort()
 
-        if (!TaskManager.tasks.contains(filename)) {
-            if (!TaskManager.archived.contains(filename)) {
-                if (!TaskManager.deleted.contains(filename)) {
-                    TaskManager.tasks.add(filename)
+        if (!TaskManager.getAll().contains(filename)) {
+            if (!TaskManager.getArchived().contains(filename)) {
+                if (!TaskManager.getDeleted().contains(filename)) {
+                    TaskManager.getAll().add(filename)
                     addMeta("Error", "Task was not in the main list at some point.")
                     save()
                     TaskManager.save()
@@ -143,9 +144,7 @@ class Task(): PoolObjectInterface {
             }
         }
 
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-        }
+        if (sort) if (type == TYPE_FOLDER) sortTasks()
     }
 
     constructor(parent: String, type: Int): this() {
@@ -179,9 +178,7 @@ class Task(): PoolObjectInterface {
         loadJSON(data)
         tags.sort()
 
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-        }
+        if (sort) if (type == TYPE_FOLDER) sortTasks()
     }
 
     // Management Methods --------------------------------------------------------------------------
@@ -190,26 +187,18 @@ class Task(): PoolObjectInterface {
         loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
         tags.sort()
 
-        if (!TaskManager.tasks.contains(filename)) {
-            if (!TaskManager.archived.contains(filename)) {
-                if (!TaskManager.deleted.contains(filename)) {
-                    TaskManager.tasks.add(filename)
+        if (!TaskManager.getAll().contains(filename)) {
+            if (!TaskManager.getArchived().contains(filename)) {
+                if (!TaskManager.getDeleted().contains(filename)) {
+                    TaskManager.getAll().add(filename)
                     addMeta("Error", "Task was not in the main list at some point.")
-                    note = note + System.getProperty("line.separator") +
-                            System.getProperty("line.separator") +
-                            "Save Error Experienced." +
-                            System.getProperty("line.separator") +
-                            "This Message can be Ignored"
-
                     save()
                     TaskManager.save()
                 }
             }
         }
 
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-        }
+        if (sort) if (type == TYPE_FOLDER) sortTasks()
 
         return this
     }
@@ -243,15 +232,27 @@ class Task(): PoolObjectInterface {
     }
 
     fun load(data: JSONObject, sort: Boolean = false): Task {
-        filename = data.optString("filename", "error.srj")
-        loadJSON(data)
-        tags.sort()
+        if (data.optInt(VERSION, -1) == -1) {
+            title = "Null Task Load Error"
+            note = "Error occurs when there is no Task to load"
+            return this
+        } else if (data.optInt(VERSION, -1) <= API.MANAGEMENT) {
+            filename = data.optString("filename")
+            loadJSON(data)
+            tags.sort()
 
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
+            if (sort) if (type == TYPE_FOLDER) sortTasks()
+
+            return this
+        } else {
+            filename = data.optString(FILENAME_12)
+            loadJSON(data)
+            tags.sort()
+
+            if (sort) if (type == TYPE_FOLDER) sortTasks()
+
+            return this
         }
-
-        return this
     }
 
     fun save(): Task {
@@ -287,7 +288,7 @@ class Task(): PoolObjectInterface {
         }
 
         version = data.optInt(VERSION, API.RELEASE)
-        if (version <= 11) {
+        if (version <= API.MANAGEMENT) {
             parent = data.optString(PARENT, "home")
             type = data.optInt(TYPE, TYPE_NONE)
             taskID = data.optLong(TASK_ID, Calendar.getInstance().timeInMillis)
@@ -359,7 +360,8 @@ class Task(): PoolObjectInterface {
     fun toJSON(): JSONObject {
         val data = JSONObject()
         try {
-            if (SettingsManager.getUseVersion() <= 11) {
+            if (SettingsManager.getUseVersion() <= API.MANAGEMENT) {
+                data.put("filename", filename)
                 data.put(PARENT, parent)
                 data.put(VERSION, API.MANAGEMENT)
                 data.put(TYPE, type)
@@ -391,6 +393,7 @@ class Task(): PoolObjectInterface {
                 // API 11
                 data.put(META, meta)
             } else {
+                data.put(FILENAME_12, filename)
                 data.put(PARENT_12, parent)
                 data.put(VERSION_12, API.SHRINKING)
                 data.put(VERSION, API.SHRINKING)
@@ -424,6 +427,57 @@ class Task(): PoolObjectInterface {
                 data.put(FOREGROUND_COLOR_12, foregroundColor)
                 data.put(BACKGROUND_COLOR_12, backgroundColor)
             }
+        } catch (j: JSONException) {
+            j.printStackTrace()
+        } catch (n: NullPointerException) {
+            n.printStackTrace()
+        }
+
+        return data
+    }
+
+    fun toHeavyJSON(): JSONObject {
+        val data = JSONObject()
+        try {
+            data.put(FILENAME_12, filename)
+            data.put(PARENT_12, parent)
+            data.put(VERSION_12, API.SHRINKING)
+            data.put(VERSION, API.SHRINKING)
+            data.put(META_12, meta)
+            data.put(TYPE_12, type)
+            data.put(TASK_ID_12, taskID)
+            data.put(CAL_CREATE_12, JSONUtility.saveCalendar(dateCreate))
+            data.put(CAL_DUE_12, JSONUtility.saveCalendar(dateDue))
+            data.put(CAL_UPDATE_12, JSONUtility.saveCalendar(dateUpdated))
+            data.put(CAL_ARCHIVED_12, JSONUtility.saveCalendar(dateArchived))
+            data.put(CAL_DELETED_12, JSONUtility.saveCalendar(dateDeleted))
+            data.put(TITLE_12, title)
+            data.put(NOTE_12, note)
+            data.put(STATUS_12, status)
+            data.put(PRIORITY_12, priority)
+            data.put(COMPLETED_ON_TIME_12, completeOnTime)
+            data.put(COMPLETED_LATE_12, completeLate)
+
+            val t = JSONArray()
+            if (tags.size != 0) for (tag in tags) t.put(tag)
+            data.put(TAGS, t)
+
+            val c = JSONArray()
+            if (children.size != 0) {
+                for (child in children) {
+                    val a = TaskManager.taskPool.getPoolObject().load(child)
+                    c.put(a.toHeavyJSON())
+                    TaskManager.taskPool.returnPoolObject(a)
+                }
+            }
+            data.put(CHILDREN, c)
+
+            val p = JSONArray()
+            if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
+            data.put(CHECKPOINTS, p)
+
+            data.put(FOREGROUND_COLOR_12, foregroundColor)
+            data.put(BACKGROUND_COLOR_12, backgroundColor)
         } catch (j: JSONException) {
             j.printStackTrace()
         } catch (n: NullPointerException) {
@@ -535,7 +589,7 @@ class Task(): PoolObjectInterface {
     // Setters -------------------------------------------------------------------------------------
     fun setDateDue(calendar: Calendar?): Task {
         dateDue = if (calendar == null) null
-            else calendar.clone() as Calendar
+                  else calendar.clone() as Calendar
         dateUpdated = Calendar.getInstance()
         return this
     }

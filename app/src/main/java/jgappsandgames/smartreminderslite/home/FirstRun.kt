@@ -55,14 +55,14 @@ class FirstRun: Activity() {
         MasterManager.create()
 
         // Set Text
-        first_run_device_name_edit_text.setText(SettingsManager.device_name)
+        first_run_device_name_edit_text.setText(SettingsManager.getDeviceName())
 
         // Set Listeners
         first_run_your_name_edit_text.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                SettingsManager.user_name = first_run_your_name_edit_text.text.toString()
+                SettingsManager.setUserName(first_run_your_name_edit_text.text.toString())
                 SettingsManager.save()
             }
         })
@@ -71,17 +71,17 @@ class FirstRun: Activity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                SettingsManager.device_name = first_run_device_name_edit_text.text.toString()
+                SettingsManager.setDeviceName(first_run_device_name_edit_text.text.toString())
                 SettingsManager.save()
             }
         })
 
         first_run_app_directory_button.setOnClickListener {
-            if (SettingsManager.use_external_file) {
-                SettingsManager.use_external_file = false
+            if (SettingsManager.getUseExternal()) {
+                SettingsManager.setUseExternal(false)
                 first_run_app_directory_button.setText(R.string.save_app)
             } else {
-                SettingsManager.use_external_file = true
+                SettingsManager.setUseExternal(true)
                 first_run_app_directory_button.setText(R.string.save_external)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -128,7 +128,7 @@ class FirstRun: Activity() {
         when (requestCode) {
             REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    SettingsManager.use_external_file = false
+                    SettingsManager.setUseExternal(false)
                     first_run_app_directory_button.setText(R.string.save_app)
                 }
             }

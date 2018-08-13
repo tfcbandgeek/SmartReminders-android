@@ -48,7 +48,7 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
         super.onResume()
 
         tasks.clear()
-        for (i in TaskManager.tasks.indices) tasks.add(Task(TaskManager.tasks[i]))
+        for (i in TaskManager.getAll().indices) tasks.add(Task(TaskManager.getAll()[i]))
 
         tag_tasks.adapter = TaskAdapter(this, selectedTags, tasks)
         tag_selected.adapter = TagAdapter(this, this, selectedTags, true)

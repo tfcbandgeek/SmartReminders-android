@@ -10,7 +10,6 @@ import org.json.JSONException
 import org.json.JSONObject
 
 // Save Library
-import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
@@ -155,9 +154,10 @@ class TagManager {
             save()
 
             // Clear Tags from Tasks
-            for (t in TaskManager.tasks) {
-                val task = Task(t)
-                task.removeTag(tag).save()
+            val all = TaskManager.getAllTasks()
+            for (t in all) {
+                t.removeTag(tag).save()
+                TaskManager.taskPool.returnPoolObject(t)
             }
         }
 

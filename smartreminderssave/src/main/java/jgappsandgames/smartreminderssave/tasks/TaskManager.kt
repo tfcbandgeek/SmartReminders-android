@@ -47,15 +47,11 @@ class TaskManager {
         // Data ------------------------------------------------------------------------------------
         private var version: Int = 0
 
-        var meta: JSONObject = JSONObject()
-        @JvmField
-        var home: ArrayList<String> = ArrayList()
-        @JvmField
-        var tasks: ArrayList<String> = ArrayList()
-        @JvmField
-        var archived: ArrayList<String> = ArrayList()
-        @JvmField
-        var deleted: ArrayList<String> = ArrayList()
+        private var meta: JSONObject = JSONObject()
+        private var home: ArrayList<String> = ArrayList()
+        private var tasks: ArrayList<String> = ArrayList()
+        private var archived: ArrayList<String> = ArrayList()
+        private var deleted: ArrayList<String> = ArrayList()
 
         // Management Methods ----------------------------------------------------------------------
         @JvmStatic
@@ -66,13 +62,13 @@ class TaskManager {
 
         @JvmStatic
         fun forceCreate() {
+            version = SettingsManager.getUseVersion()
+            meta = JSONObject()
+
             home.clear()
             tasks.clear()
             archived.clear()
             deleted.clear()
-
-            // API 11
-            meta = JSONObject()
         }
 
         @JvmStatic
@@ -111,7 +107,7 @@ class TaskManager {
 
             version = data.optInt(VERSION, API.RELEASE)
 
-            if (version <= 11) {
+            if (version <= API.MANAGEMENT) {
                 home.clear()
                 tasks.clear()
                 archived.clear()
@@ -174,6 +170,7 @@ class TaskManager {
 
             try {
                 data.put(VERSION, API.MANAGEMENT)
+                data.put(META, meta)
 
                 val h = JSONArray()
                 val t = JSONArray()
@@ -197,9 +194,6 @@ class TaskManager {
                     data.put(ARCHIVED_12, a)
                     data.put(DELETED_12, d)
                 }
-
-                // API 11
-                data.put(META, meta)
             } catch (j: JSONException) {
                 j.printStackTrace()
             }
