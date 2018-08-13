@@ -11,6 +11,7 @@ import org.json.JSONObject
 
 // Pool Utility
 import jgappsandgames.me.poolutilitykotlin.Pool
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 // Save Library
 import jgappsandgames.smartreminderssave.utility.API
@@ -32,6 +33,13 @@ class TaskManager {
         private const val TASKS = "tasks"
         private const val ARCHIVED = "archived"
         private const val DELETED = "deleted"
+
+        private const val VERSION_12 = "version"
+        private const val META_12 = "meta"
+        private const val HOME_12 = "home"
+        private const val TASKS_12 = "tasks"
+        private const val ARCHIVED_12 = "archived"
+        private const val DELETED_12 = "deleted"
 
         // Pools -----------------------------------------------------------------------------------
         val taskPool = Pool(maxSize = 100, minSize = 20, generator = TaskCreator())
@@ -70,7 +78,7 @@ class TaskManager {
         @JvmStatic
         fun load() {
             try {
-                loadJSON(JSONUtility.loadJSON(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
+                loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
             } catch (i: IOException) {
                 i.printStackTrace()
 
@@ -103,32 +111,61 @@ class TaskManager {
 
             version = data.optInt(VERSION, API.RELEASE)
 
-            home.clear()
-            tasks.clear()
-            archived.clear()
-            deleted.clear()
+            if (version <= 11) {
+                home.clear()
+                tasks.clear()
+                archived.clear()
+                deleted.clear()
 
-            val h = data.optJSONArray(HOME)
-            val t = data.optJSONArray(TASKS)
-            val a = data.optJSONArray(ARCHIVED)
-            val d = data.optJSONArray(DELETED)
+                val h = data.optJSONArray(HOME)
+                val t = data.optJSONArray(TASKS)
+                val a = data.optJSONArray(ARCHIVED)
+                val d = data.optJSONArray(DELETED)
 
-            if (h != null && h.length() != 0)
-                for (i in 0 until h.length())
-                    if (!home.contains(h.optString(i))) home.add(h.optString(i))
-            if (t != null && t.length() != 0)
-                for (i in 0 until t.length())
-                    if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i))
-            if (a != null && a.length() != 0)
-                for (i in 0 until a.length())
-                    if (!archived.contains(a.optString(i))) archived.add(a.optString(i))
-            if (d != null && d.length() != 0)
-                for (i in 0 until d.length())
-                    if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i))
+                if (h != null && h.length() != 0)
+                    for (i in 0 until h.length())
+                        if (!home.contains(h.optString(i))) home.add(h.optString(i))
+                if (t != null && t.length() != 0)
+                    for (i in 0 until t.length())
+                        if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i))
+                if (a != null && a.length() != 0)
+                    for (i in 0 until a.length())
+                        if (!archived.contains(a.optString(i))) archived.add(a.optString(i))
+                if (d != null && d.length() != 0)
+                    for (i in 0 until d.length())
+                        if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i))
 
-            // API 11
-            meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+                // API 11
+                meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
                 else JSONObject()
+            } else {
+                home.clear()
+                tasks.clear()
+                archived.clear()
+                deleted.clear()
+
+                val h = data.optJSONArray(HOME_12)
+                val t = data.optJSONArray(TASKS_12)
+                val a = data.optJSONArray(ARCHIVED_12)
+                val d = data.optJSONArray(DELETED_12)
+
+                if (h != null && h.length() != 0)
+                    for (i in 0 until h.length())
+                        if (!home.contains(h.optString(i))) home.add(h.optString(i))
+                if (t != null && t.length() != 0)
+                    for (i in 0 until t.length())
+                        if (!tasks.contains(t.optString(i))) tasks.add(t.optString(i))
+                if (a != null && a.length() != 0)
+                    for (i in 0 until a.length())
+                        if (!archived.contains(a.optString(i))) archived.add(a.optString(i))
+                if (d != null && d.length() != 0)
+                    for (i in 0 until d.length())
+                        if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i))
+
+                // API 11
+                meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+                else JSONObject()
+            }
         }
 
         @JvmStatic
@@ -148,10 +185,18 @@ class TaskManager {
                 for (task in archived) a.put(task)
                 for (task in deleted) d.put(task)
 
-                data.put(HOME, h)
-                data.put(TASKS, t)
-                data.put(ARCHIVED, a)
-                data.put(DELETED, d)
+                if (SettingsManager.getUseVersion() <= 11) {
+                    data.put(HOME, h)
+                    data.put(TASKS, t)
+                    data.put(ARCHIVED, a)
+                    data.put(DELETED, d)
+                } else {
+                    data.put(VERSION_12, API.MANAGEMENT)
+                    data.put(HOME_12, h)
+                    data.put(TASKS_12, t)
+                    data.put(ARCHIVED_12, a)
+                    data.put(DELETED_12, d)
+                }
 
                 // API 11
                 data.put(META, meta)

@@ -12,6 +12,7 @@ import org.json.JSONObject
 // PoolUtility
 import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
 import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 // Save
 import jgappsandgames.smartreminderssave.utility.API
@@ -48,6 +49,32 @@ class Task(): PoolObjectInterface {
         private const val COMPLETED_ON_TIME = "completed_on_time"
         private const val COMPLETED_LATE = "completed_late"
 
+        private const val PARENT_12 = "b"
+        private const val VERSION_12 = "a"
+        private const val META_12 = "c"
+        private const val TYPE_12 = "d"
+        private const val TASK_ID_12 = "e"
+
+        private const val CAL_CREATE_12 = "f"
+        private const val CAL_DUE_12 = "g"
+        private const val CAL_UPDATE_12 = "h"
+        private const val CAL_ARCHIVED_12 = "i"
+        private const val CAL_DELETED_12 = "j"
+
+        private const val TITLE_12 = "k"
+        private const val NOTE_12 = "l"
+        private const val TAGS_12 = "m"
+        private const val CHILDREN_12 = "n"
+        private const val CHECKPOINTS_12 = "o"
+        private const val STATUS_12 = "p"
+        private const val PRIORITY_12 = "q"
+
+        private const val COMPLETED_ON_TIME_12 = "r"
+        private const val COMPLETED_LATE_12 = "s"
+
+        private const val BACKGROUND_COLOR_12 = "t"
+        private const val FOREGROUND_COLOR_12 = "u"
+
         // Type Constants
         const val TYPE_NONE = 0
         @Deprecated("To be removed in API 12, Replace with TYPE_FOLDER constant")
@@ -58,6 +85,7 @@ class Task(): PoolObjectInterface {
         const val TYPE_SHOPPING_LIST = 4
 
         // Priority Constants ----------------------------------------------------------------------
+        @Deprecated("To be removed in API 12")
         const val default = 20
         const val DEFAULT_PRIORITY = 33
 
@@ -95,6 +123,9 @@ class Task(): PoolObjectInterface {
     private var completeOnTime: Boolean = false
     private var completeLate: Boolean = false
 
+    private var backgroundColor: Int = 0
+    private var foregroundColor: Int = 0
+
     // Constructors --------------------------------------------------------------------------------
     constructor(filename: String, sort: Boolean = false): this() {
         this.filename = filename
@@ -106,12 +137,6 @@ class Task(): PoolObjectInterface {
                 if (!TaskManager.deleted.contains(filename)) {
                     TaskManager.tasks.add(filename)
                     addMeta("Error", "Task was not in the main list at some point.")
-                    note = note + System.getProperty("line.separator") +
-                            System.getProperty("line.separator") +
-                            "Save Error Experienced." +
-                            System.getProperty("line.separator") +
-                            "This Message can be Ignored"
-
                     save()
                     TaskManager.save()
                 }
@@ -145,6 +170,8 @@ class Task(): PoolObjectInterface {
         priority = 20
         completeOnTime = false
         completeLate = false
+        backgroundColor = 0
+        foregroundColor = 0
     }
 
     constructor(data: JSONObject, sort: Boolean = false): this() {
@@ -209,6 +236,8 @@ class Task(): PoolObjectInterface {
         priority = 20
         completeOnTime = false
         completeLate = false
+        backgroundColor = 0
+        foregroundColor = 0
 
         return this
     }
@@ -258,71 +287,143 @@ class Task(): PoolObjectInterface {
         }
 
         version = data.optInt(VERSION, API.RELEASE)
-        parent = data.optString(PARENT, "home")
-        type = data.optInt(TYPE, TYPE_NONE)
-        taskID = data.optLong(TASK_ID, Calendar.getInstance().timeInMillis)
-        dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE))
-        dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE))
-        dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))
-        dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED))
-        dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED))
-        title = data.optString(TITLE, "")
-        note = data.optString(NOTE, "")
-        status = data.optInt(STATUS, 0)
-        priority = data.optInt(PRIORITY, 20)
-        completeOnTime = data.optBoolean(COMPLETED_ON_TIME, false)
-        completeLate = data.optBoolean(COMPLETED_LATE, false)
+        if (version <= 11) {
+            parent = data.optString(PARENT, "home")
+            type = data.optInt(TYPE, TYPE_NONE)
+            taskID = data.optLong(TASK_ID, Calendar.getInstance().timeInMillis)
+            dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE))
+            dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE))
+            dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))
+            dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED))
+            dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED))
+            title = data.optString(TITLE, "")
+            note = data.optString(NOTE, "")
+            status = data.optInt(STATUS, 0)
+            priority = data.optInt(PRIORITY, 20)
+            completeOnTime = data.optBoolean(COMPLETED_ON_TIME, false)
+            completeLate = data.optBoolean(COMPLETED_LATE, false)
 
-        val t = data.optJSONArray(TAGS)
-        tags = ArrayList()
-        if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
+            val t = data.optJSONArray(TAGS)
+            tags = ArrayList()
+            if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
 
-        val c = data.optJSONArray(CHILDREN)
-        children = ArrayList()
-        if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
+            val c = data.optJSONArray(CHILDREN)
+            children = ArrayList()
+            if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
 
-        val p = data.optJSONArray(CHECKPOINTS)
-        checkpoints = ArrayList()
-        if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
+            val p = data.optJSONArray(CHECKPOINTS)
+            checkpoints = ArrayList()
+            if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
 
-        // API 11
-        meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
-        else JSONObject()
+            // API 11
+            meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+            else JSONObject()
+        } else {
+            parent = data.optString(PARENT_12, "home")
+            type = data.optInt(TYPE_12, TYPE_NONE)
+            taskID = data.optLong(TASK_ID_12, Calendar.getInstance().timeInMillis)
+            dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE_12))
+            dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE_12))
+            dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE_12))
+            dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED_12))
+            dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED_12))
+            title = data.optString(TITLE_12, "")
+            note = data.optString(NOTE_12, "")
+            status = data.optInt(STATUS_12, 0)
+            priority = data.optInt(PRIORITY_12, 20)
+            completeOnTime = data.optBoolean(COMPLETED_ON_TIME_12, false)
+            completeLate = data.optBoolean(COMPLETED_LATE_12, false)
+
+            val t = data.optJSONArray(TAGS_12)
+            tags = ArrayList()
+            if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
+
+            val c = data.optJSONArray(CHILDREN_12)
+            children = ArrayList()
+            if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
+
+            val p = data.optJSONArray(CHECKPOINTS_12)
+            checkpoints = ArrayList()
+            if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
+
+            // API 11
+            meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+            else JSONObject()
+
+            // API 12
+            backgroundColor = data.optInt(BACKGROUND_COLOR_12, 0)
+            foregroundColor = data.optInt(FOREGROUND_COLOR_12, 0)
+        }
     }
 
     fun toJSON(): JSONObject {
         val data = JSONObject()
         try {
-            data.put(PARENT, parent)
-            data.put(VERSION, API.MANAGEMENT)
-            data.put(TYPE, type)
-            data.put(TASK_ID, taskID)
-            data.put(CAL_CREATE, JSONUtility.saveCalendar(dateCreate))
-            data.put(CAL_DUE, JSONUtility.saveCalendar(dateDue))
-            data.put(CAL_UPDATE, JSONUtility.saveCalendar(dateUpdated))
-            data.put(CAL_ARCHIVED, JSONUtility.saveCalendar(dateArchived))
-            data.put(CAL_DELETED, JSONUtility.saveCalendar(dateDeleted))
-            data.put(TITLE, title)
-            data.put(NOTE, note)
-            data.put(STATUS, status)
-            data.put(PRIORITY, priority)
-            data.put(COMPLETED_ON_TIME, completeOnTime)
-            data.put(COMPLETED_LATE, completeLate)
+            if (SettingsManager.getUseVersion() <= 11) {
+                data.put(PARENT, parent)
+                data.put(VERSION, API.MANAGEMENT)
+                data.put(TYPE, type)
+                data.put(TASK_ID, taskID)
+                data.put(CAL_CREATE, JSONUtility.saveCalendar(dateCreate))
+                data.put(CAL_DUE, JSONUtility.saveCalendar(dateDue))
+                data.put(CAL_UPDATE, JSONUtility.saveCalendar(dateUpdated))
+                data.put(CAL_ARCHIVED, JSONUtility.saveCalendar(dateArchived))
+                data.put(CAL_DELETED, JSONUtility.saveCalendar(dateDeleted))
+                data.put(TITLE, title)
+                data.put(NOTE, note)
+                data.put(STATUS, status)
+                data.put(PRIORITY, priority)
+                data.put(COMPLETED_ON_TIME, completeOnTime)
+                data.put(COMPLETED_LATE, completeLate)
 
-            val t = JSONArray()
-            if (tags.size != 0) for (tag in tags) t.put(tag)
-            data.put(TAGS, t)
+                val t = JSONArray()
+                if (tags.size != 0) for (tag in tags) t.put(tag)
+                data.put(TAGS, t)
 
-            val c = JSONArray()
-            if (children.size != 0) for (child in children) c.put(child)
-            data.put(CHILDREN, c)
+                val c = JSONArray()
+                if (children.size != 0) for (child in children) c.put(child)
+                data.put(CHILDREN, c)
 
-            val p = JSONArray()
-            if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
-            data.put(CHECKPOINTS, p)
+                val p = JSONArray()
+                if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
+                data.put(CHECKPOINTS, p)
 
-            // API 11
-            data.put(META, meta)
+                // API 11
+                data.put(META, meta)
+            } else {
+                data.put(PARENT_12, parent)
+                data.put(VERSION_12, API.SHRINKING)
+                data.put(VERSION, API.SHRINKING)
+                data.put(META_12, meta)
+                data.put(TYPE_12, type)
+                data.put(TASK_ID_12, taskID)
+                data.put(CAL_CREATE_12, JSONUtility.saveCalendar(dateCreate))
+                data.put(CAL_DUE_12, JSONUtility.saveCalendar(dateDue))
+                data.put(CAL_UPDATE_12, JSONUtility.saveCalendar(dateUpdated))
+                data.put(CAL_ARCHIVED_12, JSONUtility.saveCalendar(dateArchived))
+                data.put(CAL_DELETED_12, JSONUtility.saveCalendar(dateDeleted))
+                data.put(TITLE_12, title)
+                data.put(NOTE_12, note)
+                data.put(STATUS_12, status)
+                data.put(PRIORITY_12, priority)
+                data.put(COMPLETED_ON_TIME_12, completeOnTime)
+                data.put(COMPLETED_LATE_12, completeLate)
+
+                val t = JSONArray()
+                if (tags.size != 0) for (tag in tags) t.put(tag)
+                data.put(TAGS, t)
+
+                val c = JSONArray()
+                if (children.size != 0) for (child in children) c.put(child)
+                data.put(CHILDREN, c)
+
+                val p = JSONArray()
+                if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
+                data.put(CHECKPOINTS, p)
+
+                data.put(FOREGROUND_COLOR_12, foregroundColor)
+                data.put(BACKGROUND_COLOR_12, backgroundColor)
+            }
         } catch (j: JSONException) {
             j.printStackTrace()
         } catch (n: NullPointerException) {
@@ -693,5 +794,45 @@ class Task(): PoolObjectInterface {
 class TaskCreator: PoolObjectCreator<Task> {
     override fun generatePoolObject(): Task {
         return Task()
+    }
+}
+
+/**
+ * Checkpoint class
+ * Created by joshua on 12/12/2017.
+ *
+ * TODO: Convert to Pool Type Object
+ */
+class Checkpoint(var id: Int, var text: String, var status: Boolean) {
+    companion object {
+        // Constants -------------------------------------------------------------------------------
+        private const val ID = "position"
+        private const val STATUS = "status"
+        private const val TEXT = "text"
+    }
+
+    // Constructors --------------------------------------------------------------------------------
+    constructor(c_id: Int, c_text: String): this(c_id, c_text, false)
+    constructor(data: JSONObject): this(data.optInt(ID, 0), data.optString(TEXT, ""), data.optBoolean(STATUS, false))
+
+    // Json Methods --------------------------------------------------------------------------------
+    fun toJSON(): JSONObject? {
+        return try {
+            val data = JSONObject()
+            data.put(ID, id)
+            data.put(STATUS, status)
+            data.put(TEXT, text)
+
+            data
+        } catch (j: JSONException) {
+            j.printStackTrace()
+            null
+        }
+
+    }
+
+    // String Method -------------------------------------------------------------------------------
+    override fun toString(): String {
+        return toJSON()!!.toString()
     }
 }

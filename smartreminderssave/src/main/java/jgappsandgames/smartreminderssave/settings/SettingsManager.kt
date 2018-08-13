@@ -63,6 +63,7 @@ class SettingsManager {
         // Data ------------------------------------------------------------------------------------
         private var version = 0
         private var use_version = 11
+        @JvmField
         var meta = JSONObject()
 
         var user_name =""
@@ -203,131 +204,159 @@ class SettingsManager {
 
             JSONUtility.saveJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME), data)
         }
-    }
 
-    // Getters -------------------------------------------------------------------------------------
-    fun getVersion(): Int {
-        return version
-    }
+        // Getters ---------------------------------------------------------------------------------
+        @JvmStatic
+        fun getVersion(): Int {
+            return version
+        }
 
-    fun getUseVersion(): Int {
-        return use_version
-    }
+        @JvmStatic
+        fun getUseVersion(): Int {
+            return use_version
+        }
 
-    fun getMeta(): JSONObject {
-        return meta
-    }
+        @JvmStatic
+        fun getMeta(): JSONObject {
+            return meta
+        }
 
-    fun getUserName(): String {
-        return user_name
-    }
+        @JvmStatic
+        fun getUserName(): String {
+            return user_name
+        }
 
-    fun getDeviceName(): String {
-        return device_name
-    }
+        @JvmStatic
+        fun getDeviceName(): String {
+            return device_name
+        }
 
-    fun getUseExternal(): Boolean {
-        return use_external_file
-    }
+        @JvmStatic
+        fun getUseExternal(): Boolean {
+            return use_external_file
+        }
 
-    fun hasTagShorcut(): Boolean {
-        return has_tag_shortcut
-    }
+        @JvmStatic
+        fun hasTagShorcut(): Boolean {
+            return has_tag_shortcut
+        }
 
-    fun hasStatusShortcut(): Boolean {
-        return has_status_shortcut
-    }
+        @JvmStatic
+        fun hasStatusShortcut(): Boolean {
+            return has_status_shortcut
+        }
 
-    fun hasPriorityShortcut(): Boolean {
-        return has_priority_shortcut
-    }
+        @JvmStatic
+        fun hasPriorityShortcut(): Boolean {
+            return has_priority_shortcut
+        }
 
-    fun hasDayShortcut(): Boolean {
-        return has_today_shortcut
-    }
+        @JvmStatic
+        fun hasDayShortcut(): Boolean {
+            return has_today_shortcut
+        }
 
-    fun hasWeekShortcut(): Boolean {
-        return has_week_shortcut
-    }
+        @JvmStatic
+        fun hasWeekShortcut(): Boolean {
+            return has_week_shortcut
+        }
 
-    fun hasMonthShortcut(): Boolean {
-        return has_month_shortcut
-    }
+        @JvmStatic
+        fun hasMonthShortcut(): Boolean {
+            return has_month_shortcut
+        }
 
-    fun hasDoneTutorial(): Boolean {
-        return has_done_tutorial
-    }
+        @JvmStatic
+        fun hasDoneTutorial(): Boolean {
+            return has_done_tutorial
+        }
 
-    fun getLastVersionSplash(): Int {
-        return last_version_splash
-    }
+        @JvmStatic
+        fun getLastVersionSplash(): Int {
+            return last_version_splash
+        }
 
-    // Setters -------------------------------------------------------------------------------------
-    fun setVersion(_version: Int) {
-        version = _version
-        save()
-    }
+        // Setters ---------------------------------------------------------------------------------
+        @JvmStatic
+        fun setVersion(_version: Int) {
+            version = _version
+            save()
+        }
 
-    fun setUseVersion(_useVersion: Int) {
-        use_version = _useVersion
-        save()
-    }
+        @JvmStatic
+        fun setUseVersion(_useVersion: Int) {
+            use_version = _useVersion
+            save()
+        }
 
-    fun setMeta(_meta: JSONObject) {
-        meta = _meta
-        save()
-    }
+        @JvmStatic
+        fun setMeta(_meta: JSONObject) {
+            meta = _meta
+            save()
+        }
 
-    fun setUserName(_userName: String) {
-        user_name = _userName
-        save()
-    }
+        @JvmStatic
+        fun setUserName(_userName: String) {
+            user_name = _userName
+            save()
+        }
 
-    fun setDeviceName(_deviceName: String) {
-        device_name = _deviceName
-        save()
-    }
+        @JvmStatic
+        fun setDeviceName(_deviceName: String) {
+            device_name = _deviceName
+            save()
+        }
 
-    fun setUseExternal(_useExternal: Boolean) {
-        use_external_file = _useExternal
-        save()
-    }
+        @JvmStatic
+        fun setUseExternal(_useExternal: Boolean) {
+            use_external_file = _useExternal
+            save()
+        }
 
-    fun setTagShortcut(_useTagShortcut: Boolean) {
-        has_tag_shortcut = _useTagShortcut
-        save()
-    }
+        @JvmStatic
+        fun setTagShortcut(_useTagShortcut: Boolean) {
+            has_tag_shortcut = _useTagShortcut
+            save()
+        }
 
-    fun setStatusShortcut(_useStatusShortcut: Boolean) {
-        has_status_shortcut = _useStatusShortcut
-        save()
-    }
+        @JvmStatic
+        fun setStatusShortcut(_useStatusShortcut: Boolean) {
+            has_status_shortcut = _useStatusShortcut
+            save()
+        }
 
-    fun setPriorityShortcut(_usePriorityShortcut: Boolean) {
-        has_priority_shortcut = _usePriorityShortcut
-        save()
-    }
+        @JvmStatic
+        fun setPriorityShortcut(_usePriorityShortcut: Boolean) {
+            has_priority_shortcut = _usePriorityShortcut
+            save()
+        }
 
-    fun setDayShortcut(_useDayShortcut: Boolean) {
-        has_today_shortcut = _useDayShortcut
-        save()
-    }
+        @JvmStatic
+        fun setDayShortcut(_useDayShortcut: Boolean) {
+            has_today_shortcut = _useDayShortcut
+            save()
+        }
 
-    fun setWeekShorcut(_useWeekShortcut: Boolean) {
-        has_week_shortcut = _useWeekShortcut
-        save()
-    }
+        @JvmStatic
+        fun setWeekShorcut(_useWeekShortcut: Boolean) {
+            has_week_shortcut = _useWeekShortcut
+            save()
+        }
 
-    fun hasMonthShortcut(_useMonthShortcut: Boolean) {
-        has_month_shortcut = _useMonthShortcut
-        save()
-    }
+        @JvmStatic
+        fun hasMonthShortcut(_useMonthShortcut: Boolean) {
+            has_month_shortcut = _useMonthShortcut
+            save()
+        }
 
-    fun completedTutorial() {
-        has_done_tutorial = true
-    }
+        @JvmStatic
+        fun completedTutorial() {
+            has_done_tutorial = true
+        }
 
-    fun displayedSplash() {
-        last_version_splash = 11
+        @JvmStatic
+        fun displayedSplash() {
+            last_version_splash = 11
+        }
     }
 }

@@ -1,9 +1,7 @@
 package jgappsandgames.smartreminderssave.tags
 
 // Java
-import jgappsandgames.smartreminderssave.settings.SettingsManager
 import java.io.File
-import java.io.IOException
 import java.util.ArrayList
 
 // JSON
@@ -17,6 +15,9 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
+
+// Settings
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 /**
  * TagManager
@@ -92,13 +93,22 @@ class TagManager {
             val t = JSONArray()
 
             try {
-                for (tag in tags) t.put(tag)
+                if (SettingsManager.getUseVersion() <= 11) {
+                    for (tag in tags) t.put(tag)
 
-                data.put(VERSION, API.MANAGEMENT)
-                data.put(TAGS, t)
+                    data.put(VERSION, API.MANAGEMENT)
+                    data.put(TAGS, t)
 
-                // API 11
-                data.put(META, meta)
+                    // API 11
+                    data.put(META, meta)
+                } else {
+                    for (tag in tags) t.put(tag)
+
+                    data.put(VERSION, API.SHRINKING)
+                    data.put(VERSION_12, API.SHRINKING)
+                    data.put(META_12, meta)
+                    data.put(TAGS_12, t)
+                }
             } catch (j: JSONException) {
                 j.printStackTrace()
             }
