@@ -41,16 +41,8 @@ import org.json.JSONObject
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.home.FirstRun
-import jgappsandgames.smartreminderslite.utility.CHECKPOINT
-import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
-import jgappsandgames.smartreminderslite.utility.REQUEST_CHECKPOINT
-import jgappsandgames.smartreminderslite.utility.REQUEST_TAGS
-import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
-import jgappsandgames.smartreminderslite.utility.Save
-import jgappsandgames.smartreminderslite.utility.TAG_LIST
-import jgappsandgames.smartreminderslite.utility.TASK_NAME
-import jgappsandgames.smartreminderslite.utility.TASK_TYPE
+import jgappsandgames.smartreminderslite.home.Settings2Activity
+import jgappsandgames.smartreminderslite.utility.*
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_folder.folder_bottom_bar_search
@@ -107,7 +99,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         // Handle Data
         FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
+        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
         else MasterManager.load()
 
         // Find Type

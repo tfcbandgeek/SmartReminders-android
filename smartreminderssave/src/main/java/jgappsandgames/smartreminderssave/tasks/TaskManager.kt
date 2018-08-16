@@ -159,7 +159,7 @@ class TaskManager {
                         if (!deleted.contains(d.optString(i))) deleted.add(d.optString(i))
 
                 // API 11
-                meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+                meta = if (version >= API.MANAGEMENT) data.optJSONObject(META_12)
                 else JSONObject()
             }
         }
@@ -170,7 +170,6 @@ class TaskManager {
 
             try {
                 data.put(VERSION, API.MANAGEMENT)
-                data.put(META, meta)
 
                 val h = JSONArray()
                 val t = JSONArray()
@@ -183,12 +182,14 @@ class TaskManager {
                 for (task in deleted) d.put(task)
 
                 if (SettingsManager.getUseVersion() <= 11) {
+                    data.put(META, meta)
                     data.put(HOME, h)
                     data.put(TASKS, t)
                     data.put(ARCHIVED, a)
                     data.put(DELETED, d)
                 } else {
                     data.put(VERSION_12, API.MANAGEMENT)
+                    data.put(META_12, meta)
                     data.put(HOME_12, h)
                     data.put(TASKS_12, t)
                     data.put(ARCHIVED_12, a)

@@ -14,7 +14,7 @@ import org.jetbrains.anko.toast
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.AboutActivity
 import jgappsandgames.smartreminderslite.home.HomeActivity
-import jgappsandgames.smartreminderslite.home.SettingsActivity
+import jgappsandgames.smartreminderslite.home.Settings2Activity
 import jgappsandgames.smartreminderslite.sort.DayActivity
 import jgappsandgames.smartreminderslite.sort.MonthActivity
 import jgappsandgames.smartreminderslite.sort.WeekActivity
@@ -50,7 +50,7 @@ fun onOptionsItemSelected(context: Activity, item: MenuItem, save: Save? = null)
         }
 
         R.id.settings -> {
-            context.startActivity(Intent(context, SettingsActivity::class.java))
+            context.startActivity(Intent(context, Settings2Activity::class.java))
             return true
         }
 

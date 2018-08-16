@@ -33,6 +33,7 @@
     <string name="device_name">Device Name</string>
     <string name="done">Done</string>
     <string name="down">Down</string>
+    <string name="downgrade_to_api_11">Downgrade to API 11</string>
 
     <string name="edit">Edit</string>
     <string name="external">External</string>
@@ -114,6 +115,7 @@
 
     <string name="unselected">Unselected</string>
     <string name="up">Up</string>
+    <string name="upgrade_to_api_12_testing">Upgrade to API 12 (Currently in Testing)</string>
     <string name="update_found">Update Found</string>
 
     <string name="version">Version</string>

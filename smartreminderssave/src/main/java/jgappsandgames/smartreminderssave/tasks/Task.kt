@@ -78,24 +78,20 @@ class Task(): PoolObjectInterface {
 
         // Type Constants
         const val TYPE_NONE = 0
-        @Deprecated("To be removed in API 12, Replace with TYPE_FOLDER constant")
-        const val TYPE_FLDR = 1
         const val TYPE_FOLDER = 1
         const val TYPE_TASK = 2
         const val TYPE_NOTE = 3
         const val TYPE_SHOPPING_LIST = 4
 
         // Priority Constants ----------------------------------------------------------------------
-        @Deprecated("To be removed in API 12")
-        const val default = 20
-        const val DEFAULT_PRIORITY = 33
+        const val DEFAULT_PRIORITY = 40
+        const val STARRED_PRIORITY = 100
+        const val HIGH_PRIORITY = 70
+        const val NORMAL_PRIORITY = 30
+        const val LOW_PRIORITY = 1
+        const val IGNORE_PRIORITY = 0
 
-        // Checkpoint Constants
-        const val CHECKPOINT_POSITION = "position"
-        const val CHECKPOINT_STATUS = "status"
-        const val CHECKPOINT_TEXT = "text"
-
-        // Status Constants
+        // Status Constants ------------------------------------------------------------------------
         const val STATUS_DONE = 10
     }
 
@@ -144,7 +140,10 @@ class Task(): PoolObjectInterface {
             }
         }
 
-        if (sort) if (type == TYPE_FOLDER) sortTasks()
+        if (sort) {
+            if (type == TYPE_FOLDER) sortTasks()
+            else sortTags()
+        }
     }
 
     constructor(parent: String, type: Int): this() {
@@ -178,7 +177,10 @@ class Task(): PoolObjectInterface {
         loadJSON(data)
         tags.sort()
 
-        if (sort) if (type == TYPE_FOLDER) sortTasks()
+        if (sort) {
+            if (type == TYPE_FOLDER) sortTasks()
+            else sortTags()
+        }
     }
 
     // Management Methods --------------------------------------------------------------------------
@@ -198,7 +200,10 @@ class Task(): PoolObjectInterface {
             }
         }
 
-        if (sort) if (type == TYPE_FOLDER) sortTasks()
+        if (sort) {
+            if (type == TYPE_FOLDER) sortTasks()
+            else sortTags()
+        }
 
         return this
     }
@@ -232,38 +237,48 @@ class Task(): PoolObjectInterface {
     }
 
     fun load(data: JSONObject, sort: Boolean = false): Task {
-        if (data.optInt(VERSION, -1) == -1) {
-            title = "Null Task Load Error"
-            note = "Error occurs when there is no Task to load"
-            return this
-        } else if (data.optInt(VERSION, -1) <= API.MANAGEMENT) {
-            filename = data.optString("filename")
-            loadJSON(data)
-            tags.sort()
+        when (data.optInt(VERSION, -1)){
+            -1 -> {
+                title = "Null Task Load Error"
+                note = "Error occurs when there is no Task to load"
+                return this
+            }
 
-            if (sort) if (type == TYPE_FOLDER) sortTasks()
+            API.SHRINKING -> {
+                filename = data.optString(FILENAME_12)
+                loadJSON(data)
+                tags.sort()
 
-            return this
-        } else {
-            filename = data.optString(FILENAME_12)
-            loadJSON(data)
-            tags.sort()
+                if (sort) {
+                    if (type == TYPE_FOLDER) sortTasks()
+                    else sortTags()
+                }
 
-            if (sort) if (type == TYPE_FOLDER) sortTasks()
+                return this
+            }
 
-            return this
+            else -> {
+                filename = data.optString("filename")
+                loadJSON(data)
+                tags.sort()
+
+                if (sort) {
+                    if (type == TYPE_FOLDER) sortTasks()
+                    else sortTags()
+                }
+
+                return this
+            }
         }
     }
 
     fun save(): Task {
         JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
-        tags.sort()
         return this
     }
 
     fun delete() {
-        val file = File(FileUtility.getApplicationDataDirectory(), filename)
-        file.delete()
+        File(FileUtility.getApplicationDataDirectory(), filename).delete()
     }
 
     fun search(search: String): Boolean {
@@ -276,7 +291,12 @@ class Task(): PoolObjectInterface {
     }
 
     override fun deconstruct() {
-
+        tags.clear()
+        tags.trimToSize()
+        children.clear()
+        children.trimToSize()
+        checkpoints.clear()
+        checkpoints.trimToSize()
     }
 
     // JSON Management Methods ---------------------------------------------------------------------
@@ -517,7 +537,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun getDateDueString(): String {
-        return if (dateDue == null) "No Date" else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
+        return if (dateDue == null) "No Date"
+               else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
                 dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
                 dateDue!!.get(Calendar.YEAR).toString()
     }
@@ -526,12 +547,33 @@ class Task(): PoolObjectInterface {
         return dateUpdated!!
     }
 
+    fun getDateUpdatedString(): String {
+        return if (dateUpdated == null) "No Date"
+               else (dateUpdated!!.get(Calendar.MONTH) + 1).toString() + "/" +
+                dateUpdated!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+                dateUpdated!!.get(Calendar.YEAR).toString()
+    }
+
     fun getDateArchived(): Calendar? {
         return dateArchived
     }
 
+    fun getDateArchivedString(): String {
+        return if (dateArchived == null) "No Date"
+        else (dateArchived!!.get(Calendar.MONTH) + 1).toString() + "/" +
+                dateArchived!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+                dateArchived!!.get(Calendar.YEAR).toString()
+    }
+
     fun getDateDeleted(): Calendar? {
         return dateDeleted
+    }
+
+    fun getDateDeletedString(): String {
+        return if (dateDeleted == null) "No Date"
+               else (dateDeleted!!.get(Calendar.MONTH) + 1).toString() + "/" +
+                dateDeleted!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+                dateDeleted!!.get(Calendar.YEAR).toString()
     }
 
     fun getTitle(): String {
@@ -556,6 +598,12 @@ class Task(): PoolObjectInterface {
 
     fun getChildren(): ArrayList<String> {
         return children
+    }
+
+    fun getChildrenTasks(): ArrayList<Task> {
+        val temp = ArrayList<Task>(children.size)
+        for (c in children) temp.add(TaskManager.taskPool.getPoolObject().load(c))
+        return temp
     }
 
     fun getCheckpoints(): ArrayList<Checkpoint> {
@@ -860,9 +908,9 @@ class TaskCreator: PoolObjectCreator<Task> {
 class Checkpoint(var id: Int, var text: String, var status: Boolean) {
     companion object {
         // Constants -------------------------------------------------------------------------------
-        private const val ID = "position"
-        private const val STATUS = "status"
-        private const val TEXT = "text"
+        const val ID = "position"
+        const val STATUS = "status"
+        const val TEXT = "text"
     }
 
     // Constructors --------------------------------------------------------------------------------

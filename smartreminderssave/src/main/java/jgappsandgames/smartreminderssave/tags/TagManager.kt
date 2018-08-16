@@ -71,10 +71,10 @@ class TagManager {
             }
 
             else {
-                val t = data.optJSONArray(TAGS)
+                val t = data.optJSONArray(TAGS_12)
                 tags = ArrayList(t.length())
                 for (i in 0 until t.length()) tags.add(t.optString(i))
-                meta = data.optJSONObject(META)
+                meta = data.optJSONObject(META_12)
             }
 
             tags.sort()

@@ -27,7 +27,8 @@ import kotlinx.android.synthetic.main.activity_date.date_previous
 import kotlinx.android.synthetic.main.activity_date.date_tasks
 
 // App
-import jgappsandgames.smartreminderslite.home.FirstRun
+import jgappsandgames.smartreminderslite.home.Settings2Activity
+import jgappsandgames.smartreminderslite.utility.FIRST_RUN
 import jgappsandgames.smartreminderslite.utility.Save
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
@@ -46,7 +47,7 @@ class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
         // First Run
         FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
+        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
         else MasterManager.load()
         weekActive = 0
 

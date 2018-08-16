@@ -12,7 +12,8 @@ import android.view.MenuItem
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.home.FirstRun
+import jgappsandgames.smartreminderslite.home.Settings2Activity
+import jgappsandgames.smartreminderslite.utility.FIRST_RUN
 import jgappsandgames.smartreminderslite.utility.Save
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
@@ -42,7 +43,7 @@ class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
         // Handle Data
         FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
+        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
         else MasterManager.load()
     }
 

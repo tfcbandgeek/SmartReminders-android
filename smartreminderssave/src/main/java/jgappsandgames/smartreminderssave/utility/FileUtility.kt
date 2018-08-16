@@ -25,7 +25,7 @@ class FileUtility {
         private var external: File? = null
         private var cache: File? = null
 
-        // Check to See if it is the Apps First Run
+        // FileUtility Control Methods -------------------------------------------------------------
         @JvmStatic
         fun isFirstRun(): Boolean {
             if (data!!.isDirectory) return false
@@ -36,14 +36,13 @@ class FileUtility {
             return true
         }
 
-        // Load File Paths
         @JvmStatic
         fun loadFilePaths(context: Context) {
             data = File(context.filesDir, path)
             cache = File(context.cacheDir, path)
         }
 
-        // Get The Directory Where the Data should be stored
+        // FileUtilityDirectory Getters ------------------------------------------------------------
         @JvmStatic
         fun getApplicationDataDirectory(): File {
             // Create File Object
@@ -88,7 +87,6 @@ class FileUtility {
             return external!!
         }
 
-        // Get The Internal Cache Directory
         @JvmStatic
         fun getApplicationCacheDirectory(): File {
             // Create Directory
@@ -98,6 +96,7 @@ class FileUtility {
             return cache!!
         }
 
+        // FileUtility Move Methods ----------------------------------------------------------------
         @JvmStatic
         fun moveFolder(input: File, out: File) {
             out.deleteRecursively()

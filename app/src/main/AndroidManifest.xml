@@ -47,5 +47,6 @@
         <activity android:name=".sort.DayActivity"/>
         <activity android:name=".sort.WeekActivity"/>
         <activity android:name=".sort.MonthActivity"/>
+        <activity android:name=".home.Settings2Activity" />
     </application>
 </manifest>

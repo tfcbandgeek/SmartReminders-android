@@ -7,7 +7,8 @@
     android:paddingLeft="4sp"
     android:paddingRight="4sp"
     android:paddingTop="4sp"
-    android:paddingBottom="4sp">
+    android:paddingBottom="4sp"
+    android:id="@+id/settings_root">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,101 +19,76 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/list">
+            android:id="@+id/settings_list">
 
-            <!--User Data-->
-            <LinearLayout
+            <!--User Name-->
+            <EditText
+                android:id="@+id/settings_your_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/first_run_your_name_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/your_name"
-                    android:inputType="text" />
-            </LinearLayout>
+                android:hint="@string/your_name"
+                android:inputType="text" />
 
             <!--Device Name-->
-            <LinearLayout
+            <EditText
+                android:id="@+id/settings_device_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/first_run_device_name_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/device_name"
-                    android:inputType="text" />
-            </LinearLayout>
+                android:hint="@string/device_name"
+                android:inputType="text" />
 
             <!--Save Location-->
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text="@string/save_alert_message" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/save_alert_message" />
-
-                <Button
-                    android:id="@+id/first_run_app_directory_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/saving_to_app_directory" />
-            </LinearLayout>
-
-            <!--Settings-->
             <Button
-                android:id="@+id/first_run_settings_button"
+                android:id="@+id/settings_app_directory_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/settings" />
+                android:text="@string/saving_to_app_directory" />
 
-            <!--Tutorial-->
+            <!--Upgrade-->
             <Button
-                android:id="@+id/first_run_tutorial_button"
+                android:id="@+id/settings_upgrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tutorial" />
+                android:text="@string/upgrade_to_api_12_testing"/>
 
             <!--Shortcuts-->
             <Switch
-                android:id="@+id/first_run_tag_switch"
+                android:id="@+id/settings_tag_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tag_shortcut" />
 
             <Switch
-                android:id="@+id/first_run_priority_switch"
+                android:id="@+id/settings_priority_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/priority_shortcut" />
 
             <Switch
-                android:id="@+id/first_run_status_switch"
+                android:id="@+id/settings_status_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/status_shortcut" />
 
             <Switch
-                android:id="@+id/first_run_day_switch"
+                android:id="@+id/settings_day_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/day_shortcut" />
 
             <Switch
-                android:id="@+id/first_run_week_switch"
+                android:id="@+id/settings_week_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/week_shortcut" />
 
             <Switch
-                android:id="@+id/first_run_month_switch"
+                android:id="@+id/settings_month_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/month_shortcut" />
@@ -124,5 +100,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/con"
-        android:id="@+id/first_run_continue_button"/>
+        android:id="@+id/settings_continue_button"/>
 </LinearLayout>

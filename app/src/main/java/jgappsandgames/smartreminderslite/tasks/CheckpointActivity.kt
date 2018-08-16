@@ -18,6 +18,7 @@ import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.utility.CHECKPOINT
 import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
 import jgappsandgames.smartreminderslite.utility.RESPONSE_NONE
+import jgappsandgames.smartreminderssave.tasks.Checkpoint
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_continue
@@ -49,9 +50,9 @@ class CheckpointActivity:  Activity(), TextWatcher {
         try {
             val data = JSONObject(intent.getStringExtra(CHECKPOINT))
 
-            position = data.getInt(Task.CHECKPOINT_POSITION)
-            status = data.getBoolean(Task.CHECKPOINT_STATUS)
-            text = data.getString(Task.CHECKPOINT_TEXT)
+            position = data.getInt(Checkpoint.ID)
+            status = data.getBoolean(Checkpoint.STATUS)
+            text = data.getString(Checkpoint.TEXT)
         } catch (e: JSONException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {
@@ -93,9 +94,9 @@ class CheckpointActivity:  Activity(), TextWatcher {
         val r = JSONObject()
 
         try {
-            r.put(Task.CHECKPOINT_POSITION, position)
-            r.put(Task.CHECKPOINT_STATUS, status)
-            r.put(Task.CHECKPOINT_TEXT, text)
+            r.put(Checkpoint.ID, position)
+            r.put(Checkpoint.STATUS, status)
+            r.put(Checkpoint.TEXT, text)
 
             setResult(RESPONSE_CHANGE, Intent().putExtra(CHECKPOINT, r.toString()))
         } catch (e: JSONException) {

@@ -33,6 +33,7 @@ import jgappsandgames.smartreminderslite.sort.PriorityActivity
 import jgappsandgames.smartreminderslite.sort.StatusActivity
 import jgappsandgames.smartreminderslite.sort.TagActivity
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
+import jgappsandgames.smartreminderslite.utility.FIRST_RUN
 import jgappsandgames.smartreminderslite.utility.Save
 import jgappsandgames.smartreminderslite.utility.TASK_NAME
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
@@ -67,7 +68,7 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
         // Handle the Data
         FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, FirstRun::class.java))
+        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
         else MasterManager.load()
 
         // Set Click Listeners
