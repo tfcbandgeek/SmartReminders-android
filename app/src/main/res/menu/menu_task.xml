@@ -14,4 +14,9 @@
         android:title="@string/close"
         android:showAsAction="always"
         android:id="@+id/close"/>
+
+    <item
+        android:title="More"
+        android:showAsAction="never"
+        android:id="@+id/more"/>
 </menu>

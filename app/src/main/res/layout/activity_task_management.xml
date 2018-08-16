@@ -9,8 +9,8 @@
     android:paddingTop="4sp"
     android:paddingBottom="4sp">
 
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/coming_soon"/>
+        android:id="@+id/qr"/>
 </LinearLayout>

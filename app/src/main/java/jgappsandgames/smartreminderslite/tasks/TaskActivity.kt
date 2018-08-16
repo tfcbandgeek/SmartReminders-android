@@ -310,7 +310,12 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return onOptionsItemSelected(this, item!!, object: Save {
+        if (item!!.itemId == R.id.more) {
+            startActivity(Intent(this, TaskManagementActivity::class.java).putExtra(TASK_NAME, task.getFilename()))
+            return true
+        }
+
+        return onOptionsItemSelected(this, item, object: Save {
             override fun save() {
                 this@TaskActivity.save()
             }

@@ -368,8 +368,7 @@ class Task(): PoolObjectInterface {
             if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
 
             // API 11
-            meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
-            else JSONObject()
+            meta = data.optJSONObject(META_12)
 
             // API 12
             backgroundColor = data.optInt(BACKGROUND_COLOR_12, 0)
@@ -434,15 +433,15 @@ class Task(): PoolObjectInterface {
 
                 val t = JSONArray()
                 if (tags.size != 0) for (tag in tags) t.put(tag)
-                data.put(TAGS, t)
+                data.put(TAGS_12, t)
 
                 val c = JSONArray()
                 if (children.size != 0) for (child in children) c.put(child)
-                data.put(CHILDREN, c)
+                data.put(CHILDREN_12, c)
 
                 val p = JSONArray()
                 if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
-                data.put(CHECKPOINTS, p)
+                data.put(CHECKPOINTS_12, p)
 
                 data.put(FOREGROUND_COLOR_12, foregroundColor)
                 data.put(BACKGROUND_COLOR_12, backgroundColor)
@@ -480,7 +479,7 @@ class Task(): PoolObjectInterface {
 
             val t = JSONArray()
             if (tags.size != 0) for (tag in tags) t.put(tag)
-            data.put(TAGS, t)
+            data.put(TAGS_12, t)
 
             val c = JSONArray()
             if (children.size != 0) {
@@ -490,11 +489,11 @@ class Task(): PoolObjectInterface {
                     TaskManager.taskPool.returnPoolObject(a)
                 }
             }
-            data.put(CHILDREN, c)
+            data.put(CHILDREN_12, c)
 
             val p = JSONArray()
             if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
-            data.put(CHECKPOINTS, p)
+            data.put(CHECKPOINTS_12, p)
 
             data.put(FOREGROUND_COLOR_12, foregroundColor)
             data.put(BACKGROUND_COLOR_12, backgroundColor)
