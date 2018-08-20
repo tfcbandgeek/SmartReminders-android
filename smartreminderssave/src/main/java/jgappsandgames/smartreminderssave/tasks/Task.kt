@@ -507,6 +507,10 @@ class Task(): PoolObjectInterface {
     }
 
     // Getters -------------------------------------------------------------------------------------
+    fun getVersion(): Int {
+        return version
+    }
+
     fun getFilename(): String {
         return filename
     }
