@@ -57,6 +57,7 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import org.jetbrains.anko.toast
 
 /**
  * TaskActivity
@@ -311,7 +312,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == R.id.more) {
-            startActivity(Intent(this, TaskManagementActivity::class.java).putExtra(TASK_NAME, task.getFilename()))
+            toast("Coming Very Soon")
+            //startActivity(Intent(this, TaskManagementActivity::class.java).putExtra(TASK_NAME, task.getFilename()))
             return true
         }
 

@@ -31,7 +31,7 @@ import java.io.FileOutputStream
  * Created by joshua on 12/16/2017.\
  */
 class TaskManagementActivity: Activity() {
-    var view = 0
+    /**var view = 0
     var max = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -341,6 +341,94 @@ class TaskManagementActivity: Activity() {
             }
         }
     }
+
+    // QR Code Reading -----------------------------------------------------------------------------
+    fun readQRCode(): JSONObject {
+
+    }
+
+    fun readQRCodes(): ImportBuilder {
+        val first = readQRCode()
+        val time = first.optLong("a", -1)
+        val version = first.optInt("b", -1)
+        val max = first.optInt("c", -1)
+        val current = first.optInt("d", -1)
+        val data = ArrayList<JSONObject>()
+        data.add(first)
+
+        if (time == -1L || version == -1 || max == -1 || current == -1) throw InvalidTaskQR("First Task is not in Format")
+        val builder = ImportBuilder(time, version, max, data, (max > 1))
+        if (max == 1) return builder
+
+        while (true) {
+            val scan = readQRCode()
+            val timeStamp = scan.optLong("a", -1)
+            val versionA = scan.optInt("b", -1)
+            val maxA = scan.optInt("c", -1)
+            val currentA = scan.optInt("d", -1)
+
+            if (timeStamp == builder.timeStamp && versionA == builder.version && maxA == builder.max && !builder.hasTask(currentA)) {
+                builder.data.add(scan)
+                if (builder.data.size == builder.max) {
+                    builder.complete = true
+                    return builder
+                }
+            }
+        }
+    }**/
 }
 
+/**class InvalidTaskQR(message: String): Exception(message)
+
 data class QRCode(var timeStamp: Long, var version: Int, var files: ArrayList<String>)
+
+class ImportBuilder(var timeStamp: Long, var version: Int, var max: Int, var data: ArrayList<JSONObject>, var complete: Boolean) {
+    var import: ArrayList<String> = ArrayList()
+    var duplicates = ArrayList<Task>()
+    var task: Task = TaskManager.taskPool.getPoolObject()
+
+    fun hasTask(c: Int): Boolean {
+        for (o in data) {
+            if (o.optInt("d", -1) == c) return true
+        }
+
+        return false
+    }
+
+    fun generateTask(): ImportBuilder {
+        if (complete) {
+            val builder = StringBuilder()
+
+            for (i in 0 until max) {
+                for (j in data) if (j.optInt("d", -1) == i) builder.append(j)
+            }
+
+            task.load(JSONObject(builder.toString()))
+
+            val unChecked = ArrayList<Task>()
+            unChecked.add(task)
+
+            while (unChecked.size != 0) {
+                import.add(unChecked[0].getFilename())
+                if (TaskManager.getHome().contains(unChecked[0].getFilename())) duplicates.add(unChecked[0])
+                if (unChecked[0].getType() == Task.TYPE_FOLDER) {
+                    for (temp in unChecked[0].getChildren()) {
+
+                    }
+                }
+            }
+        }
+    }
+
+    fun checkConflicts(): ArrayList<String> {
+
+    }
+
+    fun handleConflict(original: String, after: String) {
+
+    }
+
+    fun addTask(): Task {
+
+    }
+}**/
