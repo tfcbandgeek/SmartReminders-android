@@ -100,23 +100,8 @@ class DateManager {
             return getWeekCount() * 7
         }
 
-        @Deprecated("Soon to be Removed")
         @JvmStatic
-        fun getToday(): Day {
-            return getWeek(0).getDay(Calendar.getInstance())
-        }
-
-        @Deprecated("Will Soon Return the Day Object (12)")
-        @JvmStatic
-        fun getDay(date_active: Calendar): ArrayList<Task> {
-            if (date_active.before(getWeek(0).getStart())) return ArrayList()
-            for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
-
-            return ArrayList()
-        }
-
-        @JvmStatic
-        fun getDayObject(date_active: Calendar): Day {
+        fun getDay(date_active: Calendar): Day {
             if (date_active.before(getWeek(0).getStart())) return Day(date_active)
             for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
 

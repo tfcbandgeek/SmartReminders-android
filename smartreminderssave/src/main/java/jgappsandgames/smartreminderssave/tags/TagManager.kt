@@ -37,10 +37,8 @@ class TagManager {
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0
-        @JvmField
-        var meta: JSONObject = JSONObject()
-        @JvmField
-        var tags: ArrayList<String> = ArrayList()
+        private var meta: JSONObject = JSONObject()
+        private var tags: ArrayList<String> = ArrayList()
 
         // Management Methods ----------------------------------------------------------------------
         @JvmStatic
@@ -116,6 +114,11 @@ class TagManager {
         }
 
         // Tag Management Methods ------------------------------------------------------------------
+        @JvmStatic
+        fun getTags(): ArrayList<String> {
+            return tags
+        }
+
         @JvmStatic
         fun addTag(tag: String): Boolean {
             // Check to See if the Tag is equal to ""

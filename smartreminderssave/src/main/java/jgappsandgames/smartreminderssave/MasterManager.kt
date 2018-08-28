@@ -19,11 +19,6 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  */
 class MasterManager {
     companion object {
-        /**
-         * Create
-         *
-         * Called to Possibly load the Log System, And Create the Application Data
-         */
         @JvmStatic
         fun create() {
             SettingsManager.create()
@@ -34,11 +29,6 @@ class MasterManager {
             save()
         }
 
-        /**
-         * Load
-         *
-         * Called to Possibly load the Log System, And Load the Application Data
-         */
         @JvmStatic
         fun load() {
             SettingsManager.load()
@@ -50,11 +40,6 @@ class MasterManager {
             StatusManager.create()
         }
 
-        /**
-         * Save
-         *
-         * Called to Save the Application Data
-         */
         @JvmStatic
         fun save() {
             SettingsManager.save()
@@ -63,21 +48,11 @@ class MasterManager {
             ThemeManager.save()
         }
 
-        /**
-         * ClearSave
-         *
-         * Called to Clear All of the Save Files That Are No Longer Connected
-         */
         @JvmStatic
         fun cleanSave() {
 
         }
 
-        /**
-         * CleanCache
-         *
-         * Called to Clear the Entire Cache Directory, Then Reset the Log File
-         */
         @JvmStatic
         fun cleanCache() {
             FileUtility.getApplicationCacheDirectory().deleteRecursively()

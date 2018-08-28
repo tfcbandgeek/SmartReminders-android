@@ -38,6 +38,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     private var position: Int = 3
 
     // Adapters ------------------------------------------------------------------------------------
+    private var folder: BaseAdapter? = null
     private var ignore: BaseAdapter? = null
     private var low: BaseAdapter? = null
     private var normal: BaseAdapter? = null
@@ -71,6 +72,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         PriorityManager.create()
 
         // Reset Adapters
+        folder = null
         ignore = null
         low = null
         normal = null
@@ -108,9 +110,18 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     // Private Class Methods -----------------------------------------------------------------------
     private fun setTitle() {
         when (position) {
+            0 -> {
+                title = "Folders"
+                priority_down.text = "Low"
+                priority_up.setText(R.string.low)
+                if (ignore == null) ignore = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getIgnored()), "")
+                priority_tasks.adapter = ignore
+                return
+            }
+
             1 -> {
                 title = getString(R.string.ignore)
-                priority_down.text = ""
+                priority_down.text = "Folders"
                 priority_up.setText(R.string.low)
                 if (ignore == null) ignore = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getIgnored()), "")
                 priority_tasks.adapter = ignore

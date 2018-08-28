@@ -29,11 +29,11 @@ class TagAdapter(private var activity: Activity, private var switcher: TagSwitch
         if (selected) {
             for (tag in _tags) {
                 if (tag.toLowerCase().contains(search.toLowerCase())) {
-                    if (TagManager.tags.contains(tag)) tags.add(tag)
+                    if (TagManager.getTags().contains(tag)) tags.add(tag)
                 }
             }
         } else {
-            for (tag in TagManager.tags) {
+            for (tag in TagManager.getTags()) {
                 if (tag.toLowerCase().contains(search.toLowerCase())) {
                     if (!_tags.contains(tag)) {
                         tags.add(tag)
