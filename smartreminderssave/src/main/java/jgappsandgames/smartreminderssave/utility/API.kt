@@ -19,7 +19,7 @@ class API {
         const val SHRINKING_INFO = "Single Character Keys for Save File"
 
         // Encryption (1/1/19*)
-        const val encryption = 13
+        const val ENCRYPTION = 13
         const val ENCRYPTION_INFO = "Encrypting data to make it secure"
     }
 }
