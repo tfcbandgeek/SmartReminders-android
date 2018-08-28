@@ -37,7 +37,7 @@ fun upgrade(version: Int) {
 
 // Getters -----------------------------------------------------------------------------------------
 fun getHome(): ArrayList<String> {
-    
+
 }
 
 fun getAll(): ArrayList<String> {

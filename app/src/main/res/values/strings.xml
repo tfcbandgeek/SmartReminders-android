@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Smart Reminders Lite Alpha</string>
+    <string name="app_name">Smart Reminders Lite</string>
     <string name="version_string">18.09.0</string>
-    <string name="api_string">12.1.0</string>
+    <string name="api_string">12.1.1</string>
 
     <string name="_3rd_party_libraries_used_in_this_app">3rd Party Libraries Used in this App</string>
 
@@ -39,8 +39,8 @@
     <string name="edit">Edit</string>
     <string name="external">External</string>
 
-    <string name="fab">Floating Action Button 2.1.0</string>
-    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/releases/tag/p2.1.0</string>
+    <string name="fab">Floating Action Button 2.1.1</string>
+    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/releases/tag/p2.1.1</string>
 
     <string name="high">High</string>
     <string name="high_priority">"High Priority"</string>

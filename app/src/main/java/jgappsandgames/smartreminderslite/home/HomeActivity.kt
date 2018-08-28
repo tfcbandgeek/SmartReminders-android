@@ -15,12 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 
 // Anko
-import org.jetbrains.anko.alert
-import org.jetbrains.anko.button
-import org.jetbrains.anko.customView
-import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.verticalLayout
-import org.jetbrains.anko.wrapContent
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 // App
@@ -46,13 +40,14 @@ import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import kotlinx.android.synthetic.main.activity_home.*
+import org.jetbrains.anko.*
 
 /**
  * HomeActivity
  * Created by joshua on 12/13/2017.
  */
 class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
-    var fuckYou: DialogInterface? = null
+    private var alert: DialogInterface? = null
 
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,7 +85,7 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         }
 
         home_bottom_bar_more.setOnClickListener {
-            alert {
+            alert = alert {
                 title = this@HomeActivity.getString(R.string.sort_options)
 
                 customView {
@@ -156,7 +151,7 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
 
         try {
-            fuckYou?.dismiss()
+            alert?.dismiss()
         } catch(e: Exception) {
         }
     }
