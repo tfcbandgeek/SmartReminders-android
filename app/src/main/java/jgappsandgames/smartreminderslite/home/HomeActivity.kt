@@ -39,19 +39,13 @@ import jgappsandgames.smartreminderslite.utility.TASK_NAME
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_home.home_add_folder
-import kotlinx.android.synthetic.main.activity_home.home_add_task
-import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_more
-import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_search
-import kotlinx.android.synthetic.main.activity_home.home_bottom_bar_search_text
-import kotlinx.android.synthetic.main.activity_home.home_fab
-import kotlinx.android.synthetic.main.activity_home.home_tasks_list
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
+import kotlinx.android.synthetic.main.activity_home.*
 
 /**
  * HomeActivity
@@ -82,6 +76,12 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
             home_fab.close(true)
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
+        }
+
+        home_add_note.setOnClickListener {
+            home_fab.close(true)
+            startActivity(Intent(this, TaskActivity::class.java)
+                    .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_NOTE).save(), true).getFilename()))
         }
 
         home_bottom_bar_search.setOnClickListener {

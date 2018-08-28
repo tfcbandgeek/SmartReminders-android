@@ -34,12 +34,12 @@ class TaskManager {
         private const val ARCHIVED = "archived"
         private const val DELETED = "deleted"
 
-        private const val VERSION_12 = "version"
-        private const val META_12 = "meta"
-        private const val HOME_12 = "home"
-        private const val TASKS_12 = "tasks"
-        private const val ARCHIVED_12 = "archived"
-        private const val DELETED_12 = "deleted"
+        private const val VERSION_12 = "a"
+        private const val META_12 = "b"
+        private const val HOME_12 = "c"
+        private const val TASKS_12 = "d"
+        private const val ARCHIVED_12 = "e"
+        private const val DELETED_12 = "f"
 
         // Pools -----------------------------------------------------------------------------------
         val taskPool = Pool(maxSize = 100, minSize = 20, generator = TaskCreator())

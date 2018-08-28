@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Title Bar-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4sp"
+        android:paddingRight="4sp"
+        android:paddingTop="4sp"
+        android:id="@+id/title"
+        android:hint="@string/title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences" />
+
+    <!--Note Bar-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4sp"
+        android:paddingRight="4sp"
+        android:id="@+id/note"
+        android:hint="@string/note"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine" />
+
+    <!--Tag Bar-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4sp"
+        android:paddingRight="4sp"
+        android:id="@+id/tags"
+        android:text="@string/no_tags"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:padding="4sp"/>
+</LinearLayout>

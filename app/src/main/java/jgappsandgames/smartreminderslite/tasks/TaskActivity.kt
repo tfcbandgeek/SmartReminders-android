@@ -7,13 +7,9 @@ import java.util.GregorianCalendar
 // Android OS
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
-import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.text.Editable
 import android.text.TextWatcher
 
@@ -73,6 +69,9 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         private const val FOLDER_PORTRAIT = 11
         private const val FOLDER_LANDSCAPE = 12
         private const val FOLDER_MULTI = 13
+        private const val NOTE_PORTRAIT = 21
+        private const val NOTE_LANDSCAPE = 22
+        private const val NOTE_MULTI = 23
     }
 
     private var view = 0
@@ -89,6 +88,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
     private var fam: FloatingActionMenu? = null
     private var faf: FloatingActionButton? = null
     private var fat: FloatingActionButton? = null
+    private var fan: FloatingActionButton? = null
 
     // Data ----------------------------------------------------------------------------------------
     lateinit var task: Task
@@ -109,12 +109,14 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         // Set View Type
         view = if (type == Task.TYPE_TASK) TASK_PORTRAIT
-        else FOLDER_PORTRAIT
+        else if (type == Task.TYPE_FOLDER) FOLDER_PORTRAIT
+        else NOTE_PORTRAIT
 
         // Set Content View
         when (view) {
             TASK_PORTRAIT -> setContentView(R.layout.activity_task)
             FOLDER_PORTRAIT -> setContentView(R.layout.activity_folder)
+            NOTE_PORTRAIT -> setContentView(R.layout.activity_note)
             else -> throw RuntimeException("Invalid View Type")
         }
 
@@ -122,7 +124,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         title = findViewById(R.id.title)
         note = findViewById(R.id.note)
         tags = findViewById(R.id.tags)
-        list = findViewById(R.id.tasks)
+        if (type != Task.TYPE_NOTE) list = findViewById(R.id.tasks)
 
         // Set TextWatcher
         title.addTextChangedListener(this)
@@ -212,6 +214,23 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 startActivity(Intent(this, TaskActivity::class.java).putExtra(TASK_NAME, t.getFilename()))
             }
 
+            fan = findViewById(R.id.folder_add_note)
+            fan!!.setOnClickListener {
+                fam?.close(true)
+
+                // Create Note
+                val n = Task(task.getFilename(), Task.TYPE_NOTE)
+                n.save()
+
+                task.addChild(n.getFilename())
+                task.save()
+
+                TaskManager.getAll().add(n.getFilename())
+                TaskManager.save()
+
+                startActivity(Intent(this, TaskActivity::class.java).putExtra(TASK_NAME, n.getFilename()))
+            }
+
             folder_bottom_bar_search.setOnClickListener {
                 if (folder_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
                 else searchFolderVisibility()
@@ -246,7 +265,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
             priority!!.max = 100
             priority!!.progress = task.getPriority()
 
-            task.sortTags()
+            task.sortCheckpoints()
             list.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
         }
 
@@ -487,9 +506,9 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         }
     }
 
-    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, private val checkpoints: ArrayList<Checkpoint>):
+    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, checkpoints: ArrayList<Checkpoint>):
             BaseAdapter() {
-        val temp = ArrayList<Checkpoint>()
+        private val temp = ArrayList<Checkpoint>()
         // Constructor -----------------------------------------------------------------------------
         init {
             for (i in 0 until checkpoints.size) {
@@ -578,21 +597,7 @@ class CheckpointHolder(private val activity: TaskActivity, private val task: Str
 
     override fun onLongClick(view: View): Boolean {
         activity.deleteCheckpoint(checkpoint)
-
-        val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        try {
-            if (v != null && v.hasVibrator()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-                } else {
-                    @Suppress("DEPRECATION")
-                    v.vibrate(100)
-                }
-            }
-        } catch (n: NullPointerException) {
-            n.printStackTrace()
-        }
-
+        vibrate(activity)
         return true
     }
 }

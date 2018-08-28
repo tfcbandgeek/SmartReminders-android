@@ -25,9 +25,6 @@ import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_continue
 import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_status
 import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_text
 
-// Save
-import jgappsandgames.smartreminderssave.tasks.Task
-
 /**
  * CheckpointActivity
  * Created by joshua on 1/19/2018.

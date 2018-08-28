@@ -142,7 +142,7 @@ class Task(): PoolObjectInterface {
 
         if (sort) {
             if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
+            else sortCheckpoints()
         }
     }
 
@@ -179,7 +179,7 @@ class Task(): PoolObjectInterface {
 
         if (sort) {
             if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
+            else sortCheckpoints()
         }
     }
 
@@ -202,7 +202,7 @@ class Task(): PoolObjectInterface {
 
         if (sort) {
             if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
+            else sortCheckpoints()
         }
 
         return this
@@ -251,7 +251,7 @@ class Task(): PoolObjectInterface {
 
                 if (sort) {
                     if (type == TYPE_FOLDER) sortTasks()
-                    else sortTags()
+                    else sortCheckpoints()
                 }
 
                 return this
@@ -264,7 +264,7 @@ class Task(): PoolObjectInterface {
 
                 if (sort) {
                     if (type == TYPE_FOLDER) sortTasks()
-                    else sortTags()
+                    else sortCheckpoints()
                 }
 
                 return this
@@ -881,7 +881,7 @@ class Task(): PoolObjectInterface {
         for (c in completed) children.add(c.getFilename())
     }
 
-    fun sortTags() {
+    fun sortCheckpoints() {
         val c = ArrayList<Checkpoint>()
         val i = ArrayList<Checkpoint>()
 
@@ -893,6 +893,10 @@ class Task(): PoolObjectInterface {
         checkpoints.clear()
         checkpoints.addAll(i)
         checkpoints.addAll(c)
+    }
+
+    private fun sortTags() {
+        tags.sort()
     }
 }
 

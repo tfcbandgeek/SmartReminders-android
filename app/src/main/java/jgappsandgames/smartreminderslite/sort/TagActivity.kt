@@ -157,7 +157,7 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
                 }
 
                 return convertView!!
-            } else {
+            } else if (item.getType() == Task.TYPE_TASK) {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
                     task = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, convertView, item)
@@ -165,6 +165,17 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
                 } else {
                     task = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
                     task.updateViews(item)
+                }
+
+                return convertView!!
+            } else {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
+                    folder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, convertView, item)
+                    convertView.tag = folder
+                } else {
+                    folder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
+                    folder.updateViews(item)
                 }
 
                 return convertView!!
