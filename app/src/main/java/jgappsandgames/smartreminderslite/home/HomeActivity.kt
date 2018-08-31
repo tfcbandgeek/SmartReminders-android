@@ -4,6 +4,7 @@ package jgappsandgames.smartreminderslite.home
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,6 +14,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import jgappsandgames.smartreminderslite.BuildConfig
 
 // Anko
 import org.jetbrains.anko.sdk25.coroutines.onClick
@@ -36,6 +38,7 @@ import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
+import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
@@ -60,81 +63,37 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
         else MasterManager.load()
 
+        // Handle Info
+        if (SettingsManager.getLastVersionSplash() < BuildConfig.VERSION_CODE) {
+            SettingsManager.displayedSplash(BuildConfig.VERSION_CODE)
+            runStartDialog()
+        }
+
         // Set Click Listeners
-        home_add_task.setOnClickListener {
+        home_add_task.setOnClickListener { _ ->
             home_fab.close(true)
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true).getFilename()))
         }
 
-        home_add_folder.setOnClickListener {
+        home_add_folder.setOnClickListener { _ ->
             home_fab.close(true)
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
         }
 
-        home_add_note.setOnClickListener {
+        home_add_note.setOnClickListener { _ ->
             home_fab.close(true)
             startActivity(Intent(this, TaskActivity::class.java)
                     .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_NOTE).save(), true).getFilename()))
         }
 
-        home_bottom_bar_search.setOnClickListener {
+        home_bottom_bar_search.setOnClickListener { _ ->
             if (home_bottom_bar_search_text.visibility == View.VISIBLE) searchVisibility(false)
             else searchVisibility(true)
         }
 
-        home_bottom_bar_more.setOnClickListener {
-            alert = alert {
-                title = this@HomeActivity.getString(R.string.sort_options)
-
-                customView {
-                    verticalLayout {
-                        button {
-                            text = context.getString(R.string.sort_by_tags)
-                            onClick {
-                                startActivity(Intent(this@HomeActivity, TagActivity::class.java))
-                            }
-                        }.lparams(matchParent, wrapContent)
-
-                        button {
-                            text = context.getString(R.string.sort_by_status)
-                            onClick {
-                                startActivity(Intent(this@HomeActivity, StatusActivity::class.java))
-                            }
-                        }.lparams(matchParent, wrapContent)
-
-                        button {
-                            text = context.getString(R.string.sort_by_priority)
-                            onClick {
-                                startActivity(Intent(this@HomeActivity, PriorityActivity::class.java))
-                            }
-                        }.lparams(matchParent, wrapContent)
-
-                        button {
-                            text = context.getString(R.string.sort_by_days)
-                            onClick {
-                                startActivity(Intent(this@HomeActivity, DayActivity::class.java))
-                            }
-                        }.lparams(matchParent, wrapContent)
-
-                        button {
-                            text = context.getString(R.string.sort_by_week)
-                            onClick {
-                                startActivity(Intent(this@HomeActivity, WeekActivity::class.java))
-                            }
-                        }.lparams(matchParent, wrapContent)
-
-                        button {
-                            text = context.getString(R.string.sort_by_month)
-                            onClick {
-                                startActivity(Intent(this@HomeActivity, MonthActivity::class.java))
-                            }
-                        }.lparams(matchParent, wrapContent)
-                    }.layoutParams = ViewGroup.LayoutParams(matchParent, matchParent)
-                }
-            }.show()
-        }
+        home_bottom_bar_more.setOnClickListener { _ -> tagDialog() }
 
         home_bottom_bar_search_text.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -183,6 +142,76 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     // Auxiliary Methods ---------------------------------------------------------------------------
     fun save() {
         MasterManager.save()
+    }
+
+    // Dialog Methods ------------------------------------------------------------------------------
+    fun tagDialog() {
+        alert = alert {
+            title = this@HomeActivity.getString(R.string.sort_options)
+
+            customView {
+                verticalLayout {
+                    button {
+                        text = context.getString(R.string.sort_by_tags)
+                        onClick {
+                            startActivity(Intent(this@HomeActivity, TagActivity::class.java))
+                        }
+                    }.lparams(matchParent, wrapContent)
+
+                    button {
+                        text = context.getString(R.string.sort_by_status)
+                        onClick {
+                            startActivity(Intent(this@HomeActivity, StatusActivity::class.java))
+                        }
+                    }.lparams(matchParent, wrapContent)
+
+                    button {
+                        text = context.getString(R.string.sort_by_priority)
+                        onClick {
+                            startActivity(Intent(this@HomeActivity, PriorityActivity::class.java))
+                        }
+                    }.lparams(matchParent, wrapContent)
+
+                    button {
+                        text = context.getString(R.string.sort_by_days)
+                        onClick {
+                            startActivity(Intent(this@HomeActivity, DayActivity::class.java))
+                        }
+                    }.lparams(matchParent, wrapContent)
+
+                    button {
+                        text = context.getString(R.string.sort_by_week)
+                        onClick {
+                            startActivity(Intent(this@HomeActivity, WeekActivity::class.java))
+                        }
+                    }.lparams(matchParent, wrapContent)
+
+                    button {
+                        text = context.getString(R.string.sort_by_month)
+                        onClick {
+                            startActivity(Intent(this@HomeActivity, MonthActivity::class.java))
+                        }
+                    }.lparams(matchParent, wrapContent)
+                }.layoutParams = ViewGroup.LayoutParams(matchParent, matchParent)
+            }
+        }.show()
+    }
+
+    fun runStartDialog() {
+        alert {
+            title = "What is new in 18.09.1"
+
+            customView {
+                verticalLayout {
+                    textView("  - What's new Screen")
+                    textView("  - Reduced Download and install size")
+                    textView("  - Updated Save Defaults")
+                    textView("  - General Fixes")
+                }
+            }
+
+            okButton {  }
+        }.show()
     }
 
     // Search Methods ------------------------------------------------------------------------------

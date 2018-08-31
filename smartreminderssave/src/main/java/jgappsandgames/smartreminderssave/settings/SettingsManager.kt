@@ -354,8 +354,8 @@ class SettingsManager {
         }
 
         @JvmStatic
-        fun displayedSplash() {
-            last_version_splash = 11
+        fun displayedSplash(version: Int) {
+            last_version_splash = version
         }
     }
 }
