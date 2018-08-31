@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 12010102
-        versionName "12.1.1"
+        versionCode 12020000
+        versionName "12.2.0"
     }
 
     buildTypes {
@@ -28,8 +28,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
-    implementation project(":poolutilitykotlin-1_1_2")
 }
 repositories {
     mavenCentral()

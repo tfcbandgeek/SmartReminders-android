@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Smart Reminders Lite</string>
-    <string name="version_string">18.09.0</string>
-    <string name="api_string">12.1.1</string>
+    <string name="app_name">Smart Reminders Lite Alpha</string>
+    <string name="version_string">18.09.1</string>
+    <string name="api_string">12.2.0</string>
 
     <string name="_3rd_party_libraries_used_in_this_app">3rd Party Libraries Used in this App</string>
 
@@ -52,8 +52,8 @@
     <string name="incomplete_tasks">Incomplete Tasks [%1$d]</string>
     <string name="internal">Internal</string>
 
-    <string name="kotlin">Kotlin 1.2.60</string>
-    <string name="kotlin_path">https://github.com/JetBrains/kotlin/releases/tag/v1.2.60</string>
+    <string name="kotlin">Kotlin 1.2.61</string>
+    <string name="kotlin_path">https://github.com/JetBrains/kotlin/releases/tag/v1.2.61</string>
 
     <string name="low">Low</string>
     <string name="low_priority_default">"Low Priority (Default)"</string>

@@ -48,7 +48,7 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
                 else if (t.getTags().size != 0) {
                     if (t.getTagString().toLowerCase().contains(search.toLowerCase())) r.add(t.getFilename())
                 }
-                TaskManager.taskPool.returnPoolObject(t, false)
+                TaskManager.taskPool.returnPoolObject(t)
             }
 
             tasks = r
@@ -76,14 +76,14 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
     override fun getItemId(position: Int): Long {
         val t = getItem(position)
         val id = t.getID().toLong()
-        TaskManager.taskPool.returnPoolObject(t, false)
+        TaskManager.taskPool.returnPoolObject(t)
         return id
     }
 
     override fun getItemViewType(position: Int): Int {
         val t = getItem(position)
         val type = t.getType()
-        TaskManager.taskPool.returnPoolObject(t, false)
+        TaskManager.taskPool.returnPoolObject(t)
         return type
     }
 

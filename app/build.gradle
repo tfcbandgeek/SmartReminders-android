@@ -7,11 +7,11 @@ android {
     buildToolsVersion '28.0.2'
 
     defaultConfig {
-        applicationId "jgappsandgames.smartreminderslite"
+        applicationId "jgappsandgames.smartreminderslite.alpha"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 18090005
-        versionName "18.09.0"
+        versionCode 18090106
+        versionName "18.09.1"
     }
 
     buildTypes {
@@ -30,11 +30,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.journeyapps:zxing-android-embedded:$zxingembeded_version"
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
     implementation project(':smartreminderssave')
-    implementation project(':poolutilitykotlin-1_1_2')
     implementation project(':fab-2_1_1')
 }
 repositories {

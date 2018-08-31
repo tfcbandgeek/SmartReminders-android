@@ -10,20 +10,19 @@ import org.json.JSONException
 import org.json.JSONObject
 
 // PoolUtility
-import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
-import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 // Save
 import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
+import jgappsandgames.smartreminderssave.utility.pool.ComplexPool
 
 /**
  * Task
  * Created by joshua on 12/12/2017.
  */
-class Task(): PoolObjectInterface {
+class Task(): ComplexPool.PoolObject {
     companion object {
         // Constants -------------------------------------------------------------------------------
         private const val PARENT = "parent"
@@ -290,7 +289,7 @@ class Task(): PoolObjectInterface {
         }
     }
 
-    override fun deconstruct() {
+    override fun destroy() {
         tags.clear()
         tags.trimToSize()
         children.clear()
@@ -527,8 +526,8 @@ class Task(): PoolObjectInterface {
         return type
     }
 
-    override fun getID(): Int {
-        return taskID.toInt()
+    override fun getID(): Long {
+        return taskID
     }
 
     fun getDateCreated(): Calendar {
@@ -900,8 +899,8 @@ class Task(): PoolObjectInterface {
     }
 }
 
-class TaskCreator: PoolObjectCreator<Task> {
-    override fun generatePoolObject(): Task {
+class TaskCreator: ComplexPool.PoolFactory<Task> {
+    override fun createObject(id: Long): Task {
         return Task()
     }
 }

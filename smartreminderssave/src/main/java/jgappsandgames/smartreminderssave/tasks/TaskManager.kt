@@ -10,13 +10,13 @@ import org.json.JSONException
 import org.json.JSONObject
 
 // Pool Utility
-import jgappsandgames.me.poolutilitykotlin.Pool
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 // Save Library
 import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
+import jgappsandgames.smartreminderssave.utility.pool.ComplexPool
 
 /**
  * TaskManager
@@ -42,7 +42,7 @@ class TaskManager {
         private const val DELETED_12 = "f"
 
         // Pools -----------------------------------------------------------------------------------
-        val taskPool = Pool(maxSize = 100, minSize = 20, generator = TaskCreator())
+        val taskPool = ComplexPool<Task>(ComplexPool.PoolFactory {_ -> Task() }, 25, 25, 200, 25, 25)
 
         // Data ------------------------------------------------------------------------------------
         private var version: Int = 0
