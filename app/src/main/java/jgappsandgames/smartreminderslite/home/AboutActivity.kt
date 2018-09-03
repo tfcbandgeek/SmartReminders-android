@@ -58,7 +58,7 @@ class AboutActivity: Activity() {
                     }
 
                     val data = JSONObject(s.toString())
-                    if (data.optInt("alpha", 0) > BuildConfig.VERSION_CODE) {
+                    if (data.optInt("stable", 0) > BuildConfig.VERSION_CODE) {
                         runOnUiThread {
                             toast(R.string.update_found).show()
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/tfcbandgeek/SmartReminders-android/releases")))

@@ -82,8 +82,8 @@ class SettingsManager {
         @JvmStatic
         fun create() {
            if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
-           version = API.MANAGEMENT
-           use_version = 11
+           version = API.SHRINKING
+           use_version = API.SHRINKING
            user_name = ""
            device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT
            use_external_file = false

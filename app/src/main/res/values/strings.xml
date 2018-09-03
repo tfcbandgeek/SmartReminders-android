@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Smart Reminders Lite Alpha</string>
+    <string name="app_name">Smart Reminders Lite</string>
     <string name="version_string">18.09.1</string>
     <string name="api_string">12.2.0</string>
 
