@@ -3,6 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.2.61'
     ext.anko_version = '0.10.5'
+    ext.arrow_version = '0.7.3'
 
     repositories {
         jcenter()
@@ -10,7 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha07'
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha08'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

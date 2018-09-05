@@ -1,8 +1,10 @@
 package jgappsandgames.smartreminderssave.utility.pool;
 
-import android.util.Log;
-
+// Java
 import java.util.ArrayList;
+
+// Android OS
+import android.util.Log;
 
 public class ComplexPool<T extends ComplexPool.PoolObject> {
     // Data

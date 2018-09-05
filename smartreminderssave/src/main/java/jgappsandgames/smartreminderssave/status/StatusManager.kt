@@ -33,15 +33,11 @@ class StatusManager {
             val all = TaskManager.getAllTasks()
             for (temp in all) {
                 when (temp.getType()) {
-                    Task.TYPE_FOLDER -> {
-                        foldersList.add(temp)
-                    }
+                    Task.TYPE_FOLDER -> foldersList.add(temp)
 
                     Task.TYPE_TASK -> {
                         when (temp.getStatus()) {
-                            Task.STATUS_DONE -> {
-                                completedList.add(temp)
-                            }
+                            Task.STATUS_DONE -> completedList.add(temp)
 
                             0 -> {
                                 if (temp.getDateDue() != null) {

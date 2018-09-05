@@ -75,11 +75,8 @@ class ThemeManager {
             light = data.optInt(LIGHT, 1)
 
             // API 11
-            if (version >= API.RELEASE) {
-                meta = data.optJSONObject(META)
-            } else {
-                meta = JSONObject()
-            }
+            if (version >= API.RELEASE) meta = data.optJSONObject(META)
+            else meta = JSONObject()
         }
 
         @JvmStatic
