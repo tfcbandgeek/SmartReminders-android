@@ -29,6 +29,9 @@ import android.widget.TextView
 import com.github.clans.fab.FloatingActionButton
 import com.github.clans.fab.FloatingActionMenu
 
+// Anko
+import org.jetbrains.anko.toast
+
 // JSON
 import org.json.JSONArray
 import org.json.JSONException
@@ -53,7 +56,6 @@ import jgappsandgames.smartreminderssave.tasks.Checkpoint
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import org.jetbrains.anko.toast
 
 /**
  * TaskActivity

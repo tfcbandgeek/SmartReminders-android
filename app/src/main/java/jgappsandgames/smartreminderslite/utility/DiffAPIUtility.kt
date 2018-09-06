@@ -1,8 +1,11 @@
 package jgappsandgames.smartreminderslite.utility
 
+// Android OS
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
+
+// Anko
 import org.jetbrains.anko.vibrator
 
 fun vibrate(context: Context) {

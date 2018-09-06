@@ -15,9 +15,6 @@ import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.home.AboutActivity
 import jgappsandgames.smartreminderslite.home.HomeActivity
 import jgappsandgames.smartreminderslite.home.Settings2Activity
-import jgappsandgames.smartreminderslite.sort.DayActivity
-import jgappsandgames.smartreminderslite.sort.MonthActivity
-import jgappsandgames.smartreminderslite.sort.WeekActivity
 import jgappsandgames.smartreminderslite.sort.PriorityActivity
 import jgappsandgames.smartreminderslite.sort.StatusActivity
 import jgappsandgames.smartreminderslite.sort.TagActivity

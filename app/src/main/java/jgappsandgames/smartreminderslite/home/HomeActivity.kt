@@ -4,7 +4,6 @@ package jgappsandgames.smartreminderslite.home
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +16,7 @@ import android.view.ViewGroup
 import jgappsandgames.smartreminderslite.BuildConfig
 
 // Anko
+import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 
 // App
@@ -35,6 +35,7 @@ import jgappsandgames.smartreminderslite.utility.TASK_NAME
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
 
 // KotlinX
+import kotlinx.android.synthetic.main.activity_home.*
 
 // Save Library
 import jgappsandgames.smartreminderssave.MasterManager
@@ -42,8 +43,6 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
-import kotlinx.android.synthetic.main.activity_home.*
-import org.jetbrains.anko.*
 
 /**
  * HomeActivity

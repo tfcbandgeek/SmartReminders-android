@@ -23,9 +23,9 @@ import org.json.JSONObject
 // App
 import jgappsandgames.smartreminderslite.BuildConfig
 import jgappsandgames.smartreminderslite.R
-import kotlinx.android.synthetic.main.activity_about.*
 
 // KotlinX
+import kotlinx.android.synthetic.main.activity_about.*
 
 /**
  * AboutActivity
@@ -58,7 +58,7 @@ class AboutActivity: Activity() {
                     }
 
                     val data = JSONObject(s.toString())
-                    if (data.optInt("stable", 0) > BuildConfig.VERSION_CODE) {
+                    if (data.optInt(resources.getString(R.string.pull), 0) > BuildConfig.VERSION_CODE) {
                         runOnUiThread {
                             toast(R.string.update_found).show()
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/tfcbandgeek/SmartReminders-android/releases")))
