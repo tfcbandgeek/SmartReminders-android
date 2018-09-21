@@ -178,21 +178,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 fam?.close(true)
 
                 // Create Task
-                val t = Task(task.getFilename(), Task.TYPE_FOLDER)
-                t.save()
-
-                task.addChild(t.getFilename())
-                task.save()
-
-                TaskManager.getAll().add(t.getFilename())
-                TaskManager.save()
-
-                // Create Intent
-                val intent = Intent(this, TaskActivity::class.java)
-                intent.putExtra(TASK_NAME, t.getFilename())
-
-                // Start Activity
-                startActivity(intent)
+                startActivity(Intent(this, TaskActivity::class.java)
+                        .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
             }
 
             fat = findViewById(R.id.folder_add_task)
@@ -200,16 +187,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 fam?.close(true)
 
                 // Create Task
-                val t = Task(task.getFilename(), Task.TYPE_TASK)
-                t.save()
-
-                task.addChild(t.getFilename())
-                task.save()
-
-                TaskManager.getAll().add(t.getFilename())
-                TaskManager.save()
-
-                startActivity(Intent(this, TaskActivity::class.java).putExtra(TASK_NAME, t.getFilename()))
+                startActivity(Intent(this, TaskActivity::class.java)
+                        .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true).getFilename()))
             }
 
             folder_bottom_bar_search.setOnClickListener {
