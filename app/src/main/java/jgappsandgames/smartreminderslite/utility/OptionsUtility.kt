@@ -11,6 +11,7 @@ import org.jetbrains.anko.toast
 
 // App
 import jgappsandgames.smartreminderslite.R
+
 /**
  * OptionsUtility
  * Created by Joshua Garner on 6/25/2018.

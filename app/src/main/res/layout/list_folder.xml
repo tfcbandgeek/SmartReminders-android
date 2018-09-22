@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,12 +35,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6sp"
+            android:layout_marginLeft="6sp"
             android:id="@+id/note"
             android:textSize="12sp"
             android:layout_gravity="start"
             android:textAlignment="viewStart"
             android:textStyle="normal"
-            android:text="@string/note" />
+            android:text="@string/note"
+            tools:ignore="RtlHardcoded" />
     </LinearLayout>
 </LinearLayout>

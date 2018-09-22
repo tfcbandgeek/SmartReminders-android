@@ -19,6 +19,9 @@ import jgappsandgames.smartreminderslite.R
 // Save
 import jgappsandgames.smartreminderssave.tags.TagManager
 
+/**
+ * TagAdapter
+ */
 class TagAdapter(private var activity: Activity, private var switcher: TagSwitcher, _tags: ArrayList<String>,
                  private var selected: Boolean = false, search: String = ""): BaseAdapter() {
     // Data ----------------------------------------------------------------------------------------

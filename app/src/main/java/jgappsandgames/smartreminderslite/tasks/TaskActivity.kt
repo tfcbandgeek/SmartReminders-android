@@ -178,8 +178,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 fam?.close(true)
 
                 // Create Task
-                startActivity(Intent(this, TaskActivity::class.java)
-                        .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true).getFilename()))
+                startActivity(buildTaskIntent(this, IntentOptions(),
+                        TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
             }
 
             fat = findViewById(R.id.folder_add_task)
@@ -187,8 +187,8 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 fam?.close(true)
 
                 // Create Task
-                startActivity(Intent(this, TaskActivity::class.java)
-                        .putExtra(TASK_NAME, TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true).getFilename()))
+                startActivity(buildTaskIntent(this, IntentOptions(),
+                        TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
             }
 
             folder_bottom_bar_search.setOnClickListener {
@@ -466,9 +466,9 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         }
     }
 
-    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, private val checkpoints: ArrayList<Checkpoint>):
+    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, checkpoints: ArrayList<Checkpoint>):
             BaseAdapter() {
-        val temp = ArrayList<Checkpoint>()
+        private val temp = ArrayList<Checkpoint>()
         // Constructor -----------------------------------------------------------------------------
         init {
             for (i in 0 until checkpoints.size) {

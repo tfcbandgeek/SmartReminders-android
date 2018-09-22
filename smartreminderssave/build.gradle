@@ -6,9 +6,9 @@ android {
     buildToolsVersion '28.0.2'
 
     defaultConfig {
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 28
-        versionCode 12000110
+        versionCode 12000111
         versionName "12.0.1"
     }
 
@@ -29,7 +29,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation project(":poolutilitykotlin-1_1_2")
+    implementation project(":poolutilitykotlin-1_1_4")
 }
 repositories {
     mavenCentral()

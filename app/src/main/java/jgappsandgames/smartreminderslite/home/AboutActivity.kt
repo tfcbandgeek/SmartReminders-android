@@ -23,9 +23,9 @@ import org.json.JSONObject
 // App
 import jgappsandgames.smartreminderslite.BuildConfig
 import jgappsandgames.smartreminderslite.R
-import kotlinx.android.synthetic.main.activity_about.*
 
 // KotlinX
+import kotlinx.android.synthetic.main.activity_about.*
 
 /**
  * AboutActivity

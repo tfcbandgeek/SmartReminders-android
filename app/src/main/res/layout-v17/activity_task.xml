@@ -121,10 +121,10 @@
             app:fab_colorNormal="@android:color/holo_blue_dark"
             app:fab_colorPressed="@android:color/holo_blue_light"
             app:fab_colorRipple="@android:color/holo_blue_light"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:src="@android:drawable/ic_menu_add"
             android:id="@+id/task_add_checkpoint"
-            tools:ignore="RelativeOverlap,RtlHardcoded" />
+            tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 </LinearLayout>

@@ -16,6 +16,9 @@ import jgappsandgames.smartreminderssave.utility.API
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.alert
 
+/**
+ * Settings2Activity
+ */
 class Settings2Activity: Activity() {
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {

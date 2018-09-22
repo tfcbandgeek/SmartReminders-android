@@ -11,6 +11,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="4sp"
+        android:paddingRight="4sp"
+        android:paddingTop="4sp"
         android:id="@+id/title"
         android:hint="@string/title"
         android:textSize="16sp"
@@ -21,6 +24,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="4sp"
+        android:paddingRight="4sp"
         android:id="@+id/note"
         android:hint="@string/note"
         android:textSize="12sp"
@@ -31,44 +36,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="4sp"
+        android:paddingRight="4sp"
         android:id="@+id/tags"
         android:text="@string/no_tags"
         android:textSize="14sp"
         android:textStyle="italic"
         android:padding="4sp"/>
-
-    <!--Status Bar-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="4sp"
-        android:paddingRight="4sp">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/no_date"
-            android:id="@+id/date"
-            tools:ignore="ButtonStyle" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/status"
-            android:id="@+id/status"
-            tools:ignore="ButtonStyle" />
-    </LinearLayout>
-
-    <!--Priority Bar-->
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/priority"
-        android:paddingLeft="4sp"
-        android:paddingRight="4sp"/>
 
     <!--List View-->
     <RelativeLayout
@@ -84,18 +58,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:id="@+id/tasks"
-                android:paddingBottom="8sp"/>
+                android:paddingLeft="4sp"
+                android:paddingRight="4sp"
+                android:id="@+id/tasks"/>
 
             <LinearLayout
-                android:id="@+id/task_bottom_bar"
+                android:id="@+id/folder_bottom_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/background_dark"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/task_bottom_bar_search"
+                    android:id="@+id/folder_bottom_bar_search"
                     android:layout_width="32sp"
                     android:layout_height="32sp"
                     android:layout_marginStart="4sp"
@@ -108,23 +83,44 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/task_bottom_bar_search_text"
+                    android:id="@+id/folder_bottom_bar_search_text"
                     android:hint="@string/search"
                     android:visibility="invisible"
                     android:inputType="text" />
             </LinearLayout>
         </LinearLayout>
 
-        <com.github.clans.fab.FloatingActionButton
+        <com.github.clans.fab.FloatingActionMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fab_colorNormal="@android:color/holo_blue_dark"
-            app:fab_colorPressed="@android:color/holo_blue_light"
-            app:fab_colorRipple="@android:color/holo_blue_light"
-            android:layout_alignParentRight="true"
+            app:menu_colorNormal="@android:color/holo_blue_dark"
+            app:menu_colorRipple="@android:color/holo_blue_light"
+            app:menu_colorPressed="@android:color/holo_blue_light"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:src="@android:drawable/ic_menu_add"
-            android:id="@+id/task_add_checkpoint"
-            tools:ignore="RelativeOverlap,RtlHardcoded" />
+            android:id="@+id/folder_fab"
+            tools:ignore="RelativeOverlap">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@android:color/holo_blue_dark"
+                app:fab_colorPressed="@android:color/holo_blue_light"
+                app:fab_colorRipple="@android:color/holo_blue_light"
+                android:src="@android:drawable/ic_dialog_dialer"
+                app:fab_label="@string/add_folder"
+                android:id="@+id/folder_add_folder"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@android:color/holo_blue_dark"
+                app:fab_colorPressed="@android:color/holo_blue_light"
+                app:fab_colorRipple="@android:color/holo_blue_light"
+                android:src="@android:drawable/ic_menu_agenda"
+                app:fab_label="@string/add_task"
+                android:id="@+id/folder_add_task"/>
+        </com.github.clans.fab.FloatingActionMenu>
     </RelativeLayout>
 </LinearLayout>

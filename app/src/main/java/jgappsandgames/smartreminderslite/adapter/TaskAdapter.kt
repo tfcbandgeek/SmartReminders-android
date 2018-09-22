@@ -28,6 +28,9 @@ import jgappsandgames.smartreminderslite.utility.TASK_TYPE
 import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 
+/**
+ * TaskAdapter
+ */
 class TaskAdapter(private val activity: Activity, private val listener: OnTaskChangedListener,
                   var tasks: ArrayList<String>, search: String): BaseAdapter() {
     companion object {
