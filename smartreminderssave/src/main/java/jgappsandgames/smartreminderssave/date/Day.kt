@@ -17,7 +17,5 @@ class Day(val day: Calendar) {
         if (!tasks.contains(task)) tasks.add(task)
     }
 
-    fun removeTask(task: Task) {
-        tasks.remove(task)
-    }
+    fun removeTask(task: Task) = tasks.remove(task)
 }

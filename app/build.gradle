@@ -10,7 +10,7 @@ android {
         applicationId "jgappsandgames.smartreminderslite.alpha"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 18100002
+        versionCode 18100003
         versionName "18.10.0 Alpha 2"
     }
 
@@ -29,10 +29,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation "com.journeyapps:zxing-android-embedded:$zxingembeded_version"
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
 

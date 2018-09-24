@@ -13,19 +13,13 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 /**
  * MasterManager
  * Created by joshua on 12/10/2017.
- * Last Updated 4/11/2018.
+ * Last Updated 9/123/2018.
  *
  * Manager Class For the Entire Save System
  */
 class MasterManager {
     companion object {
-        /**
-         * Create
-         *
-         * Called to Possibly load the Log System, And Create the Application Data
-         */
-        @JvmStatic
-        fun create() {
+        @JvmStatic fun create() {
             SettingsManager.create()
             TaskManager.create()
             TagManager.create()
@@ -34,13 +28,7 @@ class MasterManager {
             save()
         }
 
-        /**
-         * Load
-         *
-         * Called to Possibly load the Log System, And Load the Application Data
-         */
-        @JvmStatic
-        fun load() {
+        @JvmStatic fun load() {
             SettingsManager.load()
             TaskManager.load()
             TagManager.load()
@@ -50,37 +38,15 @@ class MasterManager {
             StatusManager.create()
         }
 
-        /**
-         * Save
-         *
-         * Called to Save the Application Data
-         */
-        @JvmStatic
-        fun save() {
+        @JvmStatic fun save() {
             SettingsManager.save()
             TaskManager.save()
             TagManager.save()
             ThemeManager.save()
         }
 
-        /**
-         * ClearSave
-         *
-         * Called to Clear All of the Save Files That Are No Longer Connected
-         */
-        @JvmStatic
-        fun cleanSave() {
+        @JvmStatic fun cleanSave() {}
 
-        }
-
-        /**
-         * CleanCache
-         *
-         * Called to Clear the Entire Cache Directory, Then Reset the Log File
-         */
-        @JvmStatic
-        fun cleanCache() {
-            FileUtility.getApplicationCacheDirectory().deleteRecursively()
-        }
+        @JvmStatic fun cleanCache() = FileUtility.getApplicationCacheDirectory().deleteRecursively()
     }
 }

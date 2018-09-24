@@ -97,13 +97,9 @@ class Week(start: Calendar) {
     }
 
     // Getters -------------------------------------------------------------------------------------
-    fun getStart(): Calendar {
-        return sunday.day
-    }
+    fun getStart(): Calendar = sunday.day
 
-    fun getEnd(): Calendar {
-        return saturday.day
-    }
+    fun getEnd(): Calendar = saturday.day
 
     fun getDay(instance: Calendar): Day {
         when (instance.get(Calendar.DAY_OF_WEEK)) {

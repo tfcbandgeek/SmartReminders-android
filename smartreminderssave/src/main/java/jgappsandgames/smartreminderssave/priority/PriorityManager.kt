@@ -45,28 +45,16 @@ class PriorityManager {
         }
 
         // Getters ---------------------------------------------------------------------------------
-        fun getFolder(): ArrayList<Task> {
-            return folder_list
-        }
+        fun getFolder(): ArrayList<Task> = folder_list
 
-        fun getIgnored(): ArrayList<Task> {
-            return ignored_tasks
-        }
+        fun getIgnored(): ArrayList<Task> = ignored_tasks
 
-        fun getLow(): ArrayList<Task> {
-            return low_tasks
-        }
+        fun getLow(): ArrayList<Task> = low_tasks
 
-        fun getNormal(): ArrayList<Task> {
-            return normal_tasks
-        }
+        fun getNormal(): ArrayList<Task> = normal_tasks
 
-        fun getHigh(): ArrayList<Task> {
-            return high_priority
-        }
+        fun getHigh(): ArrayList<Task> = high_priority
 
-        fun getStared(): ArrayList<Task> {
-            return stared_priority
-        }
+        fun getStared(): ArrayList<Task> = stared_priority
     }
 }

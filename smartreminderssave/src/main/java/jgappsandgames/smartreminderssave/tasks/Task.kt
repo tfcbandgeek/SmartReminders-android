@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderssave.tasks
 
 // Java
 import java.io.File
-import java.util.Calendar
 
 // JSON
 import org.json.JSONArray
@@ -18,6 +17,7 @@ import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
+import java.util.*
 
 /**
  * Task
@@ -455,141 +455,71 @@ class Task(): PoolObjectInterface {
         return data
     }
 
-    fun toHeavyJSON(): JSONObject {
-        val data = JSONObject()
-        try {
-            data.put(FILENAME_12, filename)
-            data.put(PARENT_12, parent)
-            data.put(VERSION_12, API.SHRINKING)
-            data.put(VERSION, API.SHRINKING)
-            data.put(META_12, meta)
-            data.put(TYPE_12, type)
-            data.put(TASK_ID_12, taskID)
-            data.put(CAL_CREATE_12, JSONUtility.saveCalendar(dateCreate))
-            data.put(CAL_DUE_12, JSONUtility.saveCalendar(dateDue))
-            data.put(CAL_UPDATE_12, JSONUtility.saveCalendar(dateUpdated))
-            data.put(CAL_ARCHIVED_12, JSONUtility.saveCalendar(dateArchived))
-            data.put(CAL_DELETED_12, JSONUtility.saveCalendar(dateDeleted))
-            data.put(TITLE_12, title)
-            data.put(NOTE_12, note)
-            data.put(STATUS_12, status)
-            data.put(PRIORITY_12, priority)
-            data.put(COMPLETED_ON_TIME_12, completeOnTime)
-            data.put(COMPLETED_LATE_12, completeLate)
-
-            val t = JSONArray()
-            if (tags.size != 0) for (tag in tags) t.put(tag)
-            data.put(TAGS_12, t)
-
-            val c = JSONArray()
-            if (children.size != 0) {
-                for (child in children) {
-                    val a = TaskManager.taskPool.getPoolObject().load(child)
-                    c.put(a.toHeavyJSON())
-                    TaskManager.taskPool.returnPoolObject(a)
-                }
-            }
-            data.put(CHILDREN_12, c)
-
-            val p = JSONArray()
-            if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
-            data.put(CHECKPOINTS_12, p)
-
-            data.put(FOREGROUND_COLOR_12, foregroundColor)
-            data.put(BACKGROUND_COLOR_12, backgroundColor)
-        } catch (j: JSONException) {
-            j.printStackTrace()
-        } catch (n: NullPointerException) {
-            n.printStackTrace()
-        }
-
-        return data
-    }
-
     // Getters -------------------------------------------------------------------------------------
-    fun getVersion(): Int {
-        return version
-    }
+    fun getVersion(): Int = version
 
-    fun getFilename(): String {
-        return filename
-    }
+    fun getFilename(): String = filename
 
-    fun getParent(): String {
-        return parent
-    }
+    fun getParent(): String = parent
 
     fun getMeta(): JSONObject {
+        if (meta == null) meta = JSONObject()
         return meta!!
     }
 
-    fun getType(): Int {
-        return type
-    }
+    fun getType(): Int = type
 
-    override fun getID(): Int {
-        return taskID.toInt()
-    }
+    override fun getID(): Int = taskID.toInt()
 
     fun getDateCreated(): Calendar {
+        if (dateCreate == null) {
+            dateCreate = Calendar.getInstance()
+            dateCreate!!.timeInMillis = taskID
+        }
+
         return dateCreate!!
     }
 
-    fun getDateDue(): Calendar? {
-        return dateDue
-    }
+    fun getDateDue(): Calendar? = dateDue
 
-    fun getDateDueString(): String {
-        return if (dateDue == null) "No Date"
-               else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
-                dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-                dateDue!!.get(Calendar.YEAR).toString()
-    }
+    fun getDateDueString(): String = if (dateDue == null) "No Date"
+    else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
+            dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+            dateDue!!.get(Calendar.YEAR).toString()
 
     fun getDateUpdated(): Calendar {
+        if (dateUpdated == null) {
+            dateUpdated = Calendar.getInstance()
+            dateUpdated!!.timeInMillis = taskID
+        }
+
         return dateUpdated!!
     }
 
-    fun getDateUpdatedString(): String {
-        return if (dateUpdated == null) "No Date"
-               else (dateUpdated!!.get(Calendar.MONTH) + 1).toString() + "/" +
-                dateUpdated!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-                dateUpdated!!.get(Calendar.YEAR).toString()
-    }
+    fun getDateUpdatedString(): String = if (dateUpdated == null) "No Date"
+    else (dateUpdated!!.get(Calendar.MONTH) + 1).toString() + "/" +
+            dateUpdated!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+            dateUpdated!!.get(Calendar.YEAR).toString()
 
-    fun getDateArchived(): Calendar? {
-        return dateArchived
-    }
+    fun getDateArchived(): Calendar? = dateArchived
 
-    fun getDateArchivedString(): String {
-        return if (dateArchived == null) "No Date"
-        else (dateArchived!!.get(Calendar.MONTH) + 1).toString() + "/" +
-                dateArchived!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-                dateArchived!!.get(Calendar.YEAR).toString()
-    }
+    fun getDateArchivedString(): String = if (dateArchived == null) "No Date"
+    else (dateArchived!!.get(Calendar.MONTH) + 1).toString() + "/" +
+            dateArchived!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+            dateArchived!!.get(Calendar.YEAR).toString()
 
-    fun getDateDeleted(): Calendar? {
-        return dateDeleted
-    }
+    fun getDateDeleted(): Calendar? = dateDeleted
 
-    fun getDateDeletedString(): String {
-        return if (dateDeleted == null) "No Date"
-               else (dateDeleted!!.get(Calendar.MONTH) + 1).toString() + "/" +
-                dateDeleted!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-                dateDeleted!!.get(Calendar.YEAR).toString()
-    }
+    fun getDateDeletedString(): String = if (dateDeleted == null) "No Date"
+    else (dateDeleted!!.get(Calendar.MONTH) + 1).toString() + "/" +
+            dateDeleted!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+            dateDeleted!!.get(Calendar.YEAR).toString()
 
-    fun getTitle(): String {
-        return title
-    }
+    fun getTitle(): String = title
 
-    fun getNote(): String {
-        return note
-    }
+    fun getNote(): String = note
 
-    fun getTags(): ArrayList<String> {
-        return tags
-    }
+    fun getTags(): ArrayList<String> = tags
 
     fun getTagString(): String {
         if (tags.isEmpty()) return "No Tags Selected"
@@ -599,9 +529,7 @@ class Task(): PoolObjectInterface {
         return builder.toString()
     }
 
-    fun getChildren(): ArrayList<String> {
-        return children
-    }
+    fun getChildren(): ArrayList<String> = children
 
     fun getChildrenTasks(): ArrayList<Task> {
         val temp = ArrayList<Task>(children.size)
@@ -609,33 +537,19 @@ class Task(): PoolObjectInterface {
         return temp
     }
 
-    fun getCheckpoints(): ArrayList<Checkpoint> {
-        return checkpoints
-    }
+    fun getCheckpoints(): ArrayList<Checkpoint> = checkpoints
 
-    fun getStatus(): Int {
-        return status
-    }
+    fun getStatus(): Int = status
 
-    fun isCompleted(): Boolean {
-        return status == STATUS_DONE
-    }
+    fun isCompleted(): Boolean = status == STATUS_DONE
 
-    fun getStatusString(): String {
-        return if (isCompleted()) "Completed" else "Incomplete"
-    }
+    fun getStatusString(): String = if (isCompleted()) "Completed" else "Incomplete"
 
-    fun getPriority(): Int {
-        return priority
-    }
+    fun getPriority(): Int = priority
 
-    fun onTime(): Boolean {
-        return completeOnTime
-    }
+    fun onTime(): Boolean = completeOnTime
 
-    fun late(): Boolean {
-        return completeLate
-    }
+    fun late(): Boolean = completeLate
 
     // Setters -------------------------------------------------------------------------------------
     fun setDateDue(calendar: Calendar?): Task {
@@ -825,9 +739,7 @@ class Task(): PoolObjectInterface {
     }
 
     // To Methods ----------------------------------------------------------------------------------
-    override fun toString(): String {
-        return toJSON().toString()
-    }
+    override fun toString(): String = toJSON().toString()
 
     // Private Class Methods -----------------------------------------------------------------------
     private fun sortTasks() {
@@ -897,9 +809,7 @@ class Task(): PoolObjectInterface {
 }
 
 class TaskCreator: PoolObjectCreator<Task> {
-    override fun generatePoolObject(): Task {
-        return Task()
-    }
+    override fun generatePoolObject(): Task = Task()
 }
 
 /**
@@ -937,7 +847,5 @@ class Checkpoint(var id: Int, var text: String, var status: Boolean) {
     }
 
     // String Method -------------------------------------------------------------------------------
-    override fun toString(): String {
-        return toJSON()!!.toString()
-    }
+    override fun toString(): String = toJSON()!!.toString()
 }

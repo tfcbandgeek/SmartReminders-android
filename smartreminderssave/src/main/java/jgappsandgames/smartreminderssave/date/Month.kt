@@ -91,13 +91,9 @@ class Month(start: Calendar) {
         return null
     }
 
-    fun getStart(): Calendar {
-        return start
-    }
+    fun getStart(): Calendar = start
 
-    fun getEnd(): Calendar {
-        return end
-    }
+    fun getEnd(): Calendar = end
 
     fun getAllTasks(): ArrayList<Task> {
         val tasks = ArrayList<Task>()

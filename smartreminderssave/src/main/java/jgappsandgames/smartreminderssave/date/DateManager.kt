@@ -26,10 +26,7 @@ class DateManager {
         @JvmStatic
         fun create() {
             val tasks = ArrayList<Task>()
-
-            for (task in TaskManager.getAllTasks()) {
-                if (task.getDateDue() != null) tasks.add(task)
-            }
+            for (task in TaskManager.getAllTasks()) if (task.getDateDue() != null) tasks.add(task)
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
@@ -96,27 +93,10 @@ class DateManager {
 
         // Getters ---------------------------------------------------------------------------------
         @JvmStatic
-        fun getDayCount(): Int {
-            return getWeekCount() * 7
-        }
-
-        @Deprecated("Soon to be Removed")
-        @JvmStatic
-        fun getToday(): Day {
-            return getWeek(0).getDay(Calendar.getInstance())
-        }
-
-        @Deprecated("Will Soon Return the Day Object (12)")
-        @JvmStatic
-        fun getDay(date_active: Calendar): ArrayList<Task> {
-            if (date_active.before(getWeek(0).getStart())) return ArrayList()
-            for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active).tasks
-
-            return ArrayList()
-        }
+        fun getDayCount(): Int = getWeekCount() * 7
 
         @JvmStatic
-        fun getDayObject(date_active: Calendar): Day {
+        fun getDay(date_active: Calendar): Day {
             if (date_active.before(getWeek(0).getStart())) return Day(date_active)
             for (week in weeks) if (week.week.getStart().before(date_active) && week.week.getEnd().after(date_active)) return week.week.getDay(date_active)
 
@@ -132,9 +112,7 @@ class DateManager {
         }
 
         @JvmStatic
-        fun getWeekCount(): Int {
-            return weeks.size
-        }
+        fun getWeekCount(): Int = weeks.size
 
         @JvmStatic
         fun getWeek(week: Int): Week {
@@ -151,9 +129,7 @@ class DateManager {
         }
 
         @JvmStatic
-        fun getMonthCount(): Int {
-            return months.size
-        }
+        fun getMonthCount(): Int = months.size
 
         @JvmStatic
         fun getMonth(month: Int): Month {

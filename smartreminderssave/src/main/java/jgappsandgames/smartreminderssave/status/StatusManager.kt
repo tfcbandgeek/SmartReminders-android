@@ -33,15 +33,11 @@ class StatusManager {
             val all = TaskManager.getAllTasks()
             for (temp in all) {
                 when (temp.getType()) {
-                    Task.TYPE_FOLDER -> {
-                        foldersList.add(temp)
-                    }
+                    Task.TYPE_FOLDER -> foldersList.add(temp)
 
                     Task.TYPE_TASK -> {
                         when (temp.getStatus()) {
-                            Task.STATUS_DONE -> {
-                                completedList.add(temp)
-                            }
+                            Task.STATUS_DONE -> completedList.add(temp)
 
                             0 -> {
                                 if (temp.getDateDue() != null) {
@@ -69,24 +65,14 @@ class StatusManager {
         }
 
         // Getters ---------------------------------------------------------------------------------
-        fun getFolders(): ArrayList<Task> {
-            return foldersList
-        }
+        fun getFolders(): ArrayList<Task> = foldersList
 
-        fun getCompleted(): ArrayList<Task> {
-            return completedList
-        }
+        fun getCompleted(): ArrayList<Task> = completedList
 
-        fun getInProgress(): ArrayList<Task> {
-            return inProgressList
-        }
+        fun getInProgress(): ArrayList<Task> = inProgressList
 
-        fun getIncomplete(): ArrayList<Task> {
-            return incompleteList
-        }
+        fun getIncomplete(): ArrayList<Task> = incompleteList
 
-        fun getOverdue(): ArrayList<Task> {
-            return overdueList
-        }
+        fun getOverdue(): ArrayList<Task> = overdueList
     }
 }

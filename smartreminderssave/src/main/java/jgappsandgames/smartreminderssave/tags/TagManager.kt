@@ -37,42 +37,35 @@ class TagManager {
 
         // Data ------------------------------------------------------------------------------------
         private var version = 0
-        @JvmField
-        var meta: JSONObject = JSONObject()
-        @JvmField
-        var tags: ArrayList<String> = ArrayList()
+        @JvmField var meta: JSONObject = JSONObject()
+        @JvmField val tags: ArrayList<String> = ArrayList()
 
         // Management Methods ----------------------------------------------------------------------
-        @JvmStatic
-        fun create() {
+        @JvmStatic fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
 
             version = API.RELEASE
-            tags = ArrayList()
+            tags.clear()
             meta = JSONObject()
         }
 
-        @JvmStatic
-        fun load() {
+        @JvmStatic fun load() {
             val data = JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME))
             version = data.optInt(VERSION, API.RELEASE)
 
-            if (version <= 11) {
+            if (version <= API.MANAGEMENT) {
                 val t = data.optJSONArray(TAGS)
-                tags = ArrayList(t.length())
+                tags.clear()
                 for (i in 0 until t.length()) tags.add(t.optString(i))
 
                 // API 11
-                if (version >= API.MANAGEMENT) {
-                    meta = data.optJSONObject(META)
-                } else {
-                    meta = JSONObject()
-                }
+                meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+                else JSONObject()
             }
 
             else {
                 val t = data.optJSONArray(TAGS_12)
-                tags = ArrayList(t.length())
+                tags.clear()
                 for (i in 0 until t.length()) tags.add(t.optString(i))
                 meta = data.optJSONObject(META_12)
             }
@@ -80,14 +73,12 @@ class TagManager {
             tags.sort()
         }
 
-        @JvmStatic
-        fun save() {
+        @JvmStatic fun save() {
             tags.sort()
             JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), toJSON())
         }
 
-        @JvmStatic
-        fun toJSON(): JSONObject {
+        @JvmStatic fun toJSON(): JSONObject {
             val data = JSONObject()
             val t = JSONArray()
 
@@ -116,12 +107,9 @@ class TagManager {
         }
 
         // Tag Management Methods ------------------------------------------------------------------
-        @JvmStatic
-        fun addTag(tag: String): Boolean {
-            // Check to See if the Tag is equal to ""
+        @JvmStatic fun addTag(tag: String): Boolean {
             if (tag == "") return false
 
-            // Check to See if the Tag is Already there
             return when {
                 tags.size == 0 -> {
                     tags.add(tag)
@@ -141,19 +129,13 @@ class TagManager {
             }
         }
 
-        @JvmStatic
-        fun deleteTag(tag: String) {
-            // Check to See if the Tag is equal to ""
+        @JvmStatic fun deleteTag(tag: String) {
             if (tag == "") return
-
-            // Check to See if the Tag is Already there
             if (!tags.contains(tag)) return
 
-            // Remove Tag
             tags.remove(tag)
             save()
 
-            // Clear Tags from Tasks
             val all = TaskManager.getAllTasks()
             for (t in all) {
                 t.removeTag(tag).save()
@@ -161,9 +143,6 @@ class TagManager {
             }
         }
 
-        @JvmStatic
-        operator fun contains(tag: String): Boolean {
-            return tags.contains(tag)
-        }
+        @JvmStatic operator fun contains(tag: String): Boolean = tags.contains(tag)
     }
 }

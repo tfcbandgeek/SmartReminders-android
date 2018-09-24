@@ -54,14 +54,12 @@ class TaskManager {
         private var deleted: ArrayList<String> = ArrayList()
 
         // Management Methods ----------------------------------------------------------------------
-        @JvmStatic
-        fun create() {
+        @JvmStatic fun create() {
             if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
             else forceCreate()
         }
 
-        @JvmStatic
-        fun forceCreate() {
+        @JvmStatic fun forceCreate() {
             version = SettingsManager.getUseVersion()
             meta = JSONObject()
 
@@ -71,8 +69,7 @@ class TaskManager {
             deleted.clear()
         }
 
-        @JvmStatic
-        fun load() {
+        @JvmStatic fun load() {
             try {
                 loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME)))
             } catch (i: IOException) {
@@ -85,21 +82,16 @@ class TaskManager {
             if (deleted.size >= 50) deleted.removeAt(0)
         }
 
-        @JvmStatic
-        fun save() {
-            JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON())
-        }
+        @JvmStatic fun save() = JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), FILENAME), saveJSON())
 
-        @JvmStatic
-        fun clearTasks() {
+        @JvmStatic fun clearTasks() {
             for (task in archived) deleteTask(Task(task))
             archived = ArrayList()
             save()
         }
 
         // JSONManagement Methods ------------------------------------------------------------------
-        @JvmStatic
-        fun loadJSON(data: JSONObject?) {
+        @JvmStatic fun loadJSON(data: JSONObject?) {
             if (data == null) {
                 create()
                 return
@@ -266,9 +258,7 @@ class TaskManager {
         }
 
         // Getters ---------------------------------------------------------------------------------
-        fun getHome(): ArrayList<String> {
-            return home
-        }
+        fun getHome(): ArrayList<String> = home
 
         fun getHomeTasks(): ArrayList<Task> {
             val t = ArrayList<Task>()
@@ -276,9 +266,7 @@ class TaskManager {
             return t
         }
 
-        fun getAll(): ArrayList<String> {
-            return tasks
-        }
+        fun getAll(): ArrayList<String> = tasks
 
         fun getAllTasks(): ArrayList<Task> {
             val t = ArrayList<Task>()
@@ -286,9 +274,7 @@ class TaskManager {
             return t
         }
 
-        fun getArchived(): ArrayList<String> {
-            return archived
-        }
+        fun getArchived(): ArrayList<String> = archived
 
         fun getArchivedTasks(): ArrayList<Task> {
             val t = ArrayList<Task>()
@@ -296,9 +282,7 @@ class TaskManager {
             return t
         }
 
-        fun getDeleted(): ArrayList<String> {
-            return deleted
-        }
+        fun getDeleted(): ArrayList<String> = deleted
 
         fun getDeletedTasks(): ArrayList<Task> {
             val t = ArrayList<Task>()
