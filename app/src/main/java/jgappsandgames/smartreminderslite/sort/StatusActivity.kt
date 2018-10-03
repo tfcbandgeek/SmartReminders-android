@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.sort
 
 // Android OS
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 
 // Views
@@ -12,24 +11,15 @@ import android.view.MenuItem
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.home.Settings2Activity
-import jgappsandgames.smartreminderslite.utility.FIRST_RUN
-import jgappsandgames.smartreminderslite.utility.Save
-import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+import jgappsandgames.smartreminderslite.utility.*
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_status.status_done_list
-import kotlinx.android.synthetic.main.activity_status.status_done_text
-import kotlinx.android.synthetic.main.activity_status.status_incomplete_list
-import kotlinx.android.synthetic.main.activity_status.status_incomplete_text
-import kotlinx.android.synthetic.main.activity_status.status_overdue_list
-import kotlinx.android.synthetic.main.activity_status.status_overdue_text
+import kotlinx.android.synthetic.main.activity_status.*
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tasks.Task
-import jgappsandgames.smartreminderssave.utility.FileUtility
 
 /**
  * StatusActivity
@@ -42,9 +32,7 @@ class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         setContentView(R.layout.activity_status)
 
         // Handle Data
-        FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
-        else MasterManager.load()
+        loadClass(this)
     }
 
     override fun onResume() {
@@ -74,21 +62,11 @@ class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return onOptionsItemSelected(this, item, object: Save {
-            override fun save() {
-                this@StatusActivity.save()
-            }
-        })
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = onOptionsItemSelected(this, item, object: Save { override fun save() = this@StatusActivity.save() })
 
     // Task Change Listeners -----------------------------------------------------------------------
-    override fun onTaskChanged() {
-        onResume()
-    }
+    override fun onTaskChanged() = onResume()
 
     // Parent Methods ------------------------------------------------------------------------------
-    fun save() {
-        MasterManager.save()
-    }
+    fun save() = MasterManager.save()
 }

@@ -23,20 +23,20 @@ fun onOptionsItemSelected(context: Activity, item: MenuItem, save: Save? = null)
             return true
         }
 
-        R.id.tags -> {
+        /**R.id.tags -> {
             context.startActivity(buildTagsIntent(context, IntentOptions(option = true)))
             return true
-        }
+        }**/
 
         R.id.status -> {
             context.startActivity(buildStatusIntent(context, IntentOptions(option = true)))
             return true
         }
 
-        R.id.priority -> {
+        /**R.id.priority -> {
             context.startActivity(buildPriorityIntent(context, IntentOptions(option = true)))
             return true
-        }
+        }**/
 
         R.id.settings -> {
             context.startActivity(buildSettingsIntent(context, IntentOptions(option = true)))

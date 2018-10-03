@@ -7,15 +7,13 @@ import java.util.GregorianCalendar
 // Android OS
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
-import android.os.Build
+import android.graphics.Point
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 
 // Views
 import android.view.LayoutInflater
@@ -26,12 +24,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.ListView
 import android.widget.SeekBar
 import android.widget.TextView
-import com.github.clans.fab.FloatingActionButton
-import com.github.clans.fab.FloatingActionMenu
 
 // JSON
 import org.json.JSONArray
@@ -41,23 +35,21 @@ import org.json.JSONObject
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.home.Settings2Activity
 import jgappsandgames.smartreminderslite.utility.*
 
+// Anko
+import org.jetbrains.anko.toast
+
 // KotlinX
-import kotlinx.android.synthetic.main.activity_folder.folder_bottom_bar_search
-import kotlinx.android.synthetic.main.activity_folder.folder_bottom_bar_search_text
-import kotlinx.android.synthetic.main.activity_task.task_bottom_bar_search
-import kotlinx.android.synthetic.main.activity_task.task_bottom_bar_search_text
+import kotlinx.android.synthetic.main.activity_folder.*
+import kotlinx.android.synthetic.main.activity_folder_landscape.*
+import kotlinx.android.synthetic.main.activity_task.*
+import kotlinx.android.synthetic.main.activity_task_landscape.*
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tags.TagManager
-import jgappsandgames.smartreminderssave.tasks.Checkpoint
-import jgappsandgames.smartreminderssave.tasks.Task
-import jgappsandgames.smartreminderssave.tasks.TaskManager
-import jgappsandgames.smartreminderssave.utility.FileUtility
-import org.jetbrains.anko.toast
+import jgappsandgames.smartreminderssave.tasks.*
 
 /**
  * TaskActivity
@@ -67,142 +59,47 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskAdapter.OnTaskChangedListener {
     // View Orientation ----------------------------------------------------------------------------
     companion object {
-        private const val TASK_PORTRAIT = 1
-        private const val TASK_LANDSCAPE = 2
-        private const val TASK_MULTI = 3
-        private const val FOLDER_PORTRAIT = 11
-        private const val FOLDER_LANDSCAPE = 12
-        private const val FOLDER_MULTI = 13
+        private const val PORTRAIT = 10
+        private const val LANDSCAPE = 20
+        private const val MULTIWINDOW = 30
+
+        private const val TASK_PORTRAIT = Task.TYPE_TASK + PORTRAIT
+        private const val TASK_LANDSCAPE = Task.TYPE_TASK + LANDSCAPE
+        private const val FOLDER_PORTRAIT = Task.TYPE_FOLDER + PORTRAIT
+        private const val FOLDER_LANDSCAPE = Task.TYPE_FOLDER + LANDSCAPE
     }
 
     private var view = 0
 
-    // Views ---------------------------------------------------------------------------------------
-    private lateinit var title: EditText
-    private lateinit var note: EditText
-    private lateinit var tags: TextView
-    private var date: Button? = null
-    private var status: Button? = null
-    private var priority: SeekBar? = null
-    private lateinit var list: ListView
-    private var fab: FloatingActionButton? = null
-    private var fam: FloatingActionMenu? = null
-    private var faf: FloatingActionButton? = null
-    private var fat: FloatingActionButton? = null
+    private fun getOrientation(): Int {
+        // if (hasNougat()) if (isInMultiWindowMode) return MULTIWINDOW
+        var temp = Point()
+        windowManager.defaultDisplay.getSize(temp)
+
+        if (temp.x > temp.y) return LANDSCAPE
+        return PORTRAIT
+    }
 
     // Data ----------------------------------------------------------------------------------------
     lateinit var task: Task
-    var load = false
+    private var load = false
 
-    // LifeCycle Methods ---------------------------------------------------------------------------
+    // Core Methods --------------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Handle Data
-        FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
-        else MasterManager.load()
-
-        // Find Type
+        loadClass(this)
         var type = intent.getIntExtra(TASK_TYPE, - 1)
         if (type == -1) type = Task(intent.getStringExtra(TASK_NAME), true).getType()
+        view = type + getOrientation()
 
-        // Set View Type
-        view = if (type == Task.TYPE_TASK) TASK_PORTRAIT
-        else FOLDER_PORTRAIT
-
-        // Set Content View
         when (view) {
-            TASK_PORTRAIT -> setContentView(R.layout.activity_task)
-            FOLDER_PORTRAIT -> setContentView(R.layout.activity_folder)
-            else -> throw RuntimeException("Invalid View Type")
-        }
-
-        // Find Generic Views
-        title = findViewById(R.id.title)
-        note = findViewById(R.id.note)
-        tags = findViewById(R.id.tags)
-        list = findViewById(R.id.tasks)
-
-        // Set TextWatcher
-        title.addTextChangedListener(this)
-        note.addTextChangedListener(this)
-
-        // Set Click Listener
-        tags.setOnClickListener(this)
-        tags.setOnLongClickListener(this)
-
-        // Task Specific Views
-        if (type == Task.TYPE_TASK) {
-            date = findViewById(R.id.date)
-            date!!.setOnClickListener(this)
-            date!!.setOnLongClickListener(this)
-
-            status = findViewById(R.id.status)
-            status!!.setOnClickListener(this)
-
-            priority = findViewById(R.id.priority)
-            priority!!.setOnSeekBarChangeListener(this)
-
-            fab = findViewById(R.id.task_add_checkpoint)
-            fab!!.setOnClickListener {
-                val checkpoint: Checkpoint = if (task.getCheckpoints().size == 0) Checkpoint(1, "")
-                else Checkpoint(task.getCheckpoints()[task.getCheckpoints().size - 1].id + 1, "")
-
-                task.addCheckpoint(checkpoint)
-                task.save()
-                startActivityForResult(
-                        Intent(this, CheckpointActivity::class.java).putExtra(CHECKPOINT, checkpoint.toString()), REQUEST_CHECKPOINT)
-            }
-
-            task_bottom_bar_search.setOnClickListener {
-                if (task_bottom_bar_search_text.visibility == View.VISIBLE) searchTaskVisibility(false)
-                else searchTaskVisibility()
-            }
-
-            task_bottom_bar_search_text.addTextChangedListener(object: TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    if (task_bottom_bar_search_text.visibility == View.VISIBLE) list.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_bottom_bar_search_text.text.toString(), task.getCheckpoints())
-                }
-            })
-        }
-
-        // Folder Specific Views -------------------------------------------------------------------
-        else if (type == Task.TYPE_FOLDER) {
-            fam = findViewById(R.id.folder_fab)
-
-            faf = findViewById(R.id.folder_add_folder)
-            faf!!.setOnClickListener {
-                fam?.close(true)
-
-                // Create Task
-                startActivity(buildTaskIntent(this, IntentOptions(),
-                        TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
-            }
-
-            fat = findViewById(R.id.folder_add_task)
-            fat!!.setOnClickListener {
-                fam?.close(true)
-
-                // Create Task
-                startActivity(buildTaskIntent(this, IntentOptions(),
-                        TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
-            }
-
-            folder_bottom_bar_search.setOnClickListener {
-                if (folder_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
-                else searchFolderVisibility()
-            }
-
-            folder_bottom_bar_search_text.addTextChangedListener(object: TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) list.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), folder_bottom_bar_search_text.text.toString())
-                }
-            })
+            TASK_PORTRAIT -> onCreateTaskPortrait()
+            TASK_LANDSCAPE -> onCreateTaskLandscape()
+            FOLDER_PORTRAIT -> onCreateFolderPortrait()
+            FOLDER_LANDSCAPE -> onCreateFolderLandscape()
+            else -> IllegalOrientationException("Orientation $view does not exist")
         }
     }
 
@@ -211,27 +108,16 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         // Load Data
         load = true
         task = Task(intent.getStringExtra(TASK_NAME))
+        title = task.getTitle()
 
-        // Set Generic Text
-        setTitle(task.getTitle())
-        title.setText(task.getTitle())
-        note.setText(task.getNote())
-        drawTags()
+        Log.e("Task Name", task.getFilename())
+        Log.e("Task Data", task.toString())
 
-        // Set Task Text and Adapter
-        if (task.getType() == Task.TYPE_TASK) {
-            drawStatus()
-            drawDate()
-            priority!!.max = 100
-            priority!!.progress = task.getPriority()
-
-            task.sortTags()
-            list.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
-        }
-
-        // Set Folder Adapter
-        if (task.getType() == Task.TYPE_FOLDER) {
-            list.adapter = TaskAdapter(this, this, task.getChildren(), "")
+        when (view) {
+            TASK_PORTRAIT -> onResumeTaskPortrait()
+            TASK_LANDSCAPE -> onResumeTaskLandscape()
+            FOLDER_PORTRAIT -> onResumeFolderPortrait()
+            FOLDER_LANDSCAPE -> onResumeFolderLandscape()
         }
 
         load = false
@@ -239,15 +125,14 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
     override fun onPause() {
         super.onPause()
-       save()
+        Log.e("Task Name", task.getFilename())
+        Log.e("Task Data", task.toString())
     }
 
-    // Activity Result -----------------------------------------------------------------------------
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-        // Checkpoint Result
             REQUEST_CHECKPOINT -> if (resultCode == RESPONSE_CHANGE) {
                 try {
                     editCheckpoint(Checkpoint(JSONObject(data!!.getStringExtra(CHECKPOINT))))
@@ -263,11 +148,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 try {
                     val temp = JSONArray(data!!.getStringExtra(TAG_LIST))
                     val t = ArrayList<String>()
-
-                    for (i in 0 until temp.length()) {
-                        t.add(temp.optString(i))
-                    }
-
+                    for (i in 0 until temp.length()) t.add(temp.optString(i))
                     task.setTags(t)
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -278,12 +159,16 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 TagManager.save()
                 task.save()
 
-                drawTags()
+                when (view) {
+                    TASK_PORTRAIT -> task_tags.text = task.getTagString()
+                    TASK_LANDSCAPE -> task_landscape_tags.text = task.getTagString()
+                    FOLDER_PORTRAIT -> folder_tags.text = task.getTagString()
+                    FOLDER_LANDSCAPE -> folder_landscape_tags.text = task.getTagString()
+                }
             }
         }
     }
 
-    // Menu Methods --------------------------------------------------------------------------------
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_task, menu)
         return true
@@ -291,81 +176,410 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == R.id.more) {
-            toast("Coming Very Soon")
-            //startActivity(Intent(this, TaskManagementActivity::class.java).putExtra(TASK_NAME, task.getFilename()))
+            toast("Coming Very Soon").show()
             return true
         }
 
-        return onOptionsItemSelected(this, item, object: Save {
-            override fun save() {
-                this@TaskActivity.save()
-            }
-        })
+        return onOptionsItemSelected(this, item, object: Save { override fun save() = this@TaskActivity.save() })
     }
 
-    // Click Listeners -----------------------------------------------------------------------------
     override fun onClick(button: View?) {
-        // Date Click
-        if (button == date) {
-            if (task.getDateDue() == null) DatePickerDialog(this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show()
-            else DatePickerDialog(this, this, task.getDateDue()!!.get(Calendar.YEAR), task.getDateDue()!!.get(Calendar.MONTH), task.getDateDue()!!.get(Calendar.DAY_OF_MONTH)).show()
-        }
-
-        // Status Click
-        else if (button == status) {
-            if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false)
-            else task.markComplete(true)
-
-            task.save()
-            drawStatus()
-        }
-
-        // Tags
-        else if (button == tags) {
-            startActivityForResult(
-                    Intent(this, TagEditorActivity::class.java).putExtra(TASK_NAME, task.getFilename()), REQUEST_TAGS)
+        when (view) {
+            TASK_PORTRAIT -> onClickTaskPortrait(button)
+            TASK_LANDSCAPE -> onClickTaskLandscape(button)
+            FOLDER_PORTRAIT -> onClickFolderPortrait(button)
+            FOLDER_LANDSCAPE -> onClickFolderLandscape(button)
         }
     }
 
     override fun onLongClick(button: View?): Boolean {
-        // Date Click
-        if (button == date) {
-            task.setDateDue(null)
-            drawDate()
-            return true
+        return when (view) {
+            TASK_PORTRAIT -> onLongClickTaskPortrait(button)
+            TASK_LANDSCAPE -> onLongClickTaskLandscape(button)
+            FOLDER_PORTRAIT -> onLongClickFolderPortrait(button)
+            FOLDER_LANDSCAPE -> onLongClickFolderLandscape(button)
+            else -> false
+        }
+    }
+
+    override fun afterTextChanged(editable: Editable?) {
+        if (!load) {
+            when (view) {
+                TASK_PORTRAIT -> textChangedTaskPortrait(editable)
+                TASK_LANDSCAPE -> textChangedTaskLandscape(editable)
+                FOLDER_PORTRAIT -> textChangedFolderPortrait(editable)
+                FOLDER_LANDSCAPE -> textChangedFolderLandscape(editable)
+            }
+        }
+    }
+
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        when (view) {
+            TASK_PORTRAIT -> onProgressChangedTaskPortrait()
+            TASK_LANDSCAPE -> onProgressChangedTaskLandscape()
+        }
+    }
+
+    override fun onDateSet(date_picker: DatePicker?, year: Int, month: Int, day: Int) {
+        when (view) {
+            TASK_PORTRAIT -> onDateSetTaskPortrait(year, month, day)
+            TASK_LANDSCAPE -> onDateSetTaskLandscape(year, month, day)
+        }
+    }
+
+    // Orientation Specific Methods ----------------------------------------------------------------
+    private fun onCreateTaskPortrait() {
+        setContentView(R.layout.activity_task)
+
+        task_title.addTextChangedListener(this)
+        task_note.addTextChangedListener(this)
+        task_tags.setOnClickListener(this)
+        task_tags.setOnLongClickListener(this)
+
+        task_date.setOnClickListener(this)
+        task_date.setOnLongClickListener(this)
+        task_status.setOnClickListener(this)
+        task_priority.setOnSeekBarChangeListener(this)
+
+        task_add_checkpoint.setOnClickListener(this)
+        task_bottom_bar_search.setOnClickListener(this)
+        task_bottom_bar_search_text.addTextChangedListener(this)
+    }
+
+    private fun onCreateTaskLandscape() {
+        setContentView(R.layout.activity_task_landscape)
+
+        task_landscape_title.addTextChangedListener(this)
+        task_landscape_note.addTextChangedListener(this)
+        task_landscape_tags.setOnClickListener(this)
+        task_landscape_tags.setOnLongClickListener(this)
+
+        task_landscape_date.setOnClickListener(this)
+        task_landscape_date.setOnLongClickListener(this)
+        task_landscape_status.setOnClickListener(this)
+        task_landscape_priority.setOnClickListener(this)
+
+        task_landscape_add_checkpoint.setOnLongClickListener(this)
+        task_landscape_bottom_bar_search.setOnClickListener(this)
+        task_landscape_bottom_bar_search_text.addTextChangedListener(this)
+    }
+
+    private fun onCreateFolderPortrait() {
+        setContentView(R.layout.activity_folder)
+
+        folder_title.addTextChangedListener(this)
+        folder_note.addTextChangedListener(this)
+        folder_tags.setOnClickListener(this)
+        folder_tags.setOnLongClickListener(this)
+
+        folder_add_task.setOnClickListener(this)
+        folder_add_folder.setOnClickListener(this)
+        folder_bottom_bar_search.setOnClickListener(this)
+        folder_bottom_bar_search_text.addTextChangedListener(this)
+    }
+
+    private fun onCreateFolderLandscape() {
+        setContentView(R.layout.activity_folder_landscape)
+
+        folder_landscape_title.addTextChangedListener(this)
+        folder_landscape_note.addTextChangedListener(this)
+        folder_landscape_tags.setOnClickListener(this)
+        folder_landscape_tags.setOnLongClickListener(this)
+
+        folder_landscape_add_task.setOnClickListener(this)
+        folder_landscape_add_folder.setOnClickListener(this)
+        folder_landscape_bottom_bar_search.setOnClickListener(this)
+        folder_landscape_bottom_bar_search_text.addTextChangedListener(this)
+    }
+
+    private fun onResumeTaskPortrait() {
+        task_title.setText(task.getTitle())
+        task_note.setText(task.getNote())
+        task_tags.text = task.getTagString()
+
+        if (task.getStatus() == Task.STATUS_DONE) task_status.setText(R.string.complete)
+        else task_status.setText(R.string.incomplete)
+        task_date.text = task.getDateDueString()
+        task_priority.progress = task.getPriority()
+
+        task.sortTags()
+        task_checkpoints.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
+    }
+
+    private fun onResumeTaskLandscape() {
+        task_landscape_title.setText(task.getTitle())
+        task_landscape_note.setText(task.getNote())
+        task_landscape_tags.text = task.getTagString()
+
+        if (task.getStatus() == Task.STATUS_DONE) task_landscape_status.setText(R.string.complete)
+        else task_landscape_status.setText(R.string.incomplete)
+        task_landscape_date.text = task.getDateDueString()
+        task_landscape_priority.progress = task.getPriority()
+
+        task.sortTags()
+        task_landscape_checkpoints.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
+    }
+
+    private fun onResumeFolderPortrait() {
+        folder_title.setText(task.getTitle())
+        folder_note.setText(task.getNote())
+        folder_tags.text = task.getTagString()
+
+        folder_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+    }
+
+    private fun onResumeFolderLandscape() {
+        folder_landscape_title.setText(task.getTitle())
+        folder_landscape_note.setText(task.getNote())
+        folder_landscape_tags.text = task.getTagString()
+
+        folder_landscape_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+    }
+
+    private fun onClickTaskPortrait(button: View?) {
+        when (button) {
+            task_tags -> startActivityForResult(buildTaskTagsIntent(this, IntentOptions(), TaskOptions(filename = task.getFilename())), REQUEST_TAGS)
+
+            task_date -> {
+                if (task.getDateDue() == null) DatePickerDialog(this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show()
+                else DatePickerDialog(this, this, task.getDateDue()!!.get(Calendar.YEAR), task.getDateDue()!!.get(Calendar.MONTH), task.getDateDue()!!.get(Calendar.DAY_OF_MONTH)).show()
+                task.save()
+            }
+
+            task_status -> {
+                if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false)
+                else task.markComplete(true)
+                task.save()
+
+                if (task.getStatus() == Task.STATUS_DONE) task_status.setText(R.string.complete)
+                else task_status.setText(R.string.incomplete)
+            }
+
+            task_add_checkpoint -> {
+                val checkpoint: Checkpoint = if (task.getCheckpoints().size == 0) Checkpoint(1, "")
+                else Checkpoint(task.getCheckpoints()[task.getCheckpoints().size - 1].id + 1, "")
+
+                task.addCheckpoint(checkpoint)
+                task.save()
+                startActivityForResult(Intent(this, CheckpointActivity::class.java).putExtra(CHECKPOINT, checkpoint.toString()), REQUEST_CHECKPOINT)
+            }
+
+            task_bottom_bar_search -> {
+                if (task_bottom_bar_search_text.visibility == View.VISIBLE) searchTaskVisibility(false)
+                else searchTaskVisibility()
+            }
+        }
+    }
+
+    private fun onClickTaskLandscape(button: View?) {
+        when (button) {
+            task_landscape_tags -> startActivityForResult(buildTaskTagsIntent(this, IntentOptions(), TaskOptions(filename = task.getFilename())), REQUEST_TAGS)
+
+            task_landscape_date -> {
+                if (task.getDateDue() == null) DatePickerDialog(this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show()
+                else DatePickerDialog(this, this, task.getDateDue()!!.get(Calendar.YEAR), task.getDateDue()!!.get(Calendar.MONTH), task.getDateDue()!!.get(Calendar.DAY_OF_MONTH)).show()
+                task.save()
+            }
+
+            task_landscape_status -> {
+                if (task.getStatus() == Task.STATUS_DONE) task.markComplete(false)
+                else task.markComplete(true)
+                task.save()
+
+                if (task.getStatus() == Task.STATUS_DONE) task_landscape_status.setText(R.string.complete)
+                else task_landscape_status.setText(R.string.incomplete)
+            }
+
+            task_landscape_add_checkpoint -> {
+                val checkpoint: Checkpoint = if (task.getCheckpoints().size == 0) Checkpoint(1, "")
+                else Checkpoint(task.getCheckpoints()[task.getCheckpoints().size - 1].id + 1, "")
+
+                task.addCheckpoint(checkpoint)
+                task.save()
+                startActivityForResult(Intent(this, CheckpointActivity::class.java).putExtra(CHECKPOINT, checkpoint.toString()), REQUEST_CHECKPOINT)
+            }
+
+            task_landscape_bottom_bar_search -> {
+                if (task_landscape_bottom_bar_search_text.visibility == View.VISIBLE) searchTaskVisibility(false)
+                else searchTaskVisibility()
+            }
+        }
+    }
+
+    private fun onClickFolderPortrait(button: View?) {
+        when (button) {
+            folder_tags -> startActivityForResult(buildTaskTagsIntent(this, IntentOptions(), TaskOptions(filename = task.getFilename())), REQUEST_TAGS)
+
+            folder_add_folder -> {
+                folder_fab.close(true)
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
+            }
+
+            folder_add_task -> {
+                folder_fab.close(true)
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
+            }
+
+            folder_bottom_bar_search -> {
+                if (folder_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
+                else searchFolderVisibility()
+            }
+        }
+    }
+
+    private fun onClickFolderLandscape(button: View?) {
+        when (button) {
+            folder_landscape_tags -> startActivityForResult(buildTaskTagsIntent(this, IntentOptions(), TaskOptions(filename = task.getFilename())), REQUEST_TAGS)
+
+            folder_landscape_add_folder -> {
+                folder_landscape_fab.close(true)
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
+            }
+
+            folder_landscape_add_task -> {
+                folder_landscape_fab.close(true)
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
+            }
+
+            folder_landscape_bottom_bar_search -> {
+                if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
+                else searchFolderVisibility()
+            }
+        }
+    }
+
+    private fun onLongClickTaskPortrait(button: View?): Boolean {
+        when (button) {
+            task_date -> {
+                task.setDateDue(null)
+                task.save()
+                task_date.text = task.getDateDueString()
+                return true
+            }
         }
 
         return false
     }
 
+    private fun onLongClickTaskLandscape(button: View?): Boolean {
+        when (button) {
+            task_landscape_date -> {
+                task.setDateDue(null)
+                task.save()
+                task_landscape_date.text = task.getDateDueString()
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun onLongClickFolderPortrait(button: View?): Boolean {
+        return false
+    }
+
+    private fun onLongClickFolderLandscape(button: View?): Boolean {
+        return false
+    }
+
+    private fun textChangedTaskPortrait(editable: Editable?) {
+        if (editable == null) throw NullPointerException()
+
+        when (editable.hashCode()) {
+            task_title.editableText.hashCode() -> {
+                task.setTitle(task_title.text.toString()).save()
+                title = task.getTitle()
+            }
+
+            task_note.editableText.hashCode() -> task.setNote(task_note.text.toString()).save()
+
+            task_bottom_bar_search.hashCode() -> {
+                if (task_bottom_bar_search_text.visibility == View.VISIBLE) {
+                    task_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_bottom_bar_search_text.text.toString(), task.getCheckpoints())
+                }
+            }
+        }
+    }
+
+    private fun textChangedTaskLandscape(editable: Editable?) {
+        if (editable == null) throw NullPointerException()
+
+        when (editable.hashCode()) {
+            task_landscape_title.editableText.hashCode() -> {
+                task.setTitle(task_landscape_title.text.toString()).save()
+                title = task.getTitle()
+            }
+
+            task_landscape_note.editableText.hashCode() -> task.setNote(task_landscape_note.text.toString()).save()
+
+            task_landscape_bottom_bar_search_text.editableText.hashCode() -> {
+                if (task_landscape_bottom_bar_search_text.visibility == View.VISIBLE) {
+                    task_landscape_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_landscape_bottom_bar_search_text.text.toString(), task.getCheckpoints())
+                }
+            }
+        }
+    }
+
+    private fun textChangedFolderPortrait(editable: Editable?) {
+        if (editable == null) throw NullPointerException()
+
+        when (editable.hashCode()) {
+            folder_title.editableText.hashCode() -> {
+                task.setTitle(folder_title.text.toString()).save()
+                title = task.getTitle()
+            }
+
+            folder_note.editableText.hashCode() -> task.setNote(folder_note.text.toString()).save()
+
+            folder_bottom_bar_search_text.editableText.hashCode() -> {
+                if (folder_bottom_bar_search_text.visibility == View.VISIBLE) {
+                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) folder_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), folder_bottom_bar_search_text.text.toString())
+                }
+            }
+        }
+    }
+
+    private fun textChangedFolderLandscape(editable: Editable?) {
+        if (editable == null) throw NullPointerException()
+
+        when (editable.hashCode()) {
+            folder_landscape_title.editableText.hashCode() -> {
+                task.setTitle(folder_landscape_title.text.toString()).save()
+                title = task.getTitle()
+            }
+
+            folder_landscape_note.editableText.hashCode() -> task.setNote(folder_landscape_note.text.toString()).save()
+
+            folder_landscape_bottom_bar_search_text.editableText.hashCode() -> {
+                if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) {
+                    if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) folder_landscape_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), folder_landscape_bottom_bar_search_text.text.toString())
+                }
+            }
+        }
+    }
+
+    private fun onProgressChangedTaskPortrait() = task.setPriority(task_priority.progress).save()
+
+    private fun onProgressChangedTaskLandscape() = task.setPriority(task_landscape_priority.progress).save()
+
+    private fun onDateSetTaskPortrait(year: Int, month: Int, day: Int) {
+        task.setDateDue(GregorianCalendar(year, month, day, 0, 0, 1)).save()
+        task_date.text = task.getDateDueString()
+    }
+
+    private fun onDateSetTaskLandscape(year: Int, month: Int, day: Int) {
+        task.setDateDue(GregorianCalendar(year, month, day, 0, 0, 1)).save()
+        task_landscape_date.text = task.getDateDueString()
+    }
     // Text Watcher --------------------------------------------------------------------------------
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-    override fun afterTextChanged(editable: Editable?) {
-        if (!load) {
-            task.setTitle(title.text.toString())
-            task.setNote(note.text.toString())
-            setTitle(task.getTitle())
-        }
-    }
 
     // Seekbar Listener ----------------------------------------------------------------------------
     override fun onStartTrackingTouch(p0: SeekBar?) {}
     override fun onStopTrackingTouch(p0: SeekBar?) {}
-    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-        task.setPriority(priority!!.progress)
-    }
-
-    // Date Listener -------------------------------------------------------------------------------
-    override fun onDateSet(date_picker: DatePicker?, year: Int, month: Int, day: Int) {
-        task.setDateDue(GregorianCalendar(year, month, day, 0, 0, 1))
-        drawDate()
-    }
-
     // Task Listener -------------------------------------------------------------------------------
-    override fun onTaskChanged() {
-        onResume()
-    }
+    override fun onTaskChanged() = onResume()
 
     // Parent Methods ------------------------------------------------------------------------------
     fun save() {
@@ -373,31 +587,13 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         task.save()
     }
 
-    // Class Methods -------------------------------------------------------------------------------
-    private fun drawStatus() {
-        if (task.getType() == Task.TYPE_TASK) {
-            if (task.getStatus() == Task.STATUS_DONE) status!!.setText(R.string.complete)
-            else status!!.setText(R.string.incomplete)
-        }
-    }
-
-    private fun drawTags() {
-        tags.text = task.getTagString()
-    }
-
-    private fun drawDate() {
-        date!!.text = task.getDateDueString()
-    }
-
     fun editCheckpoint(checkpoint: Checkpoint) {
-        task.editCheckpoint(checkpoint)
-        task.save()
+        task.editCheckpoint(checkpoint).save()
         onResume()
     }
 
     fun deleteCheckpoint(checkpoint: Checkpoint) {
-        task.removeCheckpoint(checkpoint)
-        task.save()
+        task.removeCheckpoint(checkpoint).save()
     }
 
     // Search Methods ------------------------------------------------------------------------------
@@ -405,11 +601,17 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         if (visible) {
             task_bottom_bar_search_text.visibility = View.VISIBLE
             task_bottom_bar_search_text.setText("")
-            list.adapter = CheckpointSearchAdapter(this, task.getFilename(), "", task.getCheckpoints())
+            when (view) {
+                TASK_PORTRAIT -> task_checkpoints.adapter = CheckpointSearchAdapter(this, task.getFilename(), "", task.getCheckpoints())
+                TASK_LANDSCAPE -> task_landscape_checkpoints.adapter = CheckpointSearchAdapter(this, task.getFilename(), "", task.getCheckpoints())
+            }
         } else {
             task_bottom_bar_search_text.visibility = View.INVISIBLE
             task_bottom_bar_search_text.setText("")
-            list.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
+            when (view) {
+                TASK_PORTRAIT -> task_checkpoints.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
+                TASK_LANDSCAPE -> task_landscape_checkpoints.adapter = CheckpointAdapter(this, task.getFilename(), task.getCheckpoints())
+            }
         }
     }
 
@@ -417,86 +619,65 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         if (visible) {
             folder_bottom_bar_search_text.visibility = View.VISIBLE
             folder_bottom_bar_search_text.setText("")
-            list.adapter = TaskAdapter(this, this, task.getChildren(), "")
+            when (view) {
+                FOLDER_PORTRAIT -> folder_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+                FOLDER_LANDSCAPE -> folder_landscape_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+            }
         } else {
             folder_bottom_bar_search_text.visibility = View.INVISIBLE
             folder_bottom_bar_search_text.setText("")
-            list.adapter = TaskAdapter(this, this, task.getChildren(), "")
+            when (view) {
+                FOLDER_PORTRAIT -> folder_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+                FOLDER_LANDSCAPE -> folder_landscape_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+            }
         }
     }
 
     // Internal Classes ----------------------------------------------------------------------------
-    class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>):
-            BaseAdapter() {
+    class CheckpointAdapter(private val activity: TaskActivity, private val task: String, private val checkpoints: List<Checkpoint>): BaseAdapter() {
         // List Methods --------------------------------------------------------------------------------
-        override fun getCount(): Int {
-            return checkpoints.size
-        }
+        override fun getCount(): Int = checkpoints.size
 
-        override fun getViewTypeCount(): Int {
-            return 1
-        }
+        override fun getViewTypeCount(): Int = 1
 
-        override fun hasStableIds(): Boolean {
-            return false
-        }
+        override fun hasStableIds(): Boolean = false
 
         // Item Methods --------------------------------------------------------------------------------
-        override fun getItem(position: Int): Checkpoint {
-            return checkpoints[position]
-        }
+        override fun getItem(position: Int): Checkpoint = checkpoints[position]
 
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
+        override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
-            var view = convert_view
+            var view: View? = convert_view
             if (view == null) {
                 view = LayoutInflater.from(activity).inflate(R.layout.list_checkpoint, parent, false)
-
-                val holder = CheckpointHolder(activity, task, getItem(position), view!!)
-                view.tag = holder
+                view.tag = CheckpointHolder(activity, task, getItem(position), view!!)
             } else {
-                val holder = CheckpointHolder(activity, task, getItem(position), view)
-                view.tag = holder
+                view.tag = CheckpointHolder(activity, task, getItem(position), view)
             }
 
             return view
         }
     }
 
-    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, checkpoints: ArrayList<Checkpoint>):
-            BaseAdapter() {
+    class CheckpointSearchAdapter(private val activity: TaskActivity, private val task: String, search: String, checkpoints: ArrayList<Checkpoint>): BaseAdapter() {
         private val temp = ArrayList<Checkpoint>()
         // Constructor -----------------------------------------------------------------------------
         init {
-            for (i in 0 until checkpoints.size) {
-                if (checkpoints[i].text.toLowerCase().contains(search.toLowerCase())) temp.add(checkpoints[i])
-            }
+            for (i in 0 until checkpoints.size) if (checkpoints[i].text.toLowerCase().contains(search.toLowerCase())) temp.add(checkpoints[i])
         }
 
         // List Methods ----------------------------------------------------------------------------
-        override fun getCount(): Int {
-            return temp.size
-        }
+        override fun getCount(): Int = temp.size
 
-        override fun getViewTypeCount(): Int {
-            return 1
-        }
+        override fun getViewTypeCount(): Int = 1
 
-        override fun hasStableIds(): Boolean {
-            return false
-        }
+        override fun hasStableIds(): Boolean = false
 
         // Item Methods ----------------------------------------------------------------------------
-        override fun getItem(position: Int): Checkpoint {
-            return temp[position]
-        }
+        override fun getItem(position: Int): Checkpoint = temp[position]
 
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
+        override fun getItemId(position: Int): Long = position.toLong()
 
         override fun getView(position: Int, convert_view: View?, parent: ViewGroup): View {
             var view = convert_view
@@ -516,8 +697,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 }
 
 // Checkpoint Holder Class ---------------------------------------------------------------------------------------------------------------------------
-class CheckpointHolder(private val activity: TaskActivity, private val task: String, private val checkpoint: Checkpoint, view: View):
-        View.OnClickListener, View.OnLongClickListener {
+class CheckpointHolder(private val activity: TaskActivity, private val task: String, private val checkpoint: Checkpoint, view: View): View.OnClickListener, View.OnLongClickListener {
     // Views ---------------------------------------------------------------------------------------
     private val text: TextView = view.findViewById(R.id.text)
     private val edit: Button = view.findViewById(R.id.edit)
@@ -557,21 +737,9 @@ class CheckpointHolder(private val activity: TaskActivity, private val task: Str
 
     override fun onLongClick(view: View): Boolean {
         activity.deleteCheckpoint(checkpoint)
-
-        val v = activity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
-        try {
-            if (v != null && v.hasVibrator()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    v.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-                } else {
-                    @Suppress("DEPRECATION")
-                    v.vibrate(100)
-                }
-            }
-        } catch (n: NullPointerException) {
-            n.printStackTrace()
-        }
-
+        vibrate(activity)
         return true
     }
 }
+
+class IllegalOrientationException(message: String): Exception(message)

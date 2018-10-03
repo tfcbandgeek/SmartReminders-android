@@ -2,7 +2,6 @@ package jgappsandgames.smartreminderslite.sort
 
 // Android OS
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 
 // Views
@@ -14,20 +13,14 @@ import android.widget.BaseAdapter
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.home.Settings2Activity
-import jgappsandgames.smartreminderslite.utility.FIRST_RUN
-import jgappsandgames.smartreminderslite.utility.Save
-import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+import jgappsandgames.smartreminderslite.utility.*
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_priority.priority_down
-import kotlinx.android.synthetic.main.activity_priority.priority_tasks
-import kotlinx.android.synthetic.main.activity_priority.priority_up
+import kotlinx.android.synthetic.main.activity_priority.*
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.priority.PriorityManager
-import jgappsandgames.smartreminderssave.utility.FileUtility
 
 /**
  * PriorityActivity
@@ -50,18 +43,11 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         setContentView(R.layout.activity_priority)
 
         // Handle Data
-        FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
-        else MasterManager.load()
+        loadClass(this)
 
         // Click Listeners
-        priority_down.setOnClickListener {
-            moveDown()
-        }
-
-        priority_up.setOnClickListener {
-            moveUp()
-        }
+        priority_down.setOnClickListener { moveDown() }
+        priority_up.setOnClickListener { moveUp() }
     }
 
     override fun onResume() {
@@ -92,18 +78,10 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return onOptionsItemSelected(this, item, object: Save {
-            override fun save() {
-                this@PriorityActivity.save()
-            }
-        })
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = onOptionsItemSelected(this, item, object: Save { override fun save() = this@PriorityActivity.save() })
 
     // Task Listeners ------------------------------------------------------------------------------
-    override fun onTaskChanged() {
-        onResume()
-    }
+    override fun onTaskChanged() = onResume()
 
     // Private Class Methods -----------------------------------------------------------------------
     private fun setTitle() {
@@ -180,11 +158,6 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         }
     }
 
-    /**
-     * MoveDown
-     *
-     * Called To Move The Current Selection Down By One
-     */
     private fun moveDown() {
         when (position) {
             2 -> {
@@ -212,7 +185,5 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     }
 
     // Parent Overrides ----------------------------------------------------------------------------
-    fun save() {
-        MasterManager.save()
-    }
+    fun save() = MasterManager.save()
 }

@@ -17,16 +17,10 @@ import org.json.JSONException
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TagAdapter
-import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
-import jgappsandgames.smartreminderslite.utility.RESPONSE_NONE
-import jgappsandgames.smartreminderslite.utility.TAG_LIST
-import jgappsandgames.smartreminderslite.utility.TASK_NAME
+import jgappsandgames.smartreminderslite.utility.*
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_search_enter
-import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_search_text
-import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_selected
-import kotlinx.android.synthetic.main.activity_tag_editpr.tag_editor_unselected
+import kotlinx.android.synthetic.main.activity_tag_editpr.*
 
 // Save
 import jgappsandgames.smartreminderssave.tags.TagManager
@@ -36,7 +30,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * TagEditorActivity
  * Created by joshua on 1/19/2018.
  */
-class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnLongClickListener, TagAdapter.TagSwitcher {
+class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, TagAdapter.TagSwitcher {
     // Data ----------------------------------------------------------------------------------------
     private lateinit var task: Task
 
@@ -53,7 +47,6 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
 
         // Set Listeners
         tag_editor_search_enter.setOnClickListener(this)
-        tag_editor_search_enter.setOnLongClickListener(this)
         tag_editor_search_text.addTextChangedListener(this)
 
         // Set Adapters
@@ -115,10 +108,6 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, View.OnL
                 e.printStackTrace()
             }
         }
-    }
-
-    override fun onLongClick(view: View): Boolean {
-        return false
     }
 
     // TagSwitcher ---------------------------------------------------------------------------------

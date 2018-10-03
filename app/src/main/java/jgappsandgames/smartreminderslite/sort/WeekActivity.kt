@@ -5,7 +5,6 @@ import java.util.Calendar
 
 // Android OS
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 
 // View
@@ -19,18 +18,12 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.date.DateManager
-import jgappsandgames.smartreminderssave.utility.FileUtility
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_date.date_next
-import kotlinx.android.synthetic.main.activity_date.date_previous
-import kotlinx.android.synthetic.main.activity_date.date_tasks
+import kotlinx.android.synthetic.main.activity_date.*
 
 // App
-import jgappsandgames.smartreminderslite.home.Settings2Activity
-import jgappsandgames.smartreminderslite.utility.FIRST_RUN
-import jgappsandgames.smartreminderslite.utility.Save
-import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+import jgappsandgames.smartreminderslite.utility.*
 
 /**
  * WeekActivity
@@ -46,10 +39,7 @@ class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         setContentView(R.layout.activity_date)
 
         // First Run
-        FileUtility.loadFilePaths(this)
-        if (FileUtility.isFirstRun()) startActivity(Intent(this, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
-        else MasterManager.load()
-        weekActive = 0
+        loadClass(this)
 
         // Set Title
         setTitle()
@@ -71,14 +61,12 @@ class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
     override fun onResume() {
         super.onResume()
-
         DateManager.create()
         date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
     }
 
     override fun onPause() {
         super.onPause()
-
         save()
     }
 
@@ -88,31 +76,19 @@ class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return onOptionsItemSelected(this, item, object: Save {
-            override fun save() {
-                this@WeekActivity.save()
-            }
-        })
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = onOptionsItemSelected(this, item, object: Save { override fun save() = this@WeekActivity.save() })
 
     // Task Changed Listener -----------------------------------------------------------------------
-    override fun onTaskChanged() {
-        onResume()
-    }
+    override fun onTaskChanged() = onResume()
 
     // Private Class Methods -----------------------------------------------------------------------
     private fun setTitle() {
         val start = DateManager.getWeek(weekActive).getStart()
         val end = DateManager.getWeek(weekActive).getEnd()
 
-        title = (start.get(Calendar.MONTH) + 1).toString() + "/" +
-                start.get(Calendar.DAY_OF_MONTH).toString() + " - " +
-                (end.get(Calendar.MONTH) + 1).toString() + "/" +
-                end.get(Calendar.DAY_OF_MONTH).toString()
+        title = (start.get(Calendar.MONTH) + 1).toString() + "/" + start.get(Calendar.DAY_OF_MONTH).toString() + " - " +
+                (end.get(Calendar.MONTH) + 1).toString() + "/" + end.get(Calendar.DAY_OF_MONTH).toString()
     }
 
-    fun save() {
-        MasterManager.save()
-    }
+    fun save() = MasterManager.save()
 }

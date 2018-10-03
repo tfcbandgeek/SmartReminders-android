@@ -11,27 +11,29 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
+        android:id="@+id/task_title"
         android:hint="@string/title"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences" />
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences"
+        android:importantForAutofill="no" />
 
     <!--Note Bar-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/note"
+        android:id="@+id/task_note"
         android:hint="@string/note"
         android:textSize="12sp"
         android:textStyle="normal"
-        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine" />
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
+        android:importantForAutofill="no" />
 
     <!--Tag Bar-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tags"
+        android:id="@+id/task_tags"
         android:text="@string/no_tags"
         android:textSize="14sp"
         android:textStyle="italic"
@@ -50,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/no_date"
-            android:id="@+id/date"
+            android:id="@+id/task_date"
             tools:ignore="ButtonStyle" />
 
         <Button
@@ -58,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/status"
-            android:id="@+id/status"
+            android:id="@+id/task_status"
             tools:ignore="ButtonStyle" />
     </LinearLayout>
 
@@ -66,7 +68,8 @@
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/priority"
+        android:id="@+id/task_priority"
+        android:max="100"
         android:paddingLeft="4sp"
         android:paddingRight="4sp"/>
 
@@ -84,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:id="@+id/tasks"
+                android:id="@+id/task_checkpoints"
                 android:paddingBottom="8sp"/>
 
             <LinearLayout
@@ -111,7 +114,8 @@
                     android:id="@+id/task_bottom_bar_search_text"
                     android:hint="@string/search"
                     android:visibility="invisible"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
             </LinearLayout>
         </LinearLayout>
 

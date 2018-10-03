@@ -14,11 +14,12 @@
         android:paddingLeft="4sp"
         android:paddingRight="4sp"
         android:paddingTop="4sp"
-        android:id="@+id/title"
+        android:id="@+id/folder_title"
         android:hint="@string/title"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences" />
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences"
+        android:importantForAutofill="no" />
 
     <!--Note Bar-->
     <EditText
@@ -26,11 +27,12 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4sp"
         android:paddingRight="4sp"
-        android:id="@+id/note"
+        android:id="@+id/folder_note"
         android:hint="@string/note"
         android:textSize="12sp"
         android:textStyle="normal"
-        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine" />
+        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
+        android:importantForAutofill="no" />
 
     <!--Tag Bar-->
     <TextView
@@ -38,7 +40,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4sp"
         android:paddingRight="4sp"
-        android:id="@+id/tags"
+        android:id="@+id/folder_tags"
         android:text="@string/no_tags"
         android:textSize="14sp"
         android:textStyle="italic"
@@ -60,7 +62,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="4sp"
                 android:paddingRight="4sp"
-                android:id="@+id/tasks"/>
+                android:id="@+id/folder_tasks"/>
 
             <LinearLayout
                 android:id="@+id/folder_bottom_bar"
@@ -86,7 +88,8 @@
                     android:id="@+id/folder_bottom_bar_search_text"
                     android:hint="@string/search"
                     android:visibility="invisible"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
             </LinearLayout>
         </LinearLayout>
 

@@ -2,9 +2,7 @@ package jgappsandgames.smartreminderslite.home
 
 // Java
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
-import java.net.MalformedURLException
 import java.net.URL
 
 // Android OS
@@ -17,7 +15,6 @@ import android.os.Bundle
 import org.jetbrains.anko.toast
 
 // JSON
-import org.json.JSONException
 import org.json.JSONObject
 
 // App
@@ -60,20 +57,11 @@ class AboutActivity: Activity() {
                     val data = JSONObject(s.toString())
                     if (data.optInt("stable", 0) > BuildConfig.VERSION_CODE) {
                         runOnUiThread {
-                            toast(R.string.update_found).show()
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/tfcbandgeek/SmartReminders-android/releases")))
                         }
                     } else {
                         runOnUiThread { toast(R.string.no_update_found).show() }
                     }
-                } catch (e: MalformedURLException) {
-                    e.printStackTrace()
-                } catch (i: IOException) {
-                    i.printStackTrace()
-                } catch (j: JSONException) {
-                    j.printStackTrace()
-                } catch (n: NullPointerException) {
-                    n.printStackTrace()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -97,10 +85,6 @@ class AboutActivity: Activity() {
 
         pool_button.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.pool_utility_path))))
-        }
-
-        zxing_button.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.zxing_embedded_path))))
         }
     }
 }

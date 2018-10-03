@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!--Title Bar-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/task_landscape_title"
+            android:hint="@string/title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences"
+            android:importantForAutofill="no" />
+
+        <!--Note Bar-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/task_landscape_note"
+            android:hint="@string/note"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
+            android:importantForAutofill="no" />
+
+        <!--Tag Bar-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/task_landscape_tags"
+            android:text="@string/no_tags"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:padding="4sp"/>
+
+        <!--Status Bar-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/no_date"
+                android:id="@+id/task_landscape_date"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/status"
+                android:id="@+id/task_landscape_status"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+
+        <!--Priority Bar-->
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/task_landscape_priority"
+            android:max="100"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"/>
+    </LinearLayout>
+
+    <!--List View-->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/task_landscape_checkpoints"
+                android:paddingBottom="8sp"/>
+
+            <LinearLayout
+                android:id="@+id/task_landscape_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/background_dark"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/task_landscape_bottom_bar_search"
+                    android:layout_width="32sp"
+                    android:layout_height="32sp"
+                    android:layout_marginStart="4sp"
+                    android:layout_marginEnd="4sp"
+                    android:layout_marginTop="4sp"
+                    android:layout_marginBottom="4sp"
+                    android:contentDescription="@string/search"
+                    android:src="@android:drawable/ic_menu_search" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/task_landscape_bottom_bar_search_text"
+                    android:hint="@string/search"
+                    android:visibility="invisible"
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_colorNormal="@android:color/holo_blue_dark"
+            app:fab_colorPressed="@android:color/holo_blue_light"
+            app:fab_colorRipple="@android:color/holo_blue_light"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@android:drawable/ic_menu_add"
+            android:id="@+id/task_landscape_add_checkpoint"
+            tools:ignore="RelativeOverlap,RtlHardcoded" />
+    </RelativeLayout>
+</LinearLayout>

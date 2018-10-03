@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Smart Reminders Lite Alpha</string>
-    <string name="version_string">18.08.2</string>
-    <string name="api_string">11.6.1</string>
+    <string name="version_string">18.10.0</string>
+    <string name="api_string">12.0.1</string>
 
     <string name="_3rd_party_libraries_used_in_this_app">3rd Party Libraries Used in this App</string>
 
@@ -38,8 +38,8 @@
     <string name="edit">Edit</string>
     <string name="external">External</string>
 
-    <string name="fab">Floating Action Button 2.1.0</string>
-    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/releases/tag/p2.1.0</string>
+    <string name="fab">Floating Action Button 2.1.1</string>
+    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/releases/tag/p2.1.1</string>
 
     <string name="high">High</string>
     <string name="high_priority">"High Priority"</string>
@@ -51,8 +51,8 @@
     <string name="incomplete_tasks">Incomplete Tasks [%1$d]</string>
     <string name="internal">Internal</string>
 
-    <string name="kotlin">Kotlin 1.2.60</string>
-    <string name="kotlin_path">https://github.com/JetBrains/kotlin/releases/tag/v1.2.60</string>
+    <string name="kotlin">Kotlin 1.2.71</string>
+    <string name="kotlin_path">https://github.com/JetBrains/kotlin/releases/tag/v1.2.71</string>
 
     <string name="low">Low</string>
     <string name="low_priority_default">"Low Priority (Default)"</string>
@@ -75,8 +75,8 @@
     <string name="overdue">Overdue</string>
     <string name="overdue_tasks">Overdue Tasks [%1$d]</string>
 
-    <string name="pool_utility">PoolUtility 1.1.1</string>
-    <string name="pool_utility_path">https://github.com/tfcbandgeek/PoolUtility/releases/tag/r1.1.1</string>
+    <string name="pool_utility">PoolUtility 1.1.4</string>
+    <string name="pool_utility_path">https://github.com/tfcbandgeek/PoolUtility/releases/tag/r1.1.4</string>
     <string name="prev">Prev</string>
     <string name="priority">Priority</string>
     <string name="priority_shortcut">Priority Shortcut</string>
@@ -124,7 +124,4 @@
     <string name="week_shortcut">Week Shortcut</string>
 
     <string name="your_name">Your Name</string>
-
-    <string name="zxing_embedded">Zxing Embedded 3.6.0</string>
-    <string name="zxing_embedded_path">https://github.com/journeyapps/zxing-android-embedded/releases/tag/v3.6.0</string>
 </resources>

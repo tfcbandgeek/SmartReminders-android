@@ -277,9 +277,7 @@ class Task(): PoolObjectInterface {
         return this
     }
 
-    fun delete() {
-        File(FileUtility.getApplicationDataDirectory(), filename).delete()
-    }
+    fun delete() = File(FileUtility.getApplicationDataDirectory(), filename).delete()
 
     fun search(search: String): Boolean {
         return when {
@@ -483,7 +481,7 @@ class Task(): PoolObjectInterface {
     fun getDateDue(): Calendar? = dateDue
 
     fun getDateDueString(): String = if (dateDue == null) "No Date"
-    else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
+        else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
             dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
             dateDue!!.get(Calendar.YEAR).toString()
 
@@ -497,21 +495,21 @@ class Task(): PoolObjectInterface {
     }
 
     fun getDateUpdatedString(): String = if (dateUpdated == null) "No Date"
-    else (dateUpdated!!.get(Calendar.MONTH) + 1).toString() + "/" +
+        else (dateUpdated!!.get(Calendar.MONTH) + 1).toString() + "/" +
             dateUpdated!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
             dateUpdated!!.get(Calendar.YEAR).toString()
 
     fun getDateArchived(): Calendar? = dateArchived
 
     fun getDateArchivedString(): String = if (dateArchived == null) "No Date"
-    else (dateArchived!!.get(Calendar.MONTH) + 1).toString() + "/" +
+        else (dateArchived!!.get(Calendar.MONTH) + 1).toString() + "/" +
             dateArchived!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
             dateArchived!!.get(Calendar.YEAR).toString()
 
     fun getDateDeleted(): Calendar? = dateDeleted
 
     fun getDateDeletedString(): String = if (dateDeleted == null) "No Date"
-    else (dateDeleted!!.get(Calendar.MONTH) + 1).toString() + "/" +
+        else (dateDeleted!!.get(Calendar.MONTH) + 1).toString() + "/" +
             dateDeleted!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
             dateDeleted!!.get(Calendar.YEAR).toString()
 
@@ -535,6 +533,14 @@ class Task(): PoolObjectInterface {
         val temp = ArrayList<Task>(children.size)
         for (c in children) temp.add(TaskManager.taskPool.getPoolObject().load(c))
         return temp
+    }
+
+    fun getChildrenString(): String {
+        val builder = StringBuilder()
+        val tasks = getChildrenTasks()
+
+        for (task in tasks) builder.append(task.getTitle()).append(", ")
+        return builder.toString()
     }
 
     fun getCheckpoints(): ArrayList<Checkpoint> = checkpoints

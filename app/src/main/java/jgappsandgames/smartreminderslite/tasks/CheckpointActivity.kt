@@ -15,15 +15,12 @@ import org.json.JSONObject
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.utility.CHECKPOINT
-import jgappsandgames.smartreminderslite.utility.RESPONSE_CHANGE
-import jgappsandgames.smartreminderslite.utility.RESPONSE_NONE
+import jgappsandgames.smartreminderslite.utility.*
 import jgappsandgames.smartreminderssave.tasks.Checkpoint
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_continue
-import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_status
-import kotlinx.android.synthetic.main.activity_checkpoint.checkpoint_text
+import kotlinx.android.synthetic.main.activity_checkpoint.*
 
 /**
  * CheckpointActivity
@@ -39,6 +36,8 @@ class CheckpointActivity:  Activity(), TextWatcher {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkpoint)
+
+        loadClass(this)
 
         // Set Empty Return Intent
         setResult(RESPONSE_NONE)
@@ -66,10 +65,7 @@ class CheckpointActivity:  Activity(), TextWatcher {
             setReturnIntent()
         }
 
-        checkpoint_continue.setOnClickListener {
-            finish()
-        }
-
+        checkpoint_continue.setOnClickListener { finish() }
         setStatus()
     }
 

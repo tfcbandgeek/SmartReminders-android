@@ -26,8 +26,7 @@ class FileUtility {
         private var cache: File? = null
 
         // FileUtility Control Methods -------------------------------------------------------------
-        @JvmStatic
-        fun isFirstRun(): Boolean {
+        @JvmStatic fun isFirstRun(): Boolean {
             if (data!!.isDirectory) return false
 
 
@@ -36,15 +35,13 @@ class FileUtility {
             return true
         }
 
-        @JvmStatic
-        fun loadFilePaths(context: Context) {
+        @JvmStatic fun loadFilePaths(context: Context) {
             data = File(context.filesDir, path)
             cache = File(context.cacheDir, path)
         }
 
         // FileUtilityDirectory Getters ------------------------------------------------------------
-        @JvmStatic
-        fun getApplicationDataDirectory(): File {
+        @JvmStatic fun getApplicationDataDirectory(): File {
             // Create File Object
             if (SettingsManager.getUseExternal()) {
                 if (external != null) return external!!
@@ -67,8 +64,7 @@ class FileUtility {
         }
 
         // Get the Internal App Directory (Useful for App Settings
-        @JvmStatic
-        fun getInternalFileDirectory(): File {
+        @JvmStatic fun getInternalFileDirectory(): File {
             // Create Directory
             if (!data!!.exists() || !data!!.isDirectory) data!!.mkdirs()
 
@@ -76,8 +72,7 @@ class FileUtility {
             return data!!
         }
 
-        @JvmStatic
-        fun getExternalFileDirectory(): File {
+        @JvmStatic fun getExternalFileDirectory(): File {
             external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
                        else data
 
@@ -87,8 +82,7 @@ class FileUtility {
             return external!!
         }
 
-        @JvmStatic
-        fun getApplicationCacheDirectory(): File {
+        @JvmStatic fun getApplicationCacheDirectory(): File {
             // Create Directory
             if (!cache!!.exists() || !cache!!.isDirectory) cache!!.mkdirs()
 
@@ -97,16 +91,14 @@ class FileUtility {
         }
 
         // FileUtility Move Methods ----------------------------------------------------------------
-        @JvmStatic
-        fun moveFolder(input: File, out: File) {
+        @JvmStatic fun moveFolder(input: File, out: File) {
             out.deleteRecursively()
             File(data, FIRST_RUN)
             input.copyTo(out, true)
             input.deleteRecursively()
         }
 
-        @JvmStatic
-        fun copyFolder(input: File, out: File) {
+        @JvmStatic fun copyFolder(input: File, out: File) {
             out.deleteRecursively()
             File(data, FIRST_RUN)
             input.copyRecursively(out, true)

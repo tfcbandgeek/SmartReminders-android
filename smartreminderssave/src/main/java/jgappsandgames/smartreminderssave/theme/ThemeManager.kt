@@ -46,8 +46,7 @@ class ThemeManager {
         private var light = 0
 
         // Management Methods ----------------------------------------------------------------------
-        @JvmStatic
-        fun create() {
+        @JvmStatic fun create() {
             version = API.RELEASE
             color = 1
             light = 1
@@ -56,8 +55,7 @@ class ThemeManager {
             meta = JSONObject()
         }
 
-        @JvmStatic
-        fun load() {
+        @JvmStatic fun load() {
             val data: JSONObject
             try {
                 data = JSONUtility.loadJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME))
@@ -82,8 +80,7 @@ class ThemeManager {
             }
         }
 
-        @JvmStatic
-        fun save() {
+        @JvmStatic fun save() {
             val data = JSONObject()
 
             try {
@@ -100,17 +97,11 @@ class ThemeManager {
     }
 
     // Getters -------------------------------------------------------------------------------------
-    fun getMeta(): JSONObject {
-        return meta
-    }
+    fun getMeta(): JSONObject = meta
 
-    fun getColor(): Int {
-        return color
-    }
+    fun getColor(): Int = color
 
-    fun getLight(): Int {
-        return light
-    }
+    fun getLight(): Int = light
 
     // Setters -------------------------------------------------------------------------------------
     fun setMeta(_meta: JSONObject) {

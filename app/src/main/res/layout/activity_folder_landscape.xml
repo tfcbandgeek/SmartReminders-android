@@ -3,51 +3,62 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--Title Bar-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4sp"
-        android:paddingRight="4sp"
-        android:paddingTop="4sp"
-        android:id="@+id/title"
-        android:hint="@string/title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences" />
+    <!--Left View-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-    <!--Note Bar-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4sp"
-        android:paddingRight="4sp"
-        android:id="@+id/note"
-        android:hint="@string/note"
-        android:textSize="12sp"
-        android:textStyle="normal"
-        android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine" />
+        <!--Title Bar-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:paddingTop="4sp"
+            android:id="@+id/folder_landscape_title"
+            android:hint="@string/title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences"
+            android:importantForAutofill="no" />
 
-    <!--Tag Bar-->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4sp"
-        android:paddingRight="4sp"
-        android:id="@+id/tags"
-        android:text="@string/no_tags"
-        android:textSize="14sp"
-        android:textStyle="italic"
-        android:padding="4sp"/>
+        <!--Note Bar-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:id="@+id/folder_landscape_note"
+            android:hint="@string/note"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:inputType="text|textAutoComplete|textAutoCorrect|textCapSentences|textMultiLine"
+            android:importantForAutofill="no" />
+
+        <!--Tag Bar-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4sp"
+            android:paddingRight="4sp"
+            android:id="@+id/folder_landscape_tags"
+            android:text="@string/no_tags"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:padding="4sp"/>
+    </LinearLayout>
 
     <!--List View-->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +71,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="4sp"
                 android:paddingRight="4sp"
-                android:id="@+id/tasks"/>
+                android:id="@+id/folder_landscape_tasks"/>
 
             <LinearLayout
                 android:id="@+id/folder_bottom_bar"
@@ -70,7 +81,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/folder_bottom_bar_search"
+                    android:id="@+id/folder_landscape_bottom_bar_search"
                     android:layout_width="32sp"
                     android:layout_height="32sp"
                     android:layout_marginStart="4sp"
@@ -83,10 +94,11 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/folder_bottom_bar_search_text"
+                    android:id="@+id/folder_landscape_bottom_bar_search_text"
                     android:hint="@string/search"
                     android:visibility="invisible"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:importantForAutofill="no" />
             </LinearLayout>
         </LinearLayout>
 
@@ -96,11 +108,11 @@
             app:menu_colorNormal="@android:color/holo_blue_dark"
             app:menu_colorRipple="@android:color/holo_blue_light"
             app:menu_colorPressed="@android:color/holo_blue_light"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:src="@android:drawable/ic_menu_add"
-            android:id="@+id/folder_fab"
-            tools:ignore="RelativeOverlap">
+            android:id="@+id/folder_landscape_fab"
+            tools:ignore="RelativeOverlap,RtlHardcoded">
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -110,7 +122,7 @@
                 app:fab_colorRipple="@android:color/holo_blue_light"
                 android:src="@android:drawable/ic_dialog_dialer"
                 app:fab_label="@string/add_folder"
-                android:id="@+id/folder_add_folder"/>
+                android:id="@+id/folder_landscape_add_folder"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -120,7 +132,7 @@
                 app:fab_colorRipple="@android:color/holo_blue_light"
                 android:src="@android:drawable/ic_menu_agenda"
                 app:fab_label="@string/add_task"
-                android:id="@+id/folder_add_task"/>
+                android:id="@+id/folder_landscape_add_task"/>
         </com.github.clans.fab.FloatingActionMenu>
     </RelativeLayout>
 </LinearLayout>

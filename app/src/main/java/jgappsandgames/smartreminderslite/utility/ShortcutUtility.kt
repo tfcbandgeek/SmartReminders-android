@@ -8,7 +8,6 @@ import android.app.Activity
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
-import android.os.Build
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -99,7 +98,7 @@ fun createTaskShortcut(activity: Activity, task: String) {
 
 // Remove Shortcuts ------------------------------------------------------------------------
 fun removeTagShortcut(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()
@@ -109,7 +108,7 @@ fun removeTagShortcut(activity: Activity) {
 }
 
 fun removePriorityShortcut(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()
@@ -119,7 +118,7 @@ fun removePriorityShortcut(activity: Activity) {
 }
 
 fun removeStatusShortcut(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()
@@ -129,7 +128,7 @@ fun removeStatusShortcut(activity: Activity) {
 }
 
 fun removeTodayShortcut(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()
@@ -139,7 +138,7 @@ fun removeTodayShortcut(activity: Activity) {
 }
 
 fun removeWeekShortcut(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()
@@ -149,7 +148,7 @@ fun removeWeekShortcut(activity: Activity) {
 }
 
 fun removeMonthShortcut(activity: Activity) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()
@@ -159,7 +158,7 @@ fun removeMonthShortcut(activity: Activity) {
 }
 
 fun removeTaskShortcut(activity: Activity, task: String) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+    if (hasShortcuts()) {
         val manager = activity.getSystemService(ShortcutManager::class.java)
 
         val s = ArrayList<String>()

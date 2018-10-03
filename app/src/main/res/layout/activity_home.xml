@@ -56,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/search"
                 android:inputType="text"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                android:importantForAutofill="no" />
         </LinearLayout>
     </LinearLayout>
 

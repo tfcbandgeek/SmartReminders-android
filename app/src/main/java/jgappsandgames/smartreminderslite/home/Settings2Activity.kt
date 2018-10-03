@@ -1,20 +1,29 @@
 package jgappsandgames.smartreminderslite.home
 
+// Android OS
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+
+// Anko
+import org.jetbrains.anko.alert
+
+// App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.utility.*
+
+// KotlinX
+import kotlinx.android.synthetic.main.activity_settings.*
+
+// Library
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.API
-import kotlinx.android.synthetic.main.activity_settings.*
-import org.jetbrains.anko.alert
 
 /**
  * Settings2Activity
@@ -62,9 +71,7 @@ class Settings2Activity: Activity() {
         settings_list.removeView(settings_upgrade)
     }
 
-    private fun cleanForSettings() {
-        settings_root.removeView(settings_continue_button)
-    }
+    private fun cleanForSettings() = settings_root.removeView(settings_continue_button)
 
     // View Setters --------------------------------------------------------------------------------
     private fun setAll() {

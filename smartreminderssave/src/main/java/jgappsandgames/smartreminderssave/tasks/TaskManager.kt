@@ -11,12 +11,10 @@ import org.json.JSONObject
 
 // Pool Utility
 import jgappsandgames.me.poolutilitykotlin.Pool
-import jgappsandgames.smartreminderssave.settings.SettingsManager
 
 // Save Library
-import jgappsandgames.smartreminderssave.utility.API
-import jgappsandgames.smartreminderssave.utility.FileUtility
-import jgappsandgames.smartreminderssave.utility.JSONUtility
+import jgappsandgames.smartreminderssave.settings.SettingsManager
+import jgappsandgames.smartreminderssave.utility.*
 
 /**
  * TaskManager
@@ -195,8 +193,7 @@ class TaskManager {
         }
 
         // Task Methods ----------------------------------------------------------------------------
-        @JvmStatic
-        fun addTask(task: Task, home: Boolean): Task {
+        @JvmStatic fun addTask(task: Task, home: Boolean): Task {
             if (home) {
                 TaskManager.home.add(task.getFilename())
                 TaskManager.tasks.add(task.getFilename())
@@ -212,8 +209,7 @@ class TaskManager {
             return task
         }
 
-        @JvmStatic
-        fun archiveTask(task: Task) {
+        @JvmStatic fun archiveTask(task: Task) {
             task.markArchived()
             task.save()
 
@@ -244,8 +240,7 @@ class TaskManager {
             save()
         }
 
-        @JvmStatic
-        fun deleteTask(task: Task): Boolean {
+        @JvmStatic fun deleteTask(task: Task): Boolean {
             if (archived.contains(task.getFilename())) {
                 task.delete()
                 deleted.add(task.getFilename())

@@ -14,20 +14,15 @@ import android.view.ViewGroup
 
 // App
 import jgappsandgames.smartreminderslite.R
-import jgappsandgames.smartreminderslite.adapter.TagAdapter
-import jgappsandgames.smartreminderslite.adapter.TaskAdapter
-import jgappsandgames.smartreminderslite.utility.Save
-import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+import jgappsandgames.smartreminderslite.adapter.*
+import jgappsandgames.smartreminderslite.utility.*
 
 // KotlinX
-import kotlinx.android.synthetic.main.activity_tag.tag_selected
-import kotlinx.android.synthetic.main.activity_tag.tag_tasks
-import kotlinx.android.synthetic.main.activity_tag.tag_unselected
+import kotlinx.android.synthetic.main.activity_tag.*
 
 // Save
 import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.tasks.Task
-import jgappsandgames.smartreminderssave.tasks.TaskManager
+import jgappsandgames.smartreminderssave.tasks.*
 
 /**
  * TagActivity
@@ -42,6 +37,8 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tag)
+
+        loadClass(this)
     }
 
     override fun onResume() {
@@ -61,13 +58,7 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return onOptionsItemSelected(this, item, object: Save {
-            override fun save() {
-                this@TagActivity.save()
-            }
-        })
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = onOptionsItemSelected(this, item, object: Save { override fun save() = this@TagActivity.save() })
 
     // Tag Switcher --------------------------------------------------------------------------------
     override fun moveTag(tag: String, selected: Boolean) {
@@ -79,20 +70,15 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
         tag_unselected.adapter = TagAdapter(this, this, selectedTags, false)
     }
 
-    override fun onTaskChanged() {
-        onResume()
-    }
+    override fun onTaskChanged() = onResume()
 
     // Save ----------------------------------------------------------------------------------------
-    fun save() {
-        MasterManager.save()
-    }
+    fun save() = MasterManager.save()
 
     // Internal Classes ----------------------------------------------------------------------------
-    class TaskAdapter(private val activity: TagActivity, selected: java.util.ArrayList<String>, n_tasks: java.util.ArrayList<Task>):
-            BaseAdapter() {
+    class TaskAdapter(private val activity: TagActivity, selected: java.util.ArrayList<String>, n_tasks: java.util.ArrayList<Task>): BaseAdapter() {
         // Data ----------------------------------------------------------------------------------------
-        private val tasks: java.util.ArrayList<Task> = java.util.ArrayList()
+        private val tasks: ArrayList<Task> = ArrayList()
 
         // Constructor ---------------------------------------------------------------------------------
         init {
@@ -120,54 +106,44 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
         }
 
         // List Methods --------------------------------------------------------------------------------
-        override fun getCount(): Int {
-            return tasks.size
-        }
+        override fun getCount(): Int = tasks.size
 
-        override fun getViewTypeCount(): Int {
-            return 3
-        }
+        override fun getViewTypeCount(): Int = 3
 
-        override fun getItem(position: Int): Task {
-            return tasks[position]
-        }
+        override fun getItem(position: Int): Task = tasks[position]
 
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
+        override fun getItemId(position: Int): Long = position.toLong()
 
-        override fun getItemViewType(position: Int): Int {
-            return getItem(position).getType()
-        }
+        override fun getItemViewType(position: Int): Int = getItem(position).getType()
 
         override fun getView(position: Int, view: View?, parent: ViewGroup): View {
             val item = getItem(position)
-            var convertView = view
+            var convertView: View? = view
             val task: jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
             val folder: jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
 
-            if (item.getType() == Task.TYPE_FOLDER) {
+            return if (item.getType() == Task.TYPE_FOLDER) {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
-                    folder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, convertView, item)
+                    folder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, convertView!!, item)
                     convertView.tag = folder
                 } else {
                     folder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
                     folder.updateViews(item)
                 }
 
-                return convertView!!
+                convertView
             } else {
                 if (convertView == null) {
                     convertView = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
-                    task = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, convertView, item)
+                    task = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, convertView!!, item)
                     convertView.tag = task
                 } else {
                     task = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
                     task.updateViews(item)
                 }
 
-                return convertView!!
+                convertView
             }
         }
     }

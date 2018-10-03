@@ -3,8 +3,6 @@ package jgappsandgames.smartreminderslite.adapter
 // Android OS
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
-import android.os.VibrationEffect
 
 // Views
 import android.view.LayoutInflater
@@ -15,14 +13,12 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.TextView
 
-// Anko
-import org.jetbrains.anko.vibrator
-
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.tasks.TaskActivity
 import jgappsandgames.smartreminderslite.utility.TASK_NAME
 import jgappsandgames.smartreminderslite.utility.TASK_TYPE
+import jgappsandgames.smartreminderslite.utility.vibrate
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
@@ -31,8 +27,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
 /**
  * TaskAdapter
  */
-class TaskAdapter(private val activity: Activity, private val listener: OnTaskChangedListener,
-                  var tasks: ArrayList<String>, search: String): BaseAdapter() {
+class TaskAdapter(private val activity: Activity, private val listener: OnTaskChangedListener, var tasks: ArrayList<String>, search: String): BaseAdapter() {
     companion object {
         // Constants -------------------------------------------------------------------------------
         const val TASK_TYPE_COUNT = 3
@@ -63,22 +58,14 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
     }
 
     // List Methods --------------------------------------------------------------------------------
-    override fun getCount(): Int {
-        return tasks.size
-    }
+    override fun getCount(): Int = tasks.size
 
-    override fun getViewTypeCount(): Int {
-        return TASK_TYPE_COUNT
-    }
+    override fun getViewTypeCount(): Int = TASK_TYPE_COUNT
 
-    override fun hasStableIds(): Boolean {
-        return true
-    }
+    override fun hasStableIds(): Boolean = true
 
     // Item Methods --------------------------------------------------------------------------------
-    override fun getItem(position: Int): Task {
-        return TaskManager.taskPool.getPoolObject().load(tasks[position])
-    }
+    override fun getItem(position: Int): Task = TaskManager.taskPool.getPoolObject().load(tasks[position])
 
     override fun getItemId(position: Int): Long {
         val t = getItem(position)
@@ -114,10 +101,12 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         return if (t.getType() == Task.TYPE_FOLDER) {
             val holder: FolderHolder = convertView.tag as FolderHolder
             holder.updateViews(t)
+            TaskManager.taskPool.returnPoolObject(t, false)
             convertView
         } else {
             val holder: TaskHolder = convertView.tag as TaskHolder
             holder.updateViews(t)
+            TaskManager.taskPool.returnPoolObject(t, false)
             convertView
         }
     }
@@ -165,17 +154,8 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
 
         override fun onLongClick(p0: View?): Boolean {
             TaskManager.archiveTask(folder)
-
-            if (activity.vibrator.hasVibrator()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    activity.vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-                } else {
-                    @Suppress("DEPRECATION")
-                    activity.vibrator.vibrate(100)
-                }
-            }
-
             listener.onTaskChanged()
+            vibrate(activity)
             return true
         }
     }
@@ -221,17 +201,8 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
 
         override fun onLongClick(p0: View?): Boolean {
             TaskManager.archiveTask(task)
-
-            if (activity.vibrator.hasVibrator()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    activity.vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
-                } else {
-                    @Suppress("DEPRECATION")
-                    activity.vibrator.vibrate(100)
-                }
-            }
-
             listener.onTaskChanged()
+            vibrate(activity)
             return true
         }
 
