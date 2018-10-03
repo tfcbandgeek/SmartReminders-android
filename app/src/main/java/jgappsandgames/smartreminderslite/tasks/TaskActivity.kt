@@ -493,7 +493,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
             task_note.editableText.hashCode() -> task.setNote(task_note.text.toString()).save()
 
-            task_bottom_bar_search.hashCode() -> {
+            task_bottom_bar_search_text.editableText.hashCode() -> {
                 if (task_bottom_bar_search_text.visibility == View.VISIBLE) {
                     task_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_bottom_bar_search_text.text.toString(), task.getCheckpoints())
                 }

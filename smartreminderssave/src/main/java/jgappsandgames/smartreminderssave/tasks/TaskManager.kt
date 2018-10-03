@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
+import android.util.Log
 import java.io.File
 import java.io.IOException
 
@@ -210,6 +211,7 @@ class TaskManager {
         }
 
         @JvmStatic fun archiveTask(task: Task) {
+            Log.e("Task to Delete", task.getFilename())
             task.markArchived()
             task.save()
 
@@ -233,6 +235,14 @@ class TaskManager {
                         e.printStackTrace()
                     }
                 }
+            }
+
+            if (task.getType() == Task.TYPE_FOLDER) {
+                val children: ArrayList<String> = task.getChildren().clone() as ArrayList<String>
+                val t = taskPool.getPoolObject()
+
+                for (i in 0 until children.size) archiveTask(t.load(children[i]))
+                taskPool.returnPoolObject(t)
             }
 
             tasks.remove(task.getFilename())

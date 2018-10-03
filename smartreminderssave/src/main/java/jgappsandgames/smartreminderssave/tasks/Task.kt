@@ -282,6 +282,7 @@ class Task(): PoolObjectInterface {
     fun search(search: String): Boolean {
         return when {
             getTitle().toLowerCase().contains(search.toLowerCase()) -> true
+            getNote().toLowerCase().contains(search.toLowerCase()) -> true
             getTags().isEmpty() -> false
             getTagString().toLowerCase().contains(search.toLowerCase()) -> true
             else -> false
