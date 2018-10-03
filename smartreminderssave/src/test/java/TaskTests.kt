@@ -1,2 +1,1 @@
-class TaskTests {
-}
+class TaskTests

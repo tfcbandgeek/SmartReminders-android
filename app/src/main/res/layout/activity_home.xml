@@ -57,7 +57,8 @@
                 android:hint="@string/search"
                 android:inputType="text"
                 android:visibility="invisible"
-                android:importantForAutofill="no" />
+                android:importantForAutofill="no"
+                tools:targetApi="o" />
         </LinearLayout>
     </LinearLayout>
 

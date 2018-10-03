@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Smart Reminders Lite Alpha</string>
-    <string name="version_string">18.10.0</string>
-    <string name="api_string">12.0.1</string>
+    <string name="app_name">Smart Reminders Lite</string>
+    <string name="version_string">18.10.0 RC</string>
+    <string name="api_string">12.1.0</string>
 
     <string name="_3rd_party_libraries_used_in_this_app">3rd Party Libraries Used in this App</string>
 
@@ -18,8 +18,8 @@
 
     <string name="check_for_updates">Check for Updates</string>
     <string name="close">Close</string>
-    <string name="complete">Completed.</string>
-    <string name="completed">Completed.</string>
+    <string name="complete">Completed</string>
+    <string name="completed">Completed</string>
     <string name="completed_tasks">Completed Tasks [%1$d]</string>
     <string name="coming_soon">Coming Soon.</string>
     <string name="con">Continue</string>

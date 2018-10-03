@@ -16,7 +16,7 @@
         android:id="@+id/close"/>
 
     <item
-        android:title="More"
+        android:title="@string/more"
         android:showAsAction="never"
         android:id="@+id/more"/>
 </menu>

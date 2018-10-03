@@ -73,10 +73,10 @@ class ThemeManager {
             light = data.optInt(LIGHT, 1)
 
             // API 11
-            if (version >= API.RELEASE) {
-                meta = data.optJSONObject(META)
+            meta = if (version >= API.RELEASE) {
+                data.optJSONObject(META)
             } else {
-                meta = JSONObject()
+                JSONObject()
             }
         }
 

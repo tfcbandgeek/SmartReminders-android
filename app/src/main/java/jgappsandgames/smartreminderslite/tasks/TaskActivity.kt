@@ -487,15 +487,15 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         when (editable.hashCode()) {
             task_title.editableText.hashCode() -> {
-                task.setTitle(task_title.text.toString()).save()
+                task.setTitle(editable.toString()).save()
                 title = task.getTitle()
             }
 
-            task_note.editableText.hashCode() -> task.setNote(task_note.text.toString()).save()
+            task_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
 
             task_bottom_bar_search_text.editableText.hashCode() -> {
                 if (task_bottom_bar_search_text.visibility == View.VISIBLE) {
-                    task_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_bottom_bar_search_text.text.toString(), task.getCheckpoints())
+                    task_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), editable.toString(), task.getCheckpoints())
                 }
             }
         }
@@ -506,15 +506,15 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         when (editable.hashCode()) {
             task_landscape_title.editableText.hashCode() -> {
-                task.setTitle(task_landscape_title.text.toString()).save()
+                task.setTitle(editable.toString()).save()
                 title = task.getTitle()
             }
 
-            task_landscape_note.editableText.hashCode() -> task.setNote(task_landscape_note.text.toString()).save()
+            task_landscape_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
 
             task_landscape_bottom_bar_search_text.editableText.hashCode() -> {
                 if (task_landscape_bottom_bar_search_text.visibility == View.VISIBLE) {
-                    task_landscape_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), task_landscape_bottom_bar_search_text.text.toString(), task.getCheckpoints())
+                    task_landscape_checkpoints.adapter = CheckpointSearchAdapter(this@TaskActivity, task.getFilename(), editable.toString(), task.getCheckpoints())
                 }
             }
         }
@@ -525,15 +525,15 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         when (editable.hashCode()) {
             folder_title.editableText.hashCode() -> {
-                task.setTitle(folder_title.text.toString()).save()
+                task.setTitle(editable.toString()).save()
                 title = task.getTitle()
             }
 
-            folder_note.editableText.hashCode() -> task.setNote(folder_note.text.toString()).save()
+            folder_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
 
             folder_bottom_bar_search_text.editableText.hashCode() -> {
                 if (folder_bottom_bar_search_text.visibility == View.VISIBLE) {
-                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) folder_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), folder_bottom_bar_search_text.text.toString())
+                    if (folder_bottom_bar_search_text.visibility == View.VISIBLE) folder_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), editable.toString())
                 }
             }
         }
@@ -544,15 +544,15 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
         when (editable.hashCode()) {
             folder_landscape_title.editableText.hashCode() -> {
-                task.setTitle(folder_landscape_title.text.toString()).save()
+                task.setTitle(editable.toString()).save()
                 title = task.getTitle()
             }
 
-            folder_landscape_note.editableText.hashCode() -> task.setNote(folder_landscape_note.text.toString()).save()
+            folder_landscape_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
 
             folder_landscape_bottom_bar_search_text.editableText.hashCode() -> {
                 if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) {
-                    if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) folder_landscape_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), folder_landscape_bottom_bar_search_text.text.toString())
+                    if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) folder_landscape_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), editable.toString())
                 }
             }
         }

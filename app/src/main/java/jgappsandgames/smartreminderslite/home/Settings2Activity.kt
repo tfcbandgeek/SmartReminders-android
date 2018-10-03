@@ -138,26 +138,26 @@ class Settings2Activity: Activity() {
                     title = "Are you sure you want to continue?"
                     message = "This move may cause you to lose portions or all of your data"
 
-                    positiveButton("Continue") { _ ->
+                    positiveButton("Continue") {
                         SettingsManager.setUseVersion(API.SHRINKING)
                         SettingsManager.save()
                         settings_upgrade.text = getText(R.string.downgrade_to_api_11)
                     }
 
-                    negativeButton("Cancel") { _ -> }
+                    negativeButton("Cancel") { }
                 }.show()
             } else {
                 alert {
                     title = "Are you sure you want to continue?"
                     message = "This move may cause you to lose portions or all of your data"
 
-                    positiveButton("Continue") { _ ->
+                    positiveButton("Continue") {
                         SettingsManager.setUseVersion(API.MANAGEMENT)
                         SettingsManager.save()
                         settings_upgrade.text = getText(R.string.upgrade_to_api_12_testing)
                     }
 
-                    negativeButton("Cancel") { _ -> }
+                    negativeButton("Cancel") { }
                 }.show()
             }
         }

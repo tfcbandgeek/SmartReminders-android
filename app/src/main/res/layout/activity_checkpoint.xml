@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/text"
         android:id="@+id/checkpoint_text"
-        android:inputType="text" />
+        android:inputType="text"
+        android:importantForAutofill="no" />
 
     <!--Status Bar-->
     <Button

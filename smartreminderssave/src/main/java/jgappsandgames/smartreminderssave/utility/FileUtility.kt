@@ -46,8 +46,8 @@ class FileUtility {
             if (SettingsManager.getUseExternal()) {
                 if (external != null) return external!!
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) external = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
-                else external = data
+                external = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), path)
+                else data
 
                 // Create Directory
                 if (!external!!.exists() || !external!!.isDirectory) external!!.mkdirs()
