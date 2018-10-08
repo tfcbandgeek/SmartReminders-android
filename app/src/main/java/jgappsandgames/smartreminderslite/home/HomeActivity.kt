@@ -25,14 +25,16 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.saveMaster
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_home.*
 
 // Save Library
-import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.Task
-import jgappsandgames.smartreminderssave.tasks.TaskManager
+import jgappsandgames.smartreminderssave.tasks.addTask
+import jgappsandgames.smartreminderssave.tasks.getHome
+import jgappsandgames.smartreminderssave.tasks.getTaskFromPool
 
 /**
  * HomeActivity
@@ -51,12 +53,12 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         // Set Click Listeners
         home_add_task.setOnClickListener {
             home_fab.close(true)
-            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true))))
+            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = addTask(getTaskFromPool().load("home", Task.TYPE_TASK).save(), true))))
         }
 
         home_add_folder.setOnClickListener {
             home_fab.close(true)
-            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true))))
+            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = addTask(getTaskFromPool().load("home", Task.TYPE_FOLDER).save(), true))))
         }
 
         home_bottom_bar_search.setOnClickListener {
@@ -109,14 +111,14 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 if (home_bottom_bar_search_text.visibility == View.VISIBLE) home_tasks_list.adapter =
-                        TaskAdapter(this@HomeActivity, this@HomeActivity, TaskManager.getHome(), home_bottom_bar_search_text.text.toString())
+                        TaskAdapter(this@HomeActivity, this@HomeActivity, getHome(), home_bottom_bar_search_text.text.toString())
             }
         })
     }
 
     override fun onResume() {
         super.onResume()
-        home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
+        home_tasks_list.adapter = TaskAdapter(this, this, getHome(), "")
     }
 
     override fun onPause() {
@@ -136,18 +138,18 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     override fun onTaskChanged() = onResume()
 
     // Auxiliary Methods ---------------------------------------------------------------------------
-    fun save() = MasterManager.save()
+    fun save() = saveMaster()
 
     // Search Methods ------------------------------------------------------------------------------
     private fun searchVisibility(visible: Boolean = true) {
         if (visible) {
             home_bottom_bar_search_text.visibility = View.VISIBLE
             home_bottom_bar_search_text.setText("")
-            home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
+            home_tasks_list.adapter = TaskAdapter(this, this, getHome(), "")
         } else {
             home_bottom_bar_search_text.visibility = View.INVISIBLE
             home_bottom_bar_search_text.setText("")
-            home_tasks_list.adapter = TaskAdapter(this, this, TaskManager.getHome(), "")
+            home_tasks_list.adapter = TaskAdapter(this, this, getHome(), "")
         }
     }
 }

@@ -16,14 +16,16 @@ import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.date.DateManager
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_date.*
 
 // App
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.date.createDate
+import jgappsandgames.smartreminderssave.date.getWeek
+import jgappsandgames.smartreminderssave.date.getWeekTasks
+import jgappsandgames.smartreminderssave.saveMaster
 
 /**
  * WeekActivity
@@ -48,21 +50,21 @@ class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         date_previous.setOnClickListener {
             weekActive--
             if (weekActive < 0) weekActive = 0
-            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
+            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getWeekTasks(weekActive)), "")
             setTitle()
         }
 
         date_next.setOnClickListener {
             weekActive++
-            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
+            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getWeekTasks(weekActive)), "")
             setTitle()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        DateManager.create()
-        date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getWeekTasks(weekActive)), "")
+        createDate()
+        date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getWeekTasks(weekActive)), "")
     }
 
     override fun onPause() {
@@ -83,12 +85,12 @@ class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
     // Private Class Methods -----------------------------------------------------------------------
     private fun setTitle() {
-        val start = DateManager.getWeek(weekActive).getStart()
-        val end = DateManager.getWeek(weekActive).getEnd()
+        val start = getWeek(weekActive).getStart()
+        val end = getWeek(weekActive).getEnd()
 
         title = (start.get(Calendar.MONTH) + 1).toString() + "/" + start.get(Calendar.DAY_OF_MONTH).toString() + " - " +
                 (end.get(Calendar.MONTH) + 1).toString() + "/" + end.get(Calendar.DAY_OF_MONTH).toString()
     }
 
-    fun save() = MasterManager.save()
+    fun save() = saveMaster()
 }

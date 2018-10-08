@@ -22,7 +22,9 @@ import jgappsandgames.smartreminderslite.utility.vibrate
 
 // Save
 import jgappsandgames.smartreminderssave.tasks.Task
-import jgappsandgames.smartreminderssave.tasks.TaskManager
+import jgappsandgames.smartreminderssave.tasks.archiveTask
+import jgappsandgames.smartreminderssave.tasks.getTaskFromPool
+import jgappsandgames.smartreminderssave.tasks.returnTaskToPool
 
 /**
  * TaskAdapter
@@ -45,12 +47,12 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         if (search != "" || search != " ") {
             val r = ArrayList<String>()
             for (i in 0 until tasks.size) {
-                val t = TaskManager.taskPool.getPoolObject().load(tasks[i])
+                val t = getTaskFromPool().load(tasks[i])
                 if (t.getTitle().toLowerCase().contains(search.toLowerCase())) r.add(t.getFilename())
                 else if (t.getTags().size != 0) {
                     if (t.getTagString().toLowerCase().contains(search.toLowerCase())) r.add(t.getFilename())
                 }
-                TaskManager.taskPool.returnPoolObject(t, false)
+                returnTaskToPool(t)
             }
 
             tasks = r
@@ -65,19 +67,19 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
     override fun hasStableIds(): Boolean = true
 
     // Item Methods --------------------------------------------------------------------------------
-    override fun getItem(position: Int): Task = TaskManager.taskPool.getPoolObject().load(tasks[position])
+    override fun getItem(position: Int): Task = getTaskFromPool().load(tasks[position])
 
     override fun getItemId(position: Int): Long {
         val t = getItem(position)
         val id = t.getID().toLong()
-        TaskManager.taskPool.returnPoolObject(t, false)
+        returnTaskToPool(t)
         return id
     }
 
     override fun getItemViewType(position: Int): Int {
         val t = getItem(position)
         val type = t.getType()
-        TaskManager.taskPool.returnPoolObject(t, false)
+        returnTaskToPool(t)
         return type
     }
 
@@ -101,12 +103,12 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         return if (t.getType() == Task.TYPE_FOLDER) {
             val holder: FolderHolder = convertView.tag as FolderHolder
             holder.updateViews(t)
-            TaskManager.taskPool.returnPoolObject(t, false)
+            returnTaskToPool(t)
             convertView
         } else {
             val holder: TaskHolder = convertView.tag as TaskHolder
             holder.updateViews(t)
-            TaskManager.taskPool.returnPoolObject(t, false)
+            returnTaskToPool(t)
             convertView
         }
     }
@@ -153,7 +155,7 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         }
 
         override fun onLongClick(p0: View?): Boolean {
-            TaskManager.archiveTask(folder)
+            archiveTask(folder)
             listener.onTaskChanged()
             vibrate(activity)
             return true
@@ -200,7 +202,7 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
         }
 
         override fun onLongClick(p0: View?): Boolean {
-            TaskManager.archiveTask(task)
+            archiveTask(task)
             listener.onTaskChanged()
             vibrate(activity)
             return true

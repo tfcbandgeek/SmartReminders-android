@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.theme
 
 // Java
+import jgappsandgames.smartreminderssave.utility.*
 import java.io.File
 import java.io.IOException
 
@@ -9,113 +10,103 @@ import org.json.JSONException
 import org.json.JSONObject
 
 // Save Library
-import jgappsandgames.smartreminderssave.utility.API
-import jgappsandgames.smartreminderssave.utility.FileUtility
-import jgappsandgames.smartreminderssave.utility.JSONUtility
 
 /**
  * ThemeManager
  * Created by joshua on 12/12/2017.
  */
-class ThemeManager {
-    companion object {
-        // Constants -------------------------------------------------------------------------------
-        private const val FILENAME = "thememanager.srj"
+// Constants -------------------------------------------------------------------------------
+private const val FILENAME = "thememanager.srj"
 
-        // JSON Constants
-        private const val VERSION = "version"
-        private const val META = "meta"
-        private const val COLOR = "color"
-        private const val LIGHT = "light"
+// JSON Constants
+private const val VERSION = "version"
+private const val META = "meta"
+private const val COLOR = "color"
+private const val LIGHT = "light"
 
-        // Color Constants
-        const val BLUE = 1
-        const val GREEN = 2
-        const val RED = 3
-        const val PURPLE = 4
+// Color Constants
+const val BLUE = 1
+const val GREEN = 2
+const val RED = 3
+const val PURPLE = 4
 
-        // Light Constants
-        const val DARK = 1
-        const val GREY = 2
-        const val WHITE = 3
+// Light Constants
+const val DARK = 1
+const val GREY = 2
+const val WHITE = 3
 
-        // Data ------------------------------------------------------------------------------------
-        private var version = 0
-        private var meta = JSONObject()
-        private var color = 0
-        private var light = 0
+// Data ------------------------------------------------------------------------------------
+private var version = 0
+private var meta = JSONObject()
+private var color = 0
+private var light = 0
 
-        // Management Methods ----------------------------------------------------------------------
-        @JvmStatic fun create() {
-            version = API.RELEASE
-            color = 1
-            light = 1
+// Management Methods ----------------------------------------------------------------------
+fun createTheme() {
+    version = RELEASE
+    color = 1
+    light = 1
 
-            // API 11
-            meta = JSONObject()
-        }
+    // API 11
+    meta = JSONObject()
+}
 
-        @JvmStatic fun load() {
-            val data: JSONObject
-            try {
-                data = JSONUtility.loadJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME))
-            } catch (e: IOException) {
-                e.printStackTrace()
+fun loadTheme() {
+    val data: JSONObject
+    try {
+        data = loadJSONObject(File(getInternalFileDirectory(), FILENAME))
+    } catch (e: IOException) {
+        e.printStackTrace()
 
-                create()
-                save()
+        createTheme()
+        saveTheme()
 
-                return
-            }
-
-            version = data.optInt(VERSION, API.RELEASE)
-            color = data.optInt(COLOR, 1)
-            light = data.optInt(LIGHT, 1)
-
-            // API 11
-            meta = if (version >= API.RELEASE) {
-                data.optJSONObject(META)
-            } else {
-                JSONObject()
-            }
-        }
-
-        @JvmStatic fun save() {
-            val data = JSONObject()
-
-            try {
-                data.put(VERSION, API.MANAGEMENT)
-                data.put(META, meta)
-                data.put(COLOR, color)
-                data.put(LIGHT, light)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-
-            JSONUtility.saveJSONObject(File(FileUtility.getInternalFileDirectory(), FILENAME), data)
-        }
+        return
     }
 
-    // Getters -------------------------------------------------------------------------------------
-    fun getMeta(): JSONObject = meta
+    version = data.optInt(VERSION, RELEASE)
+    color = data.optInt(COLOR, 1)
+    light = data.optInt(LIGHT, 1)
 
-    fun getColor(): Int = color
+    // API 11
+    meta = if (version >= RELEASE) data.optJSONObject(META)
+    else JSONObject()
+}
 
-    fun getLight(): Int = light
+fun saveTheme() {
+    val data = JSONObject()
 
-    // Setters -------------------------------------------------------------------------------------
-    fun setMeta(_meta: JSONObject) {
-        meta = _meta
-        save()
+    try {
+        data.put(VERSION, MANAGEMENT)
+        data.put(META, meta)
+        data.put(COLOR, color)
+        data.put(LIGHT, light)
+    } catch (e: JSONException) {
+        e.printStackTrace()
     }
 
-    fun setColor(_color: Int) {
-        color = _color
-        save()
-    }
+    saveJSONObject(File(getInternalFileDirectory(), FILENAME), data)
+}
 
-    fun setLight(_light: Int) {
-        light = _light
-        save()
-    }
+// Getters -------------------------------------------------------------------------------------
+fun getMeta(): JSONObject = meta
+
+fun getColor(): Int = color
+
+fun getLight(): Int = light
+
+// Setters -------------------------------------------------------------------------------------
+fun setMeta(_meta: JSONObject) {
+    meta = _meta
+    saveTheme()
+}
+
+fun setColor(_color: Int) {
+    color = _color
+    saveTheme()
+}
+
+fun setLight(_light: Int) {
+    light = _light
+    saveTheme()
 }

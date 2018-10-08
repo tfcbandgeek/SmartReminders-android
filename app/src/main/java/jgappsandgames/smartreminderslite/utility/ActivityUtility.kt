@@ -8,8 +8,9 @@ import android.content.Intent
 import jgappsandgames.smartreminderslite.home.Settings2Activity
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.utility.FileUtility
+import jgappsandgames.smartreminderssave.loadMaster
+import jgappsandgames.smartreminderssave.utility.isFirstRun
+import jgappsandgames.smartreminderssave.utility.loadFilePaths
 
 /**
  * ActivityUtility
@@ -36,7 +37,7 @@ const val RESPONSE_NONE = 0
 const val RESPONSE_CHANGE = 1
 
 fun loadClass(activity: Activity) {
-    FileUtility.loadFilePaths(activity)
-    if (FileUtility.isFirstRun()) activity.startActivity(Intent(activity, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
-    else MasterManager.load()
+    loadFilePaths(activity)
+    if (isFirstRun()) activity.startActivity(Intent(activity, Settings2Activity::class.java).putExtra(FIRST_RUN, true))
+    else loadMaster()
 }

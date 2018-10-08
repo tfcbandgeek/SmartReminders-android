@@ -11,9 +11,9 @@ import android.graphics.drawable.Icon
 
 // App
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderssave.tasks.getTaskFromPool
 
 // Save
-import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.hasShortcuts
 import org.jetbrains.anko.shortcutManager
 
@@ -83,7 +83,7 @@ fun createMonthShortcut(activity: Activity) {
 
 fun createTaskShortcut(activity: Activity, task: String) {
     if (hasShortcuts()) {
-        val taskObject = TaskManager.taskPool.getPoolObject().load(task)
+        val taskObject = getTaskFromPool().load(task)
         val sT: String = if (taskObject.getTitle().length > 8) taskObject.getTitle().substring(0, 8)
         else taskObject.getTitle()
 

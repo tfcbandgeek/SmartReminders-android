@@ -14,13 +14,13 @@ import android.widget.BaseAdapter
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.priority.*
+import jgappsandgames.smartreminderssave.saveMaster
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_priority.*
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.priority.PriorityManager
 
 /**
  * PriorityActivity
@@ -54,7 +54,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         super.onResume()
 
         // Load Priority Manager
-        PriorityManager.create()
+        createPriority()
 
         // Reset Adapters
         ignore = null
@@ -90,7 +90,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
                 title = getString(R.string.ignore)
                 priority_down.text = ""
                 priority_up.setText(R.string.low)
-                if (ignore == null) ignore = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getIgnored()), "")
+                if (ignore == null) ignore = TaskAdapter(this, this, TaskAdapter.swapTasks(getIgnored()), "")
                 priority_tasks.adapter = ignore
                 return
             }
@@ -99,7 +99,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
                 title = getString(R.string.low_priority_default)
                 priority_down.setText(R.string.ignore)
                 priority_up.setText(R.string.normal)
-                if (low == null) low = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getLow()), "")
+                if (low == null) low = TaskAdapter(this, this, TaskAdapter.swapTasks(getLow()), "")
                 priority_tasks.adapter = low
                 return
             }
@@ -108,7 +108,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
                 title = getString(R.string.normal_priority)
                 priority_down.setText(R.string.low)
                 priority_up.setText(R.string.high)
-                if (normal == null) normal = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getNormal()), "")
+                if (normal == null) normal = TaskAdapter(this, this, TaskAdapter.swapTasks(getNormal()), "")
                 priority_tasks.adapter = normal
                 return
             }
@@ -117,7 +117,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
                 title = getString(R.string.high_priority)
                 priority_down.setText(R.string.normal)
                 priority_up.setText(R.string.stared)
-                if (high == null) high = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getHigh()), "")
+                if (high == null) high = TaskAdapter(this, this, TaskAdapter.swapTasks(getHigh()), "")
                 priority_tasks.adapter = high
                 return
             }
@@ -126,7 +126,7 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
                 title = getString(R.string.stared_tasks)
                 priority_down.setText(R.string.high)
                 priority_up.text = ""
-                if (stared == null) stared = TaskAdapter(this, this, TaskAdapter.swapTasks(PriorityManager.getStared()), "")
+                if (stared == null) stared = TaskAdapter(this, this, TaskAdapter.swapTasks(getStared()), "")
                 priority_tasks.adapter = stared
             }
         }
@@ -185,5 +185,5 @@ class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     }
 
     // Parent Overrides ----------------------------------------------------------------------------
-    fun save() = MasterManager.save()
+    fun save() = saveMaster()
 }

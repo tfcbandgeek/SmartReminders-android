@@ -14,16 +14,18 @@ import org.jetbrains.anko.alert
 // App
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.loadMaster
+import jgappsandgames.smartreminderssave.saveMaster
+import jgappsandgames.smartreminderssave.settings.*
+import jgappsandgames.smartreminderssave.tags.loadTags
+import jgappsandgames.smartreminderssave.tasks.loadTasks
+import jgappsandgames.smartreminderssave.utility.MANAGEMENT
+import jgappsandgames.smartreminderssave.utility.SHRINKING
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_settings.*
 
 // Library
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.settings.SettingsManager
-import jgappsandgames.smartreminderssave.tags.TagManager
-import jgappsandgames.smartreminderssave.tasks.TaskManager
-import jgappsandgames.smartreminderssave.utility.API
 
 /**
  * Settings2Activity
@@ -54,9 +56,9 @@ class Settings2Activity: Activity() {
     override fun onPause() {
         super.onPause()
 
-        SettingsManager.setUserName(settings_your_name_edit_text.text.toString())
-        SettingsManager.setDeviceName(settings_device_name_edit_text.text.toString())
-        MasterManager.save()
+        setUserName(settings_your_name_edit_text.text.toString())
+        setDeviceName(settings_device_name_edit_text.text.toString())
+        saveMaster()
     }
 
     // View Adjustments ----------------------------------------------------------------------------
@@ -76,39 +78,39 @@ class Settings2Activity: Activity() {
     // View Setters --------------------------------------------------------------------------------
     private fun setAll() {
         // Set Data
-        settings_your_name_edit_text.setText(SettingsManager.getUserName())
-        settings_device_name_edit_text.setText(SettingsManager.getDeviceName())
-        if (SettingsManager.getUseExternal()) settings_app_directory_button.setText(R.string.external)
+        settings_your_name_edit_text.setText(getUserName())
+        settings_device_name_edit_text.setText(getDeviceName())
+        if (getUseExternal()) settings_app_directory_button.setText(R.string.external)
         else settings_app_directory_button.setText(R.string.internal)
 
         // Set Click Listeners
         settings_app_directory_button.setOnClickListener {
-            if (SettingsManager.getUseExternal()) {
-                SettingsManager.setUseExternal(false)
+            if (getUseExternal()) {
+                setUseExternal(false)
                 settings_app_directory_button.setText(R.string.save_app)
-                MasterManager.load()
+                loadMaster()
             } else {
-                SettingsManager.setUseExternal(true)
+                setUseExternal(true)
                 settings_app_directory_button.setText(R.string.save_external)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val permission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
                     if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_PERMISSION)
-                    else MasterManager.load()
+                    else loadMaster()
                 }
             }
         }
 
         settings_app_directory_button.setOnLongClickListener {
-            if (SettingsManager.getUseExternal()) {
-                SettingsManager.setUseExternal(false)
+            if (getUseExternal()) {
+                setUseExternal(false)
                 settings_app_directory_button.setText(R.string.save_app)
                 moveToInternal()
-                TaskManager.load()
-                TagManager.load()
+                loadTasks()
+                loadTags()
             } else {
-                SettingsManager.setUseExternal(true)
+                setUseExternal(true)
                 settings_app_directory_button.setText(R.string.save_external)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -117,7 +119,7 @@ class Settings2Activity: Activity() {
                     if (permission == PackageManager.PERMISSION_DENIED) requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_PERMISSION)
                     else {
                         moveToExternal()
-                        MasterManager.load()
+                        loadMaster()
                     }
                 }
             }
@@ -128,19 +130,19 @@ class Settings2Activity: Activity() {
 
     private fun setUpgrade() {
         // Set Data
-        if (SettingsManager.getUseVersion() <= API.MANAGEMENT) settings_upgrade.text = getText(R.string.upgrade_to_api_12_testing)
+        if (getUseVersion() <= MANAGEMENT) settings_upgrade.text = getText(R.string.upgrade_to_api_12_testing)
         else settings_upgrade.text = getText(R.string.downgrade_to_api_11)
 
         // Set Click Listeners
         settings_upgrade.setOnClickListener {
-            if (SettingsManager.getUseVersion() <= API.MANAGEMENT) {
+            if (getUseVersion() <= MANAGEMENT) {
                 alert {
                     title = "Are you sure you want to continue?"
                     message = "This move may cause you to lose portions or all of your data"
 
                     positiveButton("Continue") {
-                        SettingsManager.setUseVersion(API.SHRINKING)
-                        SettingsManager.save()
+                        setUseVersion(SHRINKING)
+                        saveSettings()
                         settings_upgrade.text = getText(R.string.downgrade_to_api_11)
                     }
 
@@ -152,8 +154,8 @@ class Settings2Activity: Activity() {
                     message = "This move may cause you to lose portions or all of your data"
 
                     positiveButton("Continue") {
-                        SettingsManager.setUseVersion(API.MANAGEMENT)
-                        SettingsManager.save()
+                        setUseVersion(MANAGEMENT)
+                        saveSettings()
                         settings_upgrade.text = getText(R.string.upgrade_to_api_12_testing)
                     }
 
@@ -165,60 +167,60 @@ class Settings2Activity: Activity() {
 
     private fun setHomeScreenSwitched() {
         // Set Data
-        settings_tag_switch.isChecked = SettingsManager.hasTagShorcut()
-        settings_priority_switch.isChecked = SettingsManager.hasPriorityShortcut()
-        settings_status_switch.isChecked = SettingsManager.hasStatusShortcut()
-        settings_day_switch.isChecked = SettingsManager.hasDayShortcut()
-        settings_week_switch.isChecked = SettingsManager.hasWeekShortcut()
-        settings_month_switch.isChecked = SettingsManager.hasMonthShortcut()
+        settings_tag_switch.isChecked = hasTagShorcut()
+        settings_priority_switch.isChecked = hasPriorityShortcut()
+        settings_status_switch.isChecked = hasStatusShortcut()
+        settings_day_switch.isChecked = hasDayShortcut()
+        settings_week_switch.isChecked = hasWeekShortcut()
+        settings_month_switch.isChecked = hasMonthShortcut()
 
         // Set Click Listeners
         settings_tag_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.setTagShortcut(!SettingsManager.hasTagShorcut())
-            SettingsManager.save()
-            if (SettingsManager.hasTagShorcut()) createTagShortcut(this)
+            setTagShortcut(!hasTagShorcut())
+            saveSettings()
+            if (hasTagShorcut()) createTagShortcut(this)
             else removeTagShortcut(this)
         }
 
         settings_priority_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.setPriorityShortcut(!SettingsManager.hasPriorityShortcut())
-            SettingsManager.save()
-            if (SettingsManager.hasPriorityShortcut()) createPriorityShortcut(this)
+            setPriorityShortcut(!hasPriorityShortcut())
+            saveSettings()
+            if (hasPriorityShortcut()) createPriorityShortcut(this)
             else removePriorityShortcut(this)
         }
 
         settings_status_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.setStatusShortcut(!SettingsManager.hasStatusShortcut())
-            SettingsManager.save()
-            if (SettingsManager.hasStatusShortcut()) createStatusShortcut(this)
+            setStatusShortcut(!hasStatusShortcut())
+            saveSettings()
+            if (hasStatusShortcut()) createStatusShortcut(this)
             else removeStatusShortcut(this)
         }
 
         settings_day_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.setDayShortcut(!SettingsManager.hasDayShortcut())
-            SettingsManager.save()
-            if (SettingsManager.hasDayShortcut()) createTodayShortcut(this)
+            setDayShortcut(!hasDayShortcut())
+            saveSettings()
+            if (hasDayShortcut()) createTodayShortcut(this)
             else removeTodayShortcut(this)
         }
 
         settings_week_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.setWeekShorcut(!SettingsManager.hasWeekShortcut())
-            SettingsManager.save()
-            if (SettingsManager.hasWeekShortcut()) createWeekShortcut(this)
+            setWeekShorcut(!hasWeekShortcut())
+            saveSettings()
+            if (hasWeekShortcut()) createWeekShortcut(this)
             else removeWeekShortcut(this)
         }
 
         settings_month_switch.setOnCheckedChangeListener { _, _ ->
-            SettingsManager.setMonthShortcut(!SettingsManager.hasMonthShortcut())
-            SettingsManager.save()
-            if (SettingsManager.hasMonthShortcut()) createMonthShortcut(this)
+            setMonthShortcut(!hasMonthShortcut())
+            saveSettings()
+            if (hasMonthShortcut()) createMonthShortcut(this)
             else removeMonthShortcut(this)
         }
     }
 
     private fun setContinue() {
         settings_continue_button.setOnClickListener {
-            MasterManager.save()
+            saveMaster()
             val home = Intent(this, HomeActivity::class.java)
             home.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(home)
@@ -229,10 +231,10 @@ class Settings2Activity: Activity() {
         when (requestCode) {
             REQUEST_EXTERNAL_STORAGE_PERMISSION -> if (grantResults.isNotEmpty()) {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    SettingsManager.setUseExternal(false)
+                    setUseExternal(false)
                     settings_app_directory_button.setText(R.string.save_app)
                 } else {
-                    MasterManager.load()
+                    loadMaster()
                 }
             }
         }

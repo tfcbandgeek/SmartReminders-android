@@ -12,13 +12,13 @@ import android.view.MenuItem
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.saveMaster
+import jgappsandgames.smartreminderssave.status.*
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_status.*
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tasks.Task
 
 /**
@@ -39,21 +39,21 @@ class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         super.onResume()
 
         // Create Status Manager
-        StatusManager.create()
+        createStatus()
 
         val i = ArrayList<Task>()
-        i.addAll(StatusManager.getInProgress())
-        i.addAll(StatusManager.getIncomplete())
+        i.addAll(getInProgress())
+        i.addAll(getIncomplete())
 
         // Set Adapters
-        status_overdue_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(StatusManager.getOverdue()), "")
+        status_overdue_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getOverdue()), "")
         status_incomplete_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(i), "")
-        status_done_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(StatusManager.getCompleted()), "")
+        status_done_list.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getCompleted()), "")
 
         // Set Text
-        status_overdue_text.text = getString(R.string.overdue_tasks, StatusManager.getOverdue().size)
+        status_overdue_text.text = getString(R.string.overdue_tasks, getOverdue().size)
         status_incomplete_text.text = getString(R.string.incomplete_tasks, i.size)
-        status_done_text.text = getString(R.string.completed_tasks, StatusManager.getCompleted().size)
+        status_done_text.text = getString(R.string.completed_tasks, getCompleted().size)
     }
 
     // Menu Methods --------------------------------------------------------------------------------
@@ -68,5 +68,5 @@ class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     override fun onTaskChanged() = onResume()
 
     // Parent Methods ------------------------------------------------------------------------------
-    fun save() = MasterManager.save()
+    fun save() = saveMaster()
 }

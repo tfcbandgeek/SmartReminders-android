@@ -131,7 +131,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.github.clans.fab.FloatingActionButton
+        <me.jgappsandgames.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@android:color/holo_blue_dark"

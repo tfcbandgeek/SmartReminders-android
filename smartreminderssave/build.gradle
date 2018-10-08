@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 12010002
-        versionName "12.1.0"
+        versionCode 12020000
+        versionName "12.2.0"
     }
 
     buildTypes {
@@ -29,7 +29,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation project(":poolutilitykotlin-1_1_4")
+    implementation project(":poolutility-000100")
+    implementation project(':fab-000100')
+    implementation project(':kapture-000100')
 
     testImplementation 'junit:junit:4.12'
 }

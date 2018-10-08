@@ -36,6 +36,8 @@ import org.json.JSONObject
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.saveMaster
+import jgappsandgames.smartreminderssave.tags.saveTags
 
 // Anko
 import org.jetbrains.anko.toast
@@ -47,8 +49,6 @@ import kotlinx.android.synthetic.main.activity_task.*
 import kotlinx.android.synthetic.main.activity_task_landscape.*
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.*
 
 /**
@@ -91,7 +91,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         // Handle Data
         loadClass(this)
         var type = intent.getIntExtra(TASK_TYPE, - 1)
-        if (type == -1) type = Task(intent.getStringExtra(TASK_NAME), true).getType()
+        if (type == -1) type = getTaskFromPool().load(intent.getStringExtra(TASK_NAME), true).getType()
         view = type + getOrientation()
 
         when (view) {
@@ -107,7 +107,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         super.onResume()
         // Load Data
         load = true
-        task = Task(intent.getStringExtra(TASK_NAME))
+        task = getTaskFromPool().load(intent.getStringExtra(TASK_NAME))
         title = task.getTitle()
 
         Log.e("Task Name", task.getFilename())
@@ -156,7 +156,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                     e.printStackTrace()
                 }
 
-                TagManager.save()
+                saveTags()
                 task.save()
 
                 when (view) {
@@ -412,12 +412,12 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
             folder_add_folder -> {
                 folder_fab.close(true)
-                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = addTask(getTaskFromPool().load(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
             }
 
             folder_add_task -> {
                 folder_fab.close(true)
-                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = addTask(getTaskFromPool().load(task.getFilename(), Task.TYPE_TASK).save(), false))))
             }
 
             folder_bottom_bar_search -> {
@@ -433,12 +433,12 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
             folder_landscape_add_folder -> {
                 folder_landscape_fab.close(true)
-                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = addTask(getTaskFromPool().load(task.getFilename(), Task.TYPE_FOLDER).save(), false))))
             }
 
             folder_landscape_add_task -> {
                 folder_landscape_fab.close(true)
-                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = addTask(getTaskFromPool().load(task.getFilename(), Task.TYPE_TASK).save(), false))))
             }
 
             folder_landscape_bottom_bar_search -> {
@@ -583,7 +583,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
     // Parent Methods ------------------------------------------------------------------------------
     fun save() {
-        MasterManager.save()
+        saveMaster()
         task.save()
     }
 

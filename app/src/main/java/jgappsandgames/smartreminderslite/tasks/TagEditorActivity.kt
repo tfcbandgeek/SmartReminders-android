@@ -18,13 +18,15 @@ import org.json.JSONException
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TagAdapter
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.tags.addTag
+import jgappsandgames.smartreminderssave.tags.contains
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_tag_editpr.*
 
 // Save
-import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.Task
+import jgappsandgames.smartreminderssave.tasks.getTaskFromPool
 
 /**
  * TagEditorActivity
@@ -43,7 +45,7 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, TagAdapt
         setResult(RESPONSE_NONE)
 
         // Load Data
-        task = Task(intent.getStringExtra(TASK_NAME))
+        task = getTaskFromPool().load(intent.getStringExtra(TASK_NAME))
 
         // Set Listeners
         tag_editor_search_enter.setOnClickListener(this)
@@ -65,7 +67,7 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, TagAdapt
             tag_editor_unselected!!.adapter = TagAdapter(this, this, task.getTags(), false, tag_editor_search_text.text.toString())
         }
 
-        if (TagManager.contains(tag_editor_search_text.text.toString())) tag_editor_search_enter.setText(R.string.select)
+        if (contains(tag_editor_search_text.text.toString())) tag_editor_search_enter.setText(R.string.select)
         else tag_editor_search_enter.setText(R.string.add)
     }
     override fun afterTextChanged(editable: Editable) {}
@@ -73,7 +75,7 @@ class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, TagAdapt
     // Click Listeners -----------------------------------------------------------------------------
     override fun onClick(view: View) {
         // Tag is Not in the List And is addable
-        if (TagManager.addTag(tag_editor_search_text.text.toString())) {
+        if (addTag(tag_editor_search_text.text.toString())) {
             task.addTag(tag_editor_search_text.text.toString())
             tag_editor_search_text.setText("")
 

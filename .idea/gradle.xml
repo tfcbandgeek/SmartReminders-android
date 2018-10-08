@@ -10,8 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/fab-2_1_1" />
-            <option value="$PROJECT_DIR$/poolutilitykotlin-1_1_4" />
+            <option value="$PROJECT_DIR$/fab-000100" />
+            <option value="$PROJECT_DIR$/kapture-000100" />
+            <option value="$PROJECT_DIR$/poolutility-000100" />
             <option value="$PROJECT_DIR$/smartreminderssave" />
           </set>
         </option>

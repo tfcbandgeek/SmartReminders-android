@@ -15,9 +15,9 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 
 // App
 import jgappsandgames.smartreminderslite.R
+import jgappsandgames.smartreminderssave.tags.getTags
 
 // Save
-import jgappsandgames.smartreminderssave.tags.TagManager
 
 /**
  * TagAdapter
@@ -31,11 +31,11 @@ class TagAdapter(private var activity: Activity, private var switcher: TagSwitch
     init {
         if (selected) for (tag in _tags) {
             if (tag.toLowerCase().contains(search.toLowerCase())) {
-                if (TagManager.tags.contains(tag)) tags.add(tag)
+                if (getTags().contains(tag)) tags.add(tag)
             }
         }
         else {
-            for (t in TagManager.tags) {
+            for (t in getTags()) {
                 if (t.toLowerCase().contains(search.toLowerCase())) {
                     if (!_tags.contains(t)) tags.add(t)
                 }

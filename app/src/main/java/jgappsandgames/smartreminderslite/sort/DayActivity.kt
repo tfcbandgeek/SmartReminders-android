@@ -15,13 +15,14 @@ import android.view.MenuItem
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.date.createDate
+import jgappsandgames.smartreminderssave.date.getDayTasks
+import jgappsandgames.smartreminderssave.saveMaster
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_date.*
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.date.DateManager
 
 /**
  * DayActivity
@@ -45,13 +46,13 @@ class DayActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         date_previous.setOnClickListener {
             dateActivity.add(Calendar.DAY_OF_MONTH, -1)
             if (dateActivity.before(Calendar.getInstance())) dateActivity = Calendar.getInstance()
-            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getDayTasks(dateActivity)), "")
+            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getDayTasks(dateActivity)), "")
             setTitle()
         }
 
         date_next.setOnClickListener {
             dateActivity.add(Calendar.DAY_OF_MONTH, 1)
-            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getDayTasks(dateActivity)), "")
+            date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getDayTasks(dateActivity)), "")
             setTitle()
         }
     }
@@ -59,8 +60,8 @@ class DayActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     override fun onResume() {
         super.onResume()
 
-        DateManager.create()
-        date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(DateManager.getDayTasks(dateActivity)), "")
+        createDate()
+        date_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(getDayTasks(dateActivity)), "")
     }
 
     // Menu ----------------------------------------------------------------------------------------
@@ -75,7 +76,7 @@ class DayActivity: Activity(), TaskAdapter.OnTaskChangedListener {
     override fun onTaskChanged() = onResume()
 
     // Private Class Methods -----------------------------------------------------------------------
-    fun save() = MasterManager.save()
+    fun save() = saveMaster()
 
     private fun setTitle() {
         title = (dateActivity.get(Calendar.MONTH) + 1).toString() + "/" + dateActivity.get(Calendar.DAY_OF_MONTH).toString()

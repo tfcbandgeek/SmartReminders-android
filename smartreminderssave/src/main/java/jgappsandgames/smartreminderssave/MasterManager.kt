@@ -1,14 +1,22 @@
 package jgappsandgames.smartreminderssave
 
 // Save Library
-import jgappsandgames.smartreminderssave.date.DateManager
-import jgappsandgames.smartreminderssave.priority.PriorityManager
-import jgappsandgames.smartreminderssave.settings.SettingsManager
-import jgappsandgames.smartreminderssave.status.StatusManager
-import jgappsandgames.smartreminderssave.tags.TagManager
-import jgappsandgames.smartreminderssave.tasks.TaskManager
-import jgappsandgames.smartreminderssave.theme.ThemeManager
-import jgappsandgames.smartreminderssave.utility.FileUtility
+import jgappsandgames.smartreminderssave.date.createDate
+import jgappsandgames.smartreminderssave.priority.createPriority
+import jgappsandgames.smartreminderssave.settings.createSettings
+import jgappsandgames.smartreminderssave.settings.loadSettings
+import jgappsandgames.smartreminderssave.settings.saveSettings
+import jgappsandgames.smartreminderssave.status.createStatus
+import jgappsandgames.smartreminderssave.tags.createTags
+import jgappsandgames.smartreminderssave.tags.loadTags
+import jgappsandgames.smartreminderssave.tags.saveTags
+import jgappsandgames.smartreminderssave.tasks.createTasks
+import jgappsandgames.smartreminderssave.tasks.loadTasks
+import jgappsandgames.smartreminderssave.tasks.saveTasks
+import jgappsandgames.smartreminderssave.theme.createTheme
+import jgappsandgames.smartreminderssave.theme.loadTheme
+import jgappsandgames.smartreminderssave.theme.saveTheme
+import jgappsandgames.smartreminderssave.utility.getApplicationCacheDirectory
 
 /**
  * MasterManager
@@ -17,36 +25,32 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
  *
  * Manager Class For the Entire Save System
  */
-class MasterManager {
-    companion object {
-        @JvmStatic fun create() {
-            SettingsManager.create()
-            TaskManager.create()
-            TagManager.create()
-            ThemeManager.create()
+fun createMaster() {
+    createSettings()
+    createTasks()
+    createTags()
+    createTheme()
 
-            save()
-        }
-
-        @JvmStatic fun load() {
-            SettingsManager.load()
-            TaskManager.load()
-            TagManager.load()
-            ThemeManager.load()
-            DateManager.create()
-            PriorityManager.create()
-            StatusManager.create()
-        }
-
-        @JvmStatic fun save() {
-            SettingsManager.save()
-            TaskManager.save()
-            TagManager.save()
-            ThemeManager.save()
-        }
-
-        @JvmStatic fun cleanSave() {}
-
-        @JvmStatic fun cleanCache() = FileUtility.getApplicationCacheDirectory().deleteRecursively()
-    }
+    saveMaster()
 }
+
+fun loadMaster() {
+    loadSettings()
+    loadTasks()
+    loadTags()
+    loadTheme()
+    createDate()
+    createPriority()
+    createStatus()
+}
+
+fun saveMaster() {
+    saveSettings()
+    saveTasks()
+    saveTags()
+    saveTheme()
+}
+
+fun cleanSave() {}
+
+fun cleanCache() = getApplicationCacheDirectory().deleteRecursively()

@@ -7,11 +7,11 @@ android {
     buildToolsVersion '28.0.2'
 
     defaultConfig {
-        applicationId "jgappsandgames.smartreminderslite"
+        applicationId "jgappsandgames.smartreminderslite.alpha"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 18100015
-        versionName "18.10.0 RC 1"
+        versionCode 18100100
+        versionName "18.10.1 Alpha 1"
     }
 
     buildTypes {
@@ -35,8 +35,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
 
     implementation project(':smartreminderssave')
-    implementation project(":poolutilitykotlin-1_1_4")
-    implementation project(':fab-2_1_1')
+    implementation project(":poolutility-000100")
+    implementation project(':fab-000100')
+    implementation project(':kapture-000100')
 }
 repositories {
     mavenCentral()

@@ -16,12 +16,12 @@ import android.view.ViewGroup
 import jgappsandgames.smartreminderslite.R
 import jgappsandgames.smartreminderslite.adapter.*
 import jgappsandgames.smartreminderslite.utility.*
+import jgappsandgames.smartreminderssave.saveMaster
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_tag.*
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tasks.*
 
 /**
@@ -45,7 +45,7 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
         super.onResume()
 
         tasks.clear()
-        for (i in TaskManager.getAll().indices) tasks.add(Task(TaskManager.getAll()[i]))
+        for (i in getAll().indices) tasks.add(getTaskFromPool().load(getAll()[i]))
 
         tag_tasks.adapter = TaskAdapter(this, selectedTags, tasks)
         tag_selected.adapter = TagAdapter(this, this, selectedTags, true)
@@ -73,7 +73,7 @@ class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChanged
     override fun onTaskChanged() = onResume()
 
     // Save ----------------------------------------------------------------------------------------
-    fun save() = MasterManager.save()
+    fun save() = saveMaster()
 
     // Internal Classes ----------------------------------------------------------------------------
     class TaskAdapter(private val activity: TagActivity, selected: java.util.ArrayList<String>, n_tasks: java.util.ArrayList<Task>): BaseAdapter() {

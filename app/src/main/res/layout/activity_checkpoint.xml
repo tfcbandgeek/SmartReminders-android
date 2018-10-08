@@ -17,7 +17,8 @@
         android:hint="@string/text"
         android:id="@+id/checkpoint_text"
         android:inputType="text"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        tools:targetApi="o" />
 
     <!--Status Bar-->
     <Button

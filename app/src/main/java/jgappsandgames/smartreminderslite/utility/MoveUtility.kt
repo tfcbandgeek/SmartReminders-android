@@ -1,12 +1,15 @@
 package jgappsandgames.smartreminderslite.utility
 
+import jgappsandgames.smartreminderssave.utility.copyFolder
+import jgappsandgames.smartreminderssave.utility.getExternalFileDirectory
+import jgappsandgames.smartreminderssave.utility.getInternalFileDirectory
+
 // Save
-import jgappsandgames.smartreminderssave.utility.FileUtility
 
 /**
  * MoveUtility
  * Created by joshua on 12/6/2017.
  */
-fun moveToExternal() = FileUtility.copyFolder(FileUtility.getInternalFileDirectory(), FileUtility.getExternalFileDirectory())
+fun moveToExternal() = copyFolder(getInternalFileDirectory(), getExternalFileDirectory())
 
-fun moveToInternal() = FileUtility.copyFolder(FileUtility.getExternalFileDirectory(), FileUtility.getInternalFileDirectory())
+fun moveToInternal() = copyFolder(getExternalFileDirectory(), getInternalFileDirectory())

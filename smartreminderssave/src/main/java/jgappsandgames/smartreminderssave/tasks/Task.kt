@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
+import jgappsandgames.smartreminderssave.settings.getUseVersion
 import java.io.File
 
 // JSON
@@ -9,92 +10,16 @@ import org.json.JSONException
 import org.json.JSONObject
 
 // PoolUtility
-import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
-import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
-import jgappsandgames.smartreminderssave.settings.SettingsManager
+import jgappsandgames.smartreminderssave.utility.*
 
 // Save
-import jgappsandgames.smartreminderssave.utility.API
-import jgappsandgames.smartreminderssave.utility.FileUtility
-import jgappsandgames.smartreminderssave.utility.JSONUtility
 import java.util.*
 
 /**
  * Task
  * Created by joshua on 12/12/2017.
  */
-class Task(): PoolObjectInterface {
-    companion object {
-        // Constants -------------------------------------------------------------------------------
-        private const val PARENT = "parent"
-        private const val VERSION = "version"
-        private const val META = "meta"
-        private const val TYPE = "type"
-        private const val TASK_ID = "id"
-
-        private const val CAL_CREATE = "cal_a"
-        private const val CAL_DUE = "cal_b"
-        private const val CAL_UPDATE = "cal_c"
-        private const val CAL_ARCHIVED = "cal_d"
-        private const val CAL_DELETED = "cal_e"
-
-        private const val TITLE = "title"
-        private const val NOTE = "note"
-        private const val TAGS = "tags"
-        private const val CHILDREN = "children"
-        private const val CHECKPOINTS = "checkpoints"
-        private const val STATUS = "status"
-        private const val PRIORITY = "priority"
-
-        private const val COMPLETED_ON_TIME = "completed_on_time"
-        private const val COMPLETED_LATE = "completed_late"
-
-        private const val PARENT_12 = "b"
-        private const val VERSION_12 = "a"
-        private const val META_12 = "c"
-        private const val TYPE_12 = "d"
-        private const val TASK_ID_12 = "e"
-
-        private const val CAL_CREATE_12 = "f"
-        private const val CAL_DUE_12 = "g"
-        private const val CAL_UPDATE_12 = "h"
-        private const val CAL_ARCHIVED_12 = "i"
-        private const val CAL_DELETED_12 = "j"
-
-        private const val TITLE_12 = "k"
-        private const val NOTE_12 = "l"
-        private const val TAGS_12 = "m"
-        private const val CHILDREN_12 = "n"
-        private const val CHECKPOINTS_12 = "o"
-        private const val STATUS_12 = "p"
-        private const val PRIORITY_12 = "q"
-
-        private const val COMPLETED_ON_TIME_12 = "r"
-        private const val COMPLETED_LATE_12 = "s"
-
-        private const val BACKGROUND_COLOR_12 = "t"
-        private const val FOREGROUND_COLOR_12 = "u"
-        private const val FILENAME_12 = "v"
-
-        // Type Constants
-        const val TYPE_NONE = 0
-        const val TYPE_FOLDER = 1
-        const val TYPE_TASK = 2
-        const val TYPE_NOTE = 3
-        const val TYPE_SHOPPING_LIST = 4
-
-        // Priority Constants ----------------------------------------------------------------------
-        const val DEFAULT_PRIORITY = 40
-        const val STARRED_PRIORITY = 100
-        const val HIGH_PRIORITY = 70
-        const val NORMAL_PRIORITY = 30
-        const val LOW_PRIORITY = 1
-        const val IGNORE_PRIORITY = 0
-
-        // Status Constants ------------------------------------------------------------------------
-        const val STATUS_DONE = 10
-    }
-
+class Task() {
     // Data ----------------------------------------------------------------------------------------
     private var filename = ""
     private var parent = ""
@@ -123,79 +48,19 @@ class Task(): PoolObjectInterface {
     private var backgroundColor: Int = 0
     private var foregroundColor: Int = 0
 
-    // Constructors --------------------------------------------------------------------------------
-    constructor(filename: String, sort: Boolean = false): this() {
-        this.filename = filename
-        loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
-        tags.sort()
-
-        if (!TaskManager.getAll().contains(filename)) {
-            if (!TaskManager.getArchived().contains(filename)) {
-                if (!TaskManager.getDeleted().contains(filename)) {
-                    TaskManager.getAll().add(filename)
-                    addMeta("Error", "Task was not in the main list at some point.")
-                    save()
-                    TaskManager.save()
-                }
-            }
-        }
-
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
-        }
-    }
-
-    constructor(parent: String, type: Int): this() {
-        val calendar = Calendar.getInstance()
-        this.filename = calendar.timeInMillis.toString() + ".srj"
-        this.parent = parent
-        version = API.MANAGEMENT
-        meta = JSONObject()
-        this.type = type
-        taskID = calendar.timeInMillis
-        dateCreate = calendar.clone() as Calendar
-        dateDue = null
-        dateUpdated = calendar.clone() as Calendar
-        dateArchived = null
-        dateDeleted = null
-        title = ""
-        note = ""
-        tags = ArrayList()
-        children = ArrayList()
-        checkpoints = ArrayList()
-        status = 0
-        priority = 20
-        completeOnTime = false
-        completeLate = false
-        backgroundColor = 0
-        foregroundColor = 0
-    }
-
-    constructor(data: JSONObject, sort: Boolean = false): this() {
-        filename = data.optString("filename", "error.srj")
-        loadJSON(data)
-        tags.sort()
-
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
-        }
-    }
-
     // Management Methods --------------------------------------------------------------------------
     fun load(filename: String, sort: Boolean = false): Task {
         this.filename = filename
-        loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
+        loadJSON(loadJSONObject(File(getApplicationDataDirectory(), filename)))
         tags.sort()
 
-        if (!TaskManager.getAll().contains(filename)) {
-            if (!TaskManager.getArchived().contains(filename)) {
-                if (!TaskManager.getDeleted().contains(filename)) {
-                    TaskManager.getAll().add(filename)
+        if (getAll().contains(filename)) {
+            if (getArchived().contains(filename)) {
+                if (getDeleted().contains(filename)) {
+                    getAll().add(filename)
                     addMeta("Error", "Task was not in the main list at some point.")
                     save()
-                    TaskManager.save()
+                    save()
                 }
             }
         }
@@ -212,7 +77,7 @@ class Task(): PoolObjectInterface {
         val calendar = Calendar.getInstance()
         this.filename = calendar.timeInMillis.toString() + ".srj"
         this.parent = parent
-        version = API.MANAGEMENT
+        version = MANAGEMENT
         meta = JSONObject()
         this.type = type
         taskID = calendar.timeInMillis
@@ -244,7 +109,7 @@ class Task(): PoolObjectInterface {
                 return this
             }
 
-            API.SHRINKING -> {
+            SHRINKING -> {
                 filename = data.optString(FILENAME_12)
                 loadJSON(data)
                 tags.sort()
@@ -273,11 +138,11 @@ class Task(): PoolObjectInterface {
     }
 
     fun save(): Task {
-        JSONUtility.saveJSONObject(File(FileUtility.getApplicationDataDirectory(), filename), toJSON())
+        saveJSONObject(File(getApplicationDataDirectory(), filename), toJSON())
         return this
     }
 
-    fun delete() = File(FileUtility.getApplicationDataDirectory(), filename).delete()
+    fun delete() = File(getApplicationDataDirectory(), filename).delete()
 
     fun search(search: String): Boolean {
         return when {
@@ -289,13 +154,15 @@ class Task(): PoolObjectInterface {
         }
     }
 
-    override fun deconstruct() {
+    fun deconstruct(): Task {
         tags.clear()
         tags.trimToSize()
         children.clear()
         children.trimToSize()
         checkpoints.clear()
         checkpoints.trimToSize()
+
+        return this
     }
 
     // JSON Management Methods ---------------------------------------------------------------------
@@ -306,16 +173,16 @@ class Task(): PoolObjectInterface {
             return
         }
 
-        version = data.optInt(VERSION, API.RELEASE)
-        if (version <= API.MANAGEMENT) {
+        version = data.optInt(VERSION, RELEASE)
+        if (version <= MANAGEMENT) {
             parent = data.optString(PARENT, "home")
             type = data.optInt(TYPE, TYPE_NONE)
             taskID = data.optLong(TASK_ID, Calendar.getInstance().timeInMillis)
-            dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE))
-            dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE))
-            dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE))
-            dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED))
-            dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED))
+            dateCreate = loadCalendar(data.optJSONObject(CAL_CREATE))
+            dateDue = loadCalendar(data.optJSONObject(CAL_DUE))
+            dateUpdated = loadCalendar(data.optJSONObject(CAL_UPDATE))
+            dateArchived = loadCalendar(data.optJSONObject(CAL_ARCHIVED))
+            dateDeleted = loadCalendar(data.optJSONObject(CAL_DELETED))
             title = data.optString(TITLE, "")
             note = data.optString(NOTE, "")
             status = data.optInt(STATUS, 0)
@@ -336,17 +203,17 @@ class Task(): PoolObjectInterface {
             if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
 
             // API 11
-            meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
+            meta = if (version >= MANAGEMENT) data.optJSONObject(META)
             else JSONObject()
         } else {
             parent = data.optString(PARENT_12, "home")
             type = data.optInt(TYPE_12, TYPE_NONE)
             taskID = data.optLong(TASK_ID_12, Calendar.getInstance().timeInMillis)
-            dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE_12))
-            dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE_12))
-            dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE_12))
-            dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED_12))
-            dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED_12))
+            dateCreate = loadCalendar(data.optJSONObject(CAL_CREATE_12))
+            dateDue = loadCalendar(data.optJSONObject(CAL_DUE_12))
+            dateUpdated = loadCalendar(data.optJSONObject(CAL_UPDATE_12))
+            dateArchived = loadCalendar(data.optJSONObject(CAL_ARCHIVED_12))
+            dateDeleted = loadCalendar(data.optJSONObject(CAL_DELETED_12))
             title = data.optString(TITLE_12, "")
             note = data.optString(NOTE_12, "")
             status = data.optInt(STATUS_12, 0)
@@ -378,17 +245,17 @@ class Task(): PoolObjectInterface {
     fun toJSON(): JSONObject {
         val data = JSONObject()
         try {
-            if (SettingsManager.getUseVersion() <= API.MANAGEMENT) {
+            if (getUseVersion() <= MANAGEMENT) {
                 data.put("filename", filename)
                 data.put(PARENT, parent)
-                data.put(VERSION, API.MANAGEMENT)
+                data.put(VERSION, MANAGEMENT)
                 data.put(TYPE, type)
                 data.put(TASK_ID, taskID)
-                data.put(CAL_CREATE, JSONUtility.saveCalendar(dateCreate))
-                data.put(CAL_DUE, JSONUtility.saveCalendar(dateDue))
-                data.put(CAL_UPDATE, JSONUtility.saveCalendar(dateUpdated))
-                data.put(CAL_ARCHIVED, JSONUtility.saveCalendar(dateArchived))
-                data.put(CAL_DELETED, JSONUtility.saveCalendar(dateDeleted))
+                data.put(CAL_CREATE, saveCalendar(dateCreate))
+                data.put(CAL_DUE, saveCalendar(dateDue))
+                data.put(CAL_UPDATE, saveCalendar(dateUpdated))
+                data.put(CAL_ARCHIVED, saveCalendar(dateArchived))
+                data.put(CAL_DELETED, saveCalendar(dateDeleted))
                 data.put(TITLE, title)
                 data.put(NOTE, note)
                 data.put(STATUS, status)
@@ -413,16 +280,16 @@ class Task(): PoolObjectInterface {
             } else {
                 data.put(FILENAME_12, filename)
                 data.put(PARENT_12, parent)
-                data.put(VERSION_12, API.SHRINKING)
-                data.put(VERSION, API.SHRINKING)
+                data.put(VERSION_12, SHRINKING)
+                data.put(VERSION, SHRINKING)
                 data.put(META_12, meta)
                 data.put(TYPE_12, type)
                 data.put(TASK_ID_12, taskID)
-                data.put(CAL_CREATE_12, JSONUtility.saveCalendar(dateCreate))
-                data.put(CAL_DUE_12, JSONUtility.saveCalendar(dateDue))
-                data.put(CAL_UPDATE_12, JSONUtility.saveCalendar(dateUpdated))
-                data.put(CAL_ARCHIVED_12, JSONUtility.saveCalendar(dateArchived))
-                data.put(CAL_DELETED_12, JSONUtility.saveCalendar(dateDeleted))
+                data.put(CAL_CREATE_12, saveCalendar(dateCreate))
+                data.put(CAL_DUE_12, saveCalendar(dateDue))
+                data.put(CAL_UPDATE_12, saveCalendar(dateUpdated))
+                data.put(CAL_ARCHIVED_12, saveCalendar(dateArchived))
+                data.put(CAL_DELETED_12, saveCalendar(dateDeleted))
                 data.put(TITLE_12, title)
                 data.put(NOTE_12, note)
                 data.put(STATUS_12, status)
@@ -468,7 +335,7 @@ class Task(): PoolObjectInterface {
 
     fun getType(): Int = type
 
-    override fun getID(): Int = taskID.toInt()
+    fun getID(): Int = taskID.toInt()
 
     fun getDateCreated(): Calendar {
         if (dateCreate == null) {
@@ -532,7 +399,7 @@ class Task(): PoolObjectInterface {
 
     fun getChildrenTasks(): ArrayList<Task> {
         val temp = ArrayList<Task>(children.size)
-        for (c in children) temp.add(TaskManager.taskPool.getPoolObject().load(c))
+        for (c in children) temp.add(getTaskFromPool().load(c))
         return temp
     }
 
@@ -756,7 +623,7 @@ class Task(): PoolObjectInterface {
         val completed = ArrayList<Task>()
 
         for (t in children) {
-            val task = Task(t)
+            val task = getTaskFromPool().load(t)
 
             when (task.getType()) {
                 Task.TYPE_FOLDER -> folder.add(task)
@@ -813,10 +680,77 @@ class Task(): PoolObjectInterface {
         checkpoints.addAll(i)
         checkpoints.addAll(c)
     }
-}
 
-class TaskCreator: PoolObjectCreator<Task> {
-    override fun generatePoolObject(): Task = Task()
+    companion object {
+        // Constants -------------------------------------------------------------------------------
+        private const val PARENT = "parent"
+        private const val VERSION = "version"
+        private const val META = "meta"
+        private const val TYPE = "type"
+        private const val TASK_ID = "id"
+
+        private const val CAL_CREATE = "cal_a"
+        private const val CAL_DUE = "cal_b"
+        private const val CAL_UPDATE = "cal_c"
+        private const val CAL_ARCHIVED = "cal_d"
+        private const val CAL_DELETED = "cal_e"
+
+        private const val TITLE = "title"
+        private const val NOTE = "note"
+        private const val TAGS = "tags"
+        private const val CHILDREN = "children"
+        private const val CHECKPOINTS = "checkpoints"
+        private const val STATUS = "status"
+        private const val PRIORITY = "priority"
+
+        private const val COMPLETED_ON_TIME = "completed_on_time"
+        private const val COMPLETED_LATE = "completed_late"
+
+        private const val PARENT_12 = "b"
+        private const val VERSION_12 = "a"
+        private const val META_12 = "c"
+        private const val TYPE_12 = "d"
+        private const val TASK_ID_12 = "e"
+
+        private const val CAL_CREATE_12 = "f"
+        private const val CAL_DUE_12 = "g"
+        private const val CAL_UPDATE_12 = "h"
+        private const val CAL_ARCHIVED_12 = "i"
+        private const val CAL_DELETED_12 = "j"
+
+        private const val TITLE_12 = "k"
+        private const val NOTE_12 = "l"
+        private const val TAGS_12 = "m"
+        private const val CHILDREN_12 = "n"
+        private const val CHECKPOINTS_12 = "o"
+        private const val STATUS_12 = "p"
+        private const val PRIORITY_12 = "q"
+
+        private const val COMPLETED_ON_TIME_12 = "r"
+        private const val COMPLETED_LATE_12 = "s"
+
+        private const val BACKGROUND_COLOR_12 = "t"
+        private const val FOREGROUND_COLOR_12 = "u"
+        private const val FILENAME_12 = "v"
+
+        // Type Constants
+        const val TYPE_NONE = 0
+        const val TYPE_FOLDER = 1
+        const val TYPE_TASK = 2
+        const val TYPE_NOTE = 3
+        const val TYPE_SHOPPING_LIST = 4
+
+        // Priority Constants ----------------------------------------------------------------------
+        const val DEFAULT_PRIORITY = 40
+        const val STARRED_PRIORITY = 100
+        const val HIGH_PRIORITY = 70
+        const val NORMAL_PRIORITY = 30
+        const val LOW_PRIORITY = 1
+        const val IGNORE_PRIORITY = 0
+
+        // Status Constants ------------------------------------------------------------------------
+        const val STATUS_DONE = 10
+    }
 }
 
 /**

@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('poolutility-000100.aar'))

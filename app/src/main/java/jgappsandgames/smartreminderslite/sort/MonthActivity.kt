@@ -18,14 +18,15 @@ import jgappsandgames.smartreminderslite.adapter.TaskAdapter
 import jgappsandgames.smartreminderslite.utility.Save
 import jgappsandgames.smartreminderslite.utility.loadClass
 import jgappsandgames.smartreminderslite.utility.onOptionsItemSelected
+import jgappsandgames.smartreminderssave.date.createDate
+import jgappsandgames.smartreminderssave.date.getDayTasks
+import jgappsandgames.smartreminderssave.saveMaster
 
 // KotlinX
 import kotlinx.android.synthetic.main.activity_month.month_calendar
 import kotlinx.android.synthetic.main.activity_month.month_tasks
 
 // Save
-import jgappsandgames.smartreminderssave.MasterManager
-import jgappsandgames.smartreminderssave.date.DateManager
 import jgappsandgames.smartreminderssave.tasks.Task
 
 /**
@@ -35,7 +36,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
 class MonthActivity: Activity(), TaskAdapter.OnTaskChangedListener, CalendarView.OnDateChangeListener {
     // Data ----------------------------------------------------------------------------------------
     private var selected: Calendar = Calendar.getInstance()
-    private var selectedTasks: ArrayList<Task> = DateManager.getDayTasks(selected)
+    private var selectedTasks: ArrayList<Task> = getDayTasks(selected)
 
     // LifeCycleMethods ----------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +51,8 @@ class MonthActivity: Activity(), TaskAdapter.OnTaskChangedListener, CalendarView
 
     override fun onResume() {
         super.onResume()
-        DateManager.create()
-        selectedTasks = DateManager.getDayTasks(selected)
+        createDate()
+        selectedTasks = getDayTasks(selected)
         month_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(selectedTasks), "")
     }
 
@@ -61,14 +62,14 @@ class MonthActivity: Activity(), TaskAdapter.OnTaskChangedListener, CalendarView
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = onOptionsItemSelected(this, item, object: Save { override fun save() = MasterManager.save() })
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = onOptionsItemSelected(this, item, object: Save { override fun save() = saveMaster() })
 
     // On Date Set Presses -------------------------------------------------------------------------
     override fun onSelectedDayChange(calendar: CalendarView, year: Int, month: Int, day: Int) {
         selected.set(Calendar.YEAR, year)
         selected.set(Calendar.MONTH, month)
         selected.set(Calendar.DAY_OF_MONTH, day)
-        selectedTasks = DateManager.getDayTasks(selected)
+        selectedTasks = getDayTasks(selected)
         month_tasks.adapter = TaskAdapter(this, this, TaskAdapter.swapTasks(selectedTasks), "")
     }
 
