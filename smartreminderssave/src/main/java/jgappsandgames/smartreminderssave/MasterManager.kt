@@ -1,5 +1,14 @@
 package jgappsandgames.smartreminderssave
 
+// Android
+import android.util.Log
+
+// Java
+import java.io.FileNotFoundException
+
+// JSON
+import org.json.JSONException
+
 // Save Library
 import jgappsandgames.smartreminderssave.date.DateManager
 import jgappsandgames.smartreminderssave.priority.PriorityManager
@@ -13,7 +22,7 @@ import jgappsandgames.smartreminderssave.utility.FileUtility
 /**
  * MasterManager
  * Created by joshua on 12/10/2017.
- * Last Updated 9/123/2018.
+ * Last Updated 4/30/2019.
  *
  * Manager Class For the Entire Save System
  */
@@ -29,13 +38,24 @@ class MasterManager {
         }
 
         @JvmStatic fun load() {
-            SettingsManager.load()
-            TaskManager.load()
-            TagManager.load()
-            ThemeManager.load()
-            DateManager.create()
-            PriorityManager.create()
-            StatusManager.create()
+            try {
+                SettingsManager.load()
+                TaskManager.load()
+                TagManager.load()
+                ThemeManager.load()
+                DateManager.create()
+                PriorityManager.create()
+                StatusManager.create()
+            } catch(e: FileNotFoundException) {
+                Log.d("First Run?", "No Files Found")
+                create()
+            } catch (e: JSONException) {
+                Log.d("First Run?", "JSON Error")
+                create()
+            } catch (e: Exception) {
+                Log.e("First Run?", e.message)
+                create()
+            }
         }
 
         @JvmStatic fun save() {
