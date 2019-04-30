@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/SmartReminders-android.iml" filepath="$PROJECT_DIR$/.idea/SmartReminders-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/SmartReminders-android.iml" filepath="$PROJECT_DIR$/SmartReminders-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/fab-2_1_1/fab-2_1_1.iml" filepath="$PROJECT_DIR$/fab-2_1_1/fab-2_1_1.iml" />
