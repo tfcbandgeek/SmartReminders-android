@@ -13,7 +13,6 @@ import android.graphics.Point
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 
 // Views
 import android.view.LayoutInflater
@@ -108,10 +107,12 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         // Load Data
         load = true
         task = Task(intent.getStringExtra(TASK_NAME))
-        title = task.getTitle()
-
-        Log.e("Task Name", task.getFilename())
-        Log.e("Task Data", task.toString())
+        title = if (task.getTitle().isEmpty()) {
+            if (intent.getBooleanExtra(CREATE, false)) "New Task/Folder"
+            else "Unnamed Task/Folder"
+        } else {
+            task.getTitle()
+        }
 
         when (view) {
             TASK_PORTRAIT -> onResumeTaskPortrait()
@@ -121,12 +122,6 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         }
 
         load = false
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("Task Name", task.getFilename())
-        Log.e("Task Data", task.toString())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -95,6 +95,7 @@ fun buildTaskIntent(activity: Activity, options: IntentOptions, task: TaskOption
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.create) intent.putExtra(CREATE, true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -131,7 +132,8 @@ fun buildAboutIntent(activity: Activity, options: IntentOptions): Intent {
     return intent
 }
 
-class IntentOptions(val shortcut: Boolean = false, val option: Boolean = false, val clearStack: Boolean = false)
+class IntentOptions(val shortcut: Boolean = false, val option: Boolean = false, val clearStack: Boolean = false, val create: Boolean = false)
+
 class TaskOptions(val filename: String? = null, val task: Task? = null, val type: Int? = null) {
     fun getTaskFilename(): String {
         if (filename == null) return task!!.getFilename()

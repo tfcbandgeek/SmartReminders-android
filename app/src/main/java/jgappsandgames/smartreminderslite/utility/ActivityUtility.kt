@@ -23,6 +23,7 @@ const val CHECKPOINT = "checkpoint"
 const val TAG_LIST = "tags"
 const val TASK_TYPE = "type"
 const val FIRST_RUN = "first_run"
+const val CREATE = "create"
 
 // Request Codes ---------------------------------------------------------------------------
 const val REQUEST_CHECKPOINT = 1
