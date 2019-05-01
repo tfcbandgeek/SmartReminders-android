@@ -589,6 +589,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
 
     fun deleteCheckpoint(checkpoint: Checkpoint) {
         task.removeCheckpoint(checkpoint).save()
+        onTaskChanged()
     }
 
     // Search Methods ------------------------------------------------------------------------------

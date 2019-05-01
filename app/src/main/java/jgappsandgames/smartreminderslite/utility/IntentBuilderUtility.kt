@@ -17,7 +17,12 @@ fun buildHomeIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (options.fillStack) intent.putExtra("fillStack", true)
 
     return intent
 }
@@ -27,7 +32,12 @@ fun buildTagsIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (options.fillStack) intent.putExtra("fillStack", true)
 
     return intent
 }
@@ -37,7 +47,12 @@ fun buildStatusIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (options.fillStack) intent.putExtra("fillStack", true)
 
     return intent
 }
@@ -47,7 +62,12 @@ fun buildPriorityIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    if (options.fillStack) intent.putExtra("fillStack", true)
 
     return intent
 }
@@ -57,6 +77,10 @@ fun buildDayIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -67,6 +91,10 @@ fun buildWeekIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("exteranal", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -77,6 +105,10 @@ fun buildMonthIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -95,7 +127,13 @@ fun buildTaskIntent(activity: Activity, options: IntentOptions, task: TaskOption
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.create) intent.putExtra(CREATE, true)
+    if (options.deleteOnExit) intent.putExtra("deleteOnExit", true)
+    if (options.toHomeOnExit) intent.putExtra("toHomeOnExit", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -107,6 +145,10 @@ fun buildTaskTagsIntent(activity: Activity, options: IntentOptions, task: TaskOp
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -117,6 +159,10 @@ fun buildSettingsIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
@@ -127,12 +173,19 @@ fun buildAboutIntent(activity: Activity, options: IntentOptions): Intent {
 
     if (options.shortcut) intent.putExtra("shortcut", true)
     if (options.option) intent.putExtra("option", true)
+    if (options.automated) intent.putExtra("automated", true)
+    if (options.notification) intent.putExtra("notification", true)
+    if (options.settings) intent.putExtra("settings", true)
+    if (options.fromExternal) intent.putExtra("external", true)
     if (options.clearStack) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     return intent
 }
 
-class IntentOptions(val shortcut: Boolean = false, val option: Boolean = false, val clearStack: Boolean = false, val create: Boolean = false)
+class IntentOptions(val shortcut: Boolean = false, val option: Boolean = false, val settings: Boolean = false,
+                    val fromExternal: Boolean = false, val notification: Boolean = false, val automated: Boolean = false,
+                    val clearStack: Boolean = false, val fillStack: Boolean = false,
+                    val create: Boolean = false, val deleteOnExit: Boolean = false, val toHomeOnExit: Boolean = false)
 
 class TaskOptions(val filename: String? = null, val task: Task? = null, val type: Int? = null) {
     fun getTaskFilename(): String {
