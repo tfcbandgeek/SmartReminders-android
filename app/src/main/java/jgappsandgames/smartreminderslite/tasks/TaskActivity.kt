@@ -90,7 +90,9 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         // Handle Data
         loadClass(this)
         var type = intent.getIntExtra(TASK_TYPE, - 1)
-        if (type == -1) type = Task(intent.getStringExtra(TASK_NAME), true).getType()
+        val t = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
+        if (type == -1) type = t.getType()
+        TaskManager.taskPool.returnPoolObject(t)
         view = type + getOrientation()
 
         when (view) {
@@ -106,7 +108,7 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         super.onResume()
         // Load Data
         load = true
-        task = Task(intent.getStringExtra(TASK_NAME))
+        task = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
         title = if (task.getTitle().isEmpty()) {
             if (intent.getBooleanExtra(CREATE, false)) "New Task/Folder"
             else "Unnamed Task/Folder"
@@ -122,6 +124,11 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
         }
 
         load = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        TaskManager.taskPool.returnPoolObject(task)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

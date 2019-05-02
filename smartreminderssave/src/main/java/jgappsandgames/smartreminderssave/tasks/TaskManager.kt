@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
-import android.util.Log
 import java.io.File
 import java.io.IOException
 
@@ -20,6 +19,7 @@ import jgappsandgames.smartreminderssave.utility.*
 /**
  * TaskManager
  * Created by joshua on 12/12/2017.
+ * Last Edited on 5/01/2019
  */
 class TaskManager {
     companion object {
@@ -197,21 +197,20 @@ class TaskManager {
         @JvmStatic fun addTask(task: Task, home: Boolean): Task {
             if (home) {
                 TaskManager.home.add(task.getFilename())
-                TaskManager.tasks.add(task.getFilename())
-                TaskManager.save()
+                tasks.add(task.getFilename())
+                save()
             } else {
                 val p = Task(task.getParent())
                 p.addChild(task.getFilename())
-                TaskManager.tasks.add(task.getFilename())
+                tasks.add(task.getFilename())
                 p.save()
-                TaskManager.save()
+                save()
             }
 
             return task
         }
 
         @JvmStatic fun archiveTask(task: Task) {
-            Log.e("Task to Delete", task.getFilename())
             task.markArchived()
             task.save()
 

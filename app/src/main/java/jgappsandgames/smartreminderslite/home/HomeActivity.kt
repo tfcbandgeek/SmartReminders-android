@@ -51,12 +51,12 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
         // Set Click Listeners
         home_add_task.setOnClickListener {
             home_fab.close(true)
-            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task("home", Task.TYPE_TASK).save(), true))))
+            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(TaskManager.taskPool.getPoolObject().load("home", Task.TYPE_TASK).save(), true))))
         }
 
         home_add_folder.setOnClickListener {
             home_fab.close(true)
-            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task("home", Task.TYPE_FOLDER).save(), true))))
+            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(TaskManager.taskPool.getPoolObject().load("home", Task.TYPE_FOLDER).save(), true))))
         }
 
         home_bottom_bar_search.setOnClickListener {
