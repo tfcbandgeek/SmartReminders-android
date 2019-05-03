@@ -77,7 +77,7 @@ class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
 
                         button {
                             text = context.getString(R.string.sort_by_status)
-                            onClick { startActivity(buildSettingsIntent(this@HomeActivity, IntentOptions())) }
+                            onClick { startActivity(buildStatusIntent(this@HomeActivity, IntentOptions())) }
                         }.lparams(matchParent, wrapContent)
 
                         button {

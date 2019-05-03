@@ -10,8 +10,8 @@
     <string name="add">Add</string>
     <string name="add_folder">Add Folder</string>
     <string name="add_task">Add Task</string>
-    <string name="anko">Anko 0.10.5</string>
-    <string name="anko_path">https://github.com/Kotlin/anko/releases/tag/v0.10.5</string>
+    <string name="anko">Anko 0.10.8</string>
+    <string name="anko_path">https://github.com/Kotlin/anko/</string>
     <string name="api">API</string>
 
     <string name="build">Build</string>
@@ -38,8 +38,8 @@
     <string name="edit">Edit</string>
     <string name="external">External</string>
 
-    <string name="fab">Floating Action Button 2.1.1</string>
-    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/releases/tag/p2.1.1</string>
+    <string name="fab">Floating Action Button 2.2.0</string>
+    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/</string>
 
     <string name="high">High</string>
     <string name="high_priority">"High Priority"</string>
@@ -51,8 +51,8 @@
     <string name="incomplete_tasks">Incomplete Tasks [%1$d]</string>
     <string name="internal">Internal</string>
 
-    <string name="kotlin">Kotlin 1.2.71</string>
-    <string name="kotlin_path">https://github.com/JetBrains/kotlin/releases/tag/v1.2.71</string>
+    <string name="kotlin">Kotlin 1.3.31</string>
+    <string name="kotlin_path">https://github.com/JetBrains/kotlin/</string>
 
     <string name="low">Low</string>
     <string name="low_priority_default">"Low Priority (Default)"</string>
@@ -75,8 +75,8 @@
     <string name="overdue">Overdue</string>
     <string name="overdue_tasks">Overdue Tasks [%1$d]</string>
 
-    <string name="pool_utility">PoolUtility 1.1.4</string>
-    <string name="pool_utility_path">https://github.com/tfcbandgeek/PoolUtility/releases/tag/r1.1.4</string>
+    <string name="pool_utility">PoolUtility 1.2.2</string>
+    <string name="pool_utility_path">https://github.com/tfcbandgeek/PoolUtility/</string>
     <string name="prev">Prev</string>
     <string name="priority">Priority</string>
     <string name="priority_shortcut">Priority Shortcut</string>
