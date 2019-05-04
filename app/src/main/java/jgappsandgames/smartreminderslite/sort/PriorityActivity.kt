@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.BaseAdapter
+import androidx.appcompat.app.AppCompatActivity
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -26,7 +27,7 @@ import jgappsandgames.smartreminderssave.priority.PriorityManager
  * PriorityActivity
  * Created by joshua on 12/14/2017.
  */
-class PriorityActivity: Activity(), TaskAdapter.OnTaskChangedListener {
+class PriorityActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var position: Int = 3
 

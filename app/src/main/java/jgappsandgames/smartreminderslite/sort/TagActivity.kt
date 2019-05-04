@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.widget.BaseAdapter
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -28,7 +29,7 @@ import jgappsandgames.smartreminderssave.tasks.*
  * TagActivity
  * Created by joshua on 1/19/2018.
  */
-class TagActivity: Activity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChangedListener {
+class TagActivity: AppCompatActivity(), TagAdapter.TagSwitcher, TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var selectedTags: ArrayList<String> = ArrayList()
     private var tasks: ArrayList<Task> = ArrayList()

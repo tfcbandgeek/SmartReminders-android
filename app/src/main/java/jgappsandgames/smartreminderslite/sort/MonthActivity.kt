@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.CalendarView
+import androidx.appcompat.app.AppCompatActivity
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -32,7 +33,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * MonthActivity
  * Created by joshua on 1/19/2018.
  */
-class MonthActivity: Activity(), TaskAdapter.OnTaskChangedListener, CalendarView.OnDateChangeListener {
+class MonthActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener, CalendarView.OnDateChangeListener {
     // Data ----------------------------------------------------------------------------------------
     private var selected: Calendar = Calendar.getInstance()
     private var selectedTasks: ArrayList<Task> = DateManager.getDayTasks(selected)

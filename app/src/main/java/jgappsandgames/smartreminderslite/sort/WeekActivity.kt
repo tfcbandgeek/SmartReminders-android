@@ -10,6 +10,7 @@ import android.os.Bundle
 // View
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -29,7 +30,7 @@ import jgappsandgames.smartreminderslite.utility.*
  * WeekActivity
  * Created by joshua on 1/19/2018.
  */
-class WeekActivity: Activity(), TaskAdapter.OnTaskChangedListener {
+class WeekActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var weekActive: Int = 0
 

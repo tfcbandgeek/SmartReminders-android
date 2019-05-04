@@ -8,6 +8,7 @@ import android.os.Bundle
 // Views
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AppCompatActivity
 
 // JSON
 import org.json.JSONException
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_checkpoint.*
  * CheckpointActivity
  * Created by joshua on 1/19/2018.
  */
-class CheckpointActivity:  Activity(), TextWatcher {
+class CheckpointActivity: AppCompatActivity(), TextWatcher {
     // Data ----------------------------------------------------------------------------------------
     private var position: Int = 0
     private var status: Boolean = false

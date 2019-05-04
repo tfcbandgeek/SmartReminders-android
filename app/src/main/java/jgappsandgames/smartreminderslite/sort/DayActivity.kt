@@ -10,6 +10,7 @@ import android.os.Bundle
 // Views
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -27,7 +28,7 @@ import jgappsandgames.smartreminderssave.date.DateManager
  * DayActivity
  * Created by joshua on 1/1/2018.
  */
-class DayActivity: Activity(), TaskAdapter.OnTaskChangedListener {
+class DayActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener {
     // Data ----------------------------------------------------------------------------------------
     private var dateActivity: Calendar = Calendar.getInstance()
 

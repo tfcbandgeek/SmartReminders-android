@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 
 // JSON
 import org.json.JSONArray
@@ -30,7 +31,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * TagEditorActivity
  * Created by joshua on 1/19/2018.
  */
-class TagEditorActivity: Activity(), TextWatcher, View.OnClickListener, TagAdapter.TagSwitcher {
+class TagEditorActivity: AppCompatActivity(), TextWatcher, View.OnClickListener, TagAdapter.TagSwitcher {
     // Data ----------------------------------------------------------------------------------------
     private lateinit var task: Task
 

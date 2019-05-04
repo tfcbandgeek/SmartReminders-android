@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="blue_dark" parent="android:Theme.Holo">
+    <style name="blue_dark" parent="Theme.AppCompat">
     </style>
 </resources>

@@ -18,6 +18,7 @@ import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
 import jgappsandgames.smartreminderssave.settings.SettingsManager
+import jgappsandgames.smartreminderssave.utility.getLineSeperator
 
 /**
  * Task
@@ -93,6 +94,43 @@ class Task(): PoolObjectInterface {
 
         // Status Constants ------------------------------------------------------------------------
         const val STATUS_DONE = 10
+
+        // List Constants --------------------------------------------------------------------------
+        const val LIST_META = "w"
+
+        const val LIST_DEFAULT_NONE = 0
+        const val LIST_DEFAULT_FOLDER = 1
+        const val LIST_DEFAULT_TASK = 2
+        const val LIST_DEFAULT_NOTE = 3
+        const val LIST_DEFAULT_SHOPPING_LIST = 4
+
+        const val LIST_PATH_NONE = 10
+        const val LIST_PATH_FOLDER = 11
+        const val LIST_PATH_TASK = 12
+        const val LIST_PATH_NOTE = 13
+        const val LIST_PATH_SHOPPING_LIST = 14
+
+        const val LIST_TAG_NONE = 20
+        const val LIST_TAG_FOLDER = 21
+        const val LIST_TAG_TASK = 22
+        const val LIST_TAG_NOTE = 23
+        const val LIST_TAG_SHOPPING_LIST = 24
+
+        const val LIST_CHILDREN_NONE = 30
+        const val LIST_CHILDREN_FOLDER = 31
+        const val LIST_CHILDREN_TASK = 32
+        const val LIST_CHILDREN_NOTE = 33
+        const val LIST_CHILDREN_SHOPPING_LIST = 34
+
+        const val LIST_ALL_NONE = 40
+        const val LIST_ALL_FOLDER = 41
+        const val LIST_ALL_TASK = 42
+        const val LIST_ALL_NOTE = 43
+        const val LIST_ALL_SHOPPING_LIST = 44
+
+        private fun defaultListMode(type: Int): Int {
+            return type
+        }
     }
 
     // Data ----------------------------------------------------------------------------------------
@@ -122,6 +160,8 @@ class Task(): PoolObjectInterface {
 
     private var backgroundColor: Int = 0
     private var foregroundColor: Int = 0
+
+    private var metaList: Int = 0
 
     // Constructors --------------------------------------------------------------------------------
     constructor(filename: String, sort: Boolean = false): this() {
@@ -170,6 +210,7 @@ class Task(): PoolObjectInterface {
         completeLate = false
         backgroundColor = 0
         foregroundColor = 0
+        metaList = defaultListMode(getType())
     }
 
     constructor(data: JSONObject, sort: Boolean = false): this() {
@@ -232,6 +273,7 @@ class Task(): PoolObjectInterface {
         completeLate = false
         backgroundColor = 0
         foregroundColor = 0
+        metaList = defaultListMode(getType())
 
         return this
     }
@@ -373,6 +415,9 @@ class Task(): PoolObjectInterface {
             backgroundColor = data.optInt(BACKGROUND_COLOR_12, 0)
             foregroundColor = data.optInt(FOREGROUND_COLOR_12, 0)
         }
+
+        // Meta
+        metaList = meta!!.optInt(LIST_META, defaultListMode(getType()))
     }
 
     fun toJSON(): JSONObject {
@@ -459,11 +504,30 @@ class Task(): PoolObjectInterface {
 
     fun getFilename(): String = filename
 
+    fun getPath(): String {
+        if (getParent() == "home") {
+            return "/"
+        }
+
+        val p = TaskManager.taskPool.getPoolObject().load(getParent())
+        val path = p.getPath() + p.getTitle() + "/"
+        TaskManager.taskPool.returnPoolObject(p)
+        return path
+    }
+
     fun getParent(): String = parent
 
     fun getMeta(): JSONObject {
         if (meta == null) meta = JSONObject()
         return meta!!
+    }
+
+    fun getListViewType(): Int {
+        if ((metaList - getType()) == LIST_DEFAULT_NONE) {
+            if (getNote().trim() == "") return (LIST_ALL_NONE + getType())
+        }
+
+        return metaList
     }
 
     fun getType(): Int = type
@@ -540,11 +604,21 @@ class Task(): PoolObjectInterface {
         val builder = StringBuilder()
         val tasks = getChildrenTasks()
 
-        for (task in tasks) builder.append(task.getTitle()).append(", ")
+        for (task in tasks) builder.append(task.getTitle()).append(getLineSeperator())
         return builder.toString()
     }
 
     fun getCheckpoints(): ArrayList<Checkpoint> = checkpoints
+
+    fun getCheckpointString(): String {
+        val builder = StringBuilder()
+
+        for (checkpoint in checkpoints) {
+            builder.append(checkpoint.toUserString()).append(getLineSeperator())
+        }
+
+        return builder.toString()
+    }
 
     fun getStatus(): Int = status
 
@@ -559,6 +633,14 @@ class Task(): PoolObjectInterface {
     fun late(): Boolean = completeLate
 
     // Setters -------------------------------------------------------------------------------------
+    fun setListViewType(type: Int): Task {
+        // TODO: Safety Checks
+        metaList = type
+        removeMeta(LIST_META)
+        addMeta(LIST_META, type)
+        return this
+    }
+
     fun setDateDue(calendar: Calendar?): Task {
         dateDue = if (calendar == null) null
                   else calendar.clone() as Calendar
@@ -855,4 +937,14 @@ class Checkpoint(var id: Int, var text: String, var status: Boolean) {
 
     // String Method -------------------------------------------------------------------------------
     override fun toString(): String = toJSON()!!.toString()
+
+    fun toUserString(): String {
+        val b = StringBuilder()
+        b.append("$id: ")
+        if (status) b.append("[*] ")
+        else b.append("[ ] ")
+        b.append(text)
+
+        return b.toString()
+    }
 }

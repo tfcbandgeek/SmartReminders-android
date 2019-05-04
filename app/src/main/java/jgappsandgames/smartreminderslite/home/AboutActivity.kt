@@ -6,10 +6,10 @@ import java.io.InputStreamReader
 import java.net.URL
 
 // Android OS
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 // Anko
 import org.jetbrains.anko.toast
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_about.*
  * AboutActivity
  * Created by joshua on 12/30/2017.
  */
-class AboutActivity: Activity() {
+class AboutActivity: AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)

@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderslite.home
 
 // Android OS
-import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 
 // Anko
 import org.jetbrains.anko.alert
@@ -38,7 +38,7 @@ import jgappsandgames.smartreminderssave.tasks.TaskManager
  * HomeActivity
  * Created by joshua on 12/13/2017.
  */
-class HomeActivity: Activity(), TaskAdapter.OnTaskChangedListener {
+class HomeActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

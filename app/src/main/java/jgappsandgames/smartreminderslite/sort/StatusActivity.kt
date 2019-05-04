@@ -7,6 +7,7 @@ import android.os.Bundle
 // Views
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 // App
 import jgappsandgames.smartreminderslite.R
@@ -25,7 +26,7 @@ import jgappsandgames.smartreminderssave.tasks.Task
  * StatusActivity
  * Created by joshua on 12/14/2017.
  */
-class StatusActivity: Activity(), TaskAdapter.OnTaskChangedListener {
+class StatusActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener {
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="blue_dark" parent="android:Theme.Material">
+    <style name="blue_dark" parent="Theme.AppCompat">
         <item name="android:colorAccent">#111166</item>
     </style>
 </resources>

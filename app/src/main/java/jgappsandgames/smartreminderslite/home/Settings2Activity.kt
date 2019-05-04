@@ -2,11 +2,11 @@ package jgappsandgames.smartreminderslite.home
 
 // Android OS
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 // Anko
 import org.jetbrains.anko.alert
@@ -28,7 +28,7 @@ import jgappsandgames.smartreminderssave.utility.API
 /**
  * Settings2Activity
  */
-class Settings2Activity: Activity() {
+class Settings2Activity: AppCompatActivity() {
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

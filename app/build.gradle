@@ -7,9 +7,9 @@ android {
 
     defaultConfig {
         applicationId "jgappsandgames.smartreminderslite"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
-        versionCode 19050206
+        versionCode 19050211
         versionName "19.05.2"
     }
 
@@ -32,6 +32,10 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
+
+    implementation "androidx.appcompat:appcompat:1.0.2"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.multidex:multidex:2.0.1"
 
     implementation project(':smartreminderssave')
     implementation project(":poolutilitykotlin-1_2_2")

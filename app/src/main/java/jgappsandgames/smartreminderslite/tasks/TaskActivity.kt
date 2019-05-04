@@ -25,6 +25,7 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 // JSON
 import org.json.JSONArray
@@ -54,13 +55,13 @@ import jgappsandgames.smartreminderssave.tasks.*
  * TaskActivity
  * Created by joshua on 12/16/2017.
  */
-class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, TextWatcher,
+class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickListener, TextWatcher,
         SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskAdapter.OnTaskChangedListener {
     // View Orientation ----------------------------------------------------------------------------
     companion object {
-        private const val PORTRAIT = 10
-        private const val LANDSCAPE = 20
-        private const val MULTIWINDOW = 30
+        private const val PORTRAIT = 0x1
+        private const val LANDSCAPE = 0x2
+        private const val MULTIWINDOW = 0x8
 
         private const val TASK_PORTRAIT = Task.TYPE_TASK + PORTRAIT
         private const val TASK_LANDSCAPE = Task.TYPE_TASK + LANDSCAPE
@@ -143,7 +144,13 @@ class TaskActivity: Activity(), View.OnClickListener, View.OnLongClickListener, 
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                 }
-
+            } else if (resultCode == RESPONSE_NONE) {
+                for (checkpoint in task.getCheckpoints()) {
+                    if (checkpoint.text.trim() == "") {
+                        task.removeCheckpoint(checkpoint)
+                        onActivityResult(requestCode, resultCode, data)
+                    }
+                }
             }
 
             REQUEST_TAGS -> if (resultCode == RESPONSE_CHANGE) {
