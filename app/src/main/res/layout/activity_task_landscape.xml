@@ -99,6 +99,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:id="@+id/task_landscape_checkpoints"
+                android:divider="@null"
                 android:paddingBottom="8sp"/>
 
             <LinearLayout

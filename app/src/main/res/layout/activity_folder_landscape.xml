@@ -74,6 +74,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="4sp"
                 android:paddingRight="4sp"
+                android:divider="@null"
                 android:id="@+id/folder_landscape_tasks"/>
 
             <LinearLayout
@@ -127,6 +128,16 @@
                 android:src="@android:drawable/ic_dialog_dialer"
                 app:fab_label="@string/add_folder"
                 android:id="@+id/folder_landscape_add_folder"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@android:color/holo_blue_dark"
+                app:fab_colorPressed="@android:color/holo_blue_light"
+                app:fab_colorRipple="@android:color/holo_blue_light"
+                android:src="@android:drawable/ic_menu_edit"
+                app:fab_label="Add Note"
+                android:id="@+id/folder_landscape_add_note"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:layout_width="wrap_content"

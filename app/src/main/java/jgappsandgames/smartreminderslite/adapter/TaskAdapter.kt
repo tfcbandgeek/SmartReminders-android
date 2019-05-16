@@ -121,6 +121,41 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
                     view
                 }
 
+                Task.LIST_DEFAULT_NOTE -> {
+                    val view = LayoutInflater.from(activity).inflate(R.layout.list_note_default, parent, false)
+                    val holder = NoteHolder(activity, listener, view, t)
+                    view.tag = holder
+                    view
+                }
+
+                Task.LIST_PATH_NOTE -> {
+                    val view = LayoutInflater.from(activity).inflate(R.layout.list_note_path, parent, false)
+                    val holder = NoteHolder(activity, listener, view, t)
+                    view.tag = holder
+                    view
+                }
+
+                Task.LIST_TAG_NOTE -> {
+                    val view = LayoutInflater.from(activity).inflate(R.layout.list_note_tag, parent, false)
+                    val holder = NoteHolder(activity, listener, view, t)
+                    view.tag = holder
+                    view
+                }
+
+                Task.LIST_CHILDREN_NOTE -> {
+                    val view = LayoutInflater.from(activity).inflate(R.layout.list_note_default, parent, false)
+                    val holder = NoteHolder(activity, listener, view, t)
+                    view.tag = holder
+                    view
+                }
+
+                Task.LIST_ALL_NOTE -> {
+                    val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_all, parent, false)
+                    val holder = NoteHolder(activity, listener, view, t)
+                    view.tag = holder
+                    view
+                }
+
                 Task.LIST_DEFAULT_TASK -> {
                     val view = LayoutInflater.from(activity).inflate(R.layout.list_task_default, parent, false)
                     val holder = TaskHolder(activity, listener, view, t)
@@ -162,17 +197,24 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
 
         return when (t.getType()) {
             Task.TYPE_FOLDER -> {
-                val holder: FolderHolder = convertView.tag as FolderHolder
+                val holder = convertView.tag as FolderHolder
+                holder.updateViews(t)
+                TaskManager.taskPool.returnPoolObject(t, false)
+                convertView
+            }
+
+            Task.TYPE_NOTE -> {
+                val holder = convertView.tag as NoteHolder
                 holder.updateViews(t)
                 TaskManager.taskPool.returnPoolObject(t, false)
                 convertView
             }
 
             Task.TYPE_TASK -> {
-                val view = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
-                val holder = TaskHolder(activity, listener, view, t)
-                view.tag = holder
-                view
+                val holder = convertView.tag as TaskHolder
+                holder.updateViews(t)
+                TaskManager.taskPool.returnPoolObject(t, false)
+                convertView
             }
 
             else -> throw Exception("No task list type or invalid task list type")
@@ -278,6 +320,89 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
 
         override fun onLongClick(p0: View?): Boolean {
             TaskManager.archiveTask(folder)
+            listener.onTaskChanged()
+            vibrate(activity)
+            return true
+        }
+    }
+
+    class NoteHolder(private val activity: Activity, private val listener: OnTaskChangedListener, view: View, private var _note: Task):
+            View.OnClickListener, View.OnLongClickListener {
+        // Views -----------------------------------------------------------------------------------
+        private val title: TextView = view.findViewById(R.id.title)
+        private val note: TextView = view.findViewById(R.id.note)
+
+        private var path: TextView? = null
+        private var children: TextView? = null
+        private var tags: TextView? = null
+
+        // Initializer -----------------------------------------------------------------------------
+        init {
+            title.setOnClickListener(this)
+            note.setOnClickListener(this)
+
+            title.setOnLongClickListener(this)
+            note.setOnLongClickListener(this)
+
+            // Setup secondary views
+            if (_note.getListViewType() == Task.LIST_PATH_NOTE) {
+                path = view.findViewById(R.id.path)
+                path?.setOnClickListener(this)
+                path?.setOnLongClickListener(this)
+            }
+
+            if (_note.getListViewType() == Task.LIST_TAG_NOTE) {
+                tags = view.findViewById(R.id.tag)
+                tags?.setOnClickListener(this)
+                tags?.setOnLongClickListener(this)
+            }
+
+            if (_note.getListViewType() == Task.LIST_ALL_NOTE) {
+                path = view.findViewById(R.id.path)
+                path?.setOnClickListener(this)
+                path?.setOnLongClickListener(this)
+
+                tags = view.findViewById(R.id.tag)
+                tags?.setOnClickListener(this)
+                tags?.setOnLongClickListener(this)
+            }
+
+            setViews()
+        }
+
+        // View Handlers ---------------------------------------------------------------------------
+        private fun setViews() {
+            title.text = _note.getTitle()
+            note.text = _note.getNote()
+
+            // Set secondary views
+            if (_note.getListViewType() == Task.LIST_PATH_NOTE) {
+                path?.text = _note.getPath()
+            }
+
+            if (_note.getListViewType() == Task.LIST_TAG_NOTE) {
+                tags?.text = _note.getTagString()
+            }
+            if (_note.getListViewType() == Task.LIST_ALL_NOTE) {
+                path?.text = _note.getPath()
+                tags?.text = _note.getTagString()
+            }
+        }
+
+        fun updateViews(folder: Task) {
+            this._note = folder
+            setViews()
+        }
+
+        // Click Listeners -------------------------------------------------------------------------
+        override fun onClick(p0: View?) {
+            activity.startActivity(Intent(activity, TaskActivity::class.java)
+                    .putExtra(TASK_NAME, _note.getFilename())
+                    .putExtra(TASK_TYPE, _note.getType()))
+        }
+
+        override fun onLongClick(p0: View?): Boolean {
+            TaskManager.archiveTask(_note)
             listener.onTaskChanged()
             vibrate(activity)
             return true

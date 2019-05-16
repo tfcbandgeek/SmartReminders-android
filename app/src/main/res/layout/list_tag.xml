@@ -9,13 +9,18 @@
     android:paddingTop="4sp"
     android:paddingBottom="4sp">
 
-    <TextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="6sp"
-        android:layout_marginRight="6sp"
-        android:layout_marginTop="4sp"
-        android:layout_marginBottom="4sp"
-        android:id="@+id/tag"
-        android:textSize="13sp"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6sp"
+            android:layout_marginRight="6sp"
+            android:layout_marginTop="4sp"
+            android:layout_marginBottom="4sp"
+            android:id="@+id/tag"
+            android:textSize="13sp"/>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

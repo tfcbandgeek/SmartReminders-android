@@ -59,6 +59,11 @@ class HomeActivity: AppCompatActivity(), TaskAdapter.OnTaskChangedListener {
             startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(TaskManager.taskPool.getPoolObject().load("home", Task.TYPE_FOLDER).save(), true))))
         }
 
+        home_add_note.setOnClickListener {
+            home_fab.close(true)
+            startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(TaskManager.taskPool.getPoolObject().load("home", Task.TYPE_NOTE).save(), true))))
+        }
+
         home_bottom_bar_search.setOnClickListener {
             if (home_bottom_bar_search_text.visibility == View.VISIBLE) searchVisibility(false)
             else searchVisibility(true)

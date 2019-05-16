@@ -5,7 +5,6 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 
 // Android OS
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Paint
@@ -50,6 +49,7 @@ import kotlinx.android.synthetic.main.activity_task_landscape.*
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.tags.TagManager
 import jgappsandgames.smartreminderssave.tasks.*
+import kotlinx.android.synthetic.main.activity_note.*
 
 /**
  * TaskActivity
@@ -59,14 +59,16 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         SeekBar.OnSeekBarChangeListener, DatePickerDialog.OnDateSetListener, TaskAdapter.OnTaskChangedListener {
     // View Orientation ----------------------------------------------------------------------------
     companion object {
-        private const val PORTRAIT = 0x1
-        private const val LANDSCAPE = 0x2
-        private const val MULTIWINDOW = 0x8
+        private const val PORTRAIT = 10
+        private const val LANDSCAPE = 20
+        private const val MULTIWINDOW = 30
 
         private const val TASK_PORTRAIT = Task.TYPE_TASK + PORTRAIT
         private const val TASK_LANDSCAPE = Task.TYPE_TASK + LANDSCAPE
         private const val FOLDER_PORTRAIT = Task.TYPE_FOLDER + PORTRAIT
         private const val FOLDER_LANDSCAPE = Task.TYPE_FOLDER + LANDSCAPE
+        private const val NOTE_PORTRAIT = Task.TYPE_FOLDER + PORTRAIT
+        private const val NOTE_LANDSCAPE = Task.TYPE_FOLDER + LANDSCAPE
     }
 
     private var view = 0
@@ -101,6 +103,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
             TASK_LANDSCAPE -> onCreateTaskLandscape()
             FOLDER_PORTRAIT -> onCreateFolderPortrait()
             FOLDER_LANDSCAPE -> onCreateFolderLandscape()
+            NOTE_PORTRAIT -> onCreateNote()
+            NOTE_LANDSCAPE -> onCreateNote()
             else -> IllegalOrientationException("Orientation $view does not exist")
         }
     }
@@ -122,6 +126,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
             TASK_LANDSCAPE -> onResumeTaskLandscape()
             FOLDER_PORTRAIT -> onResumeFolderPortrait()
             FOLDER_LANDSCAPE -> onResumeFolderLandscape()
+            NOTE_PORTRAIT -> onResumeNote()
+            NOTE_LANDSCAPE -> onResumeNote()
         }
 
         load = false
@@ -173,6 +179,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
                     TASK_LANDSCAPE -> task_landscape_tags.text = task.getTagString()
                     FOLDER_PORTRAIT -> folder_tags.text = task.getTagString()
                     FOLDER_LANDSCAPE -> folder_landscape_tags.text = task.getTagString()
+                    NOTE_PORTRAIT -> note_tags.text = task.getTagString()
+                    NOTE_LANDSCAPE -> note_tags.text = task.getTagString()
                 }
             }
         }
@@ -185,7 +193,9 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item!!.itemId == R.id.more) {
-            toast("Coming Very Soon").show()
+            startActivity(Intent(this, TaskManagementActivity::class.java)
+                    .putExtra(TASK_TYPE, task.getType())
+                    .putExtra(TASK_NAME, task.getFilename()))
             return true
         }
 
@@ -198,6 +208,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
             TASK_LANDSCAPE -> onClickTaskLandscape(button)
             FOLDER_PORTRAIT -> onClickFolderPortrait(button)
             FOLDER_LANDSCAPE -> onClickFolderLandscape(button)
+            NOTE_PORTRAIT -> onClickNote(button)
+            NOTE_LANDSCAPE -> onClickNote(button)
         }
     }
 
@@ -207,6 +219,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
             TASK_LANDSCAPE -> onLongClickTaskLandscape(button)
             FOLDER_PORTRAIT -> onLongClickFolderPortrait(button)
             FOLDER_LANDSCAPE -> onLongClickFolderLandscape(button)
+            NOTE_PORTRAIT -> onLongClickNote(button)
+            NOTE_LANDSCAPE -> onLongClickNote(button)
             else -> false
         }
     }
@@ -218,6 +232,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
                 TASK_LANDSCAPE -> textChangedTaskLandscape(editable)
                 FOLDER_PORTRAIT -> textChangedFolderPortrait(editable)
                 FOLDER_LANDSCAPE -> textChangedFolderLandscape(editable)
+                NOTE_PORTRAIT -> textChangedNote(editable)
+                NOTE_LANDSCAPE -> textChangedNote(editable)
             }
         }
     }
@@ -301,6 +317,15 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         folder_landscape_bottom_bar_search_text.addTextChangedListener(this)
     }
 
+    private fun onCreateNote() {
+        setContentView(R.layout.activity_folder)
+
+        note_title.addTextChangedListener(this)
+        note_note.addTextChangedListener(this)
+        note_tags.setOnClickListener(this)
+        note_tags.setOnLongClickListener(this)
+    }
+
     private fun onResumeTaskPortrait() {
         task_title.setText(task.getTitle())
         task_note.setText(task.getNote())
@@ -343,6 +368,12 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         folder_landscape_tags.text = task.getTagString()
 
         folder_landscape_tasks.adapter = TaskAdapter(this, this, task.getChildren(), "")
+    }
+
+    private fun onResumeNote() {
+        note_title.setText(task.getTitle())
+        note_note.setText(task.getNote())
+        note_tags.text = task.getTagString()
     }
 
     private fun onClickTaskPortrait(button: View?) {
@@ -429,6 +460,11 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
                 startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
             }
 
+            folder_add_note -> {
+                folder_fab.close(true)
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_NOTE).save(), false))))
+            }
+
             folder_bottom_bar_search -> {
                 if (folder_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
                 else searchFolderVisibility()
@@ -450,11 +486,20 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
                 startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_TASK).save(), false))))
             }
 
+            folder_landscape_add_note -> {
+                folder_fab.close(true)
+                startActivity(buildTaskIntent(this, IntentOptions(), TaskOptions(task = TaskManager.addTask(Task(task.getFilename(), Task.TYPE_NOTE).save(), false))))
+            }
+
             folder_landscape_bottom_bar_search -> {
                 if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) searchFolderVisibility(false)
                 else searchFolderVisibility()
             }
         }
+    }
+
+    private fun onClickNote(button: View?) {
+        startActivityForResult(buildTaskTagsIntent(this, IntentOptions(), TaskOptions(filename = task.getFilename())), REQUEST_TAGS)
     }
 
     private fun onLongClickTaskPortrait(button: View?): Boolean {
@@ -488,6 +533,10 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun onLongClickFolderLandscape(button: View?): Boolean {
+        return false
+    }
+
+    private fun onLongClickNote(button: View?): Boolean {
         return false
     }
 
@@ -564,6 +613,19 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
                     if (folder_landscape_bottom_bar_search_text.visibility == View.VISIBLE) folder_landscape_tasks.adapter = TaskAdapter(this@TaskActivity, this@TaskActivity, task.getChildren(), editable.toString())
                 }
             }
+        }
+    }
+
+    private fun textChangedNote(editable: Editable?) {
+        if (editable == null) throw NullPointerException()
+
+        when (editable.hashCode()) {
+            note_title.editableText.hashCode() -> {
+                task.setTitle(editable.toString()).save()
+                title = task.getTitle()
+            }
+
+            note_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
         }
     }
 

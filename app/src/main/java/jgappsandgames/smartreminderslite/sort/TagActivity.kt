@@ -1,7 +1,6 @@
 package jgappsandgames.smartreminderslite.sort
 
 // Android
-import android.app.Activity
 import android.os.Bundle
 
 // View
@@ -117,34 +116,143 @@ class TagActivity: AppCompatActivity(), TagAdapter.TagSwitcher, TaskAdapter.OnTa
 
         override fun getItemViewType(position: Int): Int = getItem(position).getType()
 
-        override fun getView(position: Int, view: View?, parent: ViewGroup): View {
-            val item = getItem(position)
-            var convertView: View? = view
-            val task: jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
-            val folder: jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val t = getItem(position)
 
-            return if (item.getType() == Task.TYPE_FOLDER) {
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(activity).inflate(R.layout.list_folder, parent, false)
-                    folder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, convertView!!, item)
-                    convertView.tag = folder
-                } else {
-                    folder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
-                    folder.updateViews(item)
+            if (convertView == null) {
+                return when (t.getListViewType()) {
+                    Task.LIST_DEFAULT_FOLDER -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_default, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_PATH_FOLDER -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_path, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_TAG_FOLDER -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_tag, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_CHILDREN_FOLDER -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_children, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_ALL_FOLDER -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_all, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_DEFAULT_NOTE -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_note_default, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.NoteHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_PATH_NOTE -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_note_path, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.NoteHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_TAG_NOTE -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_note_tag, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.NoteHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_CHILDREN_NOTE -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_note_default, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.NoteHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_ALL_NOTE -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_all, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.NoteHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_DEFAULT_TASK -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_task_default, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_PATH_TASK -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_task_path, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_TAG_TASK -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_task_tag, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_CHILDREN_TASK -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_task_children, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    Task.LIST_ALL_TASK -> {
+                        val view = LayoutInflater.from(activity).inflate(R.layout.list_task_all, parent, false)
+                        val holder = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, view, t)
+                        view.tag = holder
+                        view
+                    }
+
+                    else -> throw Exception("No task list type or invalid task list type")
+                }
+            }
+
+            return when (t.getType()) {
+                Task.TYPE_FOLDER -> {
+                    val holder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.FolderHolder
+                    holder.updateViews(t)
+                    TaskManager.taskPool.returnPoolObject(t, false)
+                    convertView
                 }
 
-                convertView
-            } else {
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(activity).inflate(R.layout.list_task, parent, false)
-                    task = jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder(activity, activity, convertView!!, item)
-                    convertView.tag = task
-                } else {
-                    task = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
-                    task.updateViews(item)
+                Task.TYPE_NOTE -> {
+                    val holder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.NoteHolder
+                    holder.updateViews(t)
+                    TaskManager.taskPool.returnPoolObject(t, false)
+                    convertView
                 }
 
-                convertView
+                Task.TYPE_TASK -> {
+                    val holder = convertView.tag as jgappsandgames.smartreminderslite.adapter.TaskAdapter.TaskHolder
+                    holder.updateViews(t)
+                    TaskManager.taskPool.returnPoolObject(t, false)
+                    convertView
+                }
+
+                else -> throw Exception("No task list type or invalid task list type")
             }
         }
     }
