@@ -150,7 +150,7 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
                 }
 
                 Task.LIST_ALL_NOTE -> {
-                    val view = LayoutInflater.from(activity).inflate(R.layout.list_folder_all, parent, false)
+                    val view = LayoutInflater.from(activity).inflate(R.layout.list_note_all, parent, false)
                     val holder = NoteHolder(activity, listener, view, t)
                     view.tag = holder
                     view

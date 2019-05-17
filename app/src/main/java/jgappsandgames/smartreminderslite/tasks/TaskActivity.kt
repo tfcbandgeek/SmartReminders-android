@@ -67,8 +67,8 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         private const val TASK_LANDSCAPE = Task.TYPE_TASK + LANDSCAPE
         private const val FOLDER_PORTRAIT = Task.TYPE_FOLDER + PORTRAIT
         private const val FOLDER_LANDSCAPE = Task.TYPE_FOLDER + LANDSCAPE
-        private const val NOTE_PORTRAIT = Task.TYPE_FOLDER + PORTRAIT
-        private const val NOTE_LANDSCAPE = Task.TYPE_FOLDER + LANDSCAPE
+        private const val NOTE_PORTRAIT = Task.TYPE_NOTE + PORTRAIT
+        private const val NOTE_LANDSCAPE = Task.TYPE_NOTE + LANDSCAPE
     }
 
     private var view = 0
@@ -318,7 +318,7 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun onCreateNote() {
-        setContentView(R.layout.activity_folder)
+        setContentView(R.layout.activity_note)
 
         note_title.addTextChangedListener(this)
         note_note.addTextChangedListener(this)
