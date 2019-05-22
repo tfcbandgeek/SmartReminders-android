@@ -884,7 +884,7 @@ class Task(): PoolObjectInterface {
     }
 
     fun sortTags() {
-        val c = ArrayList<Checkpoint>()
+        /*val c = ArrayList<Checkpoint>()
         val i = ArrayList<Checkpoint>()
 
         for (j in 0 until checkpoints.size) {
@@ -894,7 +894,7 @@ class Task(): PoolObjectInterface {
 
         checkpoints.clear()
         checkpoints.addAll(i)
-        checkpoints.addAll(c)
+        checkpoints.addAll(c)*/
     }
 }
 

@@ -1,7 +1,15 @@
 <resources>
-    <string name="app_name">Smart Reminders Lite</string>
-    <string name="version_string">18.10.0 RC</string>
-    <string name="api_string">12.1.0</string>
+    <string name="app_name">Smart Assistant</string>
+    <string name="version_string">19.05.3</string>
+    <string name="api_string">12.3.0</string>
+    <string name="anko">Anko 0.10.8</string>
+    <string name="fab">Floating Action Button 2.2.0</string>
+    <string name="kotlin">Kotlin 1.3.31</string>
+    <string name="pool_utility">PoolUtility 1.2.2</string>
+    <string name="anko_path">https://github.com/Kotlin/anko/</string>
+    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/</string>
+    <string name="kotlin_path">https://github.com/JetBrains/kotlin/</string>
+    <string name="pool_utility_path">https://github.com/tfcbandgeek/PoolUtility/</string>
 
     <string name="_3rd_party_libraries_used_in_this_app">3rd Party Libraries Used in this App</string>
 
@@ -10,8 +18,6 @@
     <string name="add">Add</string>
     <string name="add_folder">Add Folder</string>
     <string name="add_task">Add Task</string>
-    <string name="anko">Anko 0.10.8</string>
-    <string name="anko_path">https://github.com/Kotlin/anko/</string>
     <string name="api">API</string>
 
     <string name="build">Build</string>
@@ -38,9 +44,6 @@
     <string name="edit">Edit</string>
     <string name="external">External</string>
 
-    <string name="fab">Floating Action Button 2.2.0</string>
-    <string name="fab_path">https://github.com/tfcbandgeek/FloatingActionButton/</string>
-
     <string name="high">High</string>
     <string name="high_priority">"High Priority"</string>
     <string name="home">Home</string>
@@ -50,9 +53,6 @@
     <string name="incomplete">Incomplete</string>
     <string name="incomplete_tasks">Incomplete Tasks [%1$d]</string>
     <string name="internal">Internal</string>
-
-    <string name="kotlin">Kotlin 1.3.31</string>
-    <string name="kotlin_path">https://github.com/JetBrains/kotlin/</string>
 
     <string name="low">Low</string>
     <string name="low_priority_default">"Low Priority (Default)"</string>
@@ -64,6 +64,9 @@
 
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="new_folder">New Folder</string>
+    <string name="new_note">New Note</string>
+    <string name="new_task">New Task</string>
     <string name="next">Next</string>
     <string name="no_date">No Date</string>
     <string name="no_tags">No Tags</string>
@@ -75,8 +78,6 @@
     <string name="overdue">Overdue</string>
     <string name="overdue_tasks">Overdue Tasks [%1$d]</string>
 
-    <string name="pool_utility">PoolUtility 1.2.2</string>
-    <string name="pool_utility_path">https://github.com/tfcbandgeek/PoolUtility/</string>
     <string name="prev">Prev</string>
     <string name="priority">Priority</string>
     <string name="priority_shortcut">Priority Shortcut</string>
@@ -113,9 +114,12 @@
     <string name="today">Today</string>
     <string name="tutorial">Tutorial</string>
 
+    <string name="unnamed_folder">Unnamed Folder</string>
+    <string name="unnamed_note">Unnamed Note</string>
+    <string name="unnamed_task">Unnamed Task</string>
     <string name="unselected">Unselected</string>
     <string name="up">Up</string>
-    <string name="upgrade_to_api_12_testing">Upgrade to API 12 (Currently in Testing)</string>
+    <string name="upgrade_to_api_12_testing">Upgrade to API 12</string>
     <string name="update_found">Update Found</string>
 
     <string name="version">Version</string>

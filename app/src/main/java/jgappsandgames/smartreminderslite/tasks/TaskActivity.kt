@@ -114,9 +114,27 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         // Load Data
         load = true
         task = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
-        title = if (task.getTitle().isEmpty()) {
-            if (intent.getBooleanExtra(CREATE, false)) "New Task/Folder"
-            else "Unnamed Task/Folder"
+        if (task.getTitle().isEmpty()) {
+            if (intent.getBooleanExtra(CREATE, false)) {
+                when (view) {
+                    TASK_PORTRAIT -> setTitle(R.string.new_task)
+                    TASK_LANDSCAPE -> setTitle(R.string.new_task)
+                    NOTE_PORTRAIT -> setTitle(R.string.new_note)
+                    NOTE_LANDSCAPE -> setTitle(R.string.new_note)
+                    FOLDER_PORTRAIT -> setTitle(R.string.new_folder)
+                    FOLDER_LANDSCAPE -> setTitle(R.string.new_folder)
+                }
+            }
+            else {
+                when (view) {
+                    TASK_PORTRAIT -> setTitle(R.string.unnamed_task)
+                    TASK_LANDSCAPE -> setTitle(R.string.unnamed_task)
+                    NOTE_PORTRAIT -> setTitle(R.string.unnamed_note)
+                    NOTE_LANDSCAPE -> setTitle(R.string.unnamed_note)
+                    FOLDER_PORTRAIT -> setTitle(R.string.unnamed_folder)
+                    FOLDER_LANDSCAPE -> setTitle(R.string.unnamed_folder)
+                }
+            }
         } else {
             task.getTitle()
         }
@@ -548,7 +566,30 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         when (editable.hashCode()) {
             task_title.editableText.hashCode() -> {
                 task.setTitle(editable.toString()).save()
-                title = task.getTitle()
+                if (task.getTitle().isEmpty()) {
+                    if (intent.getBooleanExtra(CREATE, false)) {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.new_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.new_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.new_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.new_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.new_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.new_folder)
+                        }
+                    }
+                    else {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.unnamed_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.unnamed_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.unnamed_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.unnamed_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.unnamed_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.unnamed_folder)
+                        }
+                    }
+                } else {
+                    task.getTitle()
+                }
             }
 
             task_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
@@ -567,7 +608,31 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         when (editable.hashCode()) {
             task_landscape_title.editableText.hashCode() -> {
                 task.setTitle(editable.toString()).save()
-                title = task.getTitle()
+
+                if (task.getTitle().isEmpty()) {
+                    if (intent.getBooleanExtra(CREATE, false)) {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.new_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.new_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.new_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.new_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.new_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.new_folder)
+                        }
+                    }
+                    else {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.unnamed_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.unnamed_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.unnamed_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.unnamed_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.unnamed_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.unnamed_folder)
+                        }
+                    }
+                } else {
+                    task.getTitle()
+                }
             }
 
             task_landscape_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
@@ -586,7 +651,31 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         when (editable.hashCode()) {
             folder_title.editableText.hashCode() -> {
                 task.setTitle(editable.toString()).save()
-                title = task.getTitle()
+
+                if (task.getTitle().isEmpty()) {
+                    if (intent.getBooleanExtra(CREATE, false)) {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.new_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.new_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.new_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.new_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.new_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.new_folder)
+                        }
+                    }
+                    else {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.unnamed_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.unnamed_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.unnamed_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.unnamed_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.unnamed_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.unnamed_folder)
+                        }
+                    }
+                } else {
+                    task.getTitle()
+                }
             }
 
             folder_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
@@ -605,7 +694,31 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         when (editable.hashCode()) {
             folder_landscape_title.editableText.hashCode() -> {
                 task.setTitle(editable.toString()).save()
-                title = task.getTitle()
+
+                if (task.getTitle().isEmpty()) {
+                    if (intent.getBooleanExtra(CREATE, false)) {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.new_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.new_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.new_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.new_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.new_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.new_folder)
+                        }
+                    }
+                    else {
+                        when (view) {
+                            TASK_PORTRAIT -> setTitle(R.string.unnamed_task)
+                            TASK_LANDSCAPE -> setTitle(R.string.unnamed_task)
+                            NOTE_PORTRAIT -> setTitle(R.string.unnamed_note)
+                            NOTE_LANDSCAPE -> setTitle(R.string.unnamed_note)
+                            FOLDER_PORTRAIT -> setTitle(R.string.unnamed_folder)
+                            FOLDER_LANDSCAPE -> setTitle(R.string.unnamed_folder)
+                        }
+                    }
+                } else {
+                    task.getTitle()
+                }
             }
 
             folder_landscape_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
@@ -619,15 +732,42 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
     }
 
     private fun textChangedNote(editable: Editable?) {
-        if (editable == null) throw NullPointerException()
+        try {
+            if (editable == null) throw NullPointerException()
 
-        when (editable.hashCode()) {
-            note_title.editableText.hashCode() -> {
-                task.setTitle(editable.toString()).save()
-                title = task.getTitle()
+            when (editable.hashCode()) {
+                note_title.editableText.hashCode() -> {
+                    task.setTitle(editable.toString()).save()
+
+                    if (task.getTitle().isEmpty()) {
+                        if (intent.getBooleanExtra(CREATE, false)) {
+                            when (view) {
+                                TASK_PORTRAIT -> setTitle(R.string.new_task)
+                                TASK_LANDSCAPE -> setTitle(R.string.new_task)
+                                NOTE_PORTRAIT -> setTitle(R.string.new_note)
+                                NOTE_LANDSCAPE -> setTitle(R.string.new_note)
+                                FOLDER_PORTRAIT -> setTitle(R.string.new_folder)
+                                FOLDER_LANDSCAPE -> setTitle(R.string.new_folder)
+                            }
+                        } else {
+                            when (view) {
+                                TASK_PORTRAIT -> setTitle(R.string.unnamed_task)
+                                TASK_LANDSCAPE -> setTitle(R.string.unnamed_task)
+                                NOTE_PORTRAIT -> setTitle(R.string.unnamed_note)
+                                NOTE_LANDSCAPE -> setTitle(R.string.unnamed_note)
+                                FOLDER_PORTRAIT -> setTitle(R.string.unnamed_folder)
+                                FOLDER_LANDSCAPE -> setTitle(R.string.unnamed_folder)
+                            }
+                        }
+                    } else {
+                        task.getTitle()
+                    }
+                }
+
+                note_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
             }
-
-            note_note.editableText.hashCode() -> task.setNote(editable.toString()).save()
+        } catch(u: UninitializedPropertyAccessException) {
+            u.printStackTrace()
         }
     }
 
