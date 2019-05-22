@@ -299,6 +299,7 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
 
         folder_add_task.setOnClickListener(this)
         folder_add_folder.setOnClickListener(this)
+        folder_add_note.setOnClickListener(this)
         folder_bottom_bar_search.setOnClickListener(this)
         folder_bottom_bar_search_text.addTextChangedListener(this)
     }
@@ -313,6 +314,7 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
 
         folder_landscape_add_task.setOnClickListener(this)
         folder_landscape_add_folder.setOnClickListener(this)
+        folder_landscape_add_note.setOnClickListener(this)
         folder_landscape_bottom_bar_search.setOnClickListener(this)
         folder_landscape_bottom_bar_search_text.addTextChangedListener(this)
     }
