@@ -25,6 +25,7 @@ import jgappsandgames.smartreminderssave.utility.getLineSeperator
  * Created by joshua on 12/12/2017.
  */
 class Task(): PoolObjectInterface {
+    // TODO: Add Copy Method
     companion object {
         // Constants -------------------------------------------------------------------------------
         private const val PARENT = "parent"
