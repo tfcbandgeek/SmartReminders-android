@@ -59,6 +59,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="@null"
                 android:id="@+id/tag_editor_selected"/>
         </LinearLayout>
 
@@ -81,6 +82,7 @@
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="@null"
                 android:id="@+id/tag_editor_unselected"/>
         </LinearLayout>
     </LinearLayout>

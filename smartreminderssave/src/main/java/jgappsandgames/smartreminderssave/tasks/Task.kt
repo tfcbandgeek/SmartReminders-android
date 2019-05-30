@@ -1,6 +1,7 @@
 package jgappsandgames.smartreminderssave.tasks
 
 // Java
+import android.util.Log
 import java.io.File
 import java.util.*
 
@@ -18,6 +19,7 @@ import jgappsandgames.smartreminderssave.utility.API
 import jgappsandgames.smartreminderssave.utility.FileUtility
 import jgappsandgames.smartreminderssave.utility.JSONUtility
 import jgappsandgames.smartreminderssave.settings.SettingsManager
+import jgappsandgames.smartreminderssave.shopping.ShoppingItem
 import jgappsandgames.smartreminderssave.utility.getLineSeperator
 
 /**
@@ -77,6 +79,11 @@ class Task(): PoolObjectInterface {
         private const val BACKGROUND_COLOR_12 = "t"
         private const val FOREGROUND_COLOR_12 = "u"
         private const val FILENAME_12 = "v"
+        const val LIST_META = "w"
+
+        private const val SHOPPING_LIST = "x"
+        private const val REPEAT_DATA = "y"
+        private const val OVERDUE = "z"
 
         // Type Constants
         const val TYPE_NONE = 0
@@ -89,7 +96,7 @@ class Task(): PoolObjectInterface {
         const val DEFAULT_PRIORITY = 40
         const val STARRED_PRIORITY = 100
         const val HIGH_PRIORITY = 70
-        const val NORMAL_PRIORITY = 30
+        const val NORMAL_PRIORITY = 39
         const val LOW_PRIORITY = 1
         const val IGNORE_PRIORITY = 0
 
@@ -97,8 +104,6 @@ class Task(): PoolObjectInterface {
         const val STATUS_DONE = 10
 
         // List Constants --------------------------------------------------------------------------
-        const val LIST_META = "w"
-
         const val LIST_DEFAULT_NONE = 0
         const val LIST_DEFAULT_FOLDER = 1
         const val LIST_DEFAULT_TASK = 2
@@ -156,15 +161,21 @@ class Task(): PoolObjectInterface {
     private var status = 0
     private var priority = DEFAULT_PRIORITY
 
-    private var completeOnTime: Boolean = false
-    private var completeLate: Boolean = false
+    private var completeOnTime = false
+    private var completeLate = false
 
-    private var backgroundColor: Int = 0
-    private var foregroundColor: Int = 0
+    private var backgroundColor = 0
+    private var foregroundColor = 0
 
-    private var metaList: Int = 0
+    private var metaList = 0
+
+    private var shoppingItems = ArrayList<String>()
+    private var repeatData = ""
+    private var overdue = false
 
     // Constructors --------------------------------------------------------------------------------
+    // Called when loading the TaskObject
+    // The sort option is not currently in use but will be brought back in the future
     constructor(filename: String, sort: Boolean = false): this() {
         this.filename = filename
         loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
@@ -180,52 +191,26 @@ class Task(): PoolObjectInterface {
                 }
             }
         }
-
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
-        }
     }
 
+    // Called when creating the TaskObject
     constructor(parent: String, type: Int): this() {
-        val calendar = Calendar.getInstance()
-        this.filename = calendar.timeInMillis.toString() + ".srj"
-        this.parent = parent
-        version = API.MANAGEMENT
-        meta = JSONObject()
-        this.type = type
-        taskID = calendar.timeInMillis
-        dateCreate = calendar.clone() as Calendar
-        dateDue = null
-        dateUpdated = calendar.clone() as Calendar
-        dateArchived = null
-        dateDeleted = null
-        title = ""
-        note = ""
-        tags = ArrayList()
-        children = ArrayList()
-        checkpoints = ArrayList()
-        status = 0
-        priority = 20
-        completeOnTime = false
-        completeLate = false
-        backgroundColor = 0
-        foregroundColor = 0
-        metaList = defaultListMode(getType())
+        create(parent, type)
     }
 
+    // Called When Loading the TaskObject from file
+    // The sort option is not currently in use but will be brought back in the future
     constructor(data: JSONObject, sort: Boolean = false): this() {
-        filename = data.optString("filename", "error.srj")
         loadJSON(data)
+        filename = data.optString("filename", "$taskID-error.srj")
         tags.sort()
-
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
-        }
     }
 
     // Management Methods --------------------------------------------------------------------------
+    // Use instead of the Load(parent, type) method. Eventually we will get them swapped around
+    fun create(parent: String, type: Int): Task = load(parent, type)
+
+    // The sort option is not currently in use but will be brought back in the future
     fun load(filename: String, sort: Boolean = false): Task {
         this.filename = filename
         loadJSON(JSONUtility.loadJSONObject(File(FileUtility.getApplicationDataDirectory(), filename)))
@@ -242,15 +227,11 @@ class Task(): PoolObjectInterface {
             }
         }
 
-        if (sort) {
-            if (type == TYPE_FOLDER) sortTasks()
-            else sortTags()
-        }
-
         return this
     }
 
-    fun load(parent: String, type: Int): Task {
+    // todo: Remove in API 14
+    @Deprecated("use Create instead") fun load(parent: String, type: Int): Task {
         val calendar = Calendar.getInstance()
         this.filename = calendar.timeInMillis.toString() + ".srj"
         this.parent = parent
@@ -265,9 +246,9 @@ class Task(): PoolObjectInterface {
         dateDeleted = null
         title = ""
         note = ""
-        tags = ArrayList()
-        children = ArrayList()
-        checkpoints = ArrayList()
+        tags.clear()
+        children.clear()
+        checkpoints.clear()
         status = 0
         priority = 20
         completeOnTime = false
@@ -275,6 +256,10 @@ class Task(): PoolObjectInterface {
         backgroundColor = 0
         foregroundColor = 0
         metaList = defaultListMode(getType())
+
+        shoppingItems.clear()
+        repeatData = ""
+        overdue = false
 
         return this
     }
@@ -292,11 +277,6 @@ class Task(): PoolObjectInterface {
                 loadJSON(data)
                 tags.sort()
 
-                if (sort) {
-                    if (type == TYPE_FOLDER) sortTasks()
-                    else sortTags()
-                }
-
                 return this
             }
 
@@ -304,11 +284,6 @@ class Task(): PoolObjectInterface {
                 filename = data.optString("filename")
                 loadJSON(data)
                 tags.sort()
-
-                if (sort) {
-                    if (type == TYPE_FOLDER) sortTasks()
-                    else sortTags()
-                }
 
                 return this
             }
@@ -320,7 +295,25 @@ class Task(): PoolObjectInterface {
         return this
     }
 
+    fun copy(n_parent: String? = null): Task {
+        val temp = TaskManager.taskPool.getPoolObject().load(filename)
+        temp.filename = Calendar.getInstance().timeInMillis.toString() + "c" + ".srj"
+        if (n_parent == null) temp.parent = parent
+        else temp.parent = n_parent
+        temp.save()
+
+        TaskManager.addTask(temp, (parent == "home"))
+        TaskManager.save()
+
+        return temp
+    }
+
     fun delete() = File(FileUtility.getApplicationDataDirectory(), filename).delete()
+
+    fun forceDelete() {
+        deconstruct()
+        delete()
+    }
 
     fun search(search: String): Boolean {
         return when {
@@ -333,12 +326,37 @@ class Task(): PoolObjectInterface {
     }
 
     override fun deconstruct() {
+        this.filename = ""
+        this.parent = ""
+        version = -404
+        meta = JSONObject()
+        this.type = -404
+        taskID = -404
+        dateCreate = null
+        dateDue = null
+        dateUpdated = null
+        dateArchived = null
+        dateDeleted = null
+        title = ""
+        note = ""
+        status = -404
+        priority = -404
+        completeOnTime = false
+        completeLate = false
+        backgroundColor = -404
+        foregroundColor = -404
+        metaList = -404
+        repeatData = ""
+        overdue = false
+
         tags.clear()
         tags.trimToSize()
         children.clear()
         children.trimToSize()
         checkpoints.clear()
         checkpoints.trimToSize()
+        shoppingItems.clear()
+        shoppingItems.trimToSize()
     }
 
     // JSON Management Methods ---------------------------------------------------------------------
@@ -367,21 +385,21 @@ class Task(): PoolObjectInterface {
             completeLate = data.optBoolean(COMPLETED_LATE, false)
 
             val t = data.optJSONArray(TAGS)
-            tags = ArrayList()
+            tags.clear()
             if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
 
             val c = data.optJSONArray(CHILDREN)
-            children = ArrayList()
+            children.clear()
             if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
 
             val p = data.optJSONArray(CHECKPOINTS)
-            checkpoints = ArrayList()
+            checkpoints.clear()
             if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
 
             // API 11
             meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
             else JSONObject()
-        } else {
+        } else if (version == API.SHRINKING){
             parent = data.optString(PARENT_12, "home")
             type = data.optInt(TYPE_12, TYPE_NONE)
             taskID = data.optLong(TASK_ID_12, Calendar.getInstance().timeInMillis)
@@ -398,15 +416,15 @@ class Task(): PoolObjectInterface {
             completeLate = data.optBoolean(COMPLETED_LATE_12, false)
 
             val t = data.optJSONArray(TAGS_12)
-            tags = ArrayList()
+            tags.clear()
             if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
 
             val c = data.optJSONArray(CHILDREN_12)
-            children = ArrayList()
+            children.clear()
             if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
 
             val p = data.optJSONArray(CHECKPOINTS_12)
-            checkpoints = ArrayList()
+            checkpoints.clear()
             if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
 
             // API 11
@@ -415,16 +433,57 @@ class Task(): PoolObjectInterface {
             // API 12
             backgroundColor = data.optInt(BACKGROUND_COLOR_12, 0)
             foregroundColor = data.optInt(FOREGROUND_COLOR_12, 0)
-        }
 
-        // Meta
-        metaList = meta!!.optInt(LIST_META, defaultListMode(getType()))
+            // Meta
+            metaList = meta!!.optInt(LIST_META, defaultListMode(getType()))
+        } else /*if (version == API.TASK_OVERHAUL)*/ {
+            // Independent Loads
+            completeLate = data.optBoolean(COMPLETED_LATE_12, false)
+            completeOnTime = data.optBoolean(COMPLETED_ON_TIME_12, false)
+            overdue = data.optBoolean(OVERDUE, false)
+
+            priority = data.optInt(PRIORITY_12, 20)
+            status = data.optInt(STATUS_12, 0)
+            type = data.optInt(TYPE_12, TYPE_NONE)
+
+            taskID = data.optLong(TASK_ID_12, Calendar.getInstance().timeInMillis)
+
+            note = data.optString(NOTE_12, "")
+            parent = data.optString(PARENT_12, "home")
+            title = data.optString(TITLE_12, "")
+
+            dateCreate = JSONUtility.loadCalendar(data.optJSONObject(CAL_CREATE_12))
+            dateDue = JSONUtility.loadCalendar(data.optJSONObject(CAL_DUE_12))
+            dateUpdated = JSONUtility.loadCalendar(data.optJSONObject(CAL_UPDATE_12))
+            dateArchived = JSONUtility.loadCalendar(data.optJSONObject(CAL_ARCHIVED_12))
+            dateDeleted = JSONUtility.loadCalendar(data.optJSONObject(CAL_DELETED_12))
+
+            val t = data.optJSONArray(TAGS_12)
+            tags.clear()
+            if (t != null && t.length() != 0) for (i in 0 until t.length()) tags.add(t.optString(i))
+
+            val c = data.optJSONArray(CHILDREN_12)
+            children.clear()
+            if (c != null && c.length() != 0) for (i in 0 until c.length()) children.add(c.optString(i))
+
+            val p = data.optJSONArray(CHECKPOINTS_12)
+            checkpoints.clear()
+            if (p != null && p.length() != 0) for (i in 0 until p.length()) checkpoints.add(Checkpoint(p.optJSONObject(i)))
+
+            val s = data.optJSONArray(SHOPPING_LIST)
+            shoppingItems.clear()
+            if (s != null && s.length() != 0) for (i in 0 until s.length()) shoppingItems.add(s.optString(i))
+
+            // Dependent Loads
+            metaList = meta!!.optInt(LIST_META, defaultListMode(type))
+        }
     }
 
     fun toJSON(): JSONObject {
         val data = JSONObject()
         try {
             if (SettingsManager.getUseVersion() <= API.MANAGEMENT) {
+                Log.e("API Settings", "Please update as soon as posible to not lose compatability")
                 data.put("filename", filename)
                 data.put(PARENT, parent)
                 data.put(VERSION, API.MANAGEMENT)
@@ -475,6 +534,8 @@ class Task(): PoolObjectInterface {
                 data.put(PRIORITY_12, priority)
                 data.put(COMPLETED_ON_TIME_12, completeOnTime)
                 data.put(COMPLETED_LATE_12, completeLate)
+                data.put(LIST_META, metaList)
+                data.put(OVERDUE, overdue)
 
                 val t = JSONArray()
                 if (tags.size != 0) for (tag in tags) t.put(tag)
@@ -487,6 +548,9 @@ class Task(): PoolObjectInterface {
                 val p = JSONArray()
                 if (checkpoints.size != 0) for (checkpoint in checkpoints) p.put(checkpoint.toJSON())
                 data.put(CHECKPOINTS_12, p)
+
+                val s = JSONArray()
+                if (shoppingItems.size != 0) for (shopping in shoppingItems) s.put(shopping)
 
                 data.put(FOREGROUND_COLOR_12, foregroundColor)
                 data.put(BACKGROUND_COLOR_12, backgroundColor)
@@ -501,14 +565,17 @@ class Task(): PoolObjectInterface {
     }
 
     // Getters -------------------------------------------------------------------------------------
-    fun getVersion(): Int = version
+    fun getVersion(): Int {
+        if (version > API.TASK_OVERHAUL) version = API.TASK_OVERHAUL
+        else if (version < API.RELEASE) version = API.RELEASE
+        else if (version == API.SHRINKING) version = API.TASK_OVERHAUL
+        return version
+    }
 
     fun getFilename(): String = filename
 
     fun getPath(): String {
-        if (getParent() == "home") {
-            return "/"
-        }
+        if (getParent() == "home") return ""
 
         val p = TaskManager.taskPool.getPoolObject().load(getParent())
         val path = p.getPath() + p.getTitle() + "/"
@@ -531,7 +598,16 @@ class Task(): PoolObjectInterface {
         return metaList
     }
 
-    fun getType(): Int = type
+    fun getType(): Int {
+        return when (type) {
+            TYPE_NONE -> TYPE_NONE
+            TYPE_FOLDER -> TYPE_FOLDER
+            TYPE_NOTE -> TYPE_NOTE
+            TYPE_TASK -> TYPE_TASK
+            TYPE_SHOPPING_LIST -> TYPE_SHOPPING_LIST
+            else -> TYPE_NONE
+        }
+    }
 
     override fun getID(): Int = taskID.toInt()
 
@@ -544,12 +620,19 @@ class Task(): PoolObjectInterface {
         return dateCreate!!
     }
 
-    fun getDateDue(): Calendar? = dateDue
+    fun getDateDue(): Calendar? {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+        return dateDue
+    }
 
-    fun getDateDueString(): String = if (dateDue == null) "No Date"
+    fun getDateDueString(): String {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
+        return if (dateDue == null) "No Date"
         else (dateDue!!.get(Calendar.MONTH) + 1).toString() + "/" +
-            dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-            dateDue!!.get(Calendar.YEAR).toString()
+                dateDue!!.get(Calendar.DAY_OF_MONTH).toString() + "/" +
+                dateDue!!.get(Calendar.YEAR).toString()
+    }
 
     fun getDateUpdated(): Calendar {
         if (dateUpdated == null) {
@@ -593,15 +676,23 @@ class Task(): PoolObjectInterface {
         return builder.toString()
     }
 
-    fun getChildren(): ArrayList<String> = children
+    fun getChildren(): ArrayList<String> {
+        if (type != TYPE_FOLDER) throw InvalidTaskTypeException(type, folder = true)
+
+        return children
+    }
 
     fun getChildrenTasks(): ArrayList<Task> {
+        if (type != TYPE_FOLDER) throw InvalidTaskTypeException(type, folder = true)
+
         val temp = ArrayList<Task>(children.size)
         for (c in children) temp.add(TaskManager.taskPool.getPoolObject().load(c))
         return temp
     }
 
     fun getChildrenString(): String {
+        if (type != TYPE_FOLDER) throw InvalidTaskTypeException(type, folder = true)
+
         val builder = StringBuilder()
         val tasks = getChildrenTasks()
 
@@ -609,9 +700,14 @@ class Task(): PoolObjectInterface {
         return builder.toString()
     }
 
-    fun getCheckpoints(): ArrayList<Checkpoint> = checkpoints
+    fun getCheckpoints(): ArrayList<Checkpoint> {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+        return checkpoints
+    }
 
     fun getCheckpointString(): String {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         val builder = StringBuilder()
 
         for (checkpoint in checkpoints) {
@@ -621,17 +717,73 @@ class Task(): PoolObjectInterface {
         return builder.toString()
     }
 
-    fun getStatus(): Int = status
+    fun getShoppingList(): ArrayList<String> {
+        if (type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, shopping_list = true)
 
-    fun isCompleted(): Boolean = status == STATUS_DONE
+        return shoppingItems
+    }
 
+    fun getStatus(): Int {
+        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+
+        return status
+    }
+
+    fun isCompleted(): Boolean {
+        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+        return status == STATUS_DONE
+    }
+
+    // todo: Remove API 14
+    @Deprecated("No longer in use do to internationalization issues")
     fun getStatusString(): String = if (isCompleted()) "Completed" else "Incomplete"
 
-    fun getPriority(): Int = priority
+    fun getStatusString(complete: String, inComplete: String): String {
+        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
 
+        return if (isCompleted()) complete else inComplete
+    }
+
+    fun getPriority(): Int {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
+        return priority
+    }
+
+    // todo: Remove API 14
+    @Deprecated("Confusing")
     fun onTime(): Boolean = completeOnTime
 
+    // todo: Remove API 14
+    @Deprecated("Confusing")
     fun late(): Boolean = completeLate
+
+    fun wasCompletedOnTime(): Boolean {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
+        return completeOnTime
+    }
+
+    fun wasCompletedOnTimeReason(): Int {
+        // TODO: Implement Method
+        return -1
+    }
+
+    fun isOverdue(): Boolean {
+        // TODO: Implement Method
+        return false
+    }
+
+    fun wasCompletedLate(): Boolean {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
+        return completeLate
+    }
+
+    fun wasCompletedLateReason(): Int {
+        // TODO: Implement Method
+        return -1
+    }
 
     // Setters -------------------------------------------------------------------------------------
     fun setListViewType(type: Int): Task {
@@ -643,6 +795,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun setDateDue(calendar: Calendar?): Task {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         dateDue = if (calendar == null) null
                   else calendar.clone() as Calendar
         dateUpdated = Calendar.getInstance()
@@ -668,24 +822,32 @@ class Task(): PoolObjectInterface {
     }
 
     fun setChildren(children: ArrayList<String>): Task {
+        if (type != TYPE_FOLDER) throw InvalidTaskTypeException(type, folder = true)
+
         this.children = children
         dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setCheckpoints(checkpoints: ArrayList<Checkpoint>): Task {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         this.checkpoints = checkpoints
         dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun setPriority(priority: Int): Task {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         this.priority = priority
         dateUpdated = Calendar.getInstance()
         return this
     }
 
     fun markComplete(mark: Boolean): Task {
+        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+
         if (mark) {
             status = STATUS_DONE
             when {
@@ -777,6 +939,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun addChild(child: String): Task {
+        if (type != TYPE_FOLDER) throw InvalidTaskTypeException(type, folder = true)
+
         if (!children.contains(child)) {
             children.add(child)
             dateUpdated = Calendar.getInstance()
@@ -787,6 +951,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun removeChild(child: String): Task {
+        if (type != TYPE_FOLDER) throw InvalidTaskTypeException(type, folder = true)
+
         if (children.contains(child)) {
             children.remove(child)
             dateUpdated = Calendar.getInstance()
@@ -797,6 +963,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun addCheckpoint(checkpoint: Checkpoint): Task {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         for (c in checkpoints) if (c.id == checkpoint.id) return this
         checkpoints.add(checkpoint)
         dateUpdated = Calendar.getInstance()
@@ -804,6 +972,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun editCheckpoint(checkpoint: Checkpoint): Task {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         for (c in checkpoints) {
             if (c.id == checkpoint.id) {
                 c.status = checkpoint.status
@@ -817,6 +987,8 @@ class Task(): PoolObjectInterface {
     }
 
     fun removeCheckpoint(checkpoint: Checkpoint): Task {
+        if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
+
         for (c in checkpoints) {
             if (c.id == checkpoint.id) {
                 checkpoints.remove(c)
@@ -828,11 +1000,38 @@ class Task(): PoolObjectInterface {
         return this
     }
 
+    fun addShoppingItem(item: String): Task {
+        if (type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, shopping_list = true)
+
+        if (!shoppingItems.contains(item)) {
+            shoppingItems.add(item)
+            dateUpdated = Calendar.getInstance()
+            return this
+        }
+
+        return this
+    }
+
+    fun removeShoppingItem(item: String): Task {
+        if (type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, shopping_list = true)
+
+        if (shoppingItems.contains(item)) {
+            shoppingItems.remove(item)
+            dateUpdated = Calendar.getInstance()
+            return this
+        }
+
+        return this
+    }
+
     // To Methods ----------------------------------------------------------------------------------
-    override fun toString(): String = toJSON().toString()
+    override fun toString(): String {
+        Log.e("Task.toString", "Soon will not return the jsonobject in string form")
+        return toJSON().toString()
+    }
 
     // Private Class Methods -----------------------------------------------------------------------
-    private fun sortTasks() {
+    @Deprecated("To be replaced by a none save changing method") private fun sortTasks() {
         val folder = ArrayList<Task>()
         val main = ArrayList<Task>()
         val dated = ArrayList<Task>()
@@ -883,7 +1082,7 @@ class Task(): PoolObjectInterface {
         for (c in completed) children.add(c.getFilename())
     }
 
-    fun sortTags() {
+    @Deprecated("Does nothing, was too unstable") fun sortTags() {
         /*val c = ArrayList<Checkpoint>()
         val i = ArrayList<Checkpoint>()
 

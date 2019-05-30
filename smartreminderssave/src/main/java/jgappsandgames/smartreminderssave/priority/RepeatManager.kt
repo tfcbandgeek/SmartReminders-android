@@ -1,2 +1,0 @@
-package jgappsandgames.smartreminderssave.priority
-
