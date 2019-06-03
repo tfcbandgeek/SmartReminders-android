@@ -15,6 +15,7 @@ import jgappsandgames.smartreminderssave.priority.PriorityManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.status.StatusManager
 import jgappsandgames.smartreminderssave.tags.TagManager
+import jgappsandgames.smartreminderssave.tasks.InvalidTaskTypeException
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.theme.ThemeManager
 import jgappsandgames.smartreminderssave.utility.FileUtility
@@ -52,10 +53,13 @@ class MasterManager {
             } catch (e: JSONException) {
                 Log.d("First Run?", "JSON Error")
                 create()
-            } catch (e: Exception) {
+            } catch(e: InvalidTaskTypeException) {
+                Log.d("First Run?", " Really Josh, This again?")
+                e.printStackTrace()
+            } /*catch (e: Exception) {
                 Log.e("First Run?", e.message)
                 create()
-            }
+            }*/
         }
 
         @JvmStatic fun save() {

@@ -26,7 +26,11 @@ class DateManager {
         @JvmStatic
         fun create() {
             val tasks = ArrayList<Task>()
-            for (task in TaskManager.getAllTasks()) if (task.getDateDue() != null) tasks.add(task)
+            for (task in TaskManager.getAllTasks()) {
+                if (task.getType() == Task.TYPE_TASK) {
+                    if (task.getDateDue() != null) tasks.add(task)
+                }
+            }
 
             val calendar = Calendar.getInstance()
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)

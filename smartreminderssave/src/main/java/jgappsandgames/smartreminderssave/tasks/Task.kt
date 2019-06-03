@@ -566,9 +566,12 @@ class Task(): PoolObjectInterface {
 
     // Getters -------------------------------------------------------------------------------------
     fun getVersion(): Int {
-        if (version > API.TASK_OVERHAUL) version = API.TASK_OVERHAUL
-        else if (version < API.RELEASE) version = API.RELEASE
-        else if (version == API.SHRINKING) version = API.TASK_OVERHAUL
+        when {
+            version > API.TASK_OVERHAUL -> version = API.TASK_OVERHAUL
+            version < API.RELEASE -> version = API.RELEASE
+            version == API.SHRINKING -> version = API.TASK_OVERHAUL
+        }
+
         return version
     }
 
@@ -701,11 +704,13 @@ class Task(): PoolObjectInterface {
     }
 
     fun getCheckpoints(): ArrayList<Checkpoint> {
+        Log.e("1", "1")
         if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
         return checkpoints
     }
 
     fun getCheckpointString(): String {
+        Log.e("2", "1")
         if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
 
         val builder = StringBuilder()
@@ -718,19 +723,20 @@ class Task(): PoolObjectInterface {
     }
 
     fun getShoppingList(): ArrayList<String> {
+        Log.e("1", "2")
         if (type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, shopping_list = true)
 
         return shoppingItems
     }
 
     fun getStatus(): Int {
-        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+        if (type != TYPE_TASK && type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
 
         return status
     }
 
     fun isCompleted(): Boolean {
-        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+        if (type != TYPE_TASK && type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
         return status == STATUS_DONE
     }
 
@@ -739,12 +745,13 @@ class Task(): PoolObjectInterface {
     fun getStatusString(): String = if (isCompleted()) "Completed" else "Incomplete"
 
     fun getStatusString(complete: String, inComplete: String): String {
-        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+        if (type != TYPE_TASK && type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
 
         return if (isCompleted()) complete else inComplete
     }
 
     fun getPriority(): Int {
+        Log.e("3", "1")
         if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
 
         return priority
@@ -795,6 +802,7 @@ class Task(): PoolObjectInterface {
     }
 
     fun setDateDue(calendar: Calendar?): Task {
+        Log.e("1", "3")
         if (type != TYPE_TASK) throw InvalidTaskTypeException(type, task = true)
 
         dateDue = if (calendar == null) null
@@ -846,7 +854,7 @@ class Task(): PoolObjectInterface {
     }
 
     fun markComplete(mark: Boolean): Task {
-        if (type != TYPE_TASK || type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
+        if (type != TYPE_TASK && type != TYPE_SHOPPING_LIST) throw InvalidTaskTypeException(type, task = true, shopping_list = true)
 
         if (mark) {
             status = STATUS_DONE
