@@ -93,9 +93,9 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         // Handle Data
         loadClass(this)
         var type = intent.getIntExtra(TASK_TYPE, - 1)
-        val t = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
-        if (type == -1) type = t.getType()
-        TaskManager.taskPool.returnPoolObject(t)
+        task = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
+        if (type == -1) type = task.getType()
+        TaskManager.taskPool.returnPoolObject(task)
         view = type + getOrientation()
 
         when (view) {
@@ -113,6 +113,7 @@ class TaskActivity: AppCompatActivity(), View.OnClickListener, View.OnLongClickL
         super.onResume()
         // Load Data
         load = true
+        if (task != null) TaskManager.taskPool.returnPoolObject(task)
         task = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
 
         setTitle()

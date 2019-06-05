@@ -594,8 +594,12 @@ class Task(): PoolObjectInterface {
     }
 
     fun getListViewType(): Int {
-        if ((metaList - getType()) == LIST_DEFAULT_NONE) {
-            if (getNote().trim() == "") return (LIST_ALL_NONE + getType())
+        if (metaList < 0 || metaList > LIST_ALL_SHOPPING_LIST) {
+            if (getNote().trim() == "") return (SettingsManager.getDefaultListViewType() + getType())
+        }
+
+        if ((metaList - getType()) == LIST_DEFAULT_NONE || (metaList ) == LIST_DEFAULT_NONE) {
+            if (getNote().trim() == "") return (SettingsManager.getDefaultListViewType() + getType())
         }
 
         return metaList

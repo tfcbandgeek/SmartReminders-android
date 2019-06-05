@@ -22,13 +22,18 @@ import kotlinx.android.synthetic.main.activity_settings.*
 import jgappsandgames.smartreminderssave.MasterManager
 import jgappsandgames.smartreminderssave.settings.SettingsManager
 import jgappsandgames.smartreminderssave.tags.TagManager
+import jgappsandgames.smartreminderssave.tasks.Task
 import jgappsandgames.smartreminderssave.tasks.TaskManager
 import jgappsandgames.smartreminderssave.utility.API
+import org.jetbrains.anko.selector
 
 /**
  * Settings2Activity
  */
 class Settings2Activity: AppCompatActivity() {
+    companion object {
+        private val VIEW_TYPE_LIST = listOf("Children", "Path", "Tags", "All")
+    }
     // LifeCycle Methods ---------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +128,36 @@ class Settings2Activity: AppCompatActivity() {
             }
 
             return@setOnLongClickListener true
+        }
+
+        settings_list_view_type_button.setOnClickListener {
+            selector("Set the Default List View Type:", VIEW_TYPE_LIST) { di, i ->
+                when (i) {
+                    0 -> SettingsManager.setDefaultListViewType(Task.LIST_CHILDREN_NONE)
+                    1 -> SettingsManager.setDefaultListViewType(Task.LIST_PATH_NONE)
+                    2 -> SettingsManager.setDefaultListViewType(Task.LIST_TAG_NONE)
+                    3 -> SettingsManager.setDefaultListViewType(Task.LIST_ALL_NONE)
+                }
+
+                setListViewTypeText()
+            }
+        }
+
+        settings_list_view_type_button.setOnLongClickListener {
+            SettingsManager.setDefaultListViewType(Task.LIST_CHILDREN_NONE)
+            setListViewTypeText()
+            true
+        }
+
+        setListViewTypeText()
+    }
+
+    private fun setListViewTypeText() {
+        when (SettingsManager.getDefaultListViewType()) {
+            Task.LIST_CHILDREN_NONE -> settings_list_view_type_text.text = "Children"
+            Task.LIST_PATH_NONE -> settings_list_view_type_text.text = "Path"
+            Task.LIST_TAG_NONE -> settings_list_view_type_text.text = "Tags"
+            Task.LIST_ALL_NONE -> settings_list_view_type_text.text = "All"
         }
     }
 

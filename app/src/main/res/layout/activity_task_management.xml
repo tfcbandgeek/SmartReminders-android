@@ -8,4 +8,28 @@
     android:paddingRight="4sp"
     android:paddingTop="4sp"
     android:paddingBottom="4sp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/filename"
+        android:text="Unnamed"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/type"
+        android:text="Text"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/duplicate"
+        android:text="Duplicate"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/view_type"
+        android:text="Default"/>
 </LinearLayout>

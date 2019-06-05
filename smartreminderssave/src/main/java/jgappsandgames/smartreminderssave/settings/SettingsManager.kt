@@ -6,6 +6,7 @@ import java.io.IOException
 
 // Android OS
 import android.os.Build
+import jgappsandgames.smartreminderssave.tasks.Task
 
 // JSON
 import org.json.JSONException
@@ -60,6 +61,8 @@ class SettingsManager {
         private const val HAS_DONE_TUTORIAL_12 = "l"
         private const val LAST_VERSION_12 = "m"
 
+        private const val LIST_VIEW_TYPE = "n"
+
         // Data ------------------------------------------------------------------------------------
         private var version = 0
         private var use_version = 11
@@ -77,12 +80,13 @@ class SettingsManager {
         private var has_month_shortcut = false
         private var has_done_tutorial = false
         private var last_version_splash = 0
+        private var list_view_type = 0
 
        // Management Methods ----------------------------------------------------------------------
        @JvmStatic fun create() {
            if (File(FileUtility.getApplicationDataDirectory(), FILENAME).exists()) load()
            version = API.MANAGEMENT
-           use_version = 12
+           use_version = API.TASK_OVERHAUL
            user_name = ""
            device_name = Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT
            use_external_file = false
@@ -97,6 +101,7 @@ class SettingsManager {
 
            // API 11
            meta = JSONObject()
+           list_view_type = Task.LIST_CHILDREN_NONE
        }
 
         @JvmStatic fun load() {
@@ -129,11 +134,13 @@ class SettingsManager {
                 // API 11
                 meta = if (version >= API.MANAGEMENT) data.optJSONObject(META)
                 else JSONObject()
+
+                list_view_type = data.optInt(LIST_VIEW_TYPE, Task.LIST_CHILDREN_NONE)
             }
 
             else {
                 user_name = data.optString(USER_NAME_12, "")
-                use_version = data.optInt(USE_VERSION_12, 11)
+                use_version = data.optInt(USE_VERSION_12, API.TASK_OVERHAUL)
                 device_name = data.optString(DEVICE_NAME_12, Build.BRAND + " " + Build.MODEL + " " + Build.VERSION.SDK_INT)
                 use_external_file = data.optBoolean(USE_EXTERNAL_FILE_12, false)
                 has_tag_shortcut = data.optBoolean(HAS_TAG_SHORTCUT_12, false)
@@ -145,6 +152,7 @@ class SettingsManager {
                 has_done_tutorial = data.optBoolean(HAS_DONE_TUTORIAL_12, false)
                 last_version_splash = data.optInt(LAST_VERSION_12, 11)
                 meta = data.optJSONObject(META_12)
+                list_view_type = data.optInt(LIST_VIEW_TYPE, Task.LIST_CHILDREN_NONE)
             }
         }
 
@@ -167,6 +175,7 @@ class SettingsManager {
                     data.put(HAS_DONE_TUTORIAL, has_done_tutorial)
                     data.put(LAST_VERSION_SPLASH, last_version_splash)
                     data.put(META, meta)
+                    data.put(LIST_VIEW_TYPE, list_view_type)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -190,6 +199,7 @@ class SettingsManager {
 
                     data.put(HAS_DONE_TUTORIAL_12, has_done_tutorial)
                     data.put(LAST_VERSION_12, last_version_splash)
+                    data.put(LIST_VIEW_TYPE, list_view_type)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -226,6 +236,8 @@ class SettingsManager {
         @JvmStatic fun hasDoneTutorial(): Boolean = has_done_tutorial
 
         @JvmStatic fun getLastVersionSplash(): Int = last_version_splash
+
+        @JvmStatic fun getDefaultListViewType(): Int = list_view_type
 
         // Setters ---------------------------------------------------------------------------------
         @JvmStatic fun setVersion(_version: Int) {
@@ -290,10 +302,17 @@ class SettingsManager {
 
         @JvmStatic fun completedTutorial() {
             has_done_tutorial = true
+            save()
         }
 
         @JvmStatic fun displayedSplash() {
-            last_version_splash = 12
+            last_version_splash = API.TASK_OVERHAUL
+            save()
+        }
+
+        @JvmStatic fun setDefaultListViewType(type: Int) {
+            list_view_type = type
+            save()
         }
     }
 }

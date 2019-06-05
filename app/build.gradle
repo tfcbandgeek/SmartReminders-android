@@ -9,8 +9,8 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 19060002
-        versionName "19.06.0 Alpha"
+        versionCode 19060008
+        versionName "19.06.0 Beta 1"
     }
 
     buildTypes {
@@ -32,6 +32,7 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
     implementation "org.jetbrains.anko:anko-sdk25-coroutines:$anko_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.cardview:cardview:1.0.0"

@@ -3,6 +3,7 @@ package jgappsandgames.smartreminderslite.adapter
 // Android OS
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 
 // Views
 import android.view.LayoutInflater
@@ -191,7 +192,11 @@ class TaskAdapter(private val activity: Activity, private val listener: OnTaskCh
                     view
                 }
 
-                else -> throw Exception("No task list type or invalid task list type")
+                else -> {
+                    Log.e("Fuck This", "${t.getListViewType().toString()}")
+                    t.setListViewType(t.getType())
+                    getView(position, convertView, parent)
+                }
             }
         }
 
