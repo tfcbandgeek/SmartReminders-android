@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('fab_2_1_5.aar'))

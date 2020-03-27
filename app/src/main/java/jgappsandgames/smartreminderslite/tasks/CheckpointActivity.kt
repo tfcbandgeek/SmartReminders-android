@@ -45,7 +45,7 @@ class CheckpointActivity: AppCompatActivity(), TextWatcher {
 
         // Load Data
         try {
-            val data = JSONObject(intent.getStringExtra(CHECKPOINT))
+            val data = JSONObject(intent.getStringExtra(CHECKPOINT) ?: "")
 
             position = data.getInt(Checkpoint.ID)
             status = data.getBoolean(Checkpoint.STATUS)

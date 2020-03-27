@@ -12,8 +12,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/fab-2_2_0" />
-            <option value="$PROJECT_DIR$/poolutilitykotlin-1_2_2" />
+            <option value="$PROJECT_DIR$/fabprolibrary-000100" />
+            <option value="$PROJECT_DIR$/poolutilitykotlin-release" />
             <option value="$PROJECT_DIR$/smartreminderssave" />
           </set>
         </option>

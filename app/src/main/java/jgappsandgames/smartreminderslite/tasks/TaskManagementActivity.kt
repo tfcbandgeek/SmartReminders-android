@@ -18,7 +18,7 @@ class TaskManagementActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        task = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME))
+        task = TaskManager.taskPool.getPoolObject().load(intent.getStringExtra(TASK_NAME) ?: "")
 
         verticalLayout {
             textView {

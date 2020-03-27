@@ -1,9 +1,7 @@
-package jgappsandgames.smartreminderssave.priority
+package jgappsandgames.smartreminderssave.repeats
 
 import jgappsandgames.me.poolutilitykotlin.PoolObjectCreator
 import jgappsandgames.me.poolutilitykotlin.PoolObjectInterface
-import jgappsandgames.smartreminderssave.repeats.RepeatableObject
-import jgappsandgames.smartreminderssave.tasks.Task
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList

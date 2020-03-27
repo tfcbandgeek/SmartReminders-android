@@ -97,7 +97,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.github.clans.fab.FloatingActionMenu
+        <blue.jlg.library.fabpro.FloatingActionMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:menu_colorNormal="@android:color/holo_blue_dark"
@@ -109,7 +109,7 @@
             android:id="@+id/folder_fab"
             tools:ignore="RelativeOverlap,RtlHardcoded">
 
-            <com.github.clans.fab.FloatingActionButton
+            <blue.jlg.library.fabpro.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fab_colorNormal="@android:color/holo_blue_dark"
@@ -119,7 +119,7 @@
                 app:fab_label="@string/add_folder"
                 android:id="@+id/folder_add_folder"/>
 
-            <com.github.clans.fab.FloatingActionButton
+            <blue.jlg.library.fabpro.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fab_colorNormal="@android:color/holo_blue_dark"
@@ -129,7 +129,7 @@
                 app:fab_label="Add Note"
                 android:id="@+id/folder_add_note"/>
 
-            <com.github.clans.fab.FloatingActionButton
+            <blue.jlg.library.fabpro.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fab_colorNormal="@android:color/holo_blue_dark"
@@ -138,6 +138,6 @@
                 android:src="@android:drawable/ic_menu_agenda"
                 app:fab_label="@string/add_task"
                 android:id="@+id/folder_add_task"/>
-        </com.github.clans.fab.FloatingActionMenu>
+        </blue.jlg.library.fabpro.FloatingActionMenu>
     </RelativeLayout>
 </LinearLayout>

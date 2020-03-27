@@ -1,1 +1,1 @@
-include ':app', ':smartreminderssave', ':poolutilitykotlin-1_2_2', ':fab-2_2_0'
+include ':app', ':smartreminderssave', ':fabprolibrary-000100', ':poolutilitykotlin-release'

@@ -9,8 +9,8 @@ android {
         applicationId "jgappsandgames.smartreminderslite"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 20032600
-        versionName "20.03.0"
+        versionCode 20040000
+        versionName "20.04.0"
     }
 
     buildTypes {
@@ -38,8 +38,8 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     implementation project(':smartreminderssave')
-    implementation project(":poolutilitykotlin-1_2_2")
-    implementation project(':fab-2_2_0')
+    implementation project(":poolutilitykotlin-release")
+    implementation project(':fabprolibrary-000100')
 }
 repositories {
     mavenCentral()

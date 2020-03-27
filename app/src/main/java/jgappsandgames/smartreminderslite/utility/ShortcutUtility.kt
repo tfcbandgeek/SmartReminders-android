@@ -1,8 +1,5 @@
 package jgappsandgames.smartreminderslite.utility
 
-// Java
-import java.util.Arrays
-
 // Android OS
 import android.app.Activity
 import android.content.pm.ShortcutInfo
@@ -24,7 +21,7 @@ import org.jetbrains.anko.shortcutManager
 // Create Shortcuts ------------------------------------------------------------------------
 fun createTagShortcut(activity: Activity) {
     if (hasShortcuts()) activity.shortcutManager.addDynamicShortcuts(
-            Arrays.asList(ShortcutInfo.Builder(activity, "tag")
+            listOf(ShortcutInfo.Builder(activity, "tag")
                     .setShortLabel("Tags")
                     .setLongLabel("Tags")
                     .setIcon(Icon.createWithResource(activity, R.drawable.label))
@@ -34,7 +31,7 @@ fun createTagShortcut(activity: Activity) {
 
 fun createPriorityShortcut(activity: Activity) {
     if (hasShortcuts()) activity.shortcutManager.addDynamicShortcuts(
-            Arrays.asList(ShortcutInfo.Builder(activity, "priority")
+            listOf(ShortcutInfo.Builder(activity, "priority")
                     .setShortLabel("Priority")
                     .setLongLabel("Priority")
                     .setIcon(Icon.createWithResource(activity, android.R.drawable.btn_star))
@@ -44,7 +41,7 @@ fun createPriorityShortcut(activity: Activity) {
 
 fun createStatusShortcut(activity: Activity) {
     if (hasShortcuts()) activity.shortcutManager.addDynamicShortcuts(
-            Arrays.asList(ShortcutInfo.Builder(activity, "status")
+            listOf(ShortcutInfo.Builder(activity, "status")
                     .setShortLabel("Status")
                     .setLongLabel("Status")
                     .setIcon(Icon.createWithResource(activity, R.drawable.status))
@@ -54,7 +51,7 @@ fun createStatusShortcut(activity: Activity) {
 
 fun createTodayShortcut(activity: Activity) {
     if (hasShortcuts()) activity.shortcutManager.addDynamicShortcuts(
-            Arrays.asList(ShortcutInfo.Builder(activity, "today")
+            listOf(ShortcutInfo.Builder(activity, "today")
                     .setShortLabel("Today")
                     .setLongLabel("Today")
                     .setIcon(Icon.createWithResource(activity, R.drawable.today))
@@ -64,7 +61,7 @@ fun createTodayShortcut(activity: Activity) {
 
 fun createWeekShortcut(activity: Activity) {
     if (hasShortcuts()) activity.shortcutManager.addDynamicShortcuts(
-            Arrays.asList(ShortcutInfo.Builder(activity, "week")
+            listOf(ShortcutInfo.Builder(activity, "week")
                     .setShortLabel("Week")
                     .setLongLabel("Week")
                     .setIcon(Icon.createWithResource(activity, R.drawable.week))
@@ -74,7 +71,7 @@ fun createWeekShortcut(activity: Activity) {
 
 fun createMonthShortcut(activity: Activity) {
     if (hasShortcuts()) activity.shortcutManager.addDynamicShortcuts(
-            Arrays.asList(ShortcutInfo.Builder(activity, "month")
+            listOf(ShortcutInfo.Builder(activity, "month")
                     .setShortLabel("Month")
                     .setLongLabel("Month")
                     .setIntent(buildMonthIntent(activity, IntentOptions(shortcut = true)))
@@ -87,7 +84,7 @@ fun createTaskShortcut(activity: Activity, task: String) {
         val sT: String = if (taskObject.getTitle().length > 8) taskObject.getTitle().substring(0, 8)
         else taskObject.getTitle()
 
-        activity.shortcutManager.addDynamicShortcuts(Arrays.asList(ShortcutInfo.Builder(activity, task)
+        activity.shortcutManager.addDynamicShortcuts(listOf(ShortcutInfo.Builder(activity, task)
                 .setShortLabel(sT)
                 .setLongLabel(taskObject.getTitle())
                 .setIcon(Icon.createWithResource(activity, android.R.drawable.ic_menu_agenda))

@@ -5,15 +5,15 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-SmartReminders-android.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-SmartReminders-android.iml" group="SmartReminders-android" />
       <module fileurl="file://$PROJECT_DIR$/SmartReminders-android.iml" filepath="$PROJECT_DIR$/SmartReminders-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/SmartReminders-android-app.iml" filepath="$PROJECT_DIR$/app/SmartReminders-android-app.iml" group="SmartReminders-android/app" />
-      <module fileurl="file://$PROJECT_DIR$/fab-2_2_0/SmartReminders-android-fab-2_2_0.iml" filepath="$PROJECT_DIR$/fab-2_2_0/SmartReminders-android-fab-2_2_0.iml" group="SmartReminders-android/fab-2_2_0" />
-      <module fileurl="file://$PROJECT_DIR$/poolutilitykotlin-1_2_2/SmartReminders-android-poolutilitykotlin-1_2_2.iml" filepath="$PROJECT_DIR$/poolutilitykotlin-1_2_2/SmartReminders-android-poolutilitykotlin-1_2_2.iml" group="SmartReminders-android/poolutilitykotlin-1_2_2" />
       <module fileurl="file://$PROJECT_DIR$/smartreminderssave/SmartReminders-android-smartreminderssave.iml" filepath="$PROJECT_DIR$/smartreminderssave/SmartReminders-android-smartreminderssave.iml" group="SmartReminders-android/smartreminderssave" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/fab-2_1_1/fab-2_1_1.iml" filepath="$PROJECT_DIR$/fab-2_1_1/fab-2_1_1.iml" />
       <module fileurl="file://$PROJECT_DIR$/fab-2_2_0/fab-2_2_0.iml" filepath="$PROJECT_DIR$/fab-2_2_0/fab-2_2_0.iml" />
       <module fileurl="file://$PROJECT_DIR$/fab_2_1_5/fab_2_1_5.iml" filepath="$PROJECT_DIR$/fab_2_1_5/fab_2_1_5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fabprolibrary-000100/fabprolibrary-000100.iml" filepath="$PROJECT_DIR$/fabprolibrary-000100/fabprolibrary-000100.iml" group="SmartReminders-android/fabprolibrary-000100" />
       <module fileurl="file://$PROJECT_DIR$/poolutilitykotlin-1_1_4/poolutilitykotlin-1_1_4.iml" filepath="$PROJECT_DIR$/poolutilitykotlin-1_1_4/poolutilitykotlin-1_1_4.iml" />
       <module fileurl="file://$PROJECT_DIR$/poolutilitykotlin-1_2_2/poolutilitykotlin-1_2_2.iml" filepath="$PROJECT_DIR$/poolutilitykotlin-1_2_2/poolutilitykotlin-1_2_2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/poolutilitykotlin-release/poolutilitykotlin-release.iml" filepath="$PROJECT_DIR$/poolutilitykotlin-release/poolutilitykotlin-release.iml" group="SmartReminders-android/poolutilitykotlin-release" />
       <module fileurl="file://$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" filepath="$PROJECT_DIR$/smartreminderssave/smartreminderssave.iml" />
     </modules>
   </component>

@@ -44,7 +44,7 @@ class TagEditorActivity: AppCompatActivity(), TextWatcher, View.OnClickListener,
         setResult(RESPONSE_NONE)
 
         // Load Data
-        task = Task(intent.getStringExtra(TASK_NAME))
+        task = Task(intent.getStringExtra(TASK_NAME) ?: "")
 
         // Set Listeners
         tag_editor_search_enter.setOnClickListener(this)

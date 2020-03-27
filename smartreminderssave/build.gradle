@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 12030103
-        versionName "12.3.1"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 12030204
+        versionName "12.3.2"
     }
 
     buildTypes {
@@ -28,7 +28,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation project(":poolutilitykotlin-1_2_2")
+    implementation project(":poolutilitykotlin-release")
 
     testImplementation 'junit:junit:4.12'
 }
